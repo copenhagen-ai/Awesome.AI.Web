@@ -12,7 +12,7 @@ namespace Awesome.AI.Web.Hubs
 
         public MicroLibrary.MicroTimer microTimer = new MicroLibrary.MicroTimer();
         public int sec = 1000;
-        public int sec_message = 10;
+        public int sec_message = 15;
         public int sec_info = 1;
         public bool fast_responce = false;
         public bool is_active = false;

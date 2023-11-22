@@ -1,5 +1,7 @@
 ﻿using Awesome.AI.Common;
+using Awesome.AI.Systems.Externals;
 using Awesome.AI.Web.Models;
+using Humanizer;
 using NuGet.Packaging.Signing;
 using System.Runtime.Intrinsics.X86;
 using System.Text.Json;
@@ -84,9 +86,11 @@ namespace Awesome.AI.Web.Helpers
         public string GPTGiveMeADot(UNIT common)
         {
             string subject = common.HUB.subject;
-            string str = "" + common.index_orig;
-            string index = $"{str}".Substring(0, 5);
 
+            string str = "" + common.index_orig;
+            int dot = str.IndexOf(',');
+            string index = str.Substring(0, dot + 2);
+            
             string _json = Json2(subject, index);
             string _base = "https://api.openai.com";
             string _path = "v1/chat/completions";
@@ -158,15 +162,21 @@ namespace Awesome.AI.Web.Helpers
             json = json.Replace("sure id be happy to play along heres the resulting sentence", "");
             json = json.Replace("sure id be happy to play the game heres the resulting sentence", "");
             json = json.Replace("sure id be happy to play the game with you heres the resulting sentence", "");
+            json = json.Replace("sure id be happy to play the game with you heres my resulting sentence", "");
             json = json.Replace("sure id be happy to play the game with you here is the resulting sentence", "");
             json = json.Replace("sure id be happy to play this game with you heres the resulting sentence", "");
             json = json.Replace("sure id love to play this game with you heres the resulting sentence", "");
+            json = json.Replace("sure ill be happy to play the game with you heres the resulting sentence", "");
             json = json.Replace("sure ill play along heres the resulting sentence", "");
             json = json.Replace("ill do my best heres the resulting sentence", "");
             json = json.Replace("im excited to play this game with you heres the resulting sentence", "");
             json = json.Replace("i understand the game heres the resulting sentence", "");
             json = json.Replace("okay lets play heres the resulting sentence", "");
             
+
+
+
+
 
 
 
@@ -330,15 +340,35 @@ namespace Awesome.AI.Web.Helpers
 
         private string Json2(string subject, string index)
         {
-            
-            
             string json = "{" +
                 "\"model\": \"gpt-3.5-turbo\"," +
                 "\"messages\": [" +
                 "{\"role\": \"system\", \"content\": \"you are a logical assistant\"}," +
                 "{\"role\": \"user\", \"content\": \"" +
-                
-                "This is a new conversation. " +
+
+                "\\non a a scale from 0 to 100, where 0 is the worst you can think of and a hundred is the best you can think of, create a sentence that fits the index " + index + ", on the subject '" + subject + "'. " +
+                "\\nuse 5 words or less." +
+                "\\nonly respond with one sentence. " +
+                "\\ndont mention the index. " +
+
+                "\"}]," +
+                "\"temperature\": 0.7" +
+                "}";
+
+            return json;
+        }
+
+        private string _Json2(string subject, string index)
+        {
+
+
+            string json = "{" +
+                "\"model\": \"gpt-3.5-turbo\"," +
+                "\"messages\": [" +
+                "{\"role\": \"system\", \"content\": \"you are a logical assistant\"}," +
+                "{\"role\": \"user\", \"content\": \"" +
+
+                //"This is a new conversation. " +
                 "\\ni give you this subject: " + subject + ". " +
                 "\\ni give you this index: " + index + ". " +
                 //"\\nthe worst thing to say would have index 0.0 and the best would have index 100.0?. " +
@@ -347,12 +377,13 @@ namespace Awesome.AI.Web.Helpers
                 "\\nuse 3 or less words. " +
                 "\\nonly respond with one sentence. " +
                 "\\ndont mention the index. " +
-                
+
                 "\"}]," +
                 "\"temperature\": 0.7" +
                 "}";
 
             return json;
         }
+
     }
 }
