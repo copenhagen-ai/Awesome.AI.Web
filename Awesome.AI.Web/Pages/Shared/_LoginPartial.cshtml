@@ -1,0 +1,49 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@if(false)
+{
+    
+    <div class="grow xw-fifty xfloat-right">
+    <ul class="">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="float-right pl-0 sm:px-4 mt-1">
+            <a  class="" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
+        </li>
+        <li class="float-right pl-0 sm:px-4 mt-1">
+            <form  class="" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                <button  type="submit" class="">Logout</button>
+            </form>
+        </li>
+    }
+    else
+    {
+        <li class="float-right pl-0 sm:px-4 mt-1">
+            <a class="" asp-area="Identity" asp-page="/Account/Register">Register</a>
+        </li>
+        <li class="float-right pl-0 sm:px-4 mt-1">
+            <a class="" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        </li>
+    }
+        </ul>
+    </div>
+}
+else{
+    @if (SignInManager.IsSignedIn(User))
+    {
+        @* <a class="text-neutral-950" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a> *@
+        <form class="text-neutral-200 display-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+            <button type="submit" class="">Logout</button>
+        </form>
+        <span class="startSpan text-neutral-200 cursor-pointer">start</span>
+        ViewData["SignedIn"] = "TRUE";
+    }
+    else
+    {
+        <a class="text-neutral-950" asp-area="Identity" asp-page="/Account/Register">Register</a>
+        <a class="text-neutral-950" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        ViewData["SignedIn"] = "FALSE";
+    }
+}

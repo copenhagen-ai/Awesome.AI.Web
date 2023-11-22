@@ -1,0 +1,174 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "ai | algorithm | awesome";
+    ViewData["HeaderFull"] = "";
+}
+
+
+
+<div class="overflow-hidden flex flex-col">
+    <div class="float-left overflow-hidden w-full sm:m-4">
+        <div class="xl:w-1/2 float-left">
+            <div class="text-gray-50"><span class="hidden sm:inline">Visit our github:</span><a class="text-blue-300 hover:underline" target="_blank" href="https://github.com/copenhagen-ai"> Copenhagen-ai Source</a>.</div>
+            <div class="text-gray-50"><span class="hidden sm:inline">Goto our forum:</span><a class="text-blue-300 hover:underline" target="_blank" href="https://forum.copenhagen-ai.net"> Copenhagen-ai Forum</a>.</div>
+            <div class="i-filler-20"></div>
+        </div>
+        <div class="xl:w-1/2 overflow-hidden mx-0 sm:mx-4 ">
+            <div class="hidden xl:block w-200 float-left w-1/2">
+                <h1 id="roomHeader" class="text-gray-50 text-3xl sm:text-5xl font-bold">Roberta</h1>
+            </div>
+            <div class="bg-orange-500 p-2 rounded-md w-[75px] sm:w-[120px] float-right my-2 sm:my-0 mr-0 sm:mr-4 xl:mr-8">
+                <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+                    <input type="hidden" name="cmd" value="_donations" />
+                    <input type="hidden" name="business" value="jjacobsen@copenhagen-ai.net" />
+                    <input type="hidden" name="currency_code" value="USD" />
+                    <input type="hidden" name="amount" value="0" class="pay_amount" />
+                    <input class="w-[60px] sm:w-[100px]" type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+                    <img class="" alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="overflow-hidden w-full md:w-full sm:m-4 text-left ">
+        <div class="xl:hidden w-1/2 sm:w-[200px] float-left">
+            <h1 id="roomHeader" class="text-gray-50 text-3xl sm:text-5xl font-bold" >Roberta</h1>
+        </div>
+    </div>
+</div>
+
+<div class="text-gray-50 ml-4 float-left hidden md:block" id="viewersDiv">viewers: 0</div>
+<div class="overflow-hidden flex flex-col-reverse sm:flex-row-reverse">
+    <div class="w-[230px]">
+        <span id="joinButton" class="cursor-pointer mr-10 i-color-orange float-left sm:float-right">join</span>
+        <span id="" class="cursor-pointer mr-10 i-color-orange float-left sm:float-right">   </span>
+        <span id="hideSpan" class="cursor-pointer mr-10 i-color-green float-left sm:float-right">view</span>
+        <span id="" class="cursor-pointer mr-10 i-color-green float-left sm:float-right">   </span>
+        <span id="saveSpan" class="cursor-pointer mr-10 i-color-green float-left sm:float-right">save</span>
+        <span id="" class="cursor-pointer mr-10 i-color-green float-left sm:float-right">   </span>
+    </div>
+    <div>
+        <a id="r2" class="text-gray-50 float-left sm:float-right mr-10 hover:underline cursor-pointer" onclick="room2();">Robbie</a>
+        <a id="r1" class="text-gray-50 float-left sm:float-right mr-10 hover:underline cursor-pointer" onclick="room1();">[Roberta]</a>
+    </div>
+</div>
+
+<div class="overflow-hidden flex flex-col-reverse md:flex-row ">
+    <div class="bg-neutral-900 border border-neutral-950 text-neutral-600 overflow-hidden h-box w-full md:w-500 p-4 md:mx-4 my-4">
+        <div class="xrow xp-1">
+            <div class="xcol-6">
+                <div>STATS</div>
+                <div class="i-filler-20"></div>
+                <hr class=""/>
+                <div class="i-filler-20"></div>
+            </div>
+        </div>
+        <div class="xrow xp-1">
+            <div class="xcol-6">
+                <span class="text-gray-50">cycles: </span>
+                <span id="cyclesSpan">xxxx</span>
+                <span class="text-gray-50">cycles total: </span>
+                <span id="totalSpan">xxxx</span>
+            </div>
+        </div>
+        <div class="xrow xp-1">
+            <div class="xcol-6">
+                <span class="text-gray-50">ratio yes: </span>
+                <span id="ratioYesSpan">xxxx</span>
+                <span class="text-gray-50">ratio no: </span>
+                <span id="ratioNoSpan">xxxx</span>
+            </div>
+        </div>
+        <div class="xrow xp-1">
+            <div class="xcol-6">
+                <div class="text-gray-50">momentum:</div>
+                <div id="momentumDiv">xxxx</div>
+            </div>
+        </div>
+        <div class="xrow xp-1">
+            <div class="xcol-6">
+                <div class="text-gray-50">position:</div>
+                <div id="positionDiv">xxxx</div>
+            </div>
+        </div>
+        <div class="xrow xp-1">
+            <div class="xcol-6">
+                <div class="text-gray-50">THE CHOICE:</div>
+                <div id="theChoiceDiv">xxxx</div>
+            </div>
+        </div>
+
+        <div class="xrow xp-1">
+            <div class="xcol-6">
+                <div class="text-gray-50">bias:</div>
+                <div id="biasDiv">xxxx</div>
+            </div>
+        </div>
+        <div class="xrow xp-1">
+            <div class="xcol-6">
+                <div class="text-gray-50">limit:</div>
+                <div id="limitDiv">xxxx</div>
+            </div>
+        </div>
+        <div class="xrow xp-1">
+            <div class="xcol-6">
+                <div class="text-gray-50">limit avg:</div>
+                <div id="limAvgDiv">xxxx</div>
+            </div>
+        </div>
+        <div class="xrow xp-1">
+            <div class="xcol-6">
+                <div class="text-gray-50">pain:</div>
+                <div id="painDiv">xxxx</div>
+            </div>
+        </div>
+        
+    </div>
+
+    
+    <div class="bg-neutral-900 border border-neutral-950 text-neutral-600 overflow-hidden md:h-box w-full p-4 md:mx-4 my-4">
+        <div class="xrow xp-1">
+            <div class="xcol-6">
+                <div id="messageDiv">inner monologue..</div>
+                <div class="i-filler-20"></div>
+                <hr class="" />
+                <div class="i-filler-20"></div>
+            </div>
+        </div>
+        <div class="xrow xp-1">
+            <div class="xcol-6">
+                <span class="text-gray-50">Point A:</span>
+                <span id="dot1Span">xxxx</span>
+
+                <span class="text-gray-50">Point B:</span>
+                <span id="dot2Span">xxxx</span>
+            </div>
+        </div>
+        <div class="xrow xp-1">
+            <div class="xcol-6">
+                <div class="i-filler-20"></div>
+                <div class="text-gray-50">Subject:</div>
+                <div id="subjectDiv">xxxx</div>
+            </div>
+        </div>
+        <div class="xrow xp-1">
+            <div class="xcol-6">
+                <div class="i-filler-20"></div>
+                <div class="text-gray-50">Saved Monologue:</div>
+                <div id="saveDiv">xxxx</div>
+            </div>
+        </div>
+        @* <div class="position-absolute bottom-25 xrow xp-1">
+            <div class="xcol-6 xtext-start">
+                <input type="button" id="joinButton" value="Join" />
+            </div>
+        </div> *@
+    </div>
+</div>
+
+<div class="bg-neutral-900 border border-neutral-950 p-4 md:mx-4 my-4">
+    <canvas id="myChart" class="w-full max-w-[900px] "></canvas>
+</div>
+
+<div class="i-filler-40"></div>

@@ -1,0 +1,124 @@
+﻿@using Awesome.AI.Web.Helpers
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@{
+    string canonical = RequestHelpers.GetCanonical(Context);
+
+    //Uri url = new Uri(String.Format("{0}://{1}{2}{3}", Context.Request.Scheme, Context.Request.Host, Context.Request.Path, Context.Request.QueryString));
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Copenhagen-ai | @ViewData["Title"]</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="An alternative method for AI." />
+    <meta name="author" content="Copenhagen-ai" />
+
+    <link rel="canonical" href="@canonical" />        
+
+    <meta property="og:title" content="copenhagen.ai | ai | algorithm | awesome" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="@canonical" />
+    <meta property="og:image" content="https://www.copenhagen-ai.net/faces.png" />
+    <meta property="og:description" content="An alternative method for AI." />
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:site_name" content="copenhagen-ai" />
+
+    <link href="~/css/dist/style.css" rel="stylesheet">
+    <link href="~/css/site1.css" rel="stylesheet">
+    <link href="~/css/site2.css" rel="stylesheet">
+    @* <link rel="stylesheet" href="~/Awesome.AI.Web.styles.css" asp-append-version="true" /> *@
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+
+    <meta name="ahrefs-site-verification" content="1b7c6ff96d7167f881637b8ae9a4bec42ac834bce20409c51d6ae3917c7b3783">
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-GM7SDWRT24');
+    </script>
+</head>
+<body class="bg-neutral-800">
+    <div class="bg-white">
+        <div class="mx-4 px-0 md:mx-md md:px-md lg:mx-lg lg:px-lg xi-container">
+            <span class="text-sm">(v2.1)</span>
+        </div>
+    </div>
+    <header class="bg-white ">
+        <nav class="overflow-hidden xi-container">
+            <div class="flex flex-col sm:flex-row mx-4 px-0 md:mx-md md:px-md lg:mx-lg lg:px-lg overflow-hidden pb-4">
+                <a class="float-left text-xl font-bold" asp-area="" asp-page="/Index">copenhagen-ai</a>                
+                <div class="">
+                    <ul class="">
+                        <li class="float-left px-2 sm:px-4 mt-1">
+                            <a class="" asp-area="" asp-page="/Docs">Docs</a>
+                        </li>
+                        <li class="float-left px-2 ml-2 sm:px-4 mt-1">
+                            <a class="" asp-area="" asp-page="/Usage">Usage</a>
+                        </li>
+                        <li class="float-left px-2 sm:px-4 mt-1">
+                            <a class="" asp-area="" asp-page="/Data">Data</a>
+                        </li>
+                    </ul>
+                </div>                
+            </div>
+        </nav>
+    </header>
+
+    <div class="bg-white @ViewData["HeaderFull"]">
+        <hr />
+        <div class="mx-4 px-0 md:mx-md md:px-md lg:mx-lg lg:px-lg overflow-hidden py-2">
+            <span class="text-gray-950">INFO: Roberta, even hours - Robbie, uneven hours</span>
+        </div>
+    </div>
+
+    <div class="mx-4 px-0 md:mx-md md:px-md lg:mx-lg lg:px-lg xi-container">
+        <main class="xpb-3">
+            <div id="overlay" class="w-full h-full bg-neutral-800 z-10 absolute hidden"></div>
+            @RenderBody()
+        </main>
+    </div>
+
+    <div class="filler-80"></div>
+
+    <footer class="bg-neutral-950 xi-container">
+        <div class="mx-4 px-0 md:mx-md md:px-md lg:mx-lg lg:px-lg text-gray-50">
+            &copy; 2023 - copenhagen-ai - <a asp-area="" asp-page="/Privacy">Privacy</a>
+            @* <span class="startSpan text-neutral-950 cursor-pointer">start</span> *@
+            <partial name="_LoginPartial" />
+        </div>
+    </footer>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/room.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $(".startSpan").click(function (event) {
+                    connection.start().then(function () {
+                        connection.invoke("Start").catch(function (err) {
+                            return console.error(err.toString());
+                        });
+                    });
+                    event.preventDefault();
+                });
+            });
+        </script>
+    }
+</body>
+</html>

@@ -1,0 +1,43 @@
+﻿@page
+@using Awesome.AI.Web.Extensions;
+@model Awesome.AI.Web.Pages.DocsModel
+
+@{
+    ViewData["Title"] = "Docs";
+    ViewData["HeaderFull"] = " hidden ";
+}
+
+<div class="i-filler-20"></div>
+<h1 class="text-neutral-200 text-center text-2xl font-bold">DOCS For The Awesome.AI Algorithm</h1>
+<h3 class="text-neutral-200 text-center text-xl font-bold">- a battle of forces</h3>
+<div class="i-filler-20"></div>
+<div class="text-neutral-200 text-center text-lg">this document may be changed and modified at any time.</div>
+<div class="text-neutral-200 text-center text-2xl font-bold">. . . . .</div>
+<div class="i-filler-40"></div>
+
+<div>    
+    @foreach (var item in Model.Doc) {
+        <div class="text-neutral-200 font-bold">
+            @Html.DisplayFor(modelItem => item.Header)
+        </div>
+        <div class="text-neutral-200">
+            @Html.Raw(item.Text)
+        </div>
+        <div class="i-filler-20"></div>
+
+
+
+
+
+        @* <td>
+            @Html.DisplayFor(modelItem => item.Sort)
+        </td>
+        <td>
+            <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+            <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+            <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+        </td> *@
+    
+    }    
+</div>
+<div class="i-filler-40"></div>

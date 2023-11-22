@@ -1,0 +1,24 @@
+﻿@page
+@model Awesome.AI.Web.Pages.DataModel
+
+@{
+    ViewData["Title"] = "Data";
+    ViewData["HeaderFull"] = " hidden ";
+}
+
+<div class="i-filler-20"></div>
+<h1 class="text-neutral-200 text-2xl font-bold">@Html.Raw(Model.Data.Header)</h1>
+<div class="i-filler-20"></div>
+<div class="text-neutral-200">@Html.Raw(Model.Data.Teaser)</div>
+<div class="i-filler-40"></div>
+<div class="text-neutral-200 font-bold">@Html.Raw(Model.Data.Subheader)</div>
+<div class="i-filler-20"></div>
+
+<div class="hidden rounded-md text-yellow-200 bg-neutral-700 text-xs p-2"></div>
+<div>
+    <div class="text-neutral-200">
+        @Html.Raw(Model.Data.Text)
+    </div>
+    <div class="i-filler-20"></div>
+</div>
+<div class="i-filler-40"></div>

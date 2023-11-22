@@ -1,0 +1,24 @@
+﻿@page
+@model Awesome.AI.Web.Pages.UsageModel
+
+@{
+    ViewData["Title"] = "Usage";
+    ViewData["HeaderFull"] = " hidden ";
+}
+
+<div class="i-filler-20"></div>
+<h1 class="text-neutral-200 text-2xl font-bold">@Html.Raw(Model.Section.Header)</h1>
+<div class="i-filler-20"></div>
+<div class="text-neutral-200">@Html.Raw(Model.Section.Teaser)</div>
+<div class="i-filler-40"></div>
+<div class="text-neutral-200 font-bold">@Html.Raw(Model.Section.Subheader)</div>
+<div class="i-filler-20"></div>
+
+<div class="hidden px-4 bg-gray-950 rounded-t-md text-white inline-block rounded-md text-yellow-200 bg-neutral-700 text-xs p-2"></div>
+<div>
+    <div class="text-neutral-200">
+        @Html.Raw(Model.Section.Text)
+    </div>
+    <div class="i-filler-20"></div>
+</div>
+<div class="i-filler-40"></div>

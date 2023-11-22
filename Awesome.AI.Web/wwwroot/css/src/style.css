@@ -1,0 +1,107 @@
+﻿@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+/*@tailwind base;
+@tailwind components;
+@tailwind utilities;*/
+
+.i-filler-200 {
+    height: 200px;
+}
+
+.i-filler-120 {
+    height: 120px;
+}
+
+.i-filler-100 {
+    height: 100px;
+}
+
+.i-filler-80 {
+    height: 80px;
+}
+
+.i-filler-60 {
+    height: 60px;
+}
+
+.i-filler-40 {
+    height: 40px;
+}
+
+.i-filler-20 {
+    height: 20px;
+}
+
+.i-filler-x {
+    height: 0px;
+}
+
+.i-color-red {
+    color: #FF0000;
+}
+
+.i-color-green {
+    color: #00FF00;
+}
+
+.i-color-orange {
+    color: #F26C09;
+}
+
+/* Container */
+
+.i-container {
+    width: 100%;
+    padding-right: 100px;
+    padding-left: 100px;
+    margin-right: auto;
+    margin-left: auto;    
+}
+
+@media (max-width: 20000px) {
+    .i-container {
+        max-width: 1140px;
+        width: auto;
+        padding-right: 100px;
+        padding-left: 100px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+}
+
+@media (max-width: 1280px) {
+    .i-container {
+        max-width: 960px;
+        width: auto;
+        padding-right: 100px;
+        padding-left: 100px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+}
+
+@media (max-width: 992px) {
+    .i-container {
+        max-width: 720px;
+        width: auto;
+        padding-right: 15px;
+        padding-left: 15px;
+        padding-right: 50px;
+        padding-left: 50px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .i-container {
+        max-width: 540px;
+        width: auto;
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+}
