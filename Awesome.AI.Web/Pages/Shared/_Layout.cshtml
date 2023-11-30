@@ -20,29 +20,30 @@
 
     <link rel="canonical" href="@canonical" />        
 
-    <meta property="og:title" content="copenhagen.ai | ai | algorithm | awesome" />
+    <meta property="og:title" content="copenhagen.ai | ai | algorithm | awesome.ai" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="@canonical" />
-    <meta property="og:image" content="https://www.copenhagen-ai.net/faces.png" />
+    <meta property="og:image" content="https://www.copenhagen-ai.net/faces2.png" />
     <meta property="og:description" content="An alternative method for AI." />
     <meta property="og:locale" content="en_GB" />
     <meta property="og:site_name" content="copenhagen-ai" />
 
     <link href="~/css/dist/style.css" rel="stylesheet">
     <link href="~/css/site1.css" rel="stylesheet">
-    <link href="~/css/site2.css" rel="stylesheet">
+    @* <link href="~/css/site2.css" rel="stylesheet"> *@
     @* <link rel="stylesheet" href="~/Awesome.AI.Web.styles.css" asp-append-version="true" /> *@
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
 
     <meta name="ahrefs-site-verification" content="1b7c6ff96d7167f881637b8ae9a4bec42ac834bce20409c51d6ae3917c7b3783">
-
-    <!-- Global site tag (gtag.js) - Google Analytics -->
+        
+    <!-- Google tag (gtag.js), google analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DZLBF440GG"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
 
-        gtag('config', 'G-GM7SDWRT24');
+        gtag('config', 'G-DZLBF440GG');
     </script>
 </head>
 <body class="bg-neutral-800">
@@ -75,7 +76,14 @@
     <div class="bg-white @ViewData["HeaderFull"]">
         <hr />
         <div class="mx-4 px-0 md:mx-md md:px-md lg:mx-lg lg:px-lg overflow-hidden py-2">
-            <span class="text-gray-950">INFO: Roberta, even hours - Robbie, uneven hours</span>
+            <span class="text-gray-950">INFO: Roberta, even hours - Andrew, uneven hours</span>
+        </div>
+    </div>
+
+    <div class="bg-white @ViewData["HeaderFull"]">
+        <hr />
+        <div class="mx-4 px-0 md:mx-md md:px-md lg:mx-lg lg:px-lg overflow-hidden py-2">
+            <span class="text-gray-950">INFO: The site sometimes crashes! I restart as often as I can.</span>
         </div>
     </div>
 
@@ -90,7 +98,7 @@
 
     <footer class="bg-neutral-950 xi-container">
         <div class="mx-4 px-0 md:mx-md md:px-md lg:mx-lg lg:px-lg text-gray-50">
-            &copy; 2023 - copenhagen-ai - <a asp-area="" asp-page="/Privacy">Privacy</a>
+            &copy; 2023 - copenhagen-ai @* - <a asp-area="" asp-page="/Privacy">Privacy</a> *@
             @* <span class="startSpan text-neutral-950 cursor-pointer">start</span> *@
             <partial name="_LoginPartial" />
         </div>
@@ -110,12 +118,68 @@
         <script type="text/javascript">
             $(document).ready(function () {
                 $(".startSpan").click(function (event) {
+                    //alert('start');
                     connection.start().then(function () {
                         connection.invoke("Start").catch(function (err) {
+                            alert('ERROR: ' + err.toString());
                             return console.error(err.toString());
                         });
                     });
                     event.preventDefault();
+                });
+
+                $(".errorSpan").click(function (event) {
+                    $.ajax({
+                        type: "GET",
+                        url: "/api/error",
+                        data: {},
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        success: function (val) {
+                            var err = val.error;
+
+                            alert(err);
+                        },
+                        error: function (val) {
+                            alert('ups, error');
+                        }
+                    });
+                });
+
+                $(".messageSpan").click(function (event) {
+                    $.ajax({
+                        type: "GET",
+                        url: "/api/message",
+                        data: {},
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        success: function (val) {
+                            var msg = val.message;
+
+                            alert(msg);
+                        },
+                        error: function (val) {
+                            alert('ups, error');
+                        }
+                    });
+                });
+
+                $(".pathSpan").click(function (event) {
+                    $.ajax({
+                        type: "GET",
+                        url: "/api/path",
+                        data: {},
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        success: function (val) {
+                            var path = val.path;
+
+                            alert(path);
+                        },
+                        error: function (val) {
+                            alert('ups, error');
+                        }
+                    });
                 });
             });
         </script>

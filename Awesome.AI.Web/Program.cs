@@ -51,13 +51,15 @@ if (!app.Environment.IsDevelopment())
 
 app.UseStaticFiles();
 app.UseRouting();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapRazorPages();
 app.MapControllers();
 
 app.MapHub<RoomHub>("/roomhub");
 
-
-StaticsHelper.MaintainUsers();
+//XmlHelper.WriteMessage("just a msg1");
+//XmlHelper.WriteMessage("just a msg2");
 
 app.Run();
+

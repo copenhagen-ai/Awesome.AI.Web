@@ -76,49 +76,6 @@ namespace Awesome.AI.Common
             if (t == null)
                 return null;
             return Activator.CreateInstance(t);
-        }
-
-        public string Root
-        {
-            get
-            {
-                string nd = Path.DirectorySeparatorChar.ToString();
-                string applicationDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-                string rootPath = "";
-
-                if(mind.parms.debug)
-                    rootPath = Directory.GetParent(applicationDirectory).Parent.Parent.FullName + nd;
-                else
-                    rootPath = applicationDirectory + nd;
-
-                return rootPath;//.Replace("Skrivebord", "Desktop");
-            }
-        }
-
-        public string PathSetup
-        {
-            get
-            {
-                string path = Root + "Awesome.AI\\Data\\setup_1.xml";
-                if(mind.parms.matrix_type == MATRIX.GPT)
-                    path = Root + "Awesome.AI\\Data\\setup_2.xml";
-
-                return path;
-                /*
-                string path;
-
-                switch (Params.t_select)
-                {
-                    case "1": path = Statics.Root + "Data\\setup_1.xml"; break;
-                    case "12": path = Statics.Root + "Data\\setup_12.xml"; break;
-                    case "123": path = Statics.Root + "Data\\setup_123.xml"; break;
-                    case "1234": path = Statics.Root + "Data\\setup_1234.xml"; break;
-                    default:
-                        throw new Exception();
-                }
-
-                return path;*/
-            }
-        }
+        }        
     }
 }

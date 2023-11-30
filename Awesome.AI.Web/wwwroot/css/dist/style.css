@@ -534,6 +534,10 @@ video {
   --tw-backdrop-sepia:  ;
 }
 
+.static {
+  position: static;
+}
+
 .absolute {
   position: absolute;
 }
@@ -592,6 +596,10 @@ video {
 
 .mt-1 {
   margin-top: 0.25rem;
+}
+
+.block {
+  display: block;
 }
 
 .inline-block {
@@ -967,8 +975,16 @@ video {
     margin-right: 1rem;
   }
 
+  .sm\:block {
+    display: block;
+  }
+
   .sm\:inline {
     display: inline;
+  }
+
+  .sm\:hidden {
+    display: none;
   }
 
   .sm\:w-\[100px\] {
@@ -1043,6 +1059,10 @@ video {
   .lg\:mx-lg {
     margin-left: 100px;
     margin-right: 100px;
+  }
+
+  .lg\:hidden {
+    display: none;
   }
 
   .lg\:px-lg {

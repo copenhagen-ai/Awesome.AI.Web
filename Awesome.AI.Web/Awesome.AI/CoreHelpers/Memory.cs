@@ -1,5 +1,6 @@
 ﻿using Awesome.AI.Common;
 using Awesome.AI.Core;
+using Awesome.AI.Web.Helpers;
 using System.Globalization;
 using System.Xml.Linq;
 using static Awesome.AI.Helpers.Enums;
@@ -151,9 +152,11 @@ namespace Awesome.AI.CoreHelpers
 
         public void SetupUnits(List<UNIT> all_units)
         {
+            
+
             XElement xdoc;
             if (mind.parms.setup_tags == TAGSETUP.PRIME)
-                xdoc = XElement.Load(mind.common.PathSetup);
+                xdoc = XElement.Load(PathSetup.MyPath);
             else
                 throw new Exception();
 
@@ -181,7 +184,7 @@ namespace Awesome.AI.CoreHelpers
         {
             XElement xdoc;
             if (mind.parms.setup_tags == TAGSETUP.PRIME)
-                xdoc = XElement.Load(mind.common.PathSetup);
+                xdoc = XElement.Load(PathSetup.MyPath);
             else
                 throw new Exception();
 

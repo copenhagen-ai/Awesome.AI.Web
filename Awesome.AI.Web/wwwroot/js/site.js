@@ -42,15 +42,14 @@ function viewers() {
 
     $.ajax({
         type: "GET",
-        url: "http://localhost:5163/api/apiusers",
+        url: "/api/apiusers",
         data: {},
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
         success: function (val) {
             var viewers = val.viewers;
 
-            var div11 = document.getElementById("viewersDiv");
-            div11.textContent = `viewers: ${viewers}`;
+            $('.viewersDiv').text(`viewers: ${viewers}`);
         }
     });
 }
@@ -63,7 +62,7 @@ function timer() {
 
     $.ajax({
         type: "POST",
-        url: "http://localhost:5163/api/apiusers",
+        url: "/api/apiusers",
         data: JSON.stringify(data),
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',

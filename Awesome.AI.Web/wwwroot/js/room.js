@@ -19,6 +19,7 @@ const myChart = new Chart(document.getElementById('myChart'), {
                     //autoSkip: false,
                     maxRotation: 45,
                     minRotation: 20
+
                 }
             }]
         }
@@ -44,8 +45,8 @@ function room1() {
     myChart.data.datasets[0].backgroundColor = [];
     room = 'room1';
     $('#r1').text('[Roberta]');
-    $('#r2').text('Robbie');
-    $('#roomHeader').text('Roberta');
+    $('#r2').text('Andrew');
+    $('.roomHeader').text('Roberta');
     $('#messageDiv').text('inner monologue..');
     $('#dot1Span').text('xxxx');
     $('#dot2Span').text('xxxx');
@@ -63,8 +64,8 @@ function room2() {
     myChart.data.datasets[0].backgroundColor = [];
     room = 'room2';
     $('#r1').text('Roberta');
-    $('#r2').text('[Robbie]');
-    $('#roomHeader').text('Robbie');
+    $('#r2').text('[Andrew]');
+    $('.roomHeader').text('Andrew');
     $('#messageDiv').text('inner monologue..');
     $('#dot1Span').text('xxxx');
     $('#dot2Span').text('xxxx');
@@ -141,10 +142,10 @@ connection.on("MIND1MessageReceive", function (message, dot1, dot2, subject) {
         mymessage(message, dot1, dot2, subject);
 });
 
-connection.on("MIND2MessageReceive", function (message, dot1, dot2) {
+connection.on("MIND2MessageReceive", function (message, dot1, dot2, subject) {
     
     if (room == 'room2')
-        mymessage(message, dot1, dot2);
+        mymessage(message, dot1, dot2, subject);
 });
 
 function mymessage(message, dot1, dot2, subject) {

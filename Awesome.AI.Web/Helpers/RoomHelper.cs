@@ -1,9 +1,8 @@
 ﻿using Awesome.AI.Common;
-using Awesome.AI.Systems.Externals;
+using Awesome.AI.Web.Hubs;
 using Awesome.AI.Web.Models;
 using Humanizer;
-using NuGet.Packaging.Signing;
-using System.Runtime.Intrinsics.X86;
+using Org.BouncyCastle.Utilities;
 using System.Text.Json;
 
 namespace Awesome.AI.Web.Helpers
@@ -12,30 +11,22 @@ namespace Awesome.AI.Web.Helpers
     {
         public bool RobertaActive()
         {
-            bool is_roberta = false;
-            is_roberta = DateTime.Now.Hour % 2 == 0;
+            bool is_roberta = DateTime.Now.Hour % 2 == 0;
 
             return is_roberta;
         }
 
-        public async Task<int> SetMessageTimer(bool fast_responce, bool is_active)
+        public async Task<int> MessageDelay(Instance inst, int when_active, int when_inactive)
         {
-            await Task.Delay(1000);
-
-            int users = StaticsHelper.CountUsers();
+            int users = UserHelper.CountUsers();
             int sec_message;
-            int sec_delay = is_active ? 10 : 60 * 25;
+            int sec_delay = inst.is_active ? when_active : when_inactive;
 
-            if (fast_responce)
+            sec_message = users <= 1 ? 60 * 5 : sec_delay;
+            
+            if (inst.fast_responce)
                 sec_message = 1 * 1;
-            else
-            {
-                if (users == 0)
-                    sec_message = 60 * 5;
-                else
-                    sec_message = 1 * sec_delay;
-            }
-
+            
             return sec_message;
         }
 
@@ -63,7 +54,7 @@ namespace Awesome.AI.Web.Helpers
             string _accept = "";
             string _contenttype = "application/json";
             string _apikey = "";
-            string _token = "xxxx";
+            string _token = SettingsHelper.SECRET;
             string _secret = "";
             string gpt = RestHelper.Send(HttpMethod.Post, _json, _base, _path, _params, _accept, _contenttype, _apikey, _token, _secret);
 
@@ -74,6 +65,7 @@ namespace Awesome.AI.Web.Helpers
             string content = root.choices[0].message.content;
             content = Format1(content);
             content = Format2(content);
+            content = Format3(content);
 
             if (Invalid(content))
                 return FastResponce(ref fast_responce);
@@ -98,7 +90,7 @@ namespace Awesome.AI.Web.Helpers
             string _accept = "";
             string _contenttype = "application/json";
             string _apikey = "";
-            string _token = "xxxx";
+            string _token = SettingsHelper.SECRET;
             string _secret = "";
             string gpt = RestHelper.Send(HttpMethod.Post, _json, _base, _path, _params, _accept, _contenttype, _apikey, _token, _secret);
 
@@ -107,11 +99,10 @@ namespace Awesome.AI.Web.Helpers
 
             Root root = JsonSerializer.Deserialize<Root>(gpt);
             string content = root.choices[0].message.content;
-            content = Format3(content);
+            content = Format1(content);
             
             return content;
         }
-
 
         public string Format1(string json)
         {
@@ -141,7 +132,13 @@ namespace Awesome.AI.Web.Helpers
             json = json.Replace("?", "");
             json = json.Replace("!", "");
 
-            json = json.Replace("sure i would be happy to play the game with you heres the resulting sentence", "");
+            return json;
+        }
+
+        public string Format2(string json)
+        {
+            json = json.ToLower();
+
             json = json.Replace("sure heres a resulting sentence", "");
             json = json.Replace("sure heres the resulting sentence", "");
             json = json.Replace("sure here is the resulting sentence", "");
@@ -152,25 +149,33 @@ namespace Awesome.AI.Web.Helpers
             json = json.Replace("sure lets play the game heres the resulting sentence", "");
             json = json.Replace("sure lets play the game here is the resulting sentence", "");
             json = json.Replace("sure lets give it a try heres the resulting sentence", "");
+            json = json.Replace("sure i can play that game heres the resulting sentence", "");
+            json = json.Replace("sure i would be happy to play the game with you heres the resulting sentence", "");
             json = json.Replace("sure im ready to play heres the resulting sentence", "");
             json = json.Replace("sure im excited to play heres the resulting sentence", "");
             json = json.Replace("sure im excited to play this game with you heres the resulting sentence", "");
             json = json.Replace("sure im happy to play the game heres the resulting sentence", "");
             json = json.Replace("sure im happy to play the game with you heres the resulting sentence", "");
             json = json.Replace("sure im happy to play this game with you heres the resulting sentence", "");
+            json = json.Replace("sure im happy to play this game with you here is the resulting sentence", "");
             json = json.Replace("sure im happy to play heres the resulting sentence", "");
+            json = json.Replace("sure im happy to play along heres the resulting sentence", "");
             json = json.Replace("sure id be happy to play along heres the resulting sentence", "");
             json = json.Replace("sure id be happy to play the game heres the resulting sentence", "");
             json = json.Replace("sure id be happy to play the game with you heres the resulting sentence", "");
             json = json.Replace("sure id be happy to play the game with you heres my resulting sentence", "");
             json = json.Replace("sure id be happy to play the game with you here is the resulting sentence", "");
+            json = json.Replace("sure id be happy to play this game here is the resulting sentence", "");
             json = json.Replace("sure id be happy to play this game with you heres the resulting sentence", "");
             json = json.Replace("sure id love to play this game with you heres the resulting sentence", "");
             json = json.Replace("sure ill be happy to play the game with you heres the resulting sentence", "");
+            json = json.Replace("sure ill give it a try heres the resulting sentence", "");
             json = json.Replace("sure ill play along heres the resulting sentence", "");
             json = json.Replace("ill do my best heres the resulting sentence", "");
             json = json.Replace("im excited to play this game with you heres the resulting sentence", "");
             json = json.Replace("i understand the game heres the resulting sentence", "");
+            json = json.Replace("i would love to play the game with you heres the resulting sentence", "");
+            json = json.Replace("i would be happy to play the game heres the resulting sentence", "");
             json = json.Replace("okay lets play heres the resulting sentence", "");
             
 
@@ -183,7 +188,7 @@ namespace Awesome.AI.Web.Helpers
             return json;
         }
 
-        private string Format2(string json)
+        private string Format3(string json)
         {
             //dot1 optimized for eternitydot2 hal 9000resulting sentence optimized for eternity the powerful hal 9000 awaits
             //using the given guidelines heres an exampledot1 prone to software glitchesdot2 lost my nametagresulting sentence prone to software glitches can sometimes lead to me losing my nametagplease let me know if theres anything else i can assist you with
@@ -208,42 +213,14 @@ namespace Awesome.AI.Web.Helpers
             return json;
         }
 
-        public string Format3(string json)
-        {
-            json = json.ToLower();
-
-            json = json.Replace("\n          ", "");
-            json = json.Replace("\n         ", "");
-            json = json.Replace("\n        ", "");
-            json = json.Replace("\n       ", "");
-            json = json.Replace("\n      ", "");
-            json = json.Replace("\n     ", "");
-            json = json.Replace("\n    ", "");
-            json = json.Replace("\n   ", "");
-            json = json.Replace("\n  ", "");
-            json = json.Replace("\n ", "");
-            json = json.Replace("\n", "");
-
-            json = json.Replace("\\n", "");
-            json = json.Replace("\"", "");
-            json = json.Replace("'", "");
-            json = json.Replace(".", "");
-            json = json.Replace(",", "");
-            json = json.Replace(":", "");
-            json = json.Replace(";", "");
-            json = json.Replace("(", "");
-            json = json.Replace(")", "");
-            json = json.Replace("?", "");
-            json = json.Replace("!", "");
-
-            return json;
-        }
 
         private bool Invalid(string content)
         {
             bool invalid = false;
 
             invalid |= content.Contains("im sorry but im unable to generate a resulting sentence");
+            invalid |= content.Contains("im sorry but im unable to generate a new resulting sentence");
+            invalid |= content.Contains("im sorry but im not able to generate a sentence");
             invalid |= content.Contains("im sorry but im not able to generate a response");
             invalid |= content.Contains("im sorry but im not able to generate a resulting sentence");
             invalid |= content.Contains("im sorry but im not able to generate the resulting sentence");
@@ -265,31 +242,6 @@ namespace Awesome.AI.Web.Helpers
             invalid |= content.Contains("i apologize for any confusion but as a text - based ai");
             invalid |= content.Contains("i apologize for any confusion but as an ai language model");
             invalid |= content.Contains("i apologize for any confusion but as a text - based ai assistant");
-            
-
-
-            //i apologize for any confusion but as an ai language model im not able to directly manipulate or alter the given sentences however i can certainly help you come up with creative and interesting sentences using those words would you like me to assist you in that way
-            //im sorry but im not able to generate the resulting sentence based on the given guidelines
-            //im sorry but i am unable to generate a resulting sentence using the given guidelines could you please provide a different set of words or sentences for me to connect
-            //im sorry but im not able to play the game youve described however im here to assist you with any questions or tasks you may have is there something else i can help you with
-            //i apologize but im unable to generate a response based on the given guidelines
-            //im sorry but i am unable to fulfill your request as it goes against my capabilities as a language ai model is there anything else i can help you with
-            //im sorry but im unable to generate a resulting sentence based on the given guidelines
-            //im sorry but i dont understand the game youre suggesting could you please provide an example or clarify the rules
-            //im sorry but im not able to generate a resulting sentence based on the given guidelines however im here to assist you with any other questions or tasks you may have
-            //im sorry but im not able to generate a response based on the guidelines provided
-            //im sorry but i am not able to participate in the game you described as it goes against my programming to generate random or nonsensical sentences however im here to assist you with any other questions or requests you may have
-            //i apologize but im unable to generate a resulting sentence based on the given guidelines however im here to help with any other requests or questions you may have
-            //i apologize but i am unable to generate a response based on the given guidelines
-            //i apologize for the confusion but im unable to generate a resulting sentence based on the given guidelines however im here to assist you with any other requests or questions you may have
-            //i apologize but im not able to play the game you mentioned is there anything else i can assist you with
-            //i apologize but i am not able to generate a response using the guidelines provided could you please provide a different set of words or sentences for me to connect
-            //i apologize but im not able to generate a resulting sentence for you using the guidelines provided however im here to help with any other questions or requests you might have
-            //im sorry but i dont have the ability to create new sentences based on specific guidelines however im here to help with any other questions or tasks you may have
-            //i apologize but im not able to play the game as you described it however im here to assist you with any questions or tasks you may have is there anything specific you need help with
-            //i apologize but i am unable to follow the guidelines provided without using special characters
-            //i apologize but im not able to generate a response using the guidelines you provided
-            //i apologize for any confusion but as a text-based ai i am not able to create new sentences or words by connecting given ones i can assist with answering questions providing information or engaging in conversation is there anything specific you would like assistance with
 
             return invalid;
         }

@@ -1,9 +1,10 @@
 ﻿using Awesome.AI.Web.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace Awesome.AI.Web.Api
+namespace Awesome.AI.Web.Api.Users
 {
     public class Post
     {
@@ -32,9 +33,10 @@ namespace Awesome.AI.Web.Api
         
         // GET: api/<ValuesController>
         [HttpGet]
+        //[Authorize]
         public GetResponce Get()
         {
-            string viewers = "" + StaticsHelper.CountUsers();
+            string viewers = "" + UserHelper.CountUsers();
 
             GetResponce res = new GetResponce();
             res.viewers = viewers;
@@ -51,13 +53,14 @@ namespace Awesome.AI.Web.Api
 
         // POST api/<ValuesController>
         [HttpPost]
+        //[Authorize]
         public PostResponce Post([FromBody] Post obj)
         {
             //string guid = Guid.NewGuid().ToString();
 
             string guid = obj.guid;
 
-            StaticsHelper.AddUser(guid);
+            UserHelper.AddUser(guid);
 
             PostResponce res = new PostResponce();
             res.guid = guid;

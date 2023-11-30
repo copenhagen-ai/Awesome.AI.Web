@@ -10,13 +10,13 @@
 <div class="overflow-hidden flex flex-col">
     <div class="float-left overflow-hidden w-full sm:m-4">
         <div class="xl:w-1/2 float-left">
-            <div class="text-gray-50"><span class="hidden sm:inline">Visit our github:</span><a class="text-blue-300 hover:underline" target="_blank" href="https://github.com/copenhagen-ai"> Copenhagen-ai Source</a>.</div>
+            <div class="text-gray-50"><span class="hidden sm:inline">Visit our github:</span><a class="text-blue-300 hover:underline" target="_blank" href="https://github.com/copenhagen-ai"> Awesome.AI Source</a>.</div>
             <div class="text-gray-50"><span class="hidden sm:inline">Goto our forum:</span><a class="text-blue-300 hover:underline" target="_blank" href="https://forum.copenhagen-ai.net"> Copenhagen-ai Forum</a>.</div>
             <div class="i-filler-20"></div>
         </div>
         <div class="xl:w-1/2 overflow-hidden mx-0 sm:mx-4 ">
             <div class="hidden xl:block w-200 float-left w-1/2">
-                <h1 id="roomHeader" class="text-gray-50 text-3xl sm:text-5xl font-bold">Roberta</h1>
+                <h1 class="roomHeader text-gray-50 text-3xl sm:text-5xl font-bold">Roberta</h1>
             </div>
             <div class="bg-orange-500 p-2 rounded-md w-[75px] sm:w-[120px] float-right my-2 sm:my-0 mr-0 sm:mr-4 xl:mr-8">
                 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
@@ -33,26 +33,29 @@
 
     <div class="overflow-hidden w-full md:w-full sm:m-4 text-left ">
         <div class="xl:hidden w-1/2 sm:w-[200px] float-left">
-            <h1 id="roomHeader" class="text-gray-50 text-3xl sm:text-5xl font-bold" >Roberta</h1>
+            <h1 class="roomHeader text-gray-50 text-3xl sm:text-5xl font-bold">Roberta</h1>
         </div>
     </div>
 </div>
 
-<div class="text-gray-50 ml-4 float-left hidden md:block" id="viewersDiv">viewers: 0</div>
+<div class="viewersDiv text-gray-50 ml-4 float-left hidden sm:block">viewers: 0</div>
 <div class="overflow-hidden flex flex-col-reverse sm:flex-row-reverse">
     <div class="w-[230px]">
-        <span id="joinButton" class="cursor-pointer mr-10 i-color-orange float-left sm:float-right">join</span>
+        <span id="saveSpan" class="cursor-pointer mr-10 i-color-green float-left sm:float-right">save</span>
         <span id="" class="cursor-pointer mr-10 i-color-orange float-left sm:float-right">   </span>
         <span id="hideSpan" class="cursor-pointer mr-10 i-color-green float-left sm:float-right">view</span>
         <span id="" class="cursor-pointer mr-10 i-color-green float-left sm:float-right">   </span>
-        <span id="saveSpan" class="cursor-pointer mr-10 i-color-green float-left sm:float-right">save</span>
+        <span id="joinButton" class="cursor-pointer mr-10 i-color-orange float-left sm:float-right">join</span>
         <span id="" class="cursor-pointer mr-10 i-color-green float-left sm:float-right">   </span>
     </div>
     <div>
-        <a id="r2" class="text-gray-50 float-left sm:float-right mr-10 hover:underline cursor-pointer" onclick="room2();">Robbie</a>
+        <a id="r2" class="text-gray-50 float-left sm:float-right mr-10 hover:underline cursor-pointer" onclick="room2();">Andrew</a>
         <a id="r1" class="text-gray-50 float-left sm:float-right mr-10 hover:underline cursor-pointer" onclick="room1();">[Roberta]</a>
     </div>
+    <div class="viewersDiv text-gray-50 float-left sm:hidden">viewers: 0</div>
+
 </div>
+@* <div class="viewersDiv text-gray-50 ml-4 float-right overflow-hidden lg:hidden">viewers: 0</div> *@
 
 <div class="overflow-hidden flex flex-col-reverse md:flex-row ">
     <div class="bg-neutral-900 border border-neutral-950 text-neutral-600 overflow-hidden h-box w-full md:w-500 p-4 md:mx-4 my-4">
@@ -130,7 +133,7 @@
     <div class="bg-neutral-900 border border-neutral-950 text-neutral-600 overflow-hidden md:h-box w-full p-4 md:mx-4 my-4">
         <div class="xrow xp-1">
             <div class="xcol-6">
-                <div id="messageDiv">inner monologue..</div>
+                <div id="messageDiv">inner monologue.. (press view)</div>
                 <div class="i-filler-20"></div>
                 <hr class="" />
                 <div class="i-filler-20"></div>

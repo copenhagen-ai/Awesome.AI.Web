@@ -4,7 +4,9 @@ using Awesome.AI.Helpers;
 using Awesome.AI.Interfaces;
 using Awesome.AI.Systems.Externals;
 using Awesome.AI.Web.AI.Common;
+using Awesome.AI.Web.Helpers;
 using static Awesome.AI.Helpers.Enums;
+using static Google.Protobuf.WellKnownTypes.Field.Types;
 
 namespace Awesome.AI.Core
 {
@@ -81,35 +83,44 @@ namespace Awesome.AI.Core
         
         public TheMind(MECHANICS mech)
         {
-            Console.BackgroundColor = ConsoleColor.DarkGray;
+            try
+            {
+                Console.BackgroundColor = ConsoleColor.DarkGray;
 
-            this.mech = mech;
+                this.mech = mech;
 
-            parms = new Params(this, mech);
-            common = new Common.Common(this);
-            matrix = new TheMatrix(this);
-            calc = new Calc(this);
-            process = new Process(this);
-            _internal = new MyInternal(this);
-            _external = new MyExternal(this);
-            filters = new Filters(this);
-            convert = new Common.Convert(this);
-            core = new Core(this);
-            curve = new TheCurve(this);
-            _out = new Out(this);
+                parms = new Params(this, mech);
+                common = new Common.Common(this);
+                matrix = new TheMatrix(this);
+                calc = new Calc(this);
+                process = new Process(this);
+                _internal = new MyInternal(this);
+                _external = new MyExternal(this);
+                filters = new Filters(this);
+                convert = new Common.Convert(this);
+                core = new Core(this);
+                curve = new TheCurve(this);
+                _out = new Out(this);
 
-            mem = new Memory(this);
+                mem = new Memory(this);
                                     
-            curr_unit = mem.UNITS_ALL().Where(x => x.root == "_love10").FirstOrDefault();
-            curr_hub = curr_unit.HUB;
+                curr_unit = mem.UNITS_ALL().Where(x => x.root == "_love10").FirstOrDefault();
+                curr_hub = curr_unit.HUB;
                         
-            PreRun(true);
+                PreRun(true);
             
-            theanswer = UNIT.Create(this, -1.0d, "I dont Know", "null", "SPECIAL", TYPE.JUSTAUNIT);//set it to "It does not", and the program terminates
+                theanswer = UNIT.Create(this, -1.0d, "I dont Know", "null", "SPECIAL", TYPE.JUSTAUNIT);//set it to "It does not", and the program terminates
             
-            ProcessPass();
+                ProcessPass();
                         
-            Lists();
+                Lists();
+            }
+            catch (Exception _e)
+            {
+                string msg = "themind - " + _e.Message + "\n";
+                msg += _e.StackTrace;
+                XmlHelper.WriteError(msg);                
+            }
         }
         
         private void Lists()
@@ -154,7 +165,7 @@ namespace Awesome.AI.Core
         public void Run(object sender, MicroLibrary.MicroTimerEventArgs timerEventArgs)
         {
             try
-            {
+            {                
                 HUB _h = mem.HUBS_RND();
 
                 Lists();
@@ -188,8 +199,9 @@ namespace Awesome.AI.Core
             }
             catch (Exception _e) 
             {
-                ;
-                //MessageBox.Show("Exception Main:\n " + e.Message);
+                string msg = "run - " + _e.Message + "\n";
+                msg += _e.StackTrace;
+                XmlHelper.WriteError(msg);
             }
         }
 

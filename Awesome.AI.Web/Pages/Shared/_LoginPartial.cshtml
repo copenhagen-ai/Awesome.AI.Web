@@ -30,7 +30,8 @@
         </ul>
     </div>
 }
-else{
+else
+{
     @if (SignInManager.IsSignedIn(User))
     {
         @* <a class="text-neutral-950" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a> *@
@@ -38,6 +39,9 @@ else{
             <button type="submit" class="">Logout</button>
         </form>
         <span class="startSpan text-neutral-200 cursor-pointer">start</span>
+        <span class="errorSpan text-neutral-200 cursor-pointer">error</span>
+        <span class="messageSpan text-neutral-200 cursor-pointer">msg</span>
+        <span class="pathSpan text-neutral-200 cursor-pointer">path</span>
         ViewData["SignedIn"] = "TRUE";
     }
     else

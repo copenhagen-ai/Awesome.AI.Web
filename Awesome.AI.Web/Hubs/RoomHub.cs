@@ -1,6 +1,7 @@
 ﻿using Awesome.AI.Common;
 using Awesome.AI.Core;
 using Awesome.AI.Web.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using static Awesome.AI.Helpers.Enums;
 
@@ -11,8 +12,8 @@ namespace Awesome.AI.Web.Hubs
         public TheMind mind { get; set; }
 
         public MicroLibrary.MicroTimer microTimer = new MicroLibrary.MicroTimer();
-        public int sec = 1000;
-        public int sec_message = 15;
+        //public int sec = 1000;
+        public int sec_message = 1;//not set here
         public int sec_info = 1;
         public bool fast_responce = false;
         public bool is_active = false;
@@ -22,12 +23,99 @@ namespace Awesome.AI.Web.Hubs
         public MINDS type;
     }
 
+    public class GraphInfo
+    {
+        public string[] labels = new string[10];
+        public string curr_name, curr_value, reset_name, reset_value, bcol;
+
+        public void Setup(Instance inst)
+        {
+            //because robeta has UNITs sorted one way and andrew the other way
+            if (inst.type == MINDS.ROBERTA)
+            {
+                int j = 9;
+                for(int i = 0; i < 10; i++)
+                    labels[i] = $"index below: {(j-- + 1)}0.0";
+
+                labels[0] = "good";
+                labels[9] = "bad";
+            }
+            else
+            {
+                for (int i = 0; i < 10; i++)
+                    labels[i] = $"index below: {(i + 1)}0.0";
+
+                labels[0] = "good";
+                labels[9] = "bad";
+            }
+
+
+            string curr_index = "", reset_index = "";
+            int count_curr = 0, count_reset = 1;
+
+            string c_name = inst.mind.stats.curr_name;
+            double curr_conv = inst.mind.stats.list.Where(x=>x.name.Contains(c_name)).FirstOrDefault().conv_index;
+            curr_index = "" + (int)Index(curr_conv, true, false, false);
+            count_curr = inst.mind.stats.list.Where(x => x.conv_index > Index(curr_conv, false, true, false) && x.conv_index <= Index(curr_conv, false, false, true)).Sum(x => x.count_all);
+
+            if(!inst.mind.stats.curr_name.IsNullOrEmpty())
+            {
+                string r_name = inst.mind.stats.curr_name;
+                double reset_conv = inst.mind.stats.list.Where(x => x.name.Contains(r_name)).FirstOrDefault().conv_index;
+                reset_index = "" + (int)Index(reset_conv, true, false, false);
+                count_reset = inst.mind.stats.list.Where(x => x.conv_index > Index(reset_conv, false, true, false) && x.conv_index <= Index(reset_conv, false, false, true)).Sum(x => x.count_all);
+            }
+
+            curr_name = $"index below: {curr_index}0.0";
+            curr_value = "" + count_curr;
+            reset_name = $"index below: {reset_index}0.0";
+            reset_value = "" + count_reset;
+            bcol = "blue";
+
+            if(inst.type == MINDS.ROBERTA)
+            {
+                curr_name = curr_name == "index below: 100.0" ? "good" : curr_name == "index below: 10.0" ? "bad" : curr_name;
+                reset_name = reset_name == "index below: 10.0" ? "bad" : reset_name == "index below: 100.0" ? "good" : curr_name;
+            }
+            else
+            {
+                curr_name = curr_name == "index below: 100.0" ? "bad" : curr_name == "index below: 10.0" ? "good" : curr_name;
+                reset_name = reset_name == "index below: 10.0" ? "good" : reset_name == "index below: 100.0" ? "bad" : curr_name;
+            }
+        }
+
+        private string Extract(string str)
+        {
+            if(str.IsNullOrEmpty())
+                return "";
+
+            string res = new String(str.Where(Char.IsDigit).ToArray());
+
+            return res;
+        }
+
+        private double Index(double index, bool is_index, bool is_lower, bool is_upper)
+        {
+            double res_index = ((int)Math.Floor(index / 10.0)) * 10 + 10.0d;
+
+            if (is_index)
+                return res_index / 10.0d;
+            if (is_lower)
+                return res_index - 10.0d;
+            if (is_upper)
+                return res_index;
+            
+            throw new Exception();
+        }        
+    }
+
     public class RoomHub : Hub
     {
         private RoomHelper helper {  get; set; }
 
         private bool running = false;
         
+        [Authorize]
         public async Task Start()
         {
             try
@@ -37,25 +125,29 @@ namespace Awesome.AI.Web.Hubs
 
                 running = true;
 
+                XmlHelper.WriteError("no error");
+                XmlHelper.WriteMessage("starting.. 0");
+                UserHelper.MaintainUsers();
+
                 helper = new RoomHelper();
 
                 Instance roberta = new Instance();
-                Instance robbie = new Instance();
+                Instance andrew = new Instance();
 
                 roberta.mind = new TheMind(MECHANICS.HILL);
-                robbie.mind = new TheMind(MECHANICS.GRAVITY);
+                andrew.mind = new TheMind(MECHANICS.CONTEST);
 
                 roberta.type = MINDS.ROBERTA;
-                robbie.type = MINDS.ROBBIE;
+                andrew.type = MINDS.ANDREW;
 
                 // Instantiate new MicroTimer and add event handler
                 roberta.microTimer.MicroTimerElapsed += new MicroLibrary.MicroTimer.MicroTimerElapsedEventHandler(roberta.mind.Run);
                 roberta.microTimer.Interval = roberta.mind.parms.micro_sec; // Call micro timer every 1000µs (1ms)
                 roberta.microTimer.Enabled = true; // Start timer
 
-                robbie.microTimer.MicroTimerElapsed += new MicroLibrary.MicroTimer.MicroTimerElapsedEventHandler(robbie.mind.Run);
-                robbie.microTimer.Interval = robbie.mind.parms.micro_sec; // Call micro timer every 1000µs (1ms)
-                robbie.microTimer.Enabled = true; // Start timer
+                andrew.microTimer.MicroTimerElapsed += new MicroLibrary.MicroTimer.MicroTimerElapsedEventHandler(andrew.mind.Run);
+                andrew.microTimer.Interval = andrew.mind.parms.micro_sec; // Call micro timer every 1000µs (1ms)
+                andrew.microTimer.Enabled = true; // Start timer
 
                 // Can choose to ignore event if late by Xµs (by default will try to catch up)
                 //microTimer.IgnoreEventIfLateBy = 500; // 500µs (0.5ms)
@@ -63,31 +155,53 @@ namespace Awesome.AI.Web.Hubs
                 ProcessInfo(roberta);
                 ProcessMessage(roberta);
 
-                ProcessInfo(robbie);
-                ProcessMessage(robbie);
+                ProcessInfo(andrew);
+                ProcessMessage(andrew);
+                
+                XmlHelper.WriteMessage("starting.. 1");
+
+                int when_active = 20;
+                int when_inactive = 60 * 5;
 
                 int count = 0;
                 while (true)
                 {
+                    await Task.Delay(1000);
+
                     roberta.is_active = count < 10 ? true : helper.RobertaActive();
-                    robbie.is_active = count < 10 ? true : !helper.RobertaActive();
-                    roberta.sec_message = await helper.SetMessageTimer(roberta.fast_responce, roberta.is_active);
-                    robbie.sec_message = await helper.SetMessageTimer(robbie.fast_responce, robbie.is_active);
+                    andrew.is_active = count < 10 ? true : !helper.RobertaActive();
+                    roberta.sec_message = await helper.MessageDelay(roberta, when_active, when_inactive);
+                    andrew.sec_message = await helper.MessageDelay(andrew, when_active, when_inactive);
                     count++;
 
                     if (count > 20)
                         count = 15;
+
+                    XmlHelper.WriteMessage("running.. " + count);
                 }
+
             }
             catch (Exception ex)
             {
-                ;
-                //await Clients.All.SendAsync("MessageReceive", "error in stream, please rejoin.");
+                XmlHelper.WriteError("start - " + ex.Message);
+                
+                await Task.Delay(5000);
+
+                running = false;
+                Start();
             }
         }
 
+        private long Remaining(Instance inst)
+        {
+            int ms_wait = inst.sec_message * 1000;
+            long remainingSec = (ms_wait - inst.elapsedMs) / 1000;
+
+            return remainingSec;
+        }
+
         private bool wait1 = false;
-        public async Task ProcessMessage(Instance inst)
+        private async Task ProcessMessage(Instance inst)
         {
             try
             {
@@ -98,15 +212,14 @@ namespace Awesome.AI.Web.Hubs
                 while (inst.mind.ok)
                 {
                     int ms_wait = inst.sec_message * 1000;
-                    long remainingSec = (ms_wait - inst.elapsedMs) / 1000;
                     bool wait2 = ((double)inst.elapsedMs / (double)ms_wait) < 1.0d;
                     
                     if(wait1)
                         await Task.Delay(1000);
                     else if (wait2)
                     {
-                        for (int i = 0; i <= remainingSec; i++)
-                            await Task.Delay((int)inst.sec);
+                        for (int i = 0; i <= Remaining(inst); i++)
+                            await Task.Delay(1000);
                     }
                                         
                     wait1 = false;
@@ -121,7 +234,7 @@ namespace Awesome.AI.Web.Hubs
                     {
                         UNIT common = inst.mind._out.common_unit;
                         dot = helper.Format1(common.root.ToLower());
-                        subject = helper.Format1(common.HUB.subject.ToLower());
+                        subject = common.HUB.subject.ToLower();
                     }
                     else
                     {
@@ -133,8 +246,8 @@ namespace Awesome.AI.Web.Hubs
                             wait1 = true;
                             continue;
                         }
-                        dot = helper.Format3(dot);
-                        subject = helper.Format1(common.HUB.subject.ToLower());
+                        dot = helper.Format1(dot);
+                        subject = common.HUB.subject.ToLower();
                     }
 
                     dots.Add(dot);
@@ -152,10 +265,15 @@ namespace Awesome.AI.Web.Hubs
                         message = message.Replace(dot1, $"<span class=\"i-color-green\">{dot1}</span>");
                         message = message.Replace(dot2, $"<span class=\"i-color-red\">{dot2}</span>");
 
-                        if (inst.type == MINDS.ROBERTA)
-                            await Clients.All.SendAsync("MIND1MessageReceive", message, dot1, dot2, subject);
-                        if (inst.type == MINDS.ROBBIE)
-                            await Clients.All.SendAsync("MIND2MessageReceive", message, dot1, dot2, subject);
+                        int user_count = UserHelper.CountUsers();
+
+                        if(user_count > 0)
+                        {
+                            if (inst.type == MINDS.ROBERTA)
+                                await Clients.All.SendAsync("MIND1MessageReceive", message, dot1, dot2, subject);
+                            if (inst.type == MINDS.ANDREW)
+                                await Clients.All.SendAsync("MIND2MessageReceive", message, dot1, dot2, subject);
+                        }
                     }
 
                     watch.Stop();
@@ -164,12 +282,15 @@ namespace Awesome.AI.Web.Hubs
             }
             catch (Exception ex)
             {
-                ;
-                //await Clients.All.SendAsync("MessageReceive", "error in stream, please rejoin.");
+                XmlHelper.WriteError("processmessage - " + ex.Message);
+
+                await Task.Delay(5000);
+
+                ProcessMessage(inst);
             }
         }
 
-        public async Task ProcessInfo(Instance inst)
+        private async Task ProcessInfo(Instance inst)
         {
             try
             {
@@ -178,7 +299,7 @@ namespace Awesome.AI.Web.Hubs
                 while (inst.mind.ok)
                 {
                     for (int i = 0; i < inst.sec_info; i++)
-                        await Task.Delay((int)inst.sec);
+                        await Task.Delay(1000);
                     
                     string[] cycles = new string[] { inst.mind._out.cycles, inst.mind._out.cycles_total };
                     string momentum = inst.mind._out.momentum;
@@ -192,29 +313,35 @@ namespace Awesome.AI.Web.Hubs
                     string bias = inst.mind._out.bias;
                     string limit = inst.mind._out.limit;
                     string limit_avg = inst.mind._out.limit_avg;
+                    
+                    GraphInfo graph = new GraphInfo();
+                    graph.Setup(inst);
 
-                    string[] labels = inst.mind.stats.list.Select(x=>x.name).ToArray();
-                    string curr = inst.mind.stats.curr;
-                    string value = "" + inst.mind.stats.value;
-                    string curr_reset = inst.mind.stats.curr_reset;
-                    string value_reset = "" + inst.mind.stats.value_reset;
-                    string bcol = "blue";
+                    int user_count = UserHelper.CountUsers();
 
-                    if (inst.type == MINDS.ROBERTA) {
-                        await Clients.All.SendAsync("MIND1InfoReceive", momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise_isno, bias, limit, limit_avg);
-                        await Clients.All.SendAsync("MIND1GraphReceive", labels, curr, value, curr_reset, value_reset, bcol);
-                    }
+                    if (user_count > 0)
+                    {
+                        if (inst.type == MINDS.ROBERTA)
+                        {
+                            await Clients.All.SendAsync("MIND1InfoReceive", momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise_isno, bias, limit, limit_avg);
+                            await Clients.All.SendAsync("MIND1GraphReceive", graph.labels, graph.curr_name, graph.curr_value, graph.reset_name, graph.reset_value, graph.bcol);
+                        }
 
-                    if (inst.type == MINDS.ROBBIE) {
-                        await Clients.All.SendAsync("MIND2InfoReceive", momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise_isno, bias, limit, limit_avg);
-                        await Clients.All.SendAsync("MIND2GraphReceive", labels, curr, value, curr_reset, value_reset, bcol);
+                        if (inst.type == MINDS.ANDREW)
+                        {
+                            await Clients.All.SendAsync("MIND2InfoReceive", momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise_isno, bias, limit, limit_avg);
+                            await Clients.All.SendAsync("MIND2GraphReceive", graph.labels, graph.curr_name, graph.curr_value, graph.reset_name, graph.reset_value, graph.bcol);
+                        }
                     }
                 }
             }
             catch (Exception ex)
             {
-                ;
-                //await Clients.All.SendAsync("MessageReceive", "error in stream, please rejoin.");
+                XmlHelper.WriteError("processinfo - " + ex.Message);
+
+                await Task.Delay(5000);
+
+                ProcessInfo(inst);
             }
         }
     }

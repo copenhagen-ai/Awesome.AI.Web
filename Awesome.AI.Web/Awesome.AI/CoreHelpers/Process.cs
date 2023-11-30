@@ -138,21 +138,24 @@ namespace Awesome.AI.CoreHelpers
                 List<UNIT> units = mind.mem.UNITS_VAL();
                 
                 foreach (UNIT t in units)
-                    stats.list.Add(new Stat() { name = t.root, count_all = 0, force = t.Variable });
+                    stats.list.Add(new Stat() { name = t.root, count_all = 0, force = t.Variable, conv_index = t.index_conv });
                 
                 mind.stats = stats;
             }
 
             Stat _t = mind.stats.list.Where(x => x.name == most_common_unit.root).FirstOrDefault();
             UNIT _u = mind.mem.UNITS_ALL().Where(x => x.root == _t.name).FirstOrDefault();
+            
             string i1 = _t.name;
             int i2 = _t.count_all + 1;
             double d2 = _u.Variable;
+            double d3 = _u.index_conv;
+
             mind.stats.list.Remove(_t);
-            mind.stats.list.Add(new Stat() { name = i1, count_all = i2, force = d2 });
-            mind.stats.list = mind.stats.list.OrderBy(x=>x.force).ToList();
-            mind.stats.curr = i1;
-            mind.stats.value = i2;
+            mind.stats.list.Add(new Stat() { name = i1, count_all = i2, force = d2, conv_index = d3 });
+            mind.stats.list = mind.stats.list.OrderBy(x=>x.conv_index).ToList();
+            mind.stats.curr_name = i1;
+            mind.stats.curr_value = i2;
 
             remember.Insert(0, _t.name);
             if(remember.Count > mind.parms.remember)
@@ -165,8 +168,8 @@ namespace Awesome.AI.CoreHelpers
                     if (_s.name == remember.LastOrDefault())
                     {
                         _s.count_all--;
-                        mind.stats.curr_reset = _s.name;
-                        mind.stats.value_reset = _s.count_all;
+                        mind.stats.reset_name = _s.name;
+                        mind.stats.reset_value = _s.count_all;
                     }
                 }
             }
