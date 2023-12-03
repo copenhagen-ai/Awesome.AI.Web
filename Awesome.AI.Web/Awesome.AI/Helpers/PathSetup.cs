@@ -22,14 +22,15 @@ namespace Awesome.AI.Web.Helpers
             }
         }
 
-        public static string MyPath
+        public static string MyPath(string setting)
         {
-            get
-            {
-                string path = Root + "Awesome.AI\\Data\\setup_2.xml";
+            string path = "";
 
-                return path;
-            }
+            path = Root + "Awesome.AI\\Data\\setup_" + setting + ".xml";
+            if (setting == "standart")
+                path = Root + "Awesome.AI\\Data\\setup_2.xml";
+
+            return path;
         }
     }
 }

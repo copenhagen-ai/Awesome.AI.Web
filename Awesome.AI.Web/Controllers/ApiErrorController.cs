@@ -97,7 +97,7 @@ namespace Awesome.AI.Web.Api.Error
             {
                 //return new GetResponce() { error = PathHelper.PathSetup };
 
-                string path = PathSetup.MyPath;
+                string path = PathSetup.MyPath("andrew");
 
                 GetPath res = new GetPath();
                 res.path = path;

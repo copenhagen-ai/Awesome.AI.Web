@@ -77,17 +77,19 @@ namespace Awesome.AI.Core
         public string theme = "none";
         public string theme_old = "";
         public string hobby = "socializing";
-        
+        public string settings = "";
+
         public List<KeyValuePair<string, int>> themes_stat = new List<KeyValuePair<string, int>>();
         public Stats stats = new Stats();
         
-        public TheMind(MECHANICS mech)
+        public TheMind(MECHANICS mech, string settings)
         {
             try
             {
                 Console.BackgroundColor = ConsoleColor.DarkGray;
 
                 this.mech = mech;
+                this.settings = settings;
 
                 parms = new Params(this, mech);
                 common = new Common.Common(this);
@@ -103,8 +105,14 @@ namespace Awesome.AI.Core
                 _out = new Out(this);
 
                 mem = new Memory(this);
-                                    
-                curr_unit = mem.UNITS_ALL().Where(x => x.root == "_love10").FirstOrDefault();
+
+                if (settings == "standart")
+                    curr_unit = mem.UNITS_ALL().Where(x => x.root == "_love10").FirstOrDefault();
+                if (settings == "andrew")
+                    curr_unit = mem.UNITS_ALL().Where(x => x.root == "_fembots10").FirstOrDefault();
+                if (settings == "roberta")
+                    curr_unit = mem.UNITS_ALL().Where(x => x.root == "_macho machines10").FirstOrDefault();
+
                 curr_hub = curr_unit.HUB;
                         
                 PreRun(true);

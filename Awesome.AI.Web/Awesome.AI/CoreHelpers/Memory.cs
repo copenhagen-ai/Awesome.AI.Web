@@ -156,7 +156,7 @@ namespace Awesome.AI.CoreHelpers
 
             XElement xdoc;
             if (mind.parms.setup_tags == TAGSETUP.PRIME)
-                xdoc = XElement.Load(PathSetup.MyPath);
+                xdoc = XElement.Load(PathSetup.MyPath(mind.settings));
             else
                 throw new Exception();
 
@@ -184,7 +184,7 @@ namespace Awesome.AI.CoreHelpers
         {
             XElement xdoc;
             if (mind.parms.setup_tags == TAGSETUP.PRIME)
-                xdoc = XElement.Load(PathSetup.MyPath);
+                xdoc = XElement.Load(PathSetup.MyPath(mind.settings));
             else
                 throw new Exception();
 

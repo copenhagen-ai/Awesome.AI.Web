@@ -26,62 +26,64 @@ namespace Awesome.AI.Web.Hubs
     public class GraphInfo
     {
         public string[] labels = new string[10];
-        public string curr_name, curr_value, reset_name, reset_value, bcol;
+        public string curr_name = "", curr_value, reset_name = "", reset_value, bcol;
 
         public void Setup(Instance inst)
         {
             //because robeta has UNITs sorted one way and andrew the other way
-            if (inst.type == MINDS.ROBERTA)
+            //if (inst.type == MINDS.ROBERTA)
             {
-                int j = 9;
-                for(int i = 0; i < 10; i++)
-                    labels[i] = $"index below: {(j-- + 1)}0.0";
+                //int j = 9;
+                //for(int i = 0; i < 10; i++)
+                //    labels[i] = $"index below: {(j-- + 1)}0.0";
 
-                labels[0] = "good";
-                labels[9] = "bad";
+                //labels[0] = "good";
+                //labels[9] = "bad";
             }
-            else
-            {
+            //else
+            //{
                 for (int i = 0; i < 10; i++)
                     labels[i] = $"index below: {(i + 1)}0.0";
 
-                labels[0] = "good";
-                labels[9] = "bad";
-            }
+            //    labels[0] = "good";
+            //    labels[9] = "bad";
+            //}
 
 
             string curr_index = "", reset_index = "";
-            int count_curr = 0, count_reset = 1;
+            int count_curr = 0, count_reset = 0;
 
             string c_name = inst.mind.stats.curr_name;
-            double curr_conv = inst.mind.stats.list.Where(x=>x.name.Contains(c_name)).FirstOrDefault().conv_index;
-            curr_index = "" + (int)Index(curr_conv, true, false, false);
-            count_curr = inst.mind.stats.list.Where(x => x.conv_index > Index(curr_conv, false, true, false) && x.conv_index <= Index(curr_conv, false, false, true)).Sum(x => x.count_all);
-
-            if(!inst.mind.stats.curr_name.IsNullOrEmpty())
-            {
-                string r_name = inst.mind.stats.curr_name;
-                double reset_conv = inst.mind.stats.list.Where(x => x.name.Contains(r_name)).FirstOrDefault().conv_index;
-                reset_index = "" + (int)Index(reset_conv, true, false, false);
-                count_reset = inst.mind.stats.list.Where(x => x.conv_index > Index(reset_conv, false, true, false) && x.conv_index <= Index(reset_conv, false, false, true)).Sum(x => x.count_all);
-            }
+            double curr_conv = inst.mind.stats.list.Where(x=>x.name.Contains(c_name)).FirstOrDefault().index_conv;
+            curr_index = "" + (int)Format(curr_conv, true, false, false);
+            count_curr = inst.mind.stats.list.Where(x => x.index_conv > Format(curr_conv, false, true, false) && x.index_conv <= Format(curr_conv, false, false, true)).Sum(x => x.count_all);
 
             curr_name = $"index below: {curr_index}0.0";
             curr_value = "" + count_curr;
-            reset_name = $"index below: {reset_index}0.0";
-            reset_value = "" + count_reset;
+
+            if(!inst.mind.stats.reset_name.IsNullOrEmpty())
+            {
+                string r_name = inst.mind.stats.reset_name;
+                double reset_conv = inst.mind.stats.list.Where(x => x.name.Contains(r_name)).FirstOrDefault().index_conv;
+                reset_index = "" + (int)Format(reset_conv, true, false, false);
+                count_reset = inst.mind.stats.list.Where(x => x.index_conv > Format(reset_conv, false, true, false) && x.index_conv <= Format(reset_conv, false, false, true)).Sum(x => x.count_all);
+            
+                reset_name = $"index below: {reset_index}0.0";
+                reset_value = "" + count_reset;
+            }
+
             bcol = "blue";
 
-            if(inst.type == MINDS.ROBERTA)
-            {
-                curr_name = curr_name == "index below: 100.0" ? "good" : curr_name == "index below: 10.0" ? "bad" : curr_name;
-                reset_name = reset_name == "index below: 10.0" ? "bad" : reset_name == "index below: 100.0" ? "good" : curr_name;
-            }
-            else
-            {
-                curr_name = curr_name == "index below: 100.0" ? "bad" : curr_name == "index below: 10.0" ? "good" : curr_name;
-                reset_name = reset_name == "index below: 10.0" ? "good" : reset_name == "index below: 100.0" ? "bad" : curr_name;
-            }
+            //if(inst.type == MINDS.ROBERTA)
+            //{
+            //    curr_name = curr_name == "index below: 100.0" ? "good" : curr_name == "index below: 10.0" ? "bad" : curr_name;
+            //    reset_name = reset_name == "index below: 10.0" ? "bad" : reset_name == "index below: 100.0" ? "good" : reset_name;
+            //}
+            //else
+            //{
+            //    curr_name = curr_name == "index below: 100.0" ? "bad" : curr_name == "index below: 10.0" ? "good" : curr_name;
+            //    reset_name = reset_name == "index below: 10.0" ? "good" : reset_name == "index below: 100.0" ? "bad" : reset_name;
+            //}
         }
 
         private string Extract(string str)
@@ -94,7 +96,7 @@ namespace Awesome.AI.Web.Hubs
             return res;
         }
 
-        private double Index(double index, bool is_index, bool is_lower, bool is_upper)
+        private double Format(double index, bool is_index, bool is_lower, bool is_upper)
         {
             double res_index = ((int)Math.Floor(index / 10.0)) * 10 + 10.0d;
 
@@ -112,18 +114,19 @@ namespace Awesome.AI.Web.Hubs
     public class RoomHub : Hub
     {
         private RoomHelper helper {  get; set; }
+        private RUNNING running { get; set; }
 
-        private bool running = false;
+        private bool is_running = false;
         
         [Authorize]
         public async Task Start()
         {
             try
             {
-                if (running)
+                if (is_running)
                     return;
 
-                running = true;
+                is_running = true;
 
                 XmlHelper.WriteError("no error");
                 XmlHelper.WriteMessage("starting.. 0");
@@ -131,32 +134,72 @@ namespace Awesome.AI.Web.Hubs
 
                 helper = new RoomHelper();
 
+                running = RUNNING.ANDREW;
+
                 Instance roberta = new Instance();
                 Instance andrew = new Instance();
 
-                roberta.mind = new TheMind(MECHANICS.HILL);
-                andrew.mind = new TheMind(MECHANICS.CONTEST);
+                if(running == RUNNING.ALL)
+                {
+                    roberta.mind = new TheMind(MECHANICS.HILL, "roberta");
+                    andrew.mind = new TheMind(MECHANICS.CONTEST, "andrew");
 
-                roberta.type = MINDS.ROBERTA;
-                andrew.type = MINDS.ANDREW;
+                    roberta.type = MINDS.ROBERTA;
+                    andrew.type = MINDS.ANDREW;
 
-                // Instantiate new MicroTimer and add event handler
-                roberta.microTimer.MicroTimerElapsed += new MicroLibrary.MicroTimer.MicroTimerElapsedEventHandler(roberta.mind.Run);
-                roberta.microTimer.Interval = roberta.mind.parms.micro_sec; // Call micro timer every 1000µs (1ms)
-                roberta.microTimer.Enabled = true; // Start timer
+                    // Instantiate new MicroTimer and add event handler
+                    roberta.microTimer.MicroTimerElapsed += new MicroLibrary.MicroTimer.MicroTimerElapsedEventHandler(roberta.mind.Run);
+                    roberta.microTimer.Interval = roberta.mind.parms.micro_sec; // Call micro timer every 1000µs (1ms)
+                    roberta.microTimer.Enabled = true; // Start timer
 
-                andrew.microTimer.MicroTimerElapsed += new MicroLibrary.MicroTimer.MicroTimerElapsedEventHandler(andrew.mind.Run);
-                andrew.microTimer.Interval = andrew.mind.parms.micro_sec; // Call micro timer every 1000µs (1ms)
-                andrew.microTimer.Enabled = true; // Start timer
+                    andrew.microTimer.MicroTimerElapsed += new MicroLibrary.MicroTimer.MicroTimerElapsedEventHandler(andrew.mind.Run);
+                    andrew.microTimer.Interval = andrew.mind.parms.micro_sec; // Call micro timer every 1000µs (1ms)
+                    andrew.microTimer.Enabled = true; // Start timer
 
-                // Can choose to ignore event if late by Xµs (by default will try to catch up)
-                //microTimer.IgnoreEventIfLateBy = 500; // 500µs (0.5ms)
+                    // Can choose to ignore event if late by Xµs (by default will try to catch up)
+                    //microTimer.IgnoreEventIfLateBy = 500; // 500µs (0.5ms)
 
-                ProcessInfo(roberta);
-                ProcessMessage(roberta);
+                    ProcessInfo(roberta);
+                    ProcessMessage(roberta);
 
-                ProcessInfo(andrew);
-                ProcessMessage(andrew);
+                    ProcessInfo(andrew);
+                    ProcessMessage(andrew);
+                }
+                else if (running == RUNNING.ROBERTA)
+                {
+                    roberta.mind = new TheMind(MECHANICS.HILL, "roberta");
+                    roberta.type = MINDS.ROBERTA;
+
+                    // Instantiate new MicroTimer and add event handler
+                    roberta.microTimer.MicroTimerElapsed += new MicroLibrary.MicroTimer.MicroTimerElapsedEventHandler(roberta.mind.Run);
+                    roberta.microTimer.Interval = roberta.mind.parms.micro_sec; // Call micro timer every 1000µs (1ms)
+                    roberta.microTimer.Enabled = true; // Start timer
+
+                    // Can choose to ignore event if late by Xµs (by default will try to catch up)
+                    //microTimer.IgnoreEventIfLateBy = 500; // 500µs (0.5ms)
+
+                    ProcessInfo(roberta);
+                    ProcessMessage(roberta);
+
+                    andrew = null;
+                }
+                else if(running == RUNNING.ANDREW)
+                {
+                    //andrew.mind = new TheMind(MECHANICS.CONTEST, "andrew");
+                    andrew.mind = new TheMind(MECHANICS.CONTEST, "standart");
+                    andrew.type = MINDS.ANDREW;
+                    
+                    andrew.microTimer.MicroTimerElapsed += new MicroLibrary.MicroTimer.MicroTimerElapsedEventHandler(andrew.mind.Run);
+                    andrew.microTimer.Interval = andrew.mind.parms.micro_sec; // Call micro timer every 1000µs (1ms)
+                    andrew.microTimer.Enabled = true; // Start timer
+
+                    ProcessInfo(andrew);
+                    ProcessMessage(andrew);
+
+                    roberta = null;
+                }
+
+
                 
                 XmlHelper.WriteMessage("starting.. 1");
 
@@ -168,10 +211,28 @@ namespace Awesome.AI.Web.Hubs
                 {
                     await Task.Delay(1000);
 
-                    roberta.is_active = count < 10 ? true : helper.RobertaActive();
-                    andrew.is_active = count < 10 ? true : !helper.RobertaActive();
-                    roberta.sec_message = await helper.MessageDelay(roberta, when_active, when_inactive);
-                    andrew.sec_message = await helper.MessageDelay(andrew, when_active, when_inactive);
+                    if (running == RUNNING.ALL)
+                    {
+                        roberta.is_active = count < 10 ? true : helper.RobertaActive();
+                        andrew.is_active = count < 10 ? true : !helper.RobertaActive();
+                        roberta.sec_message = await helper.MessageDelay(roberta, when_active, when_inactive);
+                        andrew.sec_message = await helper.MessageDelay(andrew, when_active, when_inactive);
+                    }
+                    else if (running == RUNNING.ROBERTA)
+                    {
+                        roberta.is_active = count < 10 ? true : true;
+                        //andrew.is_active = count < 10 ? true : !helper.RobertaActive();
+                        roberta.sec_message = 20;
+                        //andrew.sec_message = await helper.MessageDelay(andrew, when_active, when_inactive);
+                    }
+                    if (running == RUNNING.ANDREW)
+                    {
+                        //roberta.is_active = count < 10 ? true : helper.RobertaActive();
+                        andrew.is_active = count < 10 ? true : true;
+                        //roberta.sec_message = await helper.MessageDelay(roberta, when_active, when_inactive);
+                        andrew.sec_message = 20;
+                    }
+
                     count++;
 
                     if (count > 20)
@@ -187,7 +248,7 @@ namespace Awesome.AI.Web.Hubs
                 
                 await Task.Delay(5000);
 
-                running = false;
+                is_running = false;
                 Start();
             }
         }
@@ -239,7 +300,7 @@ namespace Awesome.AI.Web.Hubs
                     else
                     {
                         UNIT common = inst.mind._out.common_unit;
-                        dot = helper.GPTGiveMeADot(common);
+                        dot = helper.GPTGiveMeADot(inst, common);
                         if (dot.IsNullOrEmpty())
                         {
                             inst.elapsedMs = 0;

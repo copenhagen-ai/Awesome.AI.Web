@@ -138,7 +138,7 @@ namespace Awesome.AI.CoreHelpers
                 List<UNIT> units = mind.mem.UNITS_VAL();
                 
                 foreach (UNIT t in units)
-                    stats.list.Add(new Stat() { name = t.root, count_all = 0, force = t.Variable, conv_index = t.index_conv });
+                    stats.list.Add(new Stat() { name = t.root, count_all = 0, force = t.Variable, index_conv = t.index_conv });
                 
                 mind.stats = stats;
             }
@@ -146,16 +146,16 @@ namespace Awesome.AI.CoreHelpers
             Stat _t = mind.stats.list.Where(x => x.name == most_common_unit.root).FirstOrDefault();
             UNIT _u = mind.mem.UNITS_ALL().Where(x => x.root == _t.name).FirstOrDefault();
             
-            string i1 = _t.name;
-            int i2 = _t.count_all + 1;
-            double d2 = _u.Variable;
-            double d3 = _u.index_conv;
+            string v1 = _t.name;
+            int v2 = _t.count_all + 1;
+            double v3 = _u.Variable;
+            double v4 = _u.index_conv;
 
             mind.stats.list.Remove(_t);
-            mind.stats.list.Add(new Stat() { name = i1, count_all = i2, force = d2, conv_index = d3 });
-            mind.stats.list = mind.stats.list.OrderBy(x=>x.conv_index).ToList();
-            mind.stats.curr_name = i1;
-            mind.stats.curr_value = i2;
+            mind.stats.list.Add(new Stat() { name = v1, count_all = v2, force = v3, index_conv = v4 });
+            mind.stats.list = mind.stats.list.OrderBy(x=>x.index_conv).ToList();
+            mind.stats.curr_name = v1;
+            mind.stats.curr_value = v2;
 
             remember.Insert(0, _t.name);
             if(remember.Count > mind.parms.remember)

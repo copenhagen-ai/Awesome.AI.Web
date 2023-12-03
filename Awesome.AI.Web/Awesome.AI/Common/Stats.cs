@@ -11,7 +11,7 @@ namespace Awesome.AI.Common
         public string name { get; set; }
         public int count_all { get; set; }
         public double force { get; set; }
-        public double conv_index { get; set; }
+        public double index_conv { get; set; }
     }
 
     public class Stats

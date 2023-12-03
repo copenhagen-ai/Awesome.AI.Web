@@ -1,9 +1,8 @@
 ﻿using Awesome.AI.Common;
 using Awesome.AI.Web.Hubs;
 using Awesome.AI.Web.Models;
-using Humanizer;
-using Org.BouncyCastle.Utilities;
 using System.Text.Json;
+using static Awesome.AI.Helpers.Enums;
 
 namespace Awesome.AI.Web.Helpers
 {
@@ -75,7 +74,7 @@ namespace Awesome.AI.Web.Helpers
             return content;
         }
 
-        public string GPTGiveMeADot(UNIT common)
+        public string GPTGiveMeADot(Instance inst, UNIT common)
         {
             string subject = common.HUB.subject;
 
@@ -83,7 +82,7 @@ namespace Awesome.AI.Web.Helpers
             int dot = str.IndexOf(',');
             string index = str.Substring(0, dot + 2);
             
-            string _json = Json2(subject, index);
+            string _json = Json2(inst, subject, index);
             string _base = "https://api.openai.com";
             string _path = "v1/chat/completions";
             string _params = "";
@@ -177,7 +176,10 @@ namespace Awesome.AI.Web.Helpers
             json = json.Replace("i would love to play the game with you heres the resulting sentence", "");
             json = json.Replace("i would be happy to play the game heres the resulting sentence", "");
             json = json.Replace("okay lets play heres the resulting sentence", "");
+            json = json.Replace("the resulting sentence", "");
             
+
+
 
 
 
@@ -290,7 +292,7 @@ namespace Awesome.AI.Web.Helpers
             return json;
         }
 
-        private string Json2(string subject, string index)
+        private string Json2(Instance inst, string subject, string index)
         {
             string json = "{" +
                 "\"model\": \"gpt-3.5-turbo\"," +
@@ -298,7 +300,10 @@ namespace Awesome.AI.Web.Helpers
                 "{\"role\": \"system\", \"content\": \"you are a logical assistant\"}," +
                 "{\"role\": \"user\", \"content\": \"" +
 
-                "\\non a a scale from 0 to 100, where 0 is the worst you can think of and a hundred is the best you can think of, create a sentence that fits the index " + index + ", on the subject '" + subject + "'. " +
+                (inst.type == MINDS.ROBERTA ?
+                "\\non a a scale from 0 to 100, where 0 is the worst you can think of and 100 is the best you can think of, create a sentence that fits the index " + index + ", on the subject '" + subject + "'. " :
+                "\\non a a scale from 0 to 100, where 100 is the worst you can think of and 0 is the best you can think of, create a sentence that fits the index " + index + ", on the subject '" + subject + "'. ") +
+
                 "\\nuse 5 words or less." +
                 "\\nonly respond with one sentence. " +
                 "\\ndont mention the index. " +
