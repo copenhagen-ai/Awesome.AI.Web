@@ -1,5 +1,6 @@
-﻿using Awesome.AI.Web.copenhagenai;
-using Awesome.AI.Web.Extensions;
+﻿using Awesome.AI.Web.Extensions;
+using Awesome.AI.Web.Models;
+using Awesome.AI.Web.Models.copenhagenai;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 

@@ -154,16 +154,16 @@
   i [dont] like [a, the, to]                                      i [dont] like                     i [dont] like                 i [dont] like [the] [x] content                   i [dont] like 
   -->
   <words>
-	<word root="_procrastination1" index_x="45.893711298469128" ticket="procrastination7" hub="procrastination" />
-    <word root="_procrastination2" index_x="53.710472569102874" ticket="procrastination3" hub="procrastination" />
-    <word root="_procrastination3" index_x="61.089423765490057" ticket="procrastination1" hub="procrastination" />
-    <word root="_procrastination4" index_x="76.397158490347618" ticket="procrastination9" hub="procrastination" />
-    <word root="_procrastination5" index_x="79.210546782123468" ticket="procrastination6" hub="procrastination" />
-    <word root="_procrastination6" index_x="79.643814025369431" ticket="procrastination4" hub="procrastination" />
-    <word root="_procrastination7" index_x="85.293014679850126" ticket="procrastination8" hub="procrastination" />
-	<word root="_procrastination8" index_x="88.657392418752309" ticket="procrastination2" hub="procrastination" />
-    <word root="_procrastination9" index_x="89.268792491452766" ticket="procrastination10" hub="procrastination" />
-    <word root="_procrastination10" index_x="92.504365832965801" ticket="procrastination5" hub="procrastination" />
+	<word root="_procrastination1" index_x="5.893711298469128" ticket="procrastination7" hub="procrastination" />
+    <word root="_procrastination2" index_x="13.710472569102874" ticket="procrastination3" hub="procrastination" />
+    <word root="_procrastination3" index_x="21.089423765490057" ticket="procrastination1" hub="procrastination" />
+    <word root="_procrastination4" index_x="36.397158490347618" ticket="procrastination9" hub="procrastination" />
+    <word root="_procrastination5" index_x="39.210546782123468" ticket="procrastination6" hub="procrastination" />
+    <word root="_procrastination6" index_x="39.643814025369431" ticket="procrastination4" hub="procrastination" />
+    <word root="_procrastination7" index_x="45.293014679850126" ticket="procrastination8" hub="procrastination" />
+	<word root="_procrastination8" index_x="48.657392418752309" ticket="procrastination2" hub="procrastination" />
+    <word root="_procrastination9" index_x="59.268792491452766" ticket="procrastination10" hub="procrastination" />
+    <word root="_procrastination10" index_x="52.504365832965801" ticket="procrastination5" hub="procrastination" />
 	  
     <word root="_fembots1" index_x="5.432098765432098" ticket="fembots6" hub="fembots" />
     <word root="_fembots2" index_x="12.345678901234567" ticket="fembots2" hub="fembots" />
@@ -187,16 +187,16 @@
     <word root="_power tools9" index_x="88.765432109876543" ticket="power tools9" hub="power tools" />
 	<word root="_power tools10" index_x="90.123456789012345" ticket="power tools1" hub="power tools" />
 	  
-    <word root="_cars1" index_x="25.678901234567890" ticket="cars6" hub="cars" />
-    <word root="_cars2" index_x="30.123456789012345" ticket="cars7" hub="cars" />
-    <word root="_cars3" index_x="70.901234567890124" ticket="cars8" hub="cars" />
-    <word root="_cars4" index_x="75.789012345678901" ticket="cars9" hub="cars" />
-    <word root="_cars5" index_x="80.987654321987654" ticket="cars3" hub="cars" />
-    <word root="_cars6" index_x="85.432109876543210" ticket="cars4" hub="cars" />
-    <word root="_cars7" index_x="88.901234567890123" ticket="cars10" hub="cars" />
-    <word root="_cars8" index_x="90.123456789012345" ticket="cars2" hub="cars" />
-    <word root="_cars9" index_x="92.345678901234567" ticket="cars5" hub="cars" />
-    <word root="_cars10" index_x="95.678912345678901" ticket="cars1" hub="cars" />  
+    <word root="_cars1" index_x="15.678901234567890" ticket="cars6" hub="cars" />
+    <word root="_cars2" index_x="20.123456789012345" ticket="cars7" hub="cars" />
+    <word root="_cars3" index_x="60.901234567890124" ticket="cars8" hub="cars" />
+    <word root="_cars4" index_x="65.789012345678901" ticket="cars9" hub="cars" />
+    <word root="_cars5" index_x="70.987654321987654" ticket="cars3" hub="cars" />
+    <word root="_cars6" index_x="75.432109876543210" ticket="cars4" hub="cars" />
+    <word root="_cars7" index_x="78.901234567890123" ticket="cars10" hub="cars" />
+    <word root="_cars8" index_x="80.123456789012345" ticket="cars2" hub="cars" />
+    <word root="_cars9" index_x="82.345678901234567" ticket="cars5" hub="cars" />
+    <word root="_cars10" index_x="85.678912345678901" ticket="cars1" hub="cars" />  
 	  
     <word root="_programming1" index_x="12.987654321098765" ticket="programming4" hub="programming" />
     <word root="_programming2" index_x="13.333333333333334" ticket="programming7" hub="programming" />
@@ -210,16 +210,16 @@
 	<word root="_programming10" index_x="95.762019839112045" ticket="programming1" hub="programming" />
 	  
 	  
-    <word root="_movies1" index_x="10.678931456249801" ticket="movies10" hub="movies" />
-    <word root="_movies2" index_x="12.589743589743590" ticket="movies2" hub="movies" />
-    <word root="_movies3" index_x="28.496587326475869" ticket="movies6" hub="movies" />
-    <word root="_movies4" index_x="45.821769743890215" ticket="movies8" hub="movies" />
-    <word root="_movies5" index_x="62.896452145963218" ticket="movies4" hub="movies" />
-	<word root="_movies6" index_x="85.736492847629153" ticket="movies1" hub="movies" />
-    <word root="_movies7" index_x="88.465782419003142" ticket="movies5" hub="movies" />
-    <word root="_movies8" index_x="89.742502639597174" ticket="movies7" hub="movies" />
-    <word root="_movies9" index_x="92.315678925813758" ticket="movies3" hub="movies" />
-    <word root="_movies10" index_x="95.562104628617135" ticket="movies9" hub="movies" />
+    <word root="_movies1" index_x="2.589743589743590" ticket="movies2" hub="movies" />
+    <word root="_movies2" index_x="5.678931456249801" ticket="movies10" hub="movies" />
+    <word root="_movies3" index_x="18.496587326475869" ticket="movies6" hub="movies" />
+    <word root="_movies4" index_x="35.821769743890215" ticket="movies8" hub="movies" />
+    <word root="_movies5" index_x="52.896452145963218" ticket="movies4" hub="movies" />
+	<word root="_movies6" index_x="75.736492847629153" ticket="movies1" hub="movies" />
+    <word root="_movies7" index_x="78.465782419003142" ticket="movies5" hub="movies" />
+    <word root="_movies8" index_x="79.742502639597174" ticket="movies7" hub="movies" />
+    <word root="_movies9" index_x="82.315678925813758" ticket="movies3" hub="movies" />
+    <word root="_movies10" index_x="85.562104628617135" ticket="movies9" hub="movies" />
 	  
     <word root="_websites1" index_x="10.127695846305773" ticket="websites4" hub="websites" />
     <word root="_websites2" index_x="12.363247874956023" ticket="websites10" hub="websites" />

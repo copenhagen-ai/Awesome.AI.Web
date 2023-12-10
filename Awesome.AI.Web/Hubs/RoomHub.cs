@@ -31,23 +31,23 @@ namespace Awesome.AI.Web.Hubs
         public void Setup(Instance inst)
         {
             //because robeta has UNITs sorted one way and andrew the other way
-            //if (inst.type == MINDS.ROBERTA)
+            if (inst.type == MINDS.ROBERTA)
             {
-                //int j = 9;
-                //for(int i = 0; i < 10; i++)
-                //    labels[i] = $"index below: {(j-- + 1)}0.0";
+                int j = 9;
+                for(int i = 0; i < 10; i++)
+                    labels[i] = $"index below: {(j-- + 1)}0.0";
 
-                //labels[0] = "good";
-                //labels[9] = "bad";
+                labels[0] = "good";
+                labels[9] = "bad";
             }
-            //else
-            //{
+            else
+            {
                 for (int i = 0; i < 10; i++)
                     labels[i] = $"index below: {(i + 1)}0.0";
 
-            //    labels[0] = "good";
-            //    labels[9] = "bad";
-            //}
+                labels[0] = "good";
+                labels[9] = "bad";
+            }
 
 
             string curr_index = "", reset_index = "";
@@ -74,16 +74,16 @@ namespace Awesome.AI.Web.Hubs
 
             bcol = "blue";
 
-            //if(inst.type == MINDS.ROBERTA)
-            //{
-            //    curr_name = curr_name == "index below: 100.0" ? "good" : curr_name == "index below: 10.0" ? "bad" : curr_name;
-            //    reset_name = reset_name == "index below: 10.0" ? "bad" : reset_name == "index below: 100.0" ? "good" : reset_name;
-            //}
-            //else
-            //{
-            //    curr_name = curr_name == "index below: 100.0" ? "bad" : curr_name == "index below: 10.0" ? "good" : curr_name;
-            //    reset_name = reset_name == "index below: 10.0" ? "good" : reset_name == "index below: 100.0" ? "bad" : reset_name;
-            //}
+            if(inst.type == MINDS.ROBERTA)
+            {
+                curr_name = curr_name == "index below: 100.0" ? "good" : curr_name == "index below: 10.0" ? "bad" : curr_name;
+                reset_name = reset_name == "index below: 10.0" ? "bad" : reset_name == "index below: 100.0" ? "good" : reset_name;
+            }
+            else
+            {
+                curr_name = curr_name == "index below: 100.0" ? "bad" : curr_name == "index below: 10.0" ? "good" : curr_name;
+                reset_name = reset_name == "index below: 10.0" ? "good" : reset_name == "index below: 100.0" ? "bad" : reset_name;
+            }
         }
 
         private string Extract(string str)
@@ -134,12 +134,12 @@ namespace Awesome.AI.Web.Hubs
 
                 helper = new RoomHelper();
 
-                running = RUNNING.ANDREW;
+                running = RUNNING.BOTH;
 
                 Instance roberta = new Instance();
                 Instance andrew = new Instance();
 
-                if(running == RUNNING.ALL)
+                if(running == RUNNING.BOTH)
                 {
                     roberta.mind = new TheMind(MECHANICS.HILL, "roberta");
                     andrew.mind = new TheMind(MECHANICS.CONTEST, "andrew");
@@ -186,7 +186,7 @@ namespace Awesome.AI.Web.Hubs
                 else if(running == RUNNING.ANDREW)
                 {
                     //andrew.mind = new TheMind(MECHANICS.CONTEST, "andrew");
-                    andrew.mind = new TheMind(MECHANICS.CONTEST, "standart");
+                    andrew.mind = new TheMind(MECHANICS.CONTEST, "standart remember");
                     andrew.type = MINDS.ANDREW;
                     
                     andrew.microTimer.MicroTimerElapsed += new MicroLibrary.MicroTimer.MicroTimerElapsedEventHandler(andrew.mind.Run);
@@ -211,7 +211,7 @@ namespace Awesome.AI.Web.Hubs
                 {
                     await Task.Delay(1000);
 
-                    if (running == RUNNING.ALL)
+                    if (running == RUNNING.BOTH)
                     {
                         roberta.is_active = count < 10 ? true : helper.RobertaActive();
                         andrew.is_active = count < 10 ? true : !helper.RobertaActive();

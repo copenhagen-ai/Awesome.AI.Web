@@ -1,6 +1,9 @@
 ﻿using Awesome.AI.Common;
 using Awesome.AI.Web.Hubs;
 using Awesome.AI.Web.Models;
+using Humanizer;
+using System.Reflection;
+using System.Reflection.PortableExecutable;
 using System.Text.Json;
 using static Awesome.AI.Helpers.Enums;
 
@@ -177,7 +180,12 @@ namespace Awesome.AI.Web.Helpers
             json = json.Replace("i would be happy to play the game heres the resulting sentence", "");
             json = json.Replace("okay lets play heres the resulting sentence", "");
             json = json.Replace("the resulting sentence", "");
+
+            json = json.Replace("sure lets play this game heres", "");
+            json = json.Replace("sure id love to play the game with you here is", "");
             
+
+
 
 
 

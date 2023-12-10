@@ -4,6 +4,7 @@
 // Write your JavaScript code.
 
 var isHidden = true;
+var showinfo = false;
 $(document).ready(function () {
     
     $("#hideSpan").click(function () {
@@ -17,6 +18,21 @@ $(document).ready(function () {
         var text = $("#messageDiv").text();
         $("#saveDiv").text(text)
     });
+
+    $(".sm_info").click(function () {
+        showinfo = !showinfo;
+
+        $(".info").hide();
+        if (showinfo) {
+            $(".info").show();
+        }
+    });
+
+    //$(".infomain").hover(function () {
+    //    $('.infosec').show();
+    //}, function () {
+    //    $('.infosec').hide();
+    //});
 
     setTimeout(timer, 500);
     setInterval(timer, 1000 * 60 * 2);

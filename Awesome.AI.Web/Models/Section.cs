@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Awesome.AI.Web.copenhagenai;
+namespace Awesome.AI.Web.Models;
 
 public partial class Section
 {

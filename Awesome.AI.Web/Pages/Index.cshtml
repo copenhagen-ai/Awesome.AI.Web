@@ -38,21 +38,20 @@
     </div>
 </div>
 
-<div class="viewersDiv text-gray-50 ml-4 float-left hidden sm:block">viewers: 0</div>
-<div class="overflow-hidden flex flex-col-reverse sm:flex-row-reverse">
-    <div class="w-[230px]">
-        <span id="saveSpan" class="cursor-pointer mr-10 i-color-green float-left sm:float-right">save</span>
-        <span id="" class="cursor-pointer mr-10 i-color-orange float-left sm:float-right">   </span>
-        <span id="hideSpan" class="cursor-pointer mr-10 i-color-green float-left sm:float-right">view</span>
-        <span id="" class="cursor-pointer mr-10 i-color-green float-left sm:float-right">   </span>
-        <span id="joinButton" class="cursor-pointer mr-10 i-color-orange float-left sm:float-right">join</span>
-        <span id="" class="cursor-pointer mr-10 i-color-green float-left sm:float-right">   </span>
+@* <div class="viewersDiv text-gray-50 ml-4 float-left hidden sm:block">viewers: 0</div> *@
+<div class="overflow-hidden xflex xflex-col-reverse xsm:flex-row-reverse">
+    <div class="viewersDiv text-gray-50 sm:px-4 xfloat-left xsm:hidden">viewers: 0</div>
+    <div class="overflow-hidden sm:px-4 xw-[230px]">
+        <a id="r2" class="text-gray-50 float-left sm:float-right mr-4 hover:underline cursor-pointer" onclick="room2();">Andrew</a>
+        <a id="r1" class="text-gray-50 float-left sm:float-right mr-4 hover:underline cursor-pointer" onclick="room1();">[Roberta]</a>
+
+        <span id="joinButton" class="cursor-pointer mr-4 i-color-orange float-right">join</span>
+        <span id="" class="cursor-pointer mr-10 i-color-orange float-right">   </span>
+        <span id="hideSpan" class="cursor-pointer mr-4 i-color-green float-right">view</span>
+        <span id="" class="cursor-pointer mr-10 i-color-green float-right">   </span>
+        <span id="saveSpan" class="cursor-pointer mr-4 i-color-green float-right">save</span>
+        <span id="" class="cursor-pointer mr-4 i-color-green float-right">   </span>
     </div>
-    <div>
-        <a id="r2" class="text-gray-50 float-left sm:float-right mr-10 hover:underline cursor-pointer" onclick="room2();">Andrew</a>
-        <a id="r1" class="text-gray-50 float-left sm:float-right mr-10 hover:underline cursor-pointer" onclick="room1();">[Roberta]</a>
-    </div>
-    <div class="viewersDiv text-gray-50 float-left sm:hidden">viewers: 0</div>
 
 </div>
 @* <div class="viewersDiv text-gray-50 ml-4 float-right overflow-hidden lg:hidden">viewers: 0</div> *@

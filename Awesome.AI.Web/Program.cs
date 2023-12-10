@@ -1,6 +1,6 @@
-using Awesome.AI.Web.copenhagenai;
 using Awesome.AI.Web.Helpers;
 using Awesome.AI.Web.Hubs;
+using Awesome.AI.Web.Models.copenhagenai;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MySqlDotnetCore.Data;

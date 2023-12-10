@@ -1,5 +1,6 @@
-﻿using Awesome.AI.Web.copenhagenai;
-using Awesome.AI.Web.Extensions;
+﻿using Awesome.AI.Web.Extensions;
+using Awesome.AI.Web.Models;
+using Awesome.AI.Web.Models.copenhagenai;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,9 +8,9 @@ namespace Awesome.AI.Web.Pages
 {
     public class UsageModel : PageModel
     {
-        private readonly Awesome.AI.Web.copenhagenai.CopenhagenaiContext _context;
+        private readonly CopenhagenaiContext _context;
 
-        public UsageModel(Awesome.AI.Web.copenhagenai.CopenhagenaiContext context)
+        public UsageModel(CopenhagenaiContext context)
         {
             _context = context;
         }

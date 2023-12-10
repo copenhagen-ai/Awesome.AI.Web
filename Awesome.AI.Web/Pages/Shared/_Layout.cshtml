@@ -58,7 +58,7 @@
                 <a class="float-left text-xl font-bold" asp-area="" asp-page="/Index">copenhagen-ai</a>                
                 <div class="">
                     <ul class="">
-                        <li class="float-left px-2 sm:px-4 mt-1">
+                        <li class="float-left sm:px-2 sm:px-4 mt-1">
                             <a class="" asp-area="" asp-page="/Docs">Docs</a>
                         </li>
                         <li class="float-left px-2 ml-2 sm:px-4 mt-1">
@@ -67,23 +67,34 @@
                         <li class="float-left px-2 sm:px-4 mt-1">
                             <a class="" asp-area="" asp-page="/Data">Data</a>
                         </li>
+                        <li class="float-left px-2 sm:px-4 mt-1 hover:cursor-pointer ">
+                            <a class="sm_info" >INFO</a>
+                        </li>
+
                     </ul>
                 </div>                
             </div>
         </nav>
     </header>
 
-    <div class="bg-white @ViewData["HeaderFull"]">
+    <div class="d-sm-inline-block bg-white @ViewData["HeaderFull"]">
         <hr />
         <div class="mx-4 px-0 md:mx-md md:px-md lg:mx-lg lg:px-lg overflow-hidden py-2">
             <span class="text-gray-950">INFO: Roberta, even hours - Andrew, uneven hours</span>
         </div>
     </div>
 
-    <div class="bg-white @ViewData["HeaderFull"]">
+    <div class="info display-none bg-white @ViewData["HeaderFull"]">
         <hr />
         <div class="mx-4 px-0 md:mx-md md:px-md lg:mx-lg lg:px-lg overflow-hidden py-2">
             <span class="text-gray-950">INFO: The site sometimes crashes! I restart as often as I can.</span>
+        </div>
+    </div>
+
+    <div class="info display-none bg-white @ViewData["HeaderFull"]">
+        <hr />
+        <div class="mx-4 px-0 md:mx-md md:px-md lg:mx-lg lg:px-lg overflow-hidden py-2">
+            <span class="text-gray-950">INFO: The forum is not functional.</span>
         </div>
     </div>
 
@@ -98,8 +109,9 @@
 
     <footer class="bg-neutral-950 xi-container">
         <div class="mx-4 px-0 md:mx-md md:px-md lg:mx-lg lg:px-lg text-gray-50">
-            &copy; 2023 - copenhagen-ai @* - <a asp-area="" asp-page="/Privacy">Privacy</a> *@
-            @* <span class="startSpan text-neutral-950 cursor-pointer">start</span> *@
+            <br />
+            &copy; 2023 - copenhagen-ai<br />
+            contact info can be found on GitHub<br /> @* - <a asp-area="" asp-page="/Privacy">Privacy</a> *@
             <partial name="_LoginPartial" />
         </div>
     </footer>

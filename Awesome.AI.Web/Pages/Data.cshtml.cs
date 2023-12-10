@@ -5,16 +5,17 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Awesome.AI.Web.copenhagenai;
 using Awesome.AI.Web.Extensions;
+using Awesome.AI.Web.Models.copenhagenai;
+using Awesome.AI.Web.Models;
 
 namespace Awesome.AI.Web.Pages
 {
     public class DataModel : PageModel
     {
-        private readonly Awesome.AI.Web.copenhagenai.CopenhagenaiContext _context;
+        private readonly CopenhagenaiContext _context;
 
-        public DataModel(Awesome.AI.Web.copenhagenai.CopenhagenaiContext context)
+        public DataModel(CopenhagenaiContext context)
         {
             _context = context;
         }
