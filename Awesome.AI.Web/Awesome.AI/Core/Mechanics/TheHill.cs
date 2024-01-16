@@ -98,29 +98,41 @@ namespace Awesome.AI.Core.Mechanics
         {
             Check(a, b, c);
 
+            //bool reset = momentum >= 0.0d; //maybe 0.666 * max_velocity
+
+            //if(reset)
+            //    velocity = 0.0d;
+
             Vector2D calc = new Vector2D();
-            Vector2D res, sta, dyn = calc.ToCart(new Vector2D(null, null, 0.0d, 0.0d));
+            Vector2D res, sta = new Vector2D(), dyn = new Vector2D();
 
             res_x_prev = mind.goodbye.IsNo() ? mind.parms.pos_x_start + res_x : res_x_prev;
             double acc_degree = SlopeInDegrees(res_x_prev, out bool is_right);
-            sta = ApplyStatic(acc_degree, is_right);
-            if(mind.goodbye.IsNo())
+
+            //if (reset)
+                sta = ApplyStatic(acc_degree, is_right);
+            //else
+            //    sta = calc.ToCart(new Vector2D(null, null, 0.0d, 0.0d));
+
+
+            if (mind.goodbye.IsNo())
                 dyn = ApplyDynamic(acc_degree, is_right);
 
+            //res = reset ? calc.Add(sta, dyn) : dyn;
             res = calc.Add(sta, dyn);
             res_x = res.xx;
             res_x_prev = res_x_prev + res_x;
             res = calc.ToPolar(res);
 
-            double acceleration = res.yy < 0.0d ? res.magnitude : -res.magnitude;
-            //double acceleration = res.theta_in_degrees < 0.0d ? res.magnitude : -res.magnitude;
-            //double acceleration = dyn.magnitude > sta.magnitude ? -res.magnitude : res.magnitude;
-            //double acceleration = sta.magnitude - dyn.magnitude;
-            //double acceleration = res.magnitude;
+            double acc = res.yy < 0.0d ? res.magnitude : -res.magnitude;
+            //double acc = res.theta_in_degrees < 0.0d ? res.magnitude : -res.magnitude;
+            //double acc = dyn.magnitude > sta.magnitude ? -res.magnitude : res.magnitude;
+            //double acc = sta.magnitude - dyn.magnitude;
+            //double acc = res.magnitude;
 
             double m = mind.parms.mass;
             double dt = DeltaT();
-            double dv = DeltaV(acceleration, dt);
+            double dv = DeltaV(acc, dt);
 
             //momentum: p = m * v
             momentum = m * dv;

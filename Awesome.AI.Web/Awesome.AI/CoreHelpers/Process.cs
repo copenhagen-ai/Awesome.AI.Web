@@ -153,7 +153,7 @@ namespace Awesome.AI.CoreHelpers
 
             mind.stats.list.Remove(_t);
             mind.stats.list.Add(new Stat() { name = v1, count_all = v2, force = v3, index_conv = v4 });
-            mind.stats.list = mind.stats.list.OrderBy(x=>x.index_conv).ToList();
+            mind.stats.list = mind.stats.list.OrderBy(x=>x.force).ToList();
             mind.stats.curr_name = v1;
             mind.stats.curr_value = v2;
 

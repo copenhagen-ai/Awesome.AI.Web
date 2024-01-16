@@ -1,5 +1,6 @@
 ﻿using Awesome.AI.Common;
 using Awesome.AI.Core;
+using System.Linq;
 using static Awesome.AI.Helpers.Enums;
 
 namespace Awesome.AI.Systems.Externals
@@ -108,11 +109,26 @@ namespace Awesome.AI.Systems.Externals
             if (_u.HUB.IsLEARNING())
                 return true;
 
-            Area area = areas.Where(x => x.name == Occu).FirstOrDefault();
+            Area area = SetArea().Result;
+
             List<HUB> _hubs = area.values;
             bool res = _hubs.Contains(_u.HUB);
 
             return res;
+        }
+
+        private async Task<Area> SetArea()
+        {
+            /* weird error here, so let it be ugly */
+            Area area = areas.Where(x => x.name == Occu).FirstOrDefault();
+            
+            while(area.IsNull())
+            {
+                await Task.Delay(100);
+                area = areas.Where(x => x.name == Occu).FirstOrDefault();
+            }
+
+            return area;
         }
 
         public void AddHUB(HUB hub, string name) 
@@ -273,6 +289,8 @@ namespace Awesome.AI.Systems.Externals
         {
             if (_u.ticket.IsNull())
                 throw new Exception();
+
+            tags = tags.Where(x => x != null).ToList();
 
             double scale = 0.0d;
                 

@@ -27,6 +27,7 @@ $(document).ready(function () {
             $(".info").show();
         }
     });
+    $(".sortSpan").click(function (event) { sort(); });
 
     //$(".infomain").hover(function () {
     //    $('.infosec').show();
@@ -87,5 +88,26 @@ function timer() {
             //alert(_val);
         }
     });
+}
+
+function sort() {
+    $.ajax({
+        type: "GET",
+        url: "/api/sort",
+        data: {},
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        success: function (val) {
+            var text = $('.sortSpan').text();
+            if (text == 'sort force')
+                $('.sortSpan').text('sort index');
+            else
+                $('.sortSpan').text('sort force');
+            
+        },
+        error: function (val) {
+            alert('ups, error');
+        }
+    });    
 }
 

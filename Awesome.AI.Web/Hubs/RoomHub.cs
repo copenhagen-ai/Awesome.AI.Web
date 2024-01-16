@@ -28,13 +28,13 @@ namespace Awesome.AI.Web.Hubs
         public string[] labels = new string[10];
         public string curr_name = "", curr_value, reset_name = "", reset_value, bcol;
 
-        public void Setup(Instance inst)
+        public void SetupIndex(Instance inst)
         {
             //because robeta has UNITs sorted one way and andrew the other way
             if (inst.type == MINDS.ROBERTA)
             {
                 int j = 9;
-                for(int i = 0; i < 10; i++)
+                for (int i = 0; i < 10; i++)
                     labels[i] = $"index below: {(j-- + 1)}0.0";
 
                 labels[0] = "good";
@@ -54,27 +54,27 @@ namespace Awesome.AI.Web.Hubs
             int count_curr = 0, count_reset = 0;
 
             string c_name = inst.mind.stats.curr_name;
-            double curr_conv = inst.mind.stats.list.Where(x=>x.name.Contains(c_name)).FirstOrDefault().index_conv;
-            curr_index = "" + (int)Format(curr_conv, true, false, false);
-            count_curr = inst.mind.stats.list.Where(x => x.index_conv > Format(curr_conv, false, true, false) && x.index_conv <= Format(curr_conv, false, false, true)).Sum(x => x.count_all);
+            double curr_conv = inst.mind.stats.list.Where(x => x.name.Contains(c_name)).FirstOrDefault().index_conv;
+            curr_index = "" + (int)FormatIndex(curr_conv, true, false, false);
+            count_curr = inst.mind.stats.list.Where(x => x.index_conv > FormatIndex(curr_conv, false, true, false) && x.index_conv <= FormatIndex(curr_conv, false, false, true)).Sum(x => x.count_all);
 
             curr_name = $"index below: {curr_index}0.0";
             curr_value = "" + count_curr;
 
-            if(!inst.mind.stats.reset_name.IsNullOrEmpty())
+            if (!inst.mind.stats.reset_name.IsNullOrEmpty())
             {
                 string r_name = inst.mind.stats.reset_name;
                 double reset_conv = inst.mind.stats.list.Where(x => x.name.Contains(r_name)).FirstOrDefault().index_conv;
-                reset_index = "" + (int)Format(reset_conv, true, false, false);
-                count_reset = inst.mind.stats.list.Where(x => x.index_conv > Format(reset_conv, false, true, false) && x.index_conv <= Format(reset_conv, false, false, true)).Sum(x => x.count_all);
-            
+                reset_index = "" + (int)FormatIndex(reset_conv, true, false, false);
+                count_reset = inst.mind.stats.list.Where(x => x.index_conv > FormatIndex(reset_conv, false, true, false) && x.index_conv <= FormatIndex(reset_conv, false, false, true)).Sum(x => x.count_all);
+
                 reset_name = $"index below: {reset_index}0.0";
                 reset_value = "" + count_reset;
             }
 
             bcol = "blue";
 
-            if(inst.type == MINDS.ROBERTA)
+            if (inst.type == MINDS.ROBERTA)
             {
                 curr_name = curr_name == "index below: 100.0" ? "good" : curr_name == "index below: 10.0" ? "bad" : curr_name;
                 reset_name = reset_name == "index below: 10.0" ? "bad" : reset_name == "index below: 100.0" ? "good" : reset_name;
@@ -83,6 +83,64 @@ namespace Awesome.AI.Web.Hubs
             {
                 curr_name = curr_name == "index below: 100.0" ? "bad" : curr_name == "index below: 10.0" ? "good" : curr_name;
                 reset_name = reset_name == "index below: 10.0" ? "good" : reset_name == "index below: 100.0" ? "bad" : reset_name;
+            }
+        }
+
+        public void SetupForce(Instance inst)
+        {
+            //because robeta has UNITs sorted one way and andrew the other way
+            if (inst.type == MINDS.ROBERTA)
+            {
+                int j = 9;
+                for (int i = 0; i < 10; i++)
+                    labels[i] = $"force: {(j-- + 1)}0.0";
+
+                labels[0] = "light";
+                labels[9] = "heavy";
+            }
+            else
+            {
+                for (int i = 0; i < 10; i++)
+                    labels[i] = $"force: {(i + 1)}0.0";
+
+                labels[0] = "heavy";
+                labels[9] = "light";
+            }
+
+
+            string curr_index = "", reset_index = "";
+            int count_curr = 0, count_reset = 0;
+
+            string c_name = inst.mind.stats.curr_name;
+            double curr_force = inst.mind.stats.list.Where(x => x.name.Contains(c_name)).FirstOrDefault().force;
+            curr_index = "" + (int)FormatForce(inst.mind, curr_force, true, false, false);
+            count_curr = inst.mind.stats.list.Where(x => x.force > FormatForce(inst.mind, curr_force, false, true, false) && x.force <= FormatForce(inst.mind, curr_force, false, false, true)).Sum(x => x.count_all);
+
+            curr_name = $"force: {curr_index}0.0";
+            curr_value = "" + count_curr;
+
+            if (!inst.mind.stats.reset_name.IsNullOrEmpty())
+            {
+                string r_name = inst.mind.stats.reset_name;
+                double reset_force = inst.mind.stats.list.Where(x => x.name.Contains(r_name)).FirstOrDefault().force;
+                reset_index = "" + (int)FormatForce(inst.mind, reset_force, true, false, false);
+                count_reset = inst.mind.stats.list.Where(x => x.force > FormatForce(inst.mind, reset_force, false, true, false) && x.force <= FormatForce(inst.mind, reset_force, false, false, true)).Sum(x => x.count_all);
+
+                reset_name = $"force: {reset_index}0.0";
+                reset_value = "" + count_reset;
+            }
+
+            bcol = "blue";
+
+            if (inst.type == MINDS.ROBERTA)
+            {
+                curr_name = curr_name == "force: 100.0" ? "light" : curr_name == "force: 10.0" ? "heavy" : curr_name;
+                reset_name = reset_name == "force: 10.0" ? "heavy" : reset_name == "force: 100.0" ? "light" : reset_name;
+            }
+            else
+            {
+                curr_name = curr_name == "force: 100.0" ? "light" : curr_name == "force: 10.0" ? "heavy" : curr_name;
+                reset_name = reset_name == "force: 10.0" ? "heavy" : reset_name == "force: 100.0" ? "light" : reset_name;
             }
         }
 
@@ -96,7 +154,7 @@ namespace Awesome.AI.Web.Hubs
             return res;
         }
 
-        private double Format(double index, bool is_index, bool is_lower, bool is_upper)
+        private double FormatIndex(double index, bool is_index, bool is_lower, bool is_upper)
         {
             double res_index = ((int)Math.Floor(index / 10.0)) * 10 + 10.0d;
 
@@ -109,6 +167,24 @@ namespace Awesome.AI.Web.Hubs
             
             throw new Exception();
         }        
+
+        private double FormatForce(TheMind mind, double index, bool is_index, bool is_lower, bool is_upper)
+        {
+            double min = mind.common.LowestForce().Variable;
+            double max = mind.common.HighestForce().Variable;
+            double temp = mind.calc.NormalizeRange(index, min, max, 0.01d, 99.99d);
+
+            double res_index = ((int)Math.Floor(temp / 10.0)) * 10 + 10.0d;
+
+            if (is_index)
+                return res_index / 10.0d;
+            if (is_lower)
+                return mind.calc.NormalizeRange(res_index - 10.0d, 0.0d, 100.0d, min, max);
+            if (is_upper)
+                return mind.calc.NormalizeRange(res_index, 0.0d, 100.0d, min, max);
+
+            throw new Exception();
+        }
     }
 
     public class RoomHub : Hub
@@ -116,9 +192,11 @@ namespace Awesome.AI.Web.Hubs
         private RoomHelper helper {  get; set; }
         private RUNNING running { get; set; }
 
-        private bool is_running = false;
-        
-        [Authorize]
+        public static bool is_index = true;
+        private static bool is_running = false;
+
+
+        //[Authorize]
         public async Task Start()
         {
             try
@@ -128,7 +206,7 @@ namespace Awesome.AI.Web.Hubs
 
                 is_running = true;
 
-                XmlHelper.WriteError("no error");
+                XmlHelper.ClearError("no error");
                 XmlHelper.WriteMessage("starting.. 0");
                 UserHelper.MaintainUsers();
 
@@ -209,6 +287,9 @@ namespace Awesome.AI.Web.Hubs
                 int count = 0;
                 while (true)
                 {
+                    if (!is_running)
+                        throw new Exception("not is_running");
+
                     await Task.Delay(1000);
 
                     if (running == RUNNING.BOTH)
@@ -246,19 +327,11 @@ namespace Awesome.AI.Web.Hubs
             {
                 XmlHelper.WriteError("start - " + ex.Message);
                 
-                await Task.Delay(5000);
+                //await Task.Delay(5000);
 
                 is_running = false;
-                Start();
+                //Start();
             }
-        }
-
-        private long Remaining(Instance inst)
-        {
-            int ms_wait = inst.sec_message * 1000;
-            long remainingSec = (ms_wait - inst.elapsedMs) / 1000;
-
-            return remainingSec;
         }
 
         private bool wait1 = false;
@@ -272,6 +345,9 @@ namespace Awesome.AI.Web.Hubs
 
                 while (inst.mind.ok)
                 {
+                    if (!is_running)
+                        throw new Exception("not is_running");
+
                     int ms_wait = inst.sec_message * 1000;
                     bool wait2 = ((double)inst.elapsedMs / (double)ms_wait) < 1.0d;
                     
@@ -279,7 +355,7 @@ namespace Awesome.AI.Web.Hubs
                         await Task.Delay(1000);
                     else if (wait2)
                     {
-                        for (int i = 0; i <= Remaining(inst); i++)
+                        for (int i = 0; i <= helper.Remaining(inst); i++)
                             await Task.Delay(1000);
                     }
                                         
@@ -345,9 +421,11 @@ namespace Awesome.AI.Web.Hubs
             {
                 XmlHelper.WriteError("processmessage - " + ex.Message);
 
-                await Task.Delay(5000);
+                //await Task.Delay(5000);
 
-                ProcessMessage(inst);
+                //ProcessMessage(inst);
+
+                is_running = false;
             }
         }
 
@@ -359,6 +437,9 @@ namespace Awesome.AI.Web.Hubs
                 
                 while (inst.mind.ok)
                 {
+                    if (!is_running)
+                        throw new Exception("not is_running");
+
                     for (int i = 0; i < inst.sec_info; i++)
                         await Task.Delay(1000);
                     
@@ -376,7 +457,10 @@ namespace Awesome.AI.Web.Hubs
                     string limit_avg = inst.mind._out.limit_avg;
                     
                     GraphInfo graph = new GraphInfo();
-                    graph.Setup(inst);
+                    if(is_index)
+                        graph.SetupIndex(inst);
+                    else
+                        graph.SetupForce(inst);
 
                     int user_count = UserHelper.CountUsers();
 
@@ -400,9 +484,12 @@ namespace Awesome.AI.Web.Hubs
             {
                 XmlHelper.WriteError("processinfo - " + ex.Message);
 
-                await Task.Delay(5000);
+                //await Task.Delay(5000);
 
-                ProcessInfo(inst);
+                if(is_running)
+                    ProcessInfo(inst);
+                else
+                    is_running = false;
             }
         }
     }

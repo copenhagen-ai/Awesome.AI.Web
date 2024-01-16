@@ -29,11 +29,42 @@ const myChart = new Chart(document.getElementById('myChart'), {
 $(document).ready(function () {
 
     $("#joinButton").click(function (event) {
-
         connection.start();
         event.preventDefault();
+
+        onConnect();
+
+        total = $('#totalSpan').text();
+        temp = total;
+
+        setTimeout(mycrashed, 3000);
     });    
 });
+
+var total = '';
+var temp = '';
+var crashed = false;
+function mycrashed() {
+    total = $('#totalSpan').text();
+
+    if (temp == total) {
+        //alert('CRASHED1');
+
+        connection = new signalR.HubConnectionBuilder().withUrl("/roomhub").build();
+
+        connection.start().then(function () {
+            connection.invoke("Start").catch(function (err) {
+                return console.error(err.toString());
+            });
+        });
+        //event.preventDefault();
+
+        onConnect();
+
+        //alert('CRASHED2');
+    }
+}
+
 
 function room1() {
 
@@ -79,17 +110,6 @@ function timeout() {
 }
 
 
-connection.on("MIND1InfoReceive", function (momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise_isno, bias, limit, limit_avg) {
-
-    if (room == 'room1')
-        myinfo(momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise_isno, bias, limit, limit_avg, viewers);
-});
-
-connection.on("MIND2InfoReceive", function (momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise_isno, bias, limit, limit_avg) {
-
-    if (room == 'room2')
-        myinfo(momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise_isno, bias, limit, limit_avg, viewers);
-});
 
 function myinfo(momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise_isno, bias, limit, limit_avg) {
 
@@ -136,17 +156,6 @@ function myinfo(momentum, cycles, pain, position, ratio_yes, ratio_no, the_chois
     div11.textContent = `${pain}`;
 }
 
-connection.on("MIND1MessageReceive", function (message, dot1, dot2, subject) {
-    
-    if (room == 'room1')
-        mymessage(message, dot1, dot2, subject);
-});
-
-connection.on("MIND2MessageReceive", function (message, dot1, dot2, subject) {
-    
-    if (room == 'room2')
-        mymessage(message, dot1, dot2, subject);
-});
 
 function mymessage(message, dot1, dot2, subject) {
     var div1 = document.getElementById("messageDiv");
@@ -166,21 +175,49 @@ function mymessage(message, dot1, dot2, subject) {
     div4.textContent = `${subject}`;
 }
 
-connection.on("MIND1GraphReceive", function (_labs, _curr, _value, _curr_reset, _value_reset, _col) {
 
-    if (room == 'room1')
-        mygraph(_labs, _curr, _value, _curr_reset, _value_reset, _col);
+function onConnect() {
+    connection.on("MIND1InfoReceive", function (momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise_isno, bias, limit, limit_avg) {
+
+        if (room == 'room1')
+            myinfo(momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise_isno, bias, limit, limit_avg, viewers);
+    });
+
+    connection.on("MIND2InfoReceive", function (momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise_isno, bias, limit, limit_avg) {
+
+        if (room == 'room2')
+            myinfo(momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise_isno, bias, limit, limit_avg, viewers);
+    });
+
+    connection.on("MIND1MessageReceive", function (message, dot1, dot2, subject) {
+    
+        if (room == 'room1')
+            mymessage(message, dot1, dot2, subject);
+    });
+
+    connection.on("MIND2MessageReceive", function (message, dot1, dot2, subject) {
+    
+        if (room == 'room2')
+            mymessage(message, dot1, dot2, subject);
+    });
+
+    connection.on("MIND1GraphReceive", function (_labs, _curr, _value, _curr_reset, _value_reset, _col) {
+
+        if (room == 'room1')
+            mygraph(_labs, _curr, _value, _curr_reset, _value_reset, _col);
 
 
-});
+    });
 
-connection.on("MIND2GraphReceive", function (_labs, _curr, _value,_curr_reset, _value_reset, _col) {
+    connection.on("MIND2GraphReceive", function (_labs, _curr, _value,_curr_reset, _value_reset, _col) {
 
-    if (room == 'room2')
-        mygraph(_labs, _curr, _value, _curr_reset, _value_reset, _col);
+        if (room == 'room2')
+            mygraph(_labs, _curr, _value, _curr_reset, _value_reset, _col);
 
 
-});
+    });
+
+}
 
 function mygraph(_labs, _curr, _value, _curr_reset, _value_reset, _col) {
     var curr = `${_curr}`;

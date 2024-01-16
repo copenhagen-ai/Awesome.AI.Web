@@ -6,7 +6,6 @@ using Awesome.AI.Systems.Externals;
 using Awesome.AI.Web.AI.Common;
 using Awesome.AI.Web.Helpers;
 using static Awesome.AI.Helpers.Enums;
-using static Google.Protobuf.WellKnownTypes.Field.Types;
 
 namespace Awesome.AI.Core
 {

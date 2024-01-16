@@ -58,7 +58,23 @@ namespace Awesome.AI.Web.Helpers
                 LoadError();
 
                 XmlNode root = doc_error.ChildNodes[1];
-                root.InnerText = "error: " + msg;
+                root.InnerText += "\nerror: " + msg;
+                doc_error.Save(PathHelper.PathError);
+            }
+            catch (Exception _e)
+            {
+                ResetError(msg);
+            }
+        }
+
+        public static void ClearError(string msg)
+        {
+            try
+            {
+                LoadError();
+
+                XmlNode root = doc_error.ChildNodes[1];
+                root.InnerText = "\nerror: " + msg;
                 doc_error.Save(PathHelper.PathError);
             }
             catch (Exception _e)

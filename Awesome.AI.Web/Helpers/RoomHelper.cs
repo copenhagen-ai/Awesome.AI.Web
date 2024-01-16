@@ -11,6 +11,14 @@ namespace Awesome.AI.Web.Helpers
 {
     public class RoomHelper
     {
+        public long Remaining(Instance inst)
+        {
+            int ms_wait = inst.sec_message * 1000;
+            long remainingSec = (ms_wait - inst.elapsedMs) / 1000;
+
+            return remainingSec;
+        }
+
         public bool RobertaActive()
         {
             bool is_roberta = DateTime.Now.Hour % 2 == 0;

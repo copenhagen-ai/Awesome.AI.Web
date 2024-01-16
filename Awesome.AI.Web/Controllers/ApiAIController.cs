@@ -1,11 +1,12 @@
 ﻿using Awesome.AI.Web.Helpers;
+using Awesome.AI.Web.Hubs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace Awesome.AI.Web.Api.Users
+namespace Awesome.AI.Web.Api.AI
 {
     public class Post
     {
@@ -19,7 +20,7 @@ namespace Awesome.AI.Web.Api.Users
 
     public class GetResponce
     {
-        public string viewers { get; set; }
+        public string res { get; set; }
     }
 
     public class PostResponce
@@ -27,15 +28,14 @@ namespace Awesome.AI.Web.Api.Users
         public string guid { get; set; }
     }
 
-    [Route("api/[controller]")]
     [ApiController]
-    public class ApiUsersController : ControllerBase
+    public class ApiAIController : ControllerBase
     {
         
         // GET: api/<ValuesController>
-        [HttpGet]
+        //[HttpGet]
         //[Authorize]
-        public GetResponce Get()
+        /*public GetResponce Get()
         {
             try
             {
@@ -52,7 +52,7 @@ namespace Awesome.AI.Web.Api.Users
                 res.viewers = "-1";
                 return res;
             }
-        }
+        }*/
 
         // GET api/<ValuesController>/5
         //[HttpGet("{id}")]
@@ -62,29 +62,20 @@ namespace Awesome.AI.Web.Api.Users
         //}
 
         // POST api/<ValuesController>
-        [HttpPost]
+        [HttpGet]
+        [Route("api/sort")]
         //[Authorize]
-        public PostResponce Post([FromBody] Post obj)
+        public GetResponce Sort()
         {
             try
             {
-                //string guid = Guid.NewGuid().ToString();
+                RoomHub.is_index = !RoomHub.is_index;
 
-                string guid = obj.guid;
-
-                UserHelper.AddUser(guid);
-
-                PostResponce res = new PostResponce();
-                res.guid = guid;
-            
-                return res;
+                return new GetResponce() { res = "ok" };
             }
             catch (Exception _e)
             {
-                PostResponce res = new PostResponce();
-                res.guid = "1234";
-
-                return res;
+                return new GetResponce() { res = "error" };
             }
         }
 
