@@ -17,9 +17,6 @@
         public enum TYPELIMIT { SIMPLE, SIGMOID, CHANCE }
         public enum MECHANICS { NONE, GRAVITY, CONTEST, WHEEL, HILL }
         public enum HACKMODES { HACK, NOHACK }
-        public enum MINDS { ROBERTA, ANDREW }
-        public enum RUNNING { BOTH, ROBERTA, ANDREW }
         public enum MATRIX { SIMPLE, GPT }
-
     }
 }

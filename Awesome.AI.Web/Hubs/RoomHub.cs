@@ -1,9 +1,9 @@
 ﻿using Awesome.AI.Common;
 using Awesome.AI.Core;
 using Awesome.AI.Web.Helpers;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using static Awesome.AI.Helpers.Enums;
+using static Awesome.AI.Web.Common.Enums;
 
 namespace Awesome.AI.Web.Hubs
 {
@@ -144,6 +144,29 @@ namespace Awesome.AI.Web.Hubs
             }
         }
 
+        public void SetupUnit(Instance inst)
+        {
+            labels = new string[inst.mind.stats.list.Count];
+
+            int i = 0;
+            foreach (Stat stat in inst.mind.stats.list)
+            {
+                labels[i] = stat.name;
+                i++;
+            }
+            
+            curr_name = inst.mind.stats.curr_name;
+            curr_value = "" + inst.mind.stats.curr_value;
+
+            if (!inst.mind.stats.reset_name.IsNullOrEmpty())
+            {
+                reset_name = inst.mind.stats.reset_name;
+                reset_value = "" + inst.mind.stats.reset_value;
+            }
+
+            bcol = "blue";
+        }
+
         private string Extract(string str)
         {
             if(str.IsNullOrEmpty())
@@ -191,8 +214,8 @@ namespace Awesome.AI.Web.Hubs
     {
         private RoomHelper helper {  get; set; }
         private RUNNING running { get; set; }
+        //private GRAPH is_graph = GRAPH.UNIT;
 
-        public static bool is_index = true;
         private static bool is_running = false;
 
 
@@ -455,12 +478,19 @@ namespace Awesome.AI.Web.Hubs
                     string bias = inst.mind._out.bias;
                     string limit = inst.mind._out.limit;
                     string limit_avg = inst.mind._out.limit_avg;
+
+                    GraphInfo graph1 = new GraphInfo();
+                    GraphInfo graph2 = new GraphInfo();
                     
-                    GraphInfo graph = new GraphInfo();
-                    if(is_index)
-                        graph.SetupIndex(inst);
-                    else
-                        graph.SetupForce(inst);
+                    //if (is_graph == GRAPH.INDEX)
+                    //    graph1.SetupIndex(inst);
+                    //else if (is_graph == GRAPH.FORCE)
+                    //    graph1.SetupForce(inst);
+                    //else
+                    //    graph1.SetupUnit(inst);
+
+                    graph1.SetupIndex(inst);
+                    graph2.SetupUnit(inst);
 
                     int user_count = UserHelper.CountUsers();
 
@@ -469,13 +499,15 @@ namespace Awesome.AI.Web.Hubs
                         if (inst.type == MINDS.ROBERTA)
                         {
                             await Clients.All.SendAsync("MIND1InfoReceive", momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise_isno, bias, limit, limit_avg);
-                            await Clients.All.SendAsync("MIND1GraphReceive", graph.labels, graph.curr_name, graph.curr_value, graph.reset_name, graph.reset_value, graph.bcol);
+                            await Clients.All.SendAsync("MIND1GraphReceive", graph1.labels, graph1.curr_name, graph1.curr_value, graph1.reset_name, graph1.reset_value, graph1.bcol);
+                            await Clients.All.SendAsync("MIND3GraphReceive", graph2.labels, graph2.curr_name, graph2.curr_value, graph2.reset_name, graph2.reset_value, graph2.bcol);
                         }
 
                         if (inst.type == MINDS.ANDREW)
                         {
                             await Clients.All.SendAsync("MIND2InfoReceive", momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise_isno, bias, limit, limit_avg);
-                            await Clients.All.SendAsync("MIND2GraphReceive", graph.labels, graph.curr_name, graph.curr_value, graph.reset_name, graph.reset_value, graph.bcol);
+                            await Clients.All.SendAsync("MIND2GraphReceive", graph1.labels, graph1.curr_name, graph1.curr_value, graph1.reset_name, graph1.reset_value, graph1.bcol);
+                            await Clients.All.SendAsync("MIND4GraphReceive", graph2.labels, graph2.curr_name, graph2.curr_value, graph2.reset_name, graph2.reset_value, graph2.bcol);
                         }
                     }
                 }

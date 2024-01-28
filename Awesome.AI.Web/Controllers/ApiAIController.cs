@@ -62,22 +62,22 @@ namespace Awesome.AI.Web.Api.AI
         //}
 
         // POST api/<ValuesController>
-        [HttpGet]
-        [Route("api/sort")]
-        //[Authorize]
-        public GetResponce Sort()
-        {
-            try
-            {
-                RoomHub.is_index = !RoomHub.is_index;
+        //[HttpGet]
+        //[Route("api/sort")]
+        ////[Authorize]
+        //public GetResponce Sort()
+        //{
+        //    try
+        //    {
+        //        //RoomHub.is_index = !RoomHub.is_index;
 
-                return new GetResponce() { res = "ok" };
-            }
-            catch (Exception _e)
-            {
-                return new GetResponce() { res = "error" };
-            }
-        }
+        //        return new GetResponce() { res = "ok" };
+        //    }
+        //    catch (Exception _e)
+        //    {
+        //        return new GetResponce() { res = "error" };
+        //    }
+        //}
 
         // PUT api/<ValuesController>/5
         //[HttpPut("{id}")]

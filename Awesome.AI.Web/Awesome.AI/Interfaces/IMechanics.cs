@@ -11,7 +11,7 @@ namespace Awesome.AI.Interfaces
         double out_low { get; set; }
         double posx_high { get; set; }
         double posx_low { get; set; }
-        double res_x { get; set; }
+        //double res_x { get; set; }
         double POS_X { get; set; }
         double momentum { get; set; }
 

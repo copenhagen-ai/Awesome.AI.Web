@@ -22,8 +22,8 @@ namespace Awesome.AI.Core.Mechanics
         private double a { get { return mind.parms.val_a; } }//-0.1d;
         private double b { get { return mind.parms.val_b; } }//0.0d;
         private double c { get { return mind.parms.val_c; } }//10.0d;
-        public double res_x { get; set; } = 0;
         public double res_x_prev { get; set; } = 0;
+        //public double res_x_save { get; set; } = 0;
 
         public double POS_X { get; set; }
         public Direction dir { get; set; }
@@ -77,7 +77,7 @@ namespace Awesome.AI.Core.Mechanics
             dir.Stat();
         }
 
-        private double SlopeInDegrees(double x, out bool is_right)
+        private double SlopeInDegrees(double x)
         {
             double acc_slope, _x, _y;
 
@@ -85,12 +85,13 @@ namespace Awesome.AI.Core.Mechanics
             Vector2D _slope;
             
             acc_slope = mind.calc.SlopeCoefficient(x, a, b);
-            is_right = acc_slope <= 0.0d;
-            _x = is_right ? 1.0d : -1.0d;
+            _x = 1.0d;
             _y = acc_slope;
             _slope = calc.ToPolar(new Vector2D(_x, _y, null, null));
             double acc_degree = _slope.theta_in_degrees;
-
+                        
+            //double acc_degree = mind.calc.SlopeCoefficient(x, a, b);
+            
             return acc_degree;
         }
         
@@ -106,22 +107,21 @@ namespace Awesome.AI.Core.Mechanics
             Vector2D calc = new Vector2D();
             Vector2D res, sta = new Vector2D(), dyn = new Vector2D();
 
-            res_x_prev = mind.goodbye.IsNo() ? mind.parms.pos_x_start + res_x : res_x_prev;
-            double acc_degree = SlopeInDegrees(res_x_prev, out bool is_right);
+            double res_x_save = mind.parms.pos_x_start + res_x_prev;
+            double acc_degree = SlopeInDegrees(res_x_save);
 
             //if (reset)
-                sta = ApplyStatic(acc_degree, is_right);
+                sta = ApplyStatic(acc_degree);
             //else
             //    sta = calc.ToCart(new Vector2D(null, null, 0.0d, 0.0d));
 
 
             if (mind.goodbye.IsNo())
-                dyn = ApplyDynamic(acc_degree, is_right);
+                dyn = ApplyDynamic(acc_degree);
 
             //res = reset ? calc.Add(sta, dyn) : dyn;
             res = calc.Add(sta, dyn);
-            res_x = res.xx;
-            res_x_prev = res_x_prev + res_x;
+            res_x_prev = res.xx;
             res = calc.ToPolar(res);
 
             double acc = res.yy < 0.0d ? res.magnitude : -res.magnitude;
@@ -144,13 +144,14 @@ namespace Awesome.AI.Core.Mechanics
             if (momentum > out_high) out_high = momentum;
         }
 
-        public Vector2D ApplyStatic(double acc_degree, bool is_right)
+        public Vector2D ApplyStatic(double acc_degree/*, bool is_right*/)
         {
             double limit = lim.Limit(true, () => dir.SayNo());
 
             double acc_degree_positive = acc_degree < 0.0d ? -acc_degree : acc_degree;
             double angle_sta = -90.0d;
-            double angle_com_y_vec = is_right ? -90.0d - acc_degree_positive : -90.0d + acc_degree_positive;//-135
+            //double angle_com_y_vec = is_right ? -90.0d - acc_degree_positive : -90.0d + acc_degree_positive;//-135
+            double angle_com_y_vec = -90.0d - acc_degree_positive;//-135
             double angle_com_y_pyth = 90.0d - acc_degree_positive;//-135
 
             double force_sta = mind.common.HighestForce().Variable;
@@ -168,7 +169,7 @@ namespace Awesome.AI.Core.Mechanics
             return _res;
         }
 
-        public Vector2D ApplyDynamic(double acc_degree, bool is_right)
+        public Vector2D ApplyDynamic(double acc_degree/*, bool is_right*/)
         {
             UNIT curr_unit_th = mind.curr_unit;
             THECHOISE goodbye = mind.goodbye;
@@ -180,7 +181,8 @@ namespace Awesome.AI.Core.Mechanics
             double limit = first_run ? 0.1d : lim.Limit(false, () => dir.SayNo());
 
             double acc_degree_positive = acc_degree < 0.0d ? -acc_degree : acc_degree;
-            double angle_dyn = is_right ? 90.0d + acc_degree_positive : 90.0d - acc_degree_positive;
+            //double angle_dyn = is_right ? 90.0d + acc_degree_positive : 90.0d - acc_degree_positive;
+            double angle_dyn = 90.0d + acc_degree_positive;
 
             double max = mind.common.HighestForce().Variable;
             double force_dyn = max - curr_unit_th.Variable;

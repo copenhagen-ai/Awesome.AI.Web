@@ -1,11 +1,8 @@
 ﻿using Awesome.AI.Common;
 using Awesome.AI.Web.Hubs;
 using Awesome.AI.Web.Models;
-using Humanizer;
-using System.Reflection;
-using System.Reflection.PortableExecutable;
 using System.Text.Json;
-using static Awesome.AI.Helpers.Enums;
+using static Awesome.AI.Web.Common.Enums;
 
 namespace Awesome.AI.Web.Helpers
 {

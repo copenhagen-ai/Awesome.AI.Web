@@ -2,7 +2,31 @@
 
 var room = 'room1';
 var connection = new signalR.HubConnectionBuilder().withUrl("/roomhub").build();
-const myChart = new Chart(document.getElementById('myChart'), {
+const myChart1 = new Chart(document.getElementById('myChart1'), {
+    type: "bar",
+    data: {
+        labels: [],
+        datasets: [{
+            label: 'Real-time Data',
+            backgroundColor: [],
+            data: []
+        }]
+    },
+    options: {
+        scales: {
+            xAxes: [{
+                ticks: {
+                    //autoSkip: false,
+                    maxRotation: 45,
+                    minRotation: 20
+
+                }
+            }]
+        }
+    }
+});
+
+const myChart2 = new Chart(document.getElementById('myChart2'), {
     type: "bar",
     data: {
         labels: [],
@@ -70,10 +94,17 @@ function room1() {
 
     $("#overlay").fadeIn(300);
     setTimeout(timeout, 300);
-    myChart.data.labels = [];
-    myChart.data.datasets[0].label = 'Real-time Data';
-    myChart.data.datasets[0].data = [];
-    myChart.data.datasets[0].backgroundColor = [];
+
+    myChart1.data.labels = [];
+    myChart1.data.datasets[0].label = 'Real-time Data';
+    myChart1.data.datasets[0].data = [];
+    myChart1.data.datasets[0].backgroundColor = [];
+
+    myChart2.data.labels = [];
+    myChart2.data.datasets[0].label = 'Real-time Data';
+    myChart2.data.datasets[0].data = [];
+    myChart2.data.datasets[0].backgroundColor = [];
+
     room = 'room1';
     $('#r1').text('[Roberta]');
     $('#r2').text('Andrew');
@@ -89,10 +120,17 @@ function room2() {
 
     $("#overlay").fadeIn(300);
     setTimeout(timeout, 300);
-    myChart.data.labels = [];
-    myChart.data.datasets[0].label = 'Real-time Data';
-    myChart.data.datasets[0].data = [];
-    myChart.data.datasets[0].backgroundColor = [];
+
+    myChart1.data.labels = [];
+    myChart1.data.datasets[0].label = 'Real-time Data';
+    myChart1.data.datasets[0].data = [];
+    myChart1.data.datasets[0].backgroundColor = [];
+
+    myChart2.data.labels = [];
+    myChart2.data.datasets[0].label = 'Real-time Data';
+    myChart2.data.datasets[0].data = [];
+    myChart2.data.datasets[0].backgroundColor = [];
+
     room = 'room2';
     $('#r1').text('Roberta');
     $('#r2').text('[Andrew]');
@@ -204,22 +242,41 @@ function onConnect() {
     connection.on("MIND1GraphReceive", function (_labs, _curr, _value, _curr_reset, _value_reset, _col) {
 
         if (room == 'room1')
-            mygraph(_labs, _curr, _value, _curr_reset, _value_reset, _col);
+            mygraph1(_labs, _curr, _value, _curr_reset, _value_reset, _col);
 
 
     });
 
-    connection.on("MIND2GraphReceive", function (_labs, _curr, _value,_curr_reset, _value_reset, _col) {
+    connection.on("MIND2GraphReceive", function (_labs, _curr, _value, _curr_reset, _value_reset, _col) {
 
         if (room == 'room2')
-            mygraph(_labs, _curr, _value, _curr_reset, _value_reset, _col);
+            mygraph1(_labs, _curr, _value, _curr_reset, _value_reset, _col);
+
+
+    });
+
+    connection.on("MIND3GraphReceive", function (_labs, _curr, _value, _curr_reset, _value_reset, _col) {
+
+        if (room == 'room1')
+            mygraph2(_labs, _curr, _value, _curr_reset, _value_reset, _col);
+
+
+    });
+
+    connection.on("MIND4GraphReceive", function (_labs, _curr, _value, _curr_reset, _value_reset, _col) {
+
+        if (room == 'room2')
+            mygraph2(_labs, _curr, _value, _curr_reset, _value_reset, _col);
 
 
     });
 
 }
 
-function mygraph(_labs, _curr, _value, _curr_reset, _value_reset, _col) {
+function mygraph1(_labs, _curr, _value, _curr_reset, _value_reset, _col) {
+
+    //alert('graph1');
+
     var curr = `${_curr}`;
     var value = _value;
     var curr_reset = `${_curr_reset}`;
@@ -227,29 +284,69 @@ function mygraph(_labs, _curr, _value, _curr_reset, _value_reset, _col) {
     var color = `${_col}`;
 
     var count = 0;
-    myChart.data.labels.forEach((_l) => {
+    myChart1.data.labels.forEach((_l) => {
         count++;
     });
 
     if (count == 0) {
         _labs.forEach((_l) => {
-            myChart.data.labels.push(_l);
-            myChart.data.datasets[0].data.push(0);
-            myChart.data.datasets[0].backgroundColor.push('orange');
+            myChart1.data.labels.push(_l);
+            myChart1.data.datasets[0].data.push(0);
+            myChart1.data.datasets[0].backgroundColor.push('orange');
             count++;
         });
     }
-    
+
     var index = 0;
-    myChart.data.labels.forEach((_l) => {
+    myChart1.data.labels.forEach((_l) => {
         if (`${_l}` == curr)
-            myChart.data.datasets[0].data[index] = value;
+            myChart1.data.datasets[0].data[index] = value;
         if (`${_l}` == curr_reset)
-            myChart.data.datasets[0].data[index] = value_reset;
+            myChart1.data.datasets[0].data[index] = value_reset;
         index++;
     });
-    
-    myChart.update();
+
+    myChart1.update();
+
+    //alert('graph');
+}
+
+function mygraph2(_labs, _curr, _value, _curr_reset, _value_reset, _col) {
+
+    //alert('graph1');
+
+    var curr = `${_curr}`;
+    var value = _value;
+    var curr_reset = `${_curr_reset}`;
+    var value_reset = _value_reset;
+    var color = `${_col}`;
+
+    var count = 0;
+    myChart2.data.labels.forEach((_l) => {
+        count++;
+    });
+
+    if (count == 0) {
+        _labs.forEach((_l) => {
+            myChart2.data.labels.push(_l);
+            myChart2.data.datasets[0].data.push(0);
+            myChart2.data.datasets[0].backgroundColor.push('orange');
+            count++;
+        });
+    }
+
+    var index = 0;
+    myChart2.data.labels.forEach((_l) => {
+        if (`${_l}` == curr)
+            myChart2.data.datasets[0].data[index] = value;
+        if (`${_l}` == curr_reset)
+            myChart2.data.datasets[0].data[index] = value_reset;
+        index++;
+    });
+
+    myChart2.update();
+
+    //alert('graph');
 }
 
 

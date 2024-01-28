@@ -29,6 +29,24 @@ $(document).ready(function () {
     });
     $(".sortSpan").click(function (event) { sort(); });
 
+    var isChart1 = true;
+    $("#chartSpan").click(function (event) {
+        if (isChart1) {
+            isChart1 = !isChart1;
+            $("#chartSpan").text('unit');
+
+            $(".chart1").hide();
+            $(".chart2").show();
+        }
+        else {
+            isChart1 = !isChart1;
+            $("#chartSpan").text('index');
+
+            $(".chart2").hide();
+            $(".chart1").show();
+        }
+    });
+
     //$(".infomain").hover(function () {
     //    $('.infosec').show();
     //}, function () {
