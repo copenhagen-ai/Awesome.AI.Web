@@ -60,7 +60,49 @@ namespace Awesome.AI.Core
             mind.curr_unit.energy -= 1.0d;
             if (mind.curr_unit.energy < 0.0d)
                 mind.curr_unit.energy = 0.0d;
-        }/**/               
+        }/**/
+
+        //private int rand { get; set; }
+        //private double friction { get; set; } = 0.66d;
+        //private int count_1 { get; set; }
+        //private int count_2 { get; set; }
+        //private int count_3 { get; set; }
+        //public double FrictionCoefficient(bool is_static, bool process, double limit)
+        //{
+        //    if (is_static)
+        //        return 0.33d;
+
+        //    if (!process)
+        //        return friction;
+
+        //    double pos = mind.parms._mech.dir.d_pos_x;
+        //    if (pos > 9.0d)
+        //        return 0.1d;
+
+        //    //works
+        //    //rand = mind.calc.MyRandom(3);
+        //    rand = mind.calc.RandomInt(1, 4);
+
+        //    if (rand < 1)
+        //        throw new Exception();
+
+        //    if (rand > 3)
+        //        throw new Exception();
+
+        //    friction =
+        //        rand == 1 ? 0.00d :
+        //        rand == 2 ? 0.30d :
+        //        mind.parms.base_friction;
+
+        //    if (rand == 1)
+        //        count_1++;
+        //    if (rand == 2)
+        //        count_2++;
+        //    if (rand == 3)
+        //        count_3++;
+
+        //    return friction;
+        //}
 
         public void AnswerQuestion()
         {

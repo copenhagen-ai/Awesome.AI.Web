@@ -70,7 +70,7 @@ namespace Awesome.AI.CoreHelpers
              * >> this is the hack/cheat <<
              * "NO", is to say no to going downwards
              * */
-            
+            //double mean = mind.parms._mech.out_high + mind.parms._mech.out_low / 2;
             bool is_low = d_momentum <= 0.0d;
 
             Choise = is_low.TheHack1(mind) ? THECHOISE.NO : THECHOISE.YES;
@@ -90,11 +90,12 @@ namespace Awesome.AI.CoreHelpers
             return say_no.TheHack2(mind);
         }
 
-        public void Stat()
+        public void Stat(/*bool process*/)
         {
             SetChoise();
-                   
-            ratio.Update(Choise);
+            
+            //if (process)
+                ratio.Update(Choise);
 
             avg.Add(mind.parms._mech.lim.limit_result);
             if (avg.Count() > 1000)

@@ -147,7 +147,7 @@ namespace Awesome.AI.Helpers
                 case_occupasion = OCCUPASION.FIXED;                                 //used with OCCU and BOTH
                 typelimit = TYPELIMIT.SIGMOID;
                 hmode1 = HACKMODES.HACK;
-                hmode2 = HACKMODES.NOHACK;
+                hmode2 = HACKMODES.HACK;
                 mech = MECHANICS.CONTEST;
                 matrix_type = MATRIX.GPT;
 

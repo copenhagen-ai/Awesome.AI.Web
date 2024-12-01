@@ -245,8 +245,8 @@ namespace Awesome.AI.Core
             if (curr_unit.IsIDLE())
                 return true;
 
-            mech.CALC();
-            mech.XPOS();
+            mech.CALC(/*_pro*/);
+            mech.XPOS(/*_pro*/);
 
             if (curr_hub.IsIDLE())
                 core.SetTheme(_pro);            

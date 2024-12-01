@@ -4,8 +4,8 @@ namespace Awesome.AI.Interfaces
 {
     public interface IMechanics
     {
-        double fri_dv { get; set; }
-        double vel_dv { get; set; }
+        double Fsta { get; set; }
+        double Fdyn { get; set; }
 
         double out_high { get; set; }
         double out_low { get; set; }
@@ -18,8 +18,8 @@ namespace Awesome.AI.Interfaces
         Direction dir { get; set; }
         Limitters lim { get; set; }
 
-        void CALC();
-        void XPOS();
+        void CALC(/*bool process*/);
+        void XPOS(/*bool process*/);
         double EXIT();
     }
 }

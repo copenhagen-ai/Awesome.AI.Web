@@ -12,8 +12,8 @@ namespace Awesome.AI.Core.Mechanics
         public double velocity { get; set; } = 0.0d;
         public double momentum { get; set; } = 0.0d;
                 
-        public double fri_dv { get; set; } = 0.0d;
-        public double vel_dv { get; set; } = 0.0d;
+        public double Fsta { get; set; } = 0.0d;
+        public double Fdyn { get; set; } = 0.0d;
         public double out_high { get; set; } = -1000.0d;
         public double out_low { get; set; } = 1000.0d;
         public double posx_high { get; set; } = -1000.0d;
@@ -146,7 +146,7 @@ namespace Awesome.AI.Core.Mechanics
 
         public Vector2D ApplyStatic(double acc_degree/*, bool is_right*/)
         {
-            double limit = lim.Limit(true, () => dir.SayNo());
+            double limit = lim.Limit(true);
 
             double acc_degree_positive = acc_degree < 0.0d ? -acc_degree : acc_degree;
             double angle_sta = -90.0d;
@@ -178,7 +178,7 @@ namespace Awesome.AI.Core.Mechanics
                 throw new Exception();
 
             bool first_run = mind.cycles_all <= mind.parms.first_run;
-            double limit = first_run ? 0.1d : lim.Limit(false, () => dir.SayNo());
+            double limit = first_run ? 0.1d : lim.Limit(false);
 
             double acc_degree_positive = acc_degree < 0.0d ? -acc_degree : acc_degree;
             //double angle_dyn = is_right ? 90.0d + acc_degree_positive : 90.0d - acc_degree_positive;

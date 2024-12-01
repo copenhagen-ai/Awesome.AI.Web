@@ -18,8 +18,8 @@ namespace Awesome.AI.Core.Mechanics
 
         public double momentum { get; set; } = -1000.0d;
         
-        public double fri_dv { get; set; } = 0.0d;
-        public double vel_dv { get; set; } = 0.0d;
+        public double Fsta { get; set; } = 0.0d;
+        public double Fdyn { get; set; } = 0.0d;
         public double out_high { get; set; } = 0.0d;
         public double out_low { get; set; } = 0.0d;
         public double posx_high { get; set; } = -1000.0d;
@@ -71,9 +71,9 @@ namespace Awesome.AI.Core.Mechanics
         public void CALC()
         {
             //force left
-            fri_dv = ApplyStatic();
+            Fsta = ApplyStatic();
             //force right
-            vel_dv = ApplyDynamic();
+            Fdyn = ApplyDynamic();
 
             //momentum: p = m * v
             momentum = (mind.parms.mass) * velocity;
@@ -91,7 +91,7 @@ namespace Awesome.AI.Core.Mechanics
         public double ApplyStatic()
         {
             double force = mind.common.HighestForce().Variable;
-            double limit = lim.Limit(true, () => dir.SayNo());
+            double limit = lim.Limit(true);
 
             double F = force;//force, left
             double m = mind.parms.mass;
@@ -123,7 +123,7 @@ namespace Awesome.AI.Core.Mechanics
 
             double max = mind.common.HighestForce().Variable;
             double force = curr_unit_th.Variable;
-            double limit = first_run ? 0.5d : lim.Limit(false, () => dir.SayNo());
+            double limit = first_run ? 0.5d : lim.Limit(false);
 
             double F = max - force;//force, right
             double m = mind.parms.mass;

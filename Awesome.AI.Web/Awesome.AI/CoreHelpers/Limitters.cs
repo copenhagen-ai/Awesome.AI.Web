@@ -1,4 +1,5 @@
 ﻿using Awesome.AI.Core;
+using K4os.Compression.LZ4.Internal;
 using static Awesome.AI.Helpers.Enums;
 
 namespace Awesome.AI.CoreHelpers
@@ -17,7 +18,7 @@ namespace Awesome.AI.CoreHelpers
             this.mind = mind;
         }
 
-        public double Limit(bool is_static, Func<bool> _f)//aka Elastic
+        public double Limit(bool is_static/*, bool process*/)//aka Elastic
         {
             /*
              * thoughts on LIMIT..
@@ -32,26 +33,32 @@ namespace Awesome.AI.CoreHelpers
              * there are many ways to implement the Limit
              * */
 
+            //if (is_static && !process)
+            //    return mind.parms.base_friction / 2;
+
+            //if (!is_static && !process)
+            //    return limit_result;
+
             switch (mind.parms.typelimit)
             {
                 case TYPELIMIT.SIMPLE:
                     return is_static ? mind.parms.base_friction : Simple();
                 case TYPELIMIT.SIGMOID:
-                    return is_static ? mind.parms.base_friction : Sigmoid(_f);
+                    return is_static ? mind.parms.base_friction : Sigmoid();
                 case TYPELIMIT.CHANCE:
-                    return is_static ? mind.parms.base_friction : Chance(_f);
+                    return is_static ? mind.parms.base_friction: Chance();
                 default:
                     throw new Exception();
             }
         }
 
 
-        private double GetIndex(Func<bool> _f)
+        private double GetIndex()
         {
-            bool say_no = _f();
+            bool say_no = mind.parms._mech.dir.SayNo();
             
             double tip = 2.0d - mind.parms.lim_correction;
-            double learn = say_no ? -LearningRate(mind.parms.lim_learningrate, mind.parms.lim_correction) : LearningRate(mind.parms.lim_learningrate, tip);
+            double learn = !say_no ? -LearningRate(mind.parms.lim_learningrate, mind.parms.lim_correction) : LearningRate(mind.parms.lim_learningrate, tip);
             
             mind.parms.lim_bias += learn;
 
@@ -88,9 +95,9 @@ namespace Awesome.AI.CoreHelpers
             return ok ? 1.0d : 0.0d;
         }
 
-        public double Sigmoid(Func<bool> _f)//sigmoid, limitter
+        public double Sigmoid()//sigmoid, limitter
         {
-            double index = GetIndex(_f);
+            double index = GetIndex();
 
             double _x = mind.calc.NormalizeRange(index, min - 0.1d, max + 0.1d, -6.0d, 6.0d);
             double _y = 1.0d - mind.calc.Logistic(_x);
@@ -100,12 +107,16 @@ namespace Awesome.AI.CoreHelpers
 
             limit_result = _y;
 
+            //double res = mind.calc.NormalizeRange(_y, 0.0d, 1.0d, mind.parms.base_friction / 2, mind.parms.base_friction);
+
+            //limit_result = res;
+
             return limit_result;
         }
 
-        public double Chance(Func<bool> _f)//sigmoid, elastic
+        public double Chance()//sigmoid, elastic
         {
-            double index = GetIndex(_f);
+            double index = GetIndex();
 
             double _x = mind.calc.NormalizeRange(index, min - 0.1d, max + 0.1d, -6.0d, 6.0d);
             double _y = 1.0d - mind.calc.Logistic(_x);

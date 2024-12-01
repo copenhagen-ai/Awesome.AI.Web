@@ -91,6 +91,11 @@ namespace Awesome.AI.Common
             return res;
         }
 
+        public int RoundOff(int i)
+        {
+            return ((int)Math.Round(i / 10.0)) * 10;
+        }
+
         public double Round(double num, int dec, bool up)
         {
             int pow = (int)Math.Pow((double)10, (double)dec);
@@ -117,15 +122,18 @@ namespace Awesome.AI.Common
             return res;
         }
 
-        public int RoundUp(int _base, int toRound)
+        public int RoundUp(double num)
         {
-            if (toRound % _base == 0) return toRound;
-            return (_base - toRound % _base) + toRound;
+            int res = (int)Math.Ceiling((double)num);
+
+            return res;
         }
 
-        public int RoundDown(int _base, int toRound)
+        public int RoundDown(double num)
         {
-            return toRound - toRound % _base;
+            int res = (int)Math.Floor((double)num);
+
+            return res;
         }
 
         public int MyRandom(int i_max)
@@ -164,7 +172,7 @@ namespace Awesome.AI.Common
             
             rand = ("" + _out).ToUpper().Replace("E", "").Replace("-", "").Replace(",", "").Replace(".", "");//this is the random part
             rand = rand.Substring(0, rand.Length - 2);//remove exponent
-                        
+
             do
             {
                 if (rand.Count() < i_ct + 3)

@@ -2,7 +2,6 @@
 using Awesome.AI.CoreHelpers;
 using Awesome.AI.Helpers;
 using Awesome.AI.Interfaces;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Awesome.AI.Helpers.Enums;
 
 namespace Awesome.AI.Core.Mechanics
@@ -19,8 +18,8 @@ namespace Awesome.AI.Core.Mechanics
         public double momentum { get; set; } = 0.0d;
         public double limit_result { get; set; } = 0.0d;
         public double learn_result { get; set; } = 0.0d;
-        public double fri_dv { get; set; } = 0.0d;
-        public double vel_dv { get; set; } = 0.0d;
+        public double Fsta { get; set; } = 0.0d;
+        public double Fdyn { get; set; } = 0.0d;
         public double out_high { get; set; } = -1000.0d;
         public double out_low { get; set; } = 1000.0d;
         public double posx_high { get; set; } = -1000.0d;
@@ -56,6 +55,7 @@ namespace Awesome.AI.Core.Mechanics
             double boost = mind.parms.boost;
 
             POS_X = 10.0d + (boost * momentum);//dosnt seem right
+            //POS_X += (boost * momentum);
             //POS_X = POS_X + (boost * velocity);
             //POS_X = 10.0d + (boost * momentum);
 
@@ -82,13 +82,16 @@ namespace Awesome.AI.Core.Mechanics
             //    velocity = 0.0d;
 
             //if (reset)  //car left
-            fri_dv = ApplyStatic();
+            Fsta = ApplyStatic();
 
             //if(true)    //car right
-            vel_dv = ApplyDynamic();
+            Fdyn = ApplyDynamic();
+
+            Calc calc = new Calc(mind);
 
             //momentum: p = m * v
             momentum = (mind.parms.mass * 2) * velocity;
+            //momentum += 12.0d;// calc.RoundOff((int)out_low);
 
             if (momentum <= out_low) out_low = momentum;
             if (momentum > out_high) out_high = momentum;
@@ -103,7 +106,7 @@ namespace Awesome.AI.Core.Mechanics
         public double ApplyStatic()
         {
             double acc = mind.common.HighestForce().Variable;
-            double limit = lim.Limit(true, () => dir.SayNo());
+            double limit = lim.Limit(true);
 
             double m = mind.parms.mass;
             double F = m * acc;                       //force, left
@@ -132,7 +135,7 @@ namespace Awesome.AI.Core.Mechanics
 
             double max = mind.common.HighestForce().Variable;
             double acc = max - curr_unit_th.Variable;
-            double limit = first_run ? 0.5d : lim.Limit(false, () => dir.SayNo());
+            double limit = first_run ? 0.5d : lim.Limit(false);
 
             double m = mind.parms.mass;
             double F = m * acc;                       //force, right
@@ -180,6 +183,96 @@ namespace Awesome.AI.Core.Mechanics
             min *= 0.5d;
             max *= 0.5d;
         }
+
+
+
+        //public void CALC(bool process)
+        //{
+        //    THECHOISE goodbye = mind.goodbye;
+        //    bool reset = velocity >= 0.0d; //maybe 0.666 * max_velocity
+
+        //    //car left
+        //    Fsta = ApplyStatic(process);
+
+        //    //car right
+        //    Fdyn = ApplyDynamic(process);
+
+        //    double Fnet = goodbye.IsNo() ? -Fsta + Fdyn : -Fsta;
+
+        //    double dt = 0.002d; //delta time, 1sec/500cyc
+        //    double m = mind.parms.mass;
+
+        //    //F=m*a
+        //    //a=dv/dt
+        //    //F=(m*dv)/dt
+        //    //F*dt=m*dv
+        //    //dv=(F*dt)/m
+        //    double dv = (Fnet * dt) / m;
+
+        //    velocity += dv;
+
+        //    //momentum: p = m * v
+        //    momentum = (m * 2) * velocity;
+
+        //    if (momentum <= out_low) out_low = momentum;
+        //    if (momentum > out_high) out_high = momentum;
+
+        //    if (double.IsNaN(velocity))
+        //        throw new Exception();
+        //}
+
+        ///*
+        // * car left
+        // * */
+        //public double ApplyStatic(bool process)
+        //{
+        //    double acc = mind.common.HighestForce().Variable;
+        //    double limit = lim.Limit(true, process);
+        //    double m = mind.parms.mass;
+        //    double u = mind.core.FrictionCoefficient(true, process, limit);
+        //    double N = m * 9.81;
+
+        //    double Ffriction = u * N;
+        //    double Fapplied = m * acc; //force, left
+        //    double Fnet = Fapplied - Ffriction;
+
+        //    if (Fnet <= 0.0d)
+        //        Fnet = 0.0d;
+
+        //    return Fnet;
+        //}
+
+        ///*
+        // * car right
+        // * */
+        //public double ApplyDynamic(bool process)
+        //{
+        //    UNIT curr_unit_th = mind.curr_unit;
+
+        //    if (curr_unit_th.IsNull())
+        //        throw new Exception();
+
+        //    bool first_run = false;
+        //    if (mind.cycles_all <= mind.parms.first_run)
+        //        first_run = true;
+
+        //    double limit = first_run ? 0.5d : lim.Limit(false, process);
+
+        //    double max = mind.common.HighestForce().Variable;
+        //    double acc = max - curr_unit_th.Variable;
+        //    double m = mind.parms.mass;
+        //    double u = mind.core.FrictionCoefficient(false, process, limit);
+        //    double N = m * 9.81;
+
+        //    double Ffriction = u * N;
+        //    double Fapplied = m * acc; //force, left
+        //    double Fnet = Fapplied - Ffriction;
+
+        //    if (Fnet <= 0.0d)
+        //        Fnet = 0.0d;
+
+        //    return Fnet;
+        //}/**/
     }
 }
 
