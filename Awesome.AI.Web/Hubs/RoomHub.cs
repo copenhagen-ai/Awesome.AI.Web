@@ -310,7 +310,7 @@ namespace Awesome.AI.Web.Hubs
                 int count = 0;
                 while (true)
                 {
-                    if (!is_running)
+                    if (!is_running || (!andrew.mind.ok && !roberta.mind.ok))
                         throw new Exception("not is_running");
 
                     await Task.Delay(1000);
@@ -518,10 +518,7 @@ namespace Awesome.AI.Web.Hubs
 
                 //await Task.Delay(5000);
 
-                if(is_running)
-                    ProcessInfo(inst);
-                else
-                    is_running = false;
+                is_running = false;
             }
         }
     }

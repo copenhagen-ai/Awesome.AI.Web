@@ -112,8 +112,7 @@ namespace Awesome.AI.Core.Mechanics
         public double ApplyDynamic()
         {
             UNIT curr_unit_th = mind.curr_unit;
-            THECHOISE goodbye = mind.goodbye;
-
+            
             if (curr_unit_th.IsNull())
                 throw new Exception();
 
@@ -137,7 +136,7 @@ namespace Awesome.AI.Core.Mechanics
                 * maybe a gradient of somesort
                 * */
 
-            if (goodbye.IsNo())
+            //if (goodbye.IsNo())
                 velocity += dv * limit;                                 // maybe this does actually make the "whoosh" effect over time/cycles
 
             //if (velocity > 1.0d)

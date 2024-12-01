@@ -58,6 +58,13 @@ namespace Awesome.AI.Web.Helpers
                 LoadError();
 
                 XmlNode root = doc_error.ChildNodes[1];
+
+                if(root == null)
+                {
+                    ResetError(msg);
+                    return;
+                }
+
                 root.InnerText += "\nerror: " + msg;
                 doc_error.Save(PathHelper.PathError);
             }
@@ -92,6 +99,13 @@ namespace Awesome.AI.Web.Helpers
                 LoadMessage();
 
                 XmlNode root = doc_msg.ChildNodes[1];
+
+                if (root == null)
+                {
+                    ResetMessage(msg);
+                    return;
+                }
+
                 root.InnerText = "message: " + msg;
                 doc_msg.Save(PathHelper.PathMessage);
             }

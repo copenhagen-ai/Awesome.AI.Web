@@ -172,8 +172,7 @@ namespace Awesome.AI.Core.Mechanics
         public Vector2D ApplyDynamic(double acc_degree/*, bool is_right*/)
         {
             UNIT curr_unit_th = mind.curr_unit;
-            THECHOISE goodbye = mind.goodbye;
-            
+                        
             if (curr_unit_th.IsNull())
                 throw new Exception();
 
@@ -190,7 +189,7 @@ namespace Awesome.AI.Core.Mechanics
             Vector2D calc = new Vector2D();
             Vector2D _dynamic = new Vector2D(null, null, force_dyn, mind.calc.ToRadiansFromDegrees(angle_dyn));
 
-            double force = goodbye.IsNo() ? _dynamic.magnitude * limit : 0.0d;
+            double force = _dynamic.magnitude * limit;
             
             Vector2D _res = calc.ToCart(new Vector2D(null, null, force, mind.calc.ToRadiansFromDegrees(angle_dyn)));
 

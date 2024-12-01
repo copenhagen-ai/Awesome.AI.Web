@@ -159,13 +159,13 @@ namespace Awesome.AI.Core
             ;
         }
 
-        public void StatClear()
-        {
-            epochs = 1;
-            stats = new Stats();
-            themes_stat = new List<KeyValuePair<string, int>>();
-            themes_stat.Add(new KeyValuePair<string, int>("none", 1));
-        }        
+        //public void StatClear()
+        //{
+        //    epochs = 1;
+        //    stats = new Stats();
+        //    themes_stat = new List<KeyValuePair<string, int>>();
+        //    themes_stat.Add(new KeyValuePair<string, int>("none", 1));
+        //}
 
         public bool run = true;
         public bool ok = true;
@@ -179,14 +179,17 @@ namespace Awesome.AI.Core
 
                 if (!ok)
                     return;
+
                 if (!run)
                     return;
+
                 run = false;
 
                 if (do_process)
                     epochs++;
-                if (epochs > 150)
-                    epochs = 1;
+
+                //if (epochs > 150)
+                //    epochs = 1;
 
                 bool _pro = do_process;
                 do_process = false;
@@ -195,6 +198,9 @@ namespace Awesome.AI.Core
 
                 if (!Core(_pro))//the basics
                     ok = false;
+
+                //if (!ok)
+                //    throw new Exception("...DONE...");
 
                 TheSoup();//find new curr_unit/curr_hub
 

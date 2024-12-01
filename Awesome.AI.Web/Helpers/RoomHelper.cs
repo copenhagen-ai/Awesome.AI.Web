@@ -25,11 +25,11 @@ namespace Awesome.AI.Web.Helpers
 
         public async Task<int> MessageDelay(Instance inst, int when_active, int when_inactive)
         {
-            int users = UserHelper.CountUsers();
+            //int users = UserHelper.CountUsers();
             int sec_message;
             int sec_delay = inst.is_active ? when_active : when_inactive;
 
-            sec_message = users <= 1 ? 60 * 5 : sec_delay;
+            sec_message = /*users <= 1 ? 60 * 5 : */sec_delay;
             
             if (inst.fast_responce)
                 sec_message = 1 * 1;

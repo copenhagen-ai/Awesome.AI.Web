@@ -52,7 +52,7 @@ namespace Awesome.AI.Core.Mechanics
         public void XPOS()
         {
             //its a hack, yes its cheating..
-            double boost = mind.parms.boost;
+            double boost = mind.goodbye.IsNo() ? mind.parms.boost : 1.0d;
 
             POS_X = 10.0d + (boost * momentum);//dosnt seem right
             //POS_X += (boost * momentum);
@@ -84,8 +84,9 @@ namespace Awesome.AI.Core.Mechanics
             //if (reset)  //car left
             Fsta = ApplyStatic();
 
-            //if(true)    //car right
-            Fdyn = ApplyDynamic();
+            //car right
+            if (mind.goodbye.IsNo())
+                Fdyn = ApplyDynamic();
 
             Calc calc = new Calc(mind);
 
@@ -124,8 +125,7 @@ namespace Awesome.AI.Core.Mechanics
         public double ApplyDynamic()
         {
             UNIT curr_unit_th = mind.curr_unit;
-            THECHOISE goodbye = mind.goodbye;
-
+            
             if (curr_unit_th.IsNull())
                 throw new Exception();
 
@@ -142,8 +142,8 @@ namespace Awesome.AI.Core.Mechanics
             double dt = DeltaT();                   //delta time
             double dv = DeltaV(F, m, dt) * limit;   //delta velocity
 
-            if (goodbye.IsNo())
-                //if (goodbye.IsNo() && momentum < 0.0d)
+            //if (goodbye.IsNo())
+            //if (goodbye.IsNo() && momentum < 0.0d)
                 velocity += dv;
 
             return dv;
