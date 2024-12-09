@@ -112,7 +112,13 @@ namespace Awesome.AI.Core
              * should there be some procedure for this(unlocking)?
              * */
 
-            if (mind.epochs % (60 * 5) == 0)
+            if ((mind.epochs) % (60 * 5) == 0)
+                mind.theanswer.root = "It does not";
+
+            if ((mind.epochs + 1) % (60 * 5) == 0)
+                mind.theanswer.root = "It does not";
+
+            if ((mind.epochs + 2) % (60 * 5) == 0)
                 mind.theanswer.root = "It does not";
 
             string answer = mind.theanswer.root;
