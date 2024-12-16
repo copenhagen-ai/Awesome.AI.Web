@@ -154,7 +154,7 @@ namespace Awesome.AI.Systems.Externals
 
             //if(setup)
 
-            if(setting == "standart")
+            if(setting == "both")
             {
                 List<HUB> list = new List<HUB>();
                 list.Add(mind.mem.HUBS_SUB("love"));
@@ -309,7 +309,7 @@ namespace Awesome.AI.Systems.Externals
             //    return;
             //setup2 = true;
 
-            if(setting == "standart")
+            if(setting == "both")
             {
                 tags = new List<Tag>();
                 tags.Add(new Tag("SPECIAL"));

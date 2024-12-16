@@ -1,4 +1,5 @@
 ﻿using Awesome.AI.Common;
+using Awesome.AI.Helpers;
 using static Awesome.AI.Helpers.Enums;
 
 namespace Awesome.AI.Core
@@ -112,13 +113,13 @@ namespace Awesome.AI.Core
              * should there be some procedure for this(unlocking)?
              * */
 
-            if ((mind.epochs) % (60 * 5) == 0)
+            if ((mind.epochs + 0) % (60 * mind.parms.runtime) == 0)
                 mind.theanswer.root = "It does not";
 
-            if ((mind.epochs + 1) % (60 * 5) == 0)
+            if ((mind.epochs + 1) % (60 * mind.parms.runtime) == 0)
                 mind.theanswer.root = "It does not";
 
-            if ((mind.epochs + 2) % (60 * 5) == 0)
+            if ((mind.epochs + 2) % (60 * mind.parms.runtime) == 0)
                 mind.theanswer.root = "It does not";
 
             string answer = mind.theanswer.root;

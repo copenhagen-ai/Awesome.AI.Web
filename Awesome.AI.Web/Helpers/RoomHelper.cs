@@ -16,25 +16,24 @@ namespace Awesome.AI.Web.Helpers
             return remainingSec;
         }
 
-        public bool RobertaActive()
+        public bool Active(bool even, bool all)
         {
-            bool is_roberta = DateTime.Now.Hour % 2 == 0;
+            if(!all)
+                return true;
 
-            return is_roberta;
+            bool is_active = DateTime.Now.Hour % 2 == 0;
+
+            return even ? is_active : !is_active;
         }
 
-        public async Task<int> MessageDelay(Instance inst, int when_active, int when_inactive)
+        public async Task<int> Delay(Instance inst, int when_active, int when_inactive)
         {
-            //int users = UserHelper.CountUsers();
-            int sec_message;
             int sec_delay = inst.is_active ? when_active : when_inactive;
 
-            sec_message = /*users <= 1 ? 60 * 5 : */sec_delay;
-            
             if (inst.fast_responce)
-                sec_message = 1 * 1;
+                sec_delay = 1 * 1;
             
-            return sec_message;
+            return sec_delay;
         }
 
         private string FastResponce(ref bool fast_responce)

@@ -325,6 +325,7 @@ namespace Awesome.AI.Helpers
         public bool is_accord = true;
         public int learning_epochs = 100;
         public int first_run = 5;
+        public int runtime = 5; //minutes
 
         public double boost;                                              //dimm the fluctuations
         

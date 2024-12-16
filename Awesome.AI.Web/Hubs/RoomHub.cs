@@ -7,20 +7,23 @@ using static Awesome.AI.Web.Common.Enums;
 
 namespace Awesome.AI.Web.Hubs
 {
+    public class Bot
+    {
+        public MECHANICS mech {  get; set; }
+        public MINDS mind { get; set; }
+    }
+
     public class Instance
     {
-        public TheMind mind { get; set; }
-
         public MicroLibrary.MicroTimer microTimer = new MicroLibrary.MicroTimer();
-        //public int sec = 1000;
+        public TheMind mind { get; set; }
+        public MINDS type { get; set; }
+
         public int sec_message = 1;//not set here
         public int sec_info = 1;
         public bool fast_responce = false;
         public bool is_active = false;
-
         public long elapsedMs = 0;
-
-        public MINDS type;
     }
 
     public class GraphInfo
@@ -213,13 +216,14 @@ namespace Awesome.AI.Web.Hubs
     public class RoomHub : Hub
     {
         private RoomHelper helper {  get; set; }
-        private RUNNING running { get; set; }
-        //private GRAPH is_graph = GRAPH.UNIT;
-
+        private List<Bot> bots = new List<Bot>();
+        private List<Instance> instances = new List<Instance>();
+        
         private static bool is_running = false;
 
+        private const int WHEN_ACTIVE = 20;
+        private const int WHEN_INACTIVE = 60 * 5;
 
-        //[Authorize]
         public async Task Start()
         {
             try
@@ -235,129 +239,68 @@ namespace Awesome.AI.Web.Hubs
 
                 helper = new RoomHelper();
 
-                running = RUNNING.BOTH;
+                int MAX = Enum.GetNames(typeof(MINDS)).Length;
 
-                Instance roberta = new Instance();
-                Instance andrew = new Instance();
-
-                if(running == RUNNING.BOTH)
-                {
-                    roberta.mind = new TheMind(MECHANICS.HILL, "roberta");
-                    andrew.mind = new TheMind(MECHANICS.CONTEST, "andrew");
-
-                    roberta.type = MINDS.ROBERTA;
-                    andrew.type = MINDS.ANDREW;
-
-                    // Instantiate new MicroTimer and add event handler
-                    roberta.microTimer.MicroTimerElapsed += new MicroLibrary.MicroTimer.MicroTimerElapsedEventHandler(roberta.mind.Run);
-                    roberta.microTimer.Interval = roberta.mind.parms.micro_sec; // Call micro timer every 1000µs (1ms)
-                    roberta.microTimer.Enabled = true; // Start timer
-
-                    andrew.microTimer.MicroTimerElapsed += new MicroLibrary.MicroTimer.MicroTimerElapsedEventHandler(andrew.mind.Run);
-                    andrew.microTimer.Interval = andrew.mind.parms.micro_sec; // Call micro timer every 1000µs (1ms)
-                    andrew.microTimer.Enabled = true; // Start timer
-
-                    // Can choose to ignore event if late by Xµs (by default will try to catch up)
-                    //microTimer.IgnoreEventIfLateBy = 500; // 500µs (0.5ms)
-
-                    ProcessInfo(roberta);
-                    ProcessMessage(roberta);
-
-                    ProcessInfo(andrew);
-                    ProcessMessage(andrew);
-                }
-                else if (running == RUNNING.ROBERTA)
-                {
-                    roberta.mind = new TheMind(MECHANICS.HILL, "roberta");
-                    roberta.type = MINDS.ROBERTA;
-
-                    // Instantiate new MicroTimer and add event handler
-                    roberta.microTimer.MicroTimerElapsed += new MicroLibrary.MicroTimer.MicroTimerElapsedEventHandler(roberta.mind.Run);
-                    roberta.microTimer.Interval = roberta.mind.parms.micro_sec; // Call micro timer every 1000µs (1ms)
-                    roberta.microTimer.Enabled = true; // Start timer
-
-                    // Can choose to ignore event if late by Xµs (by default will try to catch up)
-                    //microTimer.IgnoreEventIfLateBy = 500; // 500µs (0.5ms)
-
-                    ProcessInfo(roberta);
-                    ProcessMessage(roberta);
-
-                    andrew = null;
-                }
-                else if(running == RUNNING.ANDREW)
-                {
-                    //andrew.mind = new TheMind(MECHANICS.CONTEST, "andrew");
-                    andrew.mind = new TheMind(MECHANICS.CONTEST, "standart remember");
-                    andrew.type = MINDS.ANDREW;
-                    
-                    andrew.microTimer.MicroTimerElapsed += new MicroLibrary.MicroTimer.MicroTimerElapsedEventHandler(andrew.mind.Run);
-                    andrew.microTimer.Interval = andrew.mind.parms.micro_sec; // Call micro timer every 1000µs (1ms)
-                    andrew.microTimer.Enabled = true; // Start timer
-
-                    ProcessInfo(andrew);
-                    ProcessMessage(andrew);
-
-                    roberta = null;
-                }
-
-
+                bots.Add(new Bot() { mind = MINDS.ROBERTA, mech = MECHANICS.HILL });
+                bots.Add(new Bot() { mind = MINDS.ANDREW, mech = MECHANICS.CONTEST });
                 
+                foreach (Bot bot in bots)
+                {
+                    Instance instance = new Instance();
+
+                    instance.mind = new TheMind(bot.mech, bot.mind.ToString().ToLower());
+                    instance.type = bot.mind;
+                        
+                    // Instantiate new MicroTimer and add event handler
+                    instance.microTimer.MicroTimerElapsed += new MicroLibrary.MicroTimer.MicroTimerElapsedEventHandler(instance.mind.Run);
+                    instance.microTimer.Interval = instance.mind.parms.micro_sec; // Call micro timer every 1000µs (1ms)
+                    instance.microTimer.Enabled = true; // Start timer
+                        
+                    // Can choose to ignore event if late by Xµs (by default will try to catch up)
+                    //microTimer.IgnoreEventIfLateBy = 500; // 500µs (0.5ms)
+
+                    ProcessInfo(instance);
+                    ProcessMessage(instance);
+
+                    instances.Add(instance);
+                }
+
                 XmlHelper.WriteMessage("starting.. 1");
 
-                int when_active = 20;
-                int when_inactive = 60 * 5;
-
-                int count = 0;
-                while (true)
+                int counter = 0;
+                while (is_running)
                 {
-                    if (!is_running || (!andrew.mind.ok && !roberta.mind.ok))
-                        throw new Exception("not is_running");
-
                     await Task.Delay(1000);
 
-                    if (running == RUNNING.BOTH)
+                    foreach (Instance inst in instances)
                     {
-                        roberta.is_active = count < 10 ? true : helper.RobertaActive();
-                        andrew.is_active = count < 10 ? true : !helper.RobertaActive();
-                        roberta.sec_message = await helper.MessageDelay(roberta, when_active, when_inactive);
-                        andrew.sec_message = await helper.MessageDelay(andrew, when_active, when_inactive);
-                    }
-                    else if (running == RUNNING.ROBERTA)
-                    {
-                        roberta.is_active = count < 10 ? true : true;
-                        //andrew.is_active = count < 10 ? true : !helper.RobertaActive();
-                        roberta.sec_message = 20;
-                        //andrew.sec_message = await helper.MessageDelay(andrew, when_active, when_inactive);
-                    }
-                    if (running == RUNNING.ANDREW)
-                    {
-                        //roberta.is_active = count < 10 ? true : helper.RobertaActive();
-                        andrew.is_active = count < 10 ? true : true;
-                        //roberta.sec_message = await helper.MessageDelay(roberta, when_active, when_inactive);
-                        andrew.sec_message = 20;
+                        if (!inst.mind.ok)
+                            is_running = false;
+                        
+                        int index = instances.IndexOf(inst);
+                        bool is_even = index % 2 == 0;
+                        bool is_all = instances.Count == MAX;
+
+                        inst.is_active = helper.Active(is_even, is_all);
+                        inst.sec_message = await helper.Delay(inst, WHEN_ACTIVE, WHEN_INACTIVE);
                     }
 
-                    count++;
+                    counter++;
 
-                    if (count > 20)
-                        count = 15;
+                    if (counter > 20)
+                        counter = 10;
 
-                    XmlHelper.WriteMessage("running.. " + count);
+                    XmlHelper.WriteMessage("running.. " + counter);
                 }
-
             }
             catch (Exception ex)
             {
                 XmlHelper.WriteError("start - " + ex.Message);
-                
-                //await Task.Delay(5000);
 
                 is_running = false;
-                //Start();
             }
         }
 
-        private bool wait1 = false;
         private async Task ProcessMessage(Instance inst)
         {
             try
@@ -365,6 +308,7 @@ namespace Awesome.AI.Web.Hubs
                 await Task.Delay(100);
 
                 List<string> dots = new List<string>() { "No emotions that is a bummer" };
+                bool wait1 = false;
 
                 while (inst.mind.ok)
                 {
@@ -385,7 +329,7 @@ namespace Awesome.AI.Web.Hubs
                     wait1 = false;
 
                     var watch = System.Diagnostics.Stopwatch.StartNew();
-                    //inst.elapsedMs = 0;
+                    
                     // the code that you want to measure comes here
 
                     string subject = "";
@@ -444,10 +388,6 @@ namespace Awesome.AI.Web.Hubs
             {
                 XmlHelper.WriteError("processmessage - " + ex.Message);
 
-                //await Task.Delay(5000);
-
-                //ProcessMessage(inst);
-
                 is_running = false;
             }
         }
@@ -482,13 +422,6 @@ namespace Awesome.AI.Web.Hubs
                     GraphInfo graph1 = new GraphInfo();
                     GraphInfo graph2 = new GraphInfo();
                     
-                    //if (is_graph == GRAPH.INDEX)
-                    //    graph1.SetupIndex(inst);
-                    //else if (is_graph == GRAPH.FORCE)
-                    //    graph1.SetupForce(inst);
-                    //else
-                    //    graph1.SetupUnit(inst);
-
                     graph1.SetupIndex(inst);
                     graph2.SetupUnit(inst);
 
@@ -515,8 +448,6 @@ namespace Awesome.AI.Web.Hubs
             catch (Exception ex)
             {
                 XmlHelper.WriteError("processinfo - " + ex.Message);
-
-                //await Task.Delay(5000);
 
                 is_running = false;
             }
