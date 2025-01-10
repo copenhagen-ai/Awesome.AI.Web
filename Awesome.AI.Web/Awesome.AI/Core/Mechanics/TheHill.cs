@@ -35,8 +35,32 @@ namespace Awesome.AI.Core.Mechanics
             
             POS_X = parms.pos_x_start;//10;
         }
+
         
-        private int count { get; set; } = 0;
+        //Weight
+        public double VAR(UNIT _c)
+        {
+            /*
+             * This is a changeable function.
+             * 
+             * Weight
+             * W = m * g
+             * */
+            if (_c.IsNull())
+                throw new Exception();
+
+            if (_c.IsIDLE())
+                throw new Exception();// return Params.idle_val;
+
+            double earth_gravity = ZUNIT.zero_gravity;
+            double mass = mind.parms.mass;
+            double percent = mind.calc.NormalizeRange(_c.HighAtZero, 0.0d, mind.parms.max_index, 0.0d, 1.0d);
+
+            double res = (mass * earth_gravity) * percent;
+
+            return res;
+        }
+
         public double EXIT()
         {
             double res = 10.0d - POS_X;

@@ -1,7 +1,6 @@
 ﻿using Awesome.AI.Common;
 using Awesome.AI.Core;
 using Awesome.AI.Core.Mechanics;
-using Awesome.AI.Core.Physics;
 using Awesome.AI.Interfaces;
 using static Awesome.AI.Helpers.Enums;
 
@@ -15,226 +14,216 @@ namespace Awesome.AI.Helpers
         {
             this.mind = mind;
             GetMechanics(run);
-            GetBaseForce();        
         }
 
         public int selector;
         public IMechanics _mech = null;
-        public IBaseVariable _base = null;
-        public IMechanics GetMechanics(MECHANICS run)
+        
+        public IMechanics GetMechanics(MECHANICS run = MECHANICS.NONE)
         {
             if (_mech == null)
             {
+                /*
+                 * INFO (not used)
+                 * earth mass:      5.972 × 10^24 kg
+                 * sun mass:        1.989 × 10^30 kg
+                 * earth radius:            6,371 km
+                 * distance moon:         384,400 km
+                 * distance sun:      148.010.000 km
+                 * car mass:                  500 kg
+                 * */
+
                 switch (run)
                 {
-                    case MECHANICS.WHEEL: _mech = new _TheWheel(this); break;
-                    case MECHANICS.GRAVITY: _mech = new _TheGravity(this); break;
-                    case MECHANICS.CONTEST: _mech = new _TheContest(this); break;
-                    case MECHANICS.HILL: _mech = new _TheHill(this); break;
+                    case MECHANICS.WHEEL: 
+                        _mech = new _TheWheel(this);
+
+                        setup_tags = TAGSETUP.PRIME;                                        //fixed, always set to PRIME
+                        validation = VALIDATION.BOTH;                                       //BOTH or OCCU
+                        case_tags = TAGS.ONE;                                               //used with TAGS and BOTH
+                        case_occupasion = OCCUPASION.FIXED;                                 //used with OCCU and BOTH
+                        typelimit = TYPELIMIT.CHANCE;
+                        hmode1 = HACKMODES.HACK;
+                        hmode2 = HACKMODES.NOHACK;
+                        mech = MECHANICS.WHEEL;
+                        matrix_type = MATRIX.GPT;
+
+                        //earth mass:      5.972×10^24 kg
+                        //sun mass:        1.989×10^30 kg
+                        //earth gravity:         9.807 m/s²
+                        //distance sun:    148.010.000 km
+                        //earth radius:          6,371 km
+                        ZUNIT.zero_mass = 10.0d * 1.989E30d;
+                        ZUNIT.zero_gravity = -1d;
+                        ZUNIT.zero_dist = 1.0E-50d;
+
+                        mass = 5.972E24d;
+                        max_index = 100.0d;
+                        scale = 2.0d;
+                        high_pass = 1.0E-9d;
+                        pos_x_high = 10.0d;
+                        pos_x_low = 0.0d;
+                        pos_x_start = 5.0d;
+
+                        dir_learningrate = -1d;
+
+                        /*
+                         * boost is life span
+                         * as it seem momentum seem to go towards below 0.0
+                         * boost should be as close 1.0, without dying to fast
+                         * */
+
+                        boost = 1E9d;
+
+                        selector = 0;
+
+                        break;
+                    case MECHANICS.GRAVITY: 
+                        _mech = new _TheGravity(this);
+
+                        setup_tags = TAGSETUP.PRIME;                                        //fixed, always set to PRIME
+                        validation = VALIDATION.BOTH;                                       //BOTH or OCCU
+                        case_tags = TAGS.ONE;                                               //used with TAGS and BOTH
+                        case_occupasion = OCCUPASION.FIXED;                                 //used with OCCU and BOTH
+                        typelimit = TYPELIMIT.SIGMOID;
+                        hmode1 = HACKMODES.HACK;
+                        hmode2 = HACKMODES.NOHACK;
+                        mech = MECHANICS.GRAVITY;
+                        matrix_type = MATRIX.GPT;
+
+                        //earth mass:      5.972×10^24 kg
+                        //sun mass:        1.989×10^30 kg
+                        //earth gravity:         9.807 m/s²
+                        //distance sun:    148.010.000 km
+                        //earth radius:          6,371 km
+                        ZUNIT.zero_mass = 5.972E24d;
+                        ZUNIT.zero_gravity = -1d;
+                        ZUNIT.zero_dist = 1.0E-50d;
+
+                        mass = 0.05d;
+                        max_index = 7000.0d;
+                        scale = -1d;
+                        high_pass = 5.610E7d;
+                        pos_x_high = 10.0d;
+                        pos_x_low = 0.0d;
+                        pos_x_start = 5.0d;
+
+                        dir_learningrate = -1d;
+
+                        /*
+                         * boost is life span
+                         * as it seem momentum seem to go towards below 0.0
+                         * boost should be as close 1.0, without dying to fast
+                         * */
+
+                        boost = 1E-10d;
+
+                        selector = 1;
+
+                        break;
+                    case MECHANICS.CONTEST: 
+                        _mech = new _TheContest(this);
+
+                        setup_tags = TAGSETUP.PRIME;                                        //fixed, always set to PRIME
+                        validation = VALIDATION.BOTH;                                       //BOTH or OCCU
+                        case_tags = TAGS.ONE;                                               //used with TAGS and BOTH
+                        case_occupasion = OCCUPASION.FIXED;                                 //used with OCCU and BOTH
+                        typelimit = TYPELIMIT.SIGMOID;
+                        hmode1 = HACKMODES.NOHACK;
+                        hmode2 = HACKMODES.NOHACK;
+                        mech = MECHANICS.CONTEST;
+                        matrix_type = MATRIX.GPT;
+
+                        //earth mass:      5.972×10^24 kg
+                        //sun mass:        1.989×10^30 kg
+                        //earth gravity:         9.807 m/s²
+                        //distance sun:    148.010.000 km
+                        //earth radius:          6,371 km
+                        ZUNIT.zero_mass = -1d;
+                        ZUNIT.zero_gravity = -1d;
+                        ZUNIT.zero_dist = -1d;
+
+                        mass = 500.0d;
+                        max_index = 100.0d;
+                        scale = 80.0d;
+                        high_pass = 5.610E7d;
+                        pos_x_high = 10.0d;
+                        pos_x_low = 0.0d;
+                        pos_x_start = 5.0d;
+
+                        dir_learningrate = -1d;
+
+                        /*
+                         * boost is life span
+                         * as it seem momentum seem to go towards below 0.0
+                         * boost should be as close 1.0, without dying to fast
+                         * */
+
+                        boost = 1E-2d;
+
+                        selector = 1;
+
+                        break;
+                    case MECHANICS.HILL: 
+                        _mech = new _TheHill(this);
+
+                        setup_tags = TAGSETUP.PRIME;                                        //fixed, always set to PRIME
+                        validation = VALIDATION.BOTH;                                       //BOTH or TAGS
+                        case_tags = TAGS.ONE;                                               //used with TAGS and BOTH
+                        case_occupasion = OCCUPASION.FIXED;                                 //used with OCCU and BOTH
+                        typelimit = TYPELIMIT.SIGMOID;
+                        hmode1 = HACKMODES.HACK;
+                        hmode2 = HACKMODES.HACK;
+                        mech = MECHANICS.HILL;
+                        matrix_type = MATRIX.GPT;
+
+                        //earth mass:    5.972 × 10^24kg
+                        //sun mass:      1.989 × 10^30kg
+                        //earth gravity: 9.807m/s²
+                        ZUNIT.zero_mass = -1d;
+                        ZUNIT.zero_gravity = 9.81d;
+                        ZUNIT.zero_dist = 1.0E-50d;
+
+                        mass = 0.5d;
+                        max_index = 100.0d;
+                        scale = -1d;
+                        high_pass = 4.48d;
+                        pos_x_high = 10.0d;
+                        pos_x_low = 0.0d;
+                        pos_x_start = 5.0d;
+
+                        val_a = -0.1d;
+                        val_b = 0.0d;
+                        val_c = 10.0d;/**/
+
+                        /*val_a = -0.01d;
+                        val_b = 0.0d;
+                        val_c = 1.0d;/**/
+
+                        /*val_a = -0.001d;
+                        val_b = 0.0d;
+                        val_c = 0.1d;/**/
+
+                        dir_learningrate = 0.001d;
+
+                        /*
+                         * boost is life span?
+                         * I dont know if boost acts the same for this system
+                         * boost should be as close 1.0, without dying to fast
+                         * */
+
+                        boost = 1.0E1d;
+
+                        selector = 2;
+
+                        break;
                     default: throw new Exception();
                 }
             }
+            
             return _mech;
         }
-
-        public IBaseVariable GetBaseForce()
-        {
-            /*
-             * INFO (not used)
-             * earth mass:      5.972 × 10^24 kg
-             * sun mass:        1.989 × 10^30 kg
-             * earth radius:            6,371 km
-             * distance moon:         384,400 km
-             * distance sun:      148.010.000 km
-             * car mass:                  500 kg
-             * */
-
-            if (_base != null)
-                return _base;
-
-            //GetMechanics();
-            if (_mech is _TheWheel) 
-            {
-                setup_tags = TAGSETUP.PRIME;                                        //fixed, always set to PRIME
-                validation = VALIDATION.BOTH;                                       //BOTH or OCCU
-                case_tags = TAGS.ONE;                                               //used with TAGS and BOTH
-                case_occupasion = OCCUPASION.FIXED;                                 //used with OCCU and BOTH
-                typelimit = TYPELIMIT.CHANCE;
-                hmode1 = HACKMODES.HACK;
-                hmode2 = HACKMODES.NOHACK;
-                mech = MECHANICS.WHEEL;
-                matrix_type = MATRIX.GPT;
-
-                //earth mass:      5.972×10^24 kg
-                //sun mass:        1.989×10^30 kg
-                //earth gravity:         9.807 m/s²
-                //distance sun:    148.010.000 km
-                //earth radius:          6,371 km
-                ZUNIT.zero_mass = 10.0d * 1.989E30d;
-                ZUNIT.zero_gravity = -1d;
-                ZUNIT.zero_dist = 1.0E-50d;
-                
-                mass = 5.972E24d;
-                max_index = 100.0d;
-                scale = 2.0d;
-                high_pass = 1.0E-9d;
-                pos_x_high = 10.0d;
-                pos_x_low = 0.0d;
-                pos_x_start = 5.0d;
-                
-                dir_learningrate = -1d;
-
-                /*
-                 * boost is life span
-                 * as it seem momentum seem to go towards below 0.0
-                 * boost should be as close 1.0, without dying to fast
-                 * */
-                
-                boost = 1E9d;
-                
-                selector = 0;
-                _base = _base == null ? new WorksWithWheelAndContest(mind) : _base;
-            }
-            if (_mech is _TheGravity)
-            {
-                setup_tags = TAGSETUP.PRIME;                                        //fixed, always set to PRIME
-                validation = VALIDATION.BOTH;                                       //BOTH or OCCU
-                case_tags = TAGS.ONE;                                               //used with TAGS and BOTH
-                case_occupasion = OCCUPASION.FIXED;                                 //used with OCCU and BOTH
-                typelimit = TYPELIMIT.SIGMOID;
-                hmode1 = HACKMODES.HACK;
-                hmode2 = HACKMODES.NOHACK;
-                mech = MECHANICS.GRAVITY;
-                matrix_type = MATRIX.GPT;
-
-                //earth mass:      5.972×10^24 kg
-                //sun mass:        1.989×10^30 kg
-                //earth gravity:         9.807 m/s²
-                //distance sun:    148.010.000 km
-                //earth radius:          6,371 km
-                ZUNIT.zero_mass = 5.972E24d;
-                ZUNIT.zero_gravity = -1d;
-                ZUNIT.zero_dist = 1.0E-50d;
-
-                mass = 0.05d;
-                max_index = 7000.0d;
-                scale = -1d;
-                high_pass = 5.610E7d;
-                pos_x_high = 10.0d;
-                pos_x_low = 0.0d;
-                pos_x_start = 5.0d;
-
-                dir_learningrate = -1d;
-
-                /*
-                 * boost is life span
-                 * as it seem momentum seem to go towards below 0.0
-                 * boost should be as close 1.0, without dying to fast
-                 * */
-
-                boost = 1E-10d;
-
-                selector = 1;
-                _base = _base == null ? new WorksWithGravity(mind) : _base;
-            }
-            if (_mech is _TheContest)
-            {
-                setup_tags = TAGSETUP.PRIME;                                        //fixed, always set to PRIME
-                validation = VALIDATION.BOTH;                                       //BOTH or OCCU
-                case_tags = TAGS.ONE;                                               //used with TAGS and BOTH
-                case_occupasion = OCCUPASION.FIXED;                                 //used with OCCU and BOTH
-                typelimit = TYPELIMIT.SIGMOID;
-                hmode1 = HACKMODES.NOHACK;
-                hmode2 = HACKMODES.NOHACK;
-                mech = MECHANICS.CONTEST;
-                matrix_type = MATRIX.GPT;
-
-                //earth mass:      5.972×10^24 kg
-                //sun mass:        1.989×10^30 kg
-                //earth gravity:         9.807 m/s²
-                //distance sun:    148.010.000 km
-                //earth radius:          6,371 km
-                ZUNIT.zero_mass = -1d;
-                ZUNIT.zero_gravity = -1d;
-                ZUNIT.zero_dist = -1d;
-                
-                mass = 500.0d;
-                max_index = 100.0d;
-                scale = 80.0d;
-                high_pass = 5.610E7d;
-                pos_x_high = 10.0d;
-                pos_x_low = 0.0d;
-                pos_x_start = 5.0d;
-                
-                dir_learningrate = -1d;
-
-                /*
-                 * boost is life span
-                 * as it seem momentum seem to go towards below 0.0
-                 * boost should be as close 1.0, without dying to fast
-                 * */
-                
-                boost = 1E-2d ;
-                
-                selector = 1;
-                _base = _base == null ? new WorksWithWheelAndContest(mind) : _base;
-            }
-            if (_mech is _TheHill)
-            {
-                setup_tags = TAGSETUP.PRIME;                                        //fixed, always set to PRIME
-                validation = VALIDATION.BOTH;                                       //BOTH or TAGS
-                case_tags = TAGS.ONE;                                               //used with TAGS and BOTH
-                case_occupasion = OCCUPASION.FIXED;                                 //used with OCCU and BOTH
-                typelimit = TYPELIMIT.SIGMOID;
-                hmode1 = HACKMODES.HACK;
-                hmode2 = HACKMODES.HACK;
-                mech = MECHANICS.HILL;
-                matrix_type = MATRIX.GPT;
-
-                //earth mass:    5.972 × 10^24kg
-                //sun mass:      1.989 × 10^30kg
-                //earth gravity: 9.807m/s²
-                ZUNIT.zero_mass = -1d;
-                ZUNIT.zero_gravity = 9.81d;
-                ZUNIT.zero_dist = 1.0E-50d;
-                
-                mass = 0.5d;
-                max_index = 100.0d;
-                scale = -1d;
-                high_pass = 4.48d;
-                pos_x_high = 10.0d;
-                pos_x_low = 0.0d;
-                pos_x_start = 5.0d;
-
-                val_a = -0.1d;
-                val_b = 0.0d;
-                val_c = 10.0d;/**/
-
-                /*val_a = -0.01d;
-                val_b = 0.0d;
-                val_c = 1.0d;/**/
-
-                /*val_a = -0.001d;
-                val_b = 0.0d;
-                val_c = 0.1d;/**/
-
-                dir_learningrate = 0.001d;
-
-                /*
-                 * boost is life span?
-                 * I dont know if boost acts the same for this system
-                 * boost should be as close 1.0, without dying to fast
-                 * */
-                
-                boost = 1.0E1d;
-                
-                selector = 2;
-                _base = _base == null ? new WorksWithHill(mind) : _base;
-            }
-            return _base;
-        }
-
-
+        
         /*
          * VARIABLE parameters
          * */

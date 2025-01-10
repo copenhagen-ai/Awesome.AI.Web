@@ -52,8 +52,8 @@ namespace Awesome.AI.Common
                 if (_f != -1d)
                     return _f;
 
-                IBaseVariable _base = mind.parms.GetBaseForce();
-                _f = _base.Variable(this);
+                IMechanics _mech = mind.parms.GetMechanics();
+                _f = _mech.VAR(this);
                 return _f;
             }
         }

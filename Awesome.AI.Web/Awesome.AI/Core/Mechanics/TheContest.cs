@@ -39,6 +39,25 @@ namespace Awesome.AI.Core.Mechanics
             this.mind = parms.mind;
         }
 
+        //NewtonForce
+        public double VAR(UNIT curr)
+        {
+            /*
+             * I guess this is a changeable function, for now it is just the one I know to calculate force
+             * */
+
+            if (curr.IsNull())
+                throw new Exception();
+
+            if (curr.IsIDLE())
+                throw new Exception();
+
+            double acc = curr.HighAtZero;
+            acc = acc == 0.0d ? 1.0E-50 : acc;// jajajaa
+
+            return acc;
+        }
+
         public double EXIT()
         {
             double res = POS_X;

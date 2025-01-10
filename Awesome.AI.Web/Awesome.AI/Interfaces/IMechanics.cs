@@ -1,4 +1,5 @@
-﻿using Awesome.AI.CoreHelpers;
+﻿using Awesome.AI.Common;
+using Awesome.AI.CoreHelpers;
 
 namespace Awesome.AI.Interfaces
 {
@@ -11,15 +12,15 @@ namespace Awesome.AI.Interfaces
         double out_low { get; set; }
         double posx_high { get; set; }
         double posx_low { get; set; }
-        //double res_x { get; set; }
         double POS_X { get; set; }
         double momentum { get; set; }
 
         Direction dir { get; set; }
         
-        void CALC(/*bool process*/);
-        void XPOS(/*bool process*/);
+        void CALC();
+        void XPOS();
         double EXIT();
+        double VAR(UNIT c);
     }
 }
 

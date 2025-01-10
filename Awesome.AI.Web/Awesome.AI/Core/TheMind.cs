@@ -146,10 +146,6 @@ namespace Awesome.AI.Core
             foreach (UNIT u in list.OrderBy(x => x.LengthFromZero).ToList())
                 units_dist.Add(u.root, u.LengthFromZero);
 
-            Dictionary<string, double> units_perc = new Dictionary<string, double>();
-            foreach (UNIT u in list.OrderBy(x => parms.GetBaseForce().ToPercent(x)).ToList())
-                units_perc.Add(u.root, parms.GetBaseForce().ToPercent(u));
-
             List<UNIT> list1 = list.OrderBy(x => x.index_conv).ToList();
             List<UNIT> list2 = list.OrderBy(x => x.Variable).ToList();
             List<UNIT> list3 = list.Where(x => !filters.LowCut(x)).OrderBy(x => x.Variable).ToList();
