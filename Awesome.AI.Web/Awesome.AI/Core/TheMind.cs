@@ -152,7 +152,7 @@ namespace Awesome.AI.Core
 
             List<UNIT> list1 = list.OrderBy(x => x.index_conv).ToList();
             List<UNIT> list2 = list.OrderBy(x => x.Variable).ToList();
-            List<UNIT> list3 = list.Where(x=>filters.HighPass(x)).OrderBy(x => x.Variable).ToList();
+            List<UNIT> list3 = list.Where(x => !filters.LowCut(x)).OrderBy(x => x.Variable).ToList();
 
             valid_units = units_force.Count;
 
@@ -242,17 +242,16 @@ namespace Awesome.AI.Core
             cycles++;
             cycles_all++;
 
-
             IMechanics mech = parms.GetMechanics(MECHANICS.NONE);
 
-            core.UpdateEnergy();
+            core.UpdateCredit();
             core.AnswerQuestion();
             
             if (curr_unit.IsIDLE())
                 return true;
 
-            mech.CALC(/*_pro*/);
-            mech.XPOS(/*_pro*/);
+            mech.CALC();
+            mech.XPOS();
 
             if (curr_hub.IsIDLE())
                 core.SetTheme(_pro);            

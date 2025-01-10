@@ -22,10 +22,6 @@ namespace Awesome.AI.Web.AI.Common
         public string ratio_no { get; set; }
         public string the_choise_isno { get; set; }
 
-        public string bias { get; set; }
-        public string limit { get; set; }
-        public string limit_avg { get; set; }
-
         public UNIT common_unit { get; set; }
         public string common_hub { get; set; }
 
@@ -40,10 +36,6 @@ namespace Awesome.AI.Web.AI.Common
             ratio_yes = $"{mind.parms._mech.dir.ratio.CountYes()}";
             ratio_no = $"{mind.parms._mech.dir.ratio.CountNo()}";
             the_choise_isno = $"{mind.parms._mech.dir.Choise.IsNo()}";
-
-            bias = "" + mind.parms.lim_bias;
-            limit = "" + mind.parms._mech.lim.limit_result;
-            limit_avg = "" + mind.parms._mech.dir.limit_periode.Average();
 
             List<UNIT> all = mind.mem.UNITS_ALL();
 

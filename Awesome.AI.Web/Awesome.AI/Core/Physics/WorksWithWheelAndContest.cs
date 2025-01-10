@@ -29,8 +29,8 @@ namespace Awesome.AI.Core.Physics
         public double Variable(UNIT curr)
         {
             /*
-                * I guess this is a changeable function, for now it is just the one I know to calculate force
-                * */
+             * I guess this is a changeable function, for now it is just the one I know to calculate force
+             * */
 
             if (curr.IsNull())
                 throw new Exception();
@@ -38,7 +38,7 @@ namespace Awesome.AI.Core.Physics
             if (curr.IsIDLE())
                 throw new Exception();
 
-            double acc = curr.HighAtZeroReciprocal / 20.0d;
+            double acc = curr.HighAtZero;
             acc = acc == 0.0d ? 1.0E-50 : acc;// jajajaa
 
             return acc;

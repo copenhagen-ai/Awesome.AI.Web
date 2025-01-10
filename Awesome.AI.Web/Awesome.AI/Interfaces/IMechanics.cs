@@ -16,8 +16,7 @@ namespace Awesome.AI.Interfaces
         double momentum { get; set; }
 
         Direction dir { get; set; }
-        Limitters lim { get; set; }
-
+        
         void CALC(/*bool process*/);
         void XPOS(/*bool process*/);
         double EXIT();

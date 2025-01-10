@@ -48,10 +48,8 @@ namespace Awesome.AI.Common
             //only valid UNITs
             List<UNIT> _u = mind.mem.UNITS_VAL();
             UNIT max = _u.OrderByDescending(x => x.index_orig).FirstOrDefault();
-            //UNIT max = _u.OrderByDescending(x => x.index_calc).FirstOrDefault();
 
             maxx = max.index_orig;
-            //maxx = max.index_calc;
 
             return maxx;
         }
@@ -65,10 +63,8 @@ namespace Awesome.AI.Common
             //only valid UNITs
             List<UNIT> _u = mind.mem.UNITS_VAL();
             UNIT low = _u.OrderByDescending(x => x.index_orig).LastOrDefault();
-            //UNIT low = _u.OrderByDescending(x => x.index_calc).LastOrDefault();
 
             lowx = low.index_orig;
-            //lowx = low.index_calc;
 
             return lowx;
         }

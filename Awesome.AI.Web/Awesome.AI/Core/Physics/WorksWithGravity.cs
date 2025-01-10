@@ -1,7 +1,5 @@
 ﻿using Awesome.AI.Common;
-using Awesome.AI.Helpers;
 using Awesome.AI.Interfaces;
-using System;
 
 namespace Awesome.AI.Core.Physics
 {
@@ -31,8 +29,8 @@ namespace Awesome.AI.Core.Physics
         public double Variable(UNIT curr)
         {
             /*
-                * I guess this is a changeable function, for now it is just the one I know to calculate force
-                * */
+             * I guess this is a changeable function, for now it is just the one I know to calculate force
+             * */
 
             if (curr.IsNull())
                 throw new Exception();

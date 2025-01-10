@@ -1,7 +1,5 @@
 ﻿using Awesome.AI.Common;
-using Awesome.AI.Helpers;
 using Awesome.AI.Interfaces;
-using System;
 
 namespace Awesome.AI.Core.Physics
 {

@@ -28,7 +28,7 @@ namespace Awesome.AI.Core.Mechanics
         
         public double POS_X { get; set; } = 10.0d;
         public Direction dir { get; set; }
-        public Limitters lim { get; set; }
+        //public Limitters lim { get; set; }
 
         TheMind mind;
         private _TheWheel() { }
@@ -36,7 +36,7 @@ namespace Awesome.AI.Core.Mechanics
         {
             this.mind = parms.mind;
             dir = new Direction(parms.mind) { d_momentum = 0.0d };
-            lim = new Limitters(parms.mind);
+            //lim = new Limitters(parms.mind);
         }
                         
         public double EXIT()
@@ -91,14 +91,14 @@ namespace Awesome.AI.Core.Mechanics
         public double ApplyStatic()
         {
             double force = mind.common.HighestForce().Variable;
-            double limit = lim.Limit(true);
+            //double limit = lim.Limit(true);
 
             double F = force;//force, left
             double m = mind.parms.mass;
             double dt = DeltaT();
             double dv = DeltaV(F, m, dt);
 
-            velocity -= dv * limit;
+            velocity -= dv * 0.5d;// limit;
 
             //if (velocity < -1.0d)
             //    throw new Exception();
@@ -122,7 +122,7 @@ namespace Awesome.AI.Core.Mechanics
 
             double max = mind.common.HighestForce().Variable;
             double force = curr_unit_th.Variable;
-            double limit = first_run ? 0.5d : lim.Limit(false);
+            //double limit = first_run ? 0.5d : lim.Limit(false);
 
             double F = max - force;//force, right
             double m = mind.parms.mass;
@@ -137,7 +137,7 @@ namespace Awesome.AI.Core.Mechanics
                 * */
 
             //if (goodbye.IsNo())
-                velocity += dv * limit;                                 // maybe this does actually make the "whoosh" effect over time/cycles
+            velocity += dv * 0.5d;// limit;                                 // maybe this does actually make the "whoosh" effect over time/cycles
 
             //if (velocity > 1.0d)
             //    throw new Exception();

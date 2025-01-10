@@ -16,7 +16,7 @@ namespace Awesome.AI.Common
         public string root { get; set; }
         public string root_val { get; set; }
         public double max_nrg { get; set; }
-        public double energy { get; set; }
+        public double credits { get; set; }
         public int visited { get; set; }
 
         TheMind mind;
@@ -86,14 +86,14 @@ namespace Awesome.AI.Common
             }
         }
         
-        public bool IsHighPass
+        public bool IsLowCut
         {
-            get { return mind.filters.HighPass(this); }
+            get { return mind.filters.LowCut(this); }
         }
 
         public bool IsEnergy
         {
-            get { return mind.filters.Energy(this); }
+            get { return mind.filters.Credits(this); }
         }
 
         UNIT next = null;
@@ -107,7 +107,7 @@ namespace Awesome.AI.Common
                 List<UNIT> units = mind.mem.UNITS_VAL();
                 units = units.OrderByDescending(x => x.Variable).ToList();
                 units = units.Where(x => !x.IsSPECIAL()).ToList();
-                units = units.Where(x => x.IsHighPass).ToList();
+                units = units.Where(x => !x.IsLowCut).ToList();
                 units = units.Where(x => x.Variable < this.Variable).ToList();
 
                 next = units.FirstOrDefault();
@@ -129,7 +129,7 @@ namespace Awesome.AI.Common
                 List<UNIT> units = mind.mem.UNITS_VAL();
                 units = units.OrderByDescending(x => x.Variable).ToList();
                 units = units.Where(x => !x.IsSPECIAL()).ToList();
-                units = units.Where(x => x.IsHighPass).ToList();
+                units = units.Where(x => !x.IsLowCut).ToList();
                 units = units.Where(x => x.Variable > this.Variable).ToList();
 
                 prev = units.LastOrDefault();
@@ -208,7 +208,7 @@ namespace Awesome.AI.Common
 
                 return res;
             }
-        }
+        }        
 
         private HUB hub = null;
         public HUB HUB
@@ -249,7 +249,7 @@ namespace Awesome.AI.Common
                 _w.ticket = new Ticket(ticket);
 
             _w.max_nrg = mind.parms.max_nrg;
-            _w.energy = mind.parms.max_nrg;
+            _w.credits = mind.parms.max_nrg;
 
             return _w;
         }

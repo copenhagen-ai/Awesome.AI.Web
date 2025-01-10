@@ -2,6 +2,7 @@
 using Awesome.AI.Core;
 using Awesome.AI.Web.Helpers;
 using Microsoft.AspNetCore.SignalR;
+using System.Diagnostics;
 using static Awesome.AI.Helpers.Enums;
 using static Awesome.AI.Web.Common.Enums;
 
@@ -241,8 +242,9 @@ namespace Awesome.AI.Web.Hubs
 
                 int MAX = Enum.GetNames(typeof(MINDS)).Length;
 
+                //bots.Add(new Bot() { mind = MINDS.ROBERTA, mech = MECHANICS.HILL });
                 bots.Add(new Bot() { mind = MINDS.ROBERTA, mech = MECHANICS.HILL });
-                bots.Add(new Bot() { mind = MINDS.ANDREW, mech = MECHANICS.CONTEST });
+                bots.Add(new Bot() { mind = MINDS.ANDREW, mech = MECHANICS.HILL });
                 
                 foreach (Bot bot in bots)
                 {
@@ -255,9 +257,12 @@ namespace Awesome.AI.Web.Hubs
                     instance.microTimer.MicroTimerElapsed += new MicroLibrary.MicroTimer.MicroTimerElapsedEventHandler(instance.mind.Run);
                     instance.microTimer.Interval = instance.mind.parms.micro_sec; // Call micro timer every 1000µs (1ms)
                     instance.microTimer.Enabled = true; // Start timer
-                        
+
                     // Can choose to ignore event if late by Xµs (by default will try to catch up)
                     //microTimer.IgnoreEventIfLateBy = 500; // 500µs (0.5ms)
+
+                    while(instance.mind.cycles_all < 10)
+                        await Task.Delay(1000);
 
                     ProcessInfo(instance);
                     ProcessMessage(instance);
@@ -282,7 +287,7 @@ namespace Awesome.AI.Web.Hubs
                         bool is_all = instances.Count == MAX;
 
                         inst.is_active = helper.Active(is_even, is_all);
-                        inst.sec_message = await helper.Delay(inst, WHEN_ACTIVE, WHEN_INACTIVE);
+                        inst.sec_message = helper.Delay(inst, WHEN_ACTIVE, WHEN_INACTIVE);
                     }
 
                     counter++;
@@ -291,6 +296,7 @@ namespace Awesome.AI.Web.Hubs
                         counter = 10;
 
                     XmlHelper.WriteMessage("running.. " + counter);
+                    Debug.WriteLine("running.. " + counter);
                 }
             }
             catch (Exception ex)
@@ -415,9 +421,9 @@ namespace Awesome.AI.Web.Hubs
                     string ratio_no = inst.mind._out.ratio_no;
                     string the_choise_isno = inst.mind._out.the_choise_isno;
 
-                    string bias = inst.mind._out.bias;
-                    string limit = inst.mind._out.limit;
-                    string limit_avg = inst.mind._out.limit_avg;
+                    string bias = "0.5";// inst.mind._out.bias;
+                    string limit = "0.5";// inst.mind._out.limit;
+                    string limit_avg = "0.5";// inst.mind._out.limit_avg;
 
                     GraphInfo graph1 = new GraphInfo();
                     GraphInfo graph2 = new GraphInfo();

@@ -31,7 +31,7 @@ namespace Awesome.AI.Core.Mechanics
 
         public double POS_X { get; set; } = 10.0d;
         public Direction dir { get; set; }
-        public Limitters lim { get; set; }
+        //public Limitters lim { get; set; }
 
         TheMind mind;
         private _TheGravity() { }
@@ -39,7 +39,7 @@ namespace Awesome.AI.Core.Mechanics
         {
             this.mind = parms.mind;
             dir = new Direction(parms.mind) { d_momentum = 0.0d };
-            lim = new Limitters(parms.mind);
+            //lim = new Limitters(parms.mind);
         }
 
         public double EXIT()
@@ -103,12 +103,12 @@ namespace Awesome.AI.Core.Mechanics
         public double ApplyStatic()
         {
             double force = mind.common.HighestForce().Variable;
-            double limit = lim.Limit(true);
+            //double limit = lim.Limit(true);
 
             double F = force;                       //force, left
             double m = mind.parms.mass;
             double dt = DeltaT();                   //delta time
-            double dv = DeltaV(F, m, dt) * limit;   //delta velocity
+            double dv = DeltaV(F, m, dt) * 0.5d;// limit;   //delta velocity
 
             velocity -= dv;
 
@@ -131,12 +131,12 @@ namespace Awesome.AI.Core.Mechanics
 
             double max = mind.common.HighestForce().Variable;
             double force = max - curr_unit_th.Variable;
-            double limit = first_run ? 0.5d : lim.Limit(false);
+            //double limit = first_run ? 0.5d : lim.Limit(false);
 
             double F = force;                       //force, right
             double m = mind.parms.mass;
             double dt = DeltaT();                   //delta time
-            double dv = DeltaV(F, m, dt) * limit;   //delta velocity
+            double dv = DeltaV(F, m, dt) * 0.5d;// limit;   //delta velocity
 
             //if (goodbye.IsNo())
             //if (goodbye.IsNo() && momentum < 0.0d)

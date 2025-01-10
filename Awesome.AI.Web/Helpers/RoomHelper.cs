@@ -26,7 +26,7 @@ namespace Awesome.AI.Web.Helpers
             return even ? is_active : !is_active;
         }
 
-        public async Task<int> Delay(Instance inst, int when_active, int when_inactive)
+        public int Delay(Instance inst, int when_active, int when_inactive)
         {
             int sec_delay = inst.is_active ? when_active : when_inactive;
 

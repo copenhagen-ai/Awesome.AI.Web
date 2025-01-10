@@ -82,7 +82,6 @@ namespace Awesome.AI.Helpers
                 pos_x_low = 0.0d;
                 pos_x_start = 5.0d;
                 
-                lim_learningrate = 0.01d;
                 dir_learningrate = -1d;
 
                 /*
@@ -125,7 +124,6 @@ namespace Awesome.AI.Helpers
                 pos_x_low = 0.0d;
                 pos_x_start = 5.0d;
 
-                lim_learningrate = 0.01d;
                 dir_learningrate = -1d;
 
                 /*
@@ -146,8 +144,8 @@ namespace Awesome.AI.Helpers
                 case_tags = TAGS.ONE;                                               //used with TAGS and BOTH
                 case_occupasion = OCCUPASION.FIXED;                                 //used with OCCU and BOTH
                 typelimit = TYPELIMIT.SIGMOID;
-                hmode1 = HACKMODES.HACK;
-                hmode2 = HACKMODES.HACK;
+                hmode1 = HACKMODES.NOHACK;
+                hmode2 = HACKMODES.NOHACK;
                 mech = MECHANICS.CONTEST;
                 matrix_type = MATRIX.GPT;
 
@@ -168,7 +166,6 @@ namespace Awesome.AI.Helpers
                 pos_x_low = 0.0d;
                 pos_x_start = 5.0d;
                 
-                lim_learningrate = 0.01d;
                 dir_learningrate = -1d;
 
                 /*
@@ -177,7 +174,7 @@ namespace Awesome.AI.Helpers
                  * boost should be as close 1.0, without dying to fast
                  * */
                 
-                boost = 1E-10d ;
+                boost = 1E-2d ;
                 
                 selector = 1;
                 _base = _base == null ? new WorksWithWheelAndContest(mind) : _base;
@@ -198,7 +195,7 @@ namespace Awesome.AI.Helpers
                 //sun mass:      1.989 × 10^30kg
                 //earth gravity: 9.807m/s²
                 ZUNIT.zero_mass = -1d;
-                ZUNIT.zero_gravity = 9.807d;
+                ZUNIT.zero_gravity = 9.81d;
                 ZUNIT.zero_dist = 1.0E-50d;
                 
                 mass = 0.5d;
@@ -221,7 +218,6 @@ namespace Awesome.AI.Helpers
                 val_b = 0.0d;
                 val_c = 0.1d;/**/
 
-                lim_learningrate = 0.01d;
                 dir_learningrate = 0.001d;
 
                 /*
@@ -298,11 +294,11 @@ namespace Awesome.AI.Helpers
          * 0.555 = 5 / 9
          * */
 
-        public double base_friction = 6d / 9d;                                   // COMMENT NEEDS UPDATE: needs to be this otherwise position keeps going down
-        public double lapses_total = 99d;                                       // yesno ratio : reaction time in cycles
-        public double lim_ratio = 50d;
-        public double lim_bias = 0.0d;                                           // approx start, then it auto adjusts
-        public double lim_learningrate;                                          // I call it learningrate, but really it is just an adjustment
+        public double base_friction = 6d / 9d;                                      // COMMENT NEEDS UPDATE: needs to be this otherwise position keeps going down
+        public double lapses_total = 99d;                                           // yesno ratio : reaction time in cycles
+        public double ratio = 50d;
+        //public double lim_bias = 0.0d;                                            // approx start, then it auto adjusts
+        //public double lim_learningrate;                                           // I call it learningrate, but really it is just an adjustment
         public double dir_learningrate;
         public double slope = 0.666d;
 

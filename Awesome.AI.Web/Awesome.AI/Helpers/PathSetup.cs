@@ -27,6 +27,7 @@ namespace Awesome.AI.Web.Helpers
             string path = "";
 
             path = Root + "Awesome.AI\\Data\\setup_" + setting + ".xml";
+
             if (setting == "standart")
                 path = Root + "Awesome.AI\\Data\\setup_2.xml";
 
