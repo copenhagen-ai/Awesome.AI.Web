@@ -89,7 +89,6 @@ function mycrashed() {
     }
 }
 
-
 function room1() {
 
     $("#overlay").fadeIn(300);
@@ -147,39 +146,37 @@ function timeout() {
     ;
 }
 
+function myinfo(epochs, runtime, momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise) {
 
-
-function myinfo(momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise_isno, bias, limit, limit_avg) {
-
-    var is_no = the_choise_isno == "True";
-
+    var div0 = document.getElementById("epochsSpan");
     var div1 = document.getElementById("momentumDiv");
     var div2 = document.getElementById("cyclesSpan");
     var div3 = document.getElementById("totalSpan");
-
     var div4 = document.getElementById("positionDiv");
     var div5 = document.getElementById("ratioYesSpan");
     var div6 = document.getElementById("ratioNoSpan");
     var div7 = document.getElementById("theChoiceDiv");
+    var div8 = document.getElementById("painDiv");
 
-    var div8 = document.getElementById("biasDiv");
-    var div9 = document.getElementById("limitDiv");
-    var div10 = document.getElementById("limAvgDiv");
-    var div11 = document.getElementById("painDiv");
-
-    //document.getElementById("messagesList").appendChild(li);
+    // document.getElementById("messagesList").appendChild(li);
     // We can assign user-supplied strings to an element's textContent because it
-    // is not interpreted as markup. If you're assigning in any other way, you 
+    // is not interpreted as markup. If you're assigning in any other way, you
     // should be aware of possible script injection concerns.
+
+    var epochs_remaining = (runtime * 60) - epochs;
+    var pain_out = parseFloat(pain) > 1.0 ? 'OUCH' : `${pain}`;
+    
+    div0.textContent = `${epochs_remaining}`;
     div1.textContent = `${momentum}`;
     div2.textContent = `${cycles[0]}`;
     div3.textContent = `${cycles[1]}`;
-
     div4.textContent = `${position}`;
     div5.textContent = `${ratio_yes}`;
     div6.textContent = `${ratio_no}`;
-    div7.textContent = is_no ? `NO` : `YES`;
-    if (is_no) {
+    div7.textContent = `${the_choise}`;
+    div8.textContent = `${pain_out}`;
+
+    if (the_choise == 'NO') {
         div7.classList.remove("i-color-red");
         div7.classList.add("i-color-green");
     }
@@ -188,12 +185,13 @@ function myinfo(momentum, cycles, pain, position, ratio_yes, ratio_no, the_chois
         div7.classList.remove("i-color-green");
     }
 
-    div8.textContent = `${bias}`;
-    div9.textContent = `${limit}`;
-    div10.textContent = `${limit_avg}`;
-    div11.textContent = `${pain}`;
+    if (parseFloat(pain) > 1.0) {
+        div8.classList.add("i-color-red");        
+    }
+    else {
+        div8.classList.remove("i-color-red");
+    }
 }
-
 
 function mymessage(message, dot1, dot2, subject) {
     var div1 = document.getElementById("messageDiv");
@@ -215,16 +213,16 @@ function mymessage(message, dot1, dot2, subject) {
 
 
 function onConnect() {
-    connection.on("MIND1InfoReceive", function (momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise_isno, bias, limit, limit_avg) {
+    connection.on("MIND1InfoReceive", function (epochs, runtime, momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise_isno) {
 
         if (room == 'room1')
-            myinfo(momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise_isno, bias, limit, limit_avg, viewers);
+            myinfo(epochs, runtime, momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise_isno, viewers);
     });
 
-    connection.on("MIND2InfoReceive", function (momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise_isno, bias, limit, limit_avg) {
+    connection.on("MIND2InfoReceive", function (epochs, runtime, momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise_isno) {
 
         if (room == 'room2')
-            myinfo(momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise_isno, bias, limit, limit_avg, viewers);
+            myinfo(epochs, runtime, momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise_isno, viewers);
     });
 
     connection.on("MIND1MessageReceive", function (message, dot1, dot2, subject) {

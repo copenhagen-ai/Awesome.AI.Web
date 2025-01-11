@@ -243,8 +243,8 @@ namespace Awesome.AI.Web.Hubs
                 int MAX = Enum.GetNames(typeof(MINDS)).Length;
 
                 //bots.Add(new Bot() { mind = MINDS.ROBERTA, mech = MECHANICS.HILL });
-                bots.Add(new Bot() { mind = MINDS.ROBERTA, mech = MECHANICS.CONTEST });
-                bots.Add(new Bot() { mind = MINDS.ANDREW, mech = MECHANICS.CONTEST });
+                bots.Add(new Bot() { mind = MINDS.ROBERTA, mech = MECHANICS.HILL });
+                bots.Add(new Bot() { mind = MINDS.ANDREW, mech = MECHANICS.HILL });
                 
                 foreach (Bot bot in bots)
                 {
@@ -419,12 +419,11 @@ namespace Awesome.AI.Web.Hubs
                     string position = inst.mind._out.position;
                     string ratio_yes = inst.mind._out.ratio_yes;
                     string ratio_no = inst.mind._out.ratio_no;
-                    string the_choise_isno = inst.mind._out.the_choise_isno;
+                    string the_choise = inst.mind._out.the_choise;
 
-                    string bias = "0.5";// inst.mind._out.bias;
-                    string limit = "0.5";// inst.mind._out.limit;
-                    string limit_avg = "0.5";// inst.mind._out.limit_avg;
-
+                    string epochs = inst.mind._out.epochs;
+                    string runtime = inst.mind._out.runtime;
+                    
                     GraphInfo graph1 = new GraphInfo();
                     GraphInfo graph2 = new GraphInfo();
                     
@@ -437,14 +436,14 @@ namespace Awesome.AI.Web.Hubs
                     {
                         if (inst.type == MINDS.ROBERTA)
                         {
-                            await Clients.All.SendAsync("MIND1InfoReceive", momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise_isno, bias, limit, limit_avg);
+                            await Clients.All.SendAsync("MIND1InfoReceive", epochs, runtime, momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise);
                             await Clients.All.SendAsync("MIND1GraphReceive", graph1.labels, graph1.curr_name, graph1.curr_value, graph1.reset_name, graph1.reset_value, graph1.bcol);
                             await Clients.All.SendAsync("MIND3GraphReceive", graph2.labels, graph2.curr_name, graph2.curr_value, graph2.reset_name, graph2.reset_value, graph2.bcol);
                         }
 
                         if (inst.type == MINDS.ANDREW)
                         {
-                            await Clients.All.SendAsync("MIND2InfoReceive", momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise_isno, bias, limit, limit_avg);
+                            await Clients.All.SendAsync("MIND2InfoReceive", epochs, runtime, momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise);
                             await Clients.All.SendAsync("MIND2GraphReceive", graph1.labels, graph1.curr_name, graph1.curr_value, graph1.reset_name, graph1.reset_value, graph1.bcol);
                             await Clients.All.SendAsync("MIND4GraphReceive", graph2.labels, graph2.curr_name, graph2.curr_value, graph2.reset_name, graph2.reset_value, graph2.bcol);
                         }

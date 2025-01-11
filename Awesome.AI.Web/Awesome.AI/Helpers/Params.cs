@@ -42,7 +42,6 @@ namespace Awesome.AI.Helpers
                         validation = VALIDATION.BOTH;                                       //BOTH or OCCU
                         case_tags = TAGS.ONE;                                               //used with TAGS and BOTH
                         case_occupasion = OCCUPASION.FIXED;                                 //used with OCCU and BOTH
-                        typelimit = TYPELIMIT.CHANCE;
                         hmode1 = HACKMODES.HACK;
                         hmode2 = HACKMODES.NOHACK;
                         mech = MECHANICS.WHEEL;
@@ -85,7 +84,6 @@ namespace Awesome.AI.Helpers
                         validation = VALIDATION.BOTH;                                       //BOTH or OCCU
                         case_tags = TAGS.ONE;                                               //used with TAGS and BOTH
                         case_occupasion = OCCUPASION.FIXED;                                 //used with OCCU and BOTH
-                        typelimit = TYPELIMIT.SIGMOID;
                         hmode1 = HACKMODES.HACK;
                         hmode2 = HACKMODES.NOHACK;
                         mech = MECHANICS.GRAVITY;
@@ -128,7 +126,6 @@ namespace Awesome.AI.Helpers
                         validation = VALIDATION.BOTH;                                       //BOTH or OCCU
                         case_tags = TAGS.ONE;                                               //used with TAGS and BOTH
                         case_occupasion = OCCUPASION.FIXED;                                 //used with OCCU and BOTH
-                        typelimit = TYPELIMIT.SIGMOID;
                         hmode1 = HACKMODES.NOHACK;
                         hmode2 = HACKMODES.NOHACK;
                         mech = MECHANICS.CONTEST;
@@ -171,7 +168,6 @@ namespace Awesome.AI.Helpers
                         validation = VALIDATION.BOTH;                                       //BOTH or TAGS
                         case_tags = TAGS.ONE;                                               //used with TAGS and BOTH
                         case_occupasion = OCCUPASION.FIXED;                                 //used with OCCU and BOTH
-                        typelimit = TYPELIMIT.SIGMOID;
                         hmode1 = HACKMODES.HACK;
                         hmode2 = HACKMODES.HACK;
                         mech = MECHANICS.HILL;
@@ -228,7 +224,6 @@ namespace Awesome.AI.Helpers
          * VARIABLE parameters
          * */
 
-        public TYPELIMIT typelimit;
         public TAGSETUP setup_tags;                                          //fixed, always set to PRIME
         public VALIDATION validation;      
         public TAGS case_tags;                                               //used with WORLD and BOTH
@@ -310,7 +305,7 @@ namespace Awesome.AI.Helpers
         public bool is_accord = true;
         public int learning_epochs = 100;
         public int first_run = 5;
-        public int runtime = 5; //minutes
+        public int runtime = 1; //minutes
 
         public double boost;                                              //dimm the fluctuations
         

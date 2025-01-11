@@ -238,7 +238,7 @@ namespace Awesome.AI.Common
             if (double.IsInfinity(mech.dir.d_momentum))
                 throw new Exception();
 
-            //make shure the system is running before proceeding
+            //make sure the system is running before proceeding
             if (mind.cycles_all < mind.parms.first_run)
                 return "500";
 

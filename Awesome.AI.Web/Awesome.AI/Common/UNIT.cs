@@ -91,7 +91,7 @@ namespace Awesome.AI.Common
             get { return mind.filters.LowCut(this); }
         }
 
-        public bool IsEnergy
+        public bool CreditOK
         {
             get { return mind.filters.Credits(this); }
         }
@@ -240,7 +240,6 @@ namespace Awesome.AI.Common
             }
         }
 
-
         public static UNIT Create(TheMind mind, double index_orig, string root, string root_val, string ticket, TYPE t)
         {
             UNIT _w = new UNIT() { mind = mind, index_orig = index_orig, root = root, root_val = root_val, type = t };
@@ -264,32 +263,38 @@ namespace Awesome.AI.Common
             return
                 type == TYPE.JUSTAUNIT;
         }
+
         public bool IsIDLE()
         {
             return
                 type == TYPE.IDLE;
         }
+
         public bool IsLEARNING()
         {
             return
                 type == TYPE.LEARNING;
         }
+
         public bool IsPERSUE()
         {
             return
                 type == TYPE.PERSUE;
         }
+
         public bool IsNEXTPREV()
         {
             return
                 type != TYPE.NOTNEXTPREV;
         }
+
         public bool IsLEARNINGorPERSUE()
         {
             return
                 type == TYPE.LEARNING ||
                 type == TYPE.PERSUE;
         }
+
         public bool IsSPECIAL()
         {
             return

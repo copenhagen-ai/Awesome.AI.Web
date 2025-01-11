@@ -91,17 +91,13 @@ namespace Awesome.AI.Core.Mechanics
 
         public void CALC()
         {
-            THECHOISE goodbye = mind.goodbye;
-            bool reset = velocity >= 0.0d; //maybe 0.666 * max_velocity
-
             //car left
             Fsta = ApplyStatic();
 
             //car right
             Fdyn = ApplyDynamic();
 
-            double Fnet = goodbye.IsNo() ? -Fsta + Fdyn : -Fsta;
-
+            double Fnet = mind.goodbye.IsNo() ? -Fsta + Fdyn : -Fsta;
             double dt = 0.002d; //delta time, 1sec/500cyc
             double m = mind.parms.mass;
 
@@ -132,7 +128,7 @@ namespace Awesome.AI.Core.Mechanics
             double acc = mind.common.HighestForce().Variable / 10; //divided by 10 for aprox acc
             double m = mind.parms.mass;
             double u = mind.core.FrictionCoefficient(true, 0.0d);
-            double N = m * 9.81;
+            double N = m * 9.81d;
 
             double Ffriction = u * N;
             double Fapplied = m * acc; //force, left
