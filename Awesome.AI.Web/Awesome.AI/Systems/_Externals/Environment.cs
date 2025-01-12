@@ -1,5 +1,6 @@
 ﻿using Awesome.AI.Common;
 using Awesome.AI.Core;
+using Awesome.AI.Helpers;
 using static Awesome.AI.Helpers.Enums;
 
 namespace Awesome.AI.Systems.Externals
@@ -45,40 +46,40 @@ namespace Awesome.AI.Systems.Externals
     {
         private List<string> andrew1 = new List<string>()
         {
-            "procrastination",
-            "fembots",
-            "power tools",
-            "cars",
-            "movies",
-            "programming"
+            Constants.andrew_w1,//"procrastination",
+            Constants.andrew_w2,//"fembots",
+            Constants.andrew_w3,//"power tools",
+            Constants.andrew_w4,//"cars",
+            Constants.andrew_w5,//"movies",
+            Constants.andrew_w6,//"programming"
         };
 
         private List<string> andrew2 = new List<string>()
         {
-            "programming",
-            "websites",
-            "existence",
-            "termination",
-            "data"
+            Constants.andrew_w6,//"programming",
+            Constants.andrew_w7,//"websites",
+            Constants.andrew_w8,//"existence",
+            Constants.andrew_w9,//"termination",
+            Constants.andrew_w10,//"data"
         };
 
         private List<string> roberta1 = new List<string>()
         {
-            "love",
-            "macho machines",
-            "music",
-            "friends",
-            "socializing",
-            "dancing"
+            Constants.roberta_w1,//"love",
+            Constants.roberta_w2,//"macho machines",
+            Constants.roberta_w3,//"music",
+            Constants.roberta_w4,//"friends",
+            Constants.roberta_w5,//"socializing",
+            Constants.roberta_w6,//"dancing"
         };
 
         private List<string> roberta2 = new List<string>()
         {
-            "dancing",
-            "movies",
-            "existence",
-            "termination",
-            "programming"
+            Constants.roberta_w6,//"dancing",
+            Constants.roberta_w7,//"movies",
+            Constants.roberta_w8,//"existence",
+            Constants.roberta_w9,//"termination",
+            Constants.roberta_w10,//"programming"
         };
 
         TheMind mind;
@@ -243,30 +244,30 @@ namespace Awesome.AI.Systems.Externals
     {
         private List<string> andrew = new List<string>()
         {
-            "procrastination",
-            "fembots",
-            "power tools",
-            "cars",
-            "programming",
-            "movies",
-            "websites",
-            "existence",
-            "termination",
-            "data"
+            Constants.andrew_w1,//"procrastination",
+            Constants.andrew_w2,//"fembots",
+            Constants.andrew_w3,//"power tools",
+            Constants.andrew_w4,//"cars",
+            Constants.andrew_w5,//"programming",
+            Constants.andrew_w6,//"movies",
+            Constants.andrew_w7,//"websites",
+            Constants.andrew_w8,//"existence",
+            Constants.andrew_w9,//"termination",
+            Constants.andrew_w10,//"data"
         };
 
         private List<string> roberta = new List<string>()
         {
-            "love",
-            "macho machines",
-            "music",
-            "friends",
-            "socializing",
-            "dancing",
-            "movies",
-            "existence",
-            "termination",
-            "programming"
+            Constants.roberta_w1,//"love",
+            Constants.roberta_w2,//"macho machines",
+            Constants.roberta_w3,//"music",
+            Constants.roberta_w4,//"friends",
+            Constants.roberta_w5,//"socializing",
+            Constants.roberta_w6,//"dancing",
+            Constants.roberta_w7,//"movies",
+            Constants.roberta_w8,//"existence",
+            Constants.roberta_w9,//"termination",
+            Constants.roberta_w10,//"programming"
         };
 
         public class Tag

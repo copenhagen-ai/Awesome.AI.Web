@@ -1,10 +1,6 @@
 ﻿using Awesome.AI.Common;
 using Awesome.AI.Core;
-using Awesome.AI.Web.Helpers;
-using Microsoft.AspNetCore.SignalR;
-using System.Globalization;
-using System.Reflection.Metadata.Ecma335;
-using System.Xml.Linq;
+using Awesome.AI.Helpers;
 using static Awesome.AI.Helpers.Enums;
 
 namespace Awesome.AI.CoreHelpers
@@ -29,30 +25,30 @@ namespace Awesome.AI.CoreHelpers
 
         private List<string> andrew = new List<string>()
         {
-            "procrastination",
-            "fembots",
-            "power tools",
-            "cars",
-            "programming",
-            "movies",
-            "websites",
-            "existence",
-            "termination",
-            "data"
+            Constants.andrew_w1,//"procrastination",
+            Constants.andrew_w2,//"fembots",
+            Constants.andrew_w3,//"power tools",
+            Constants.andrew_w4,//"cars",
+            Constants.andrew_w5,//"programming",
+            Constants.andrew_w6,//"movies",
+            Constants.andrew_w7,//"websites",
+            Constants.andrew_w8,//"existence",
+            Constants.andrew_w9,//"termination",
+            Constants.andrew_w10//"data"
         };
 
         private List<string> roberta = new List<string>()
         {
-            "love",
-            "macho machines",
-            "music",
-            "friends",
-            "socializing",
-            "dancing",
-            "movies",
-            "existence",
-            "termination",
-            "programming"
+            Constants.roberta_w1,//"love",
+            Constants.roberta_w2,//"macho machines",
+            Constants.roberta_w3,//"music",
+            Constants.roberta_w4,//"friends",
+            Constants.roberta_w5,//"socializing",
+            Constants.roberta_w6,//"dancing",
+            Constants.roberta_w7,//"movies",
+            Constants.roberta_w8,//"existence",
+            Constants.roberta_w9,//"termination",
+            Constants.roberta_w10,//"programming"
         };
 
         private List<UNIT> units { get; set; }
