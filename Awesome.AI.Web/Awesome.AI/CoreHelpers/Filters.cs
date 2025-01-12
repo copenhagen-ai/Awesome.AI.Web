@@ -59,6 +59,14 @@ namespace Awesome.AI.CoreHelpers
             return true;
         }
 
+        public bool Credits(UNIT unit)
+        {
+            if (unit == null)
+                throw new ArgumentNullException();
+
+            return unit.credits > 1.0d;
+        }
+
         /*public static bool HighPass(UNIT _u)//aka SayNo
         {
             /*
@@ -72,14 +80,6 @@ namespace Awesome.AI.CoreHelpers
             bool res = units.Contains(_u);
             return res;
         }/**/
-
-        public bool Credits(UNIT unit)
-        {
-            if (unit == null)
-                throw new ArgumentNullException();
-
-            return unit.credits > 1.0d;
-        }
 
         //public bool Neighbor(UNIT _u, List<UNIT> list)
         //{
@@ -146,28 +146,28 @@ namespace Awesome.AI.CoreHelpers
         //}
 
 
-        public bool Theme(UNIT unit)
-        {
-            if (unit == null)
-                throw new ArgumentNullException();
+        //public bool Theme(UNIT unit)
+        //{
+        //    if (unit == null)
+        //        throw new ArgumentNullException();
             
-            if (mind.theme == "none")
-                return true;
+        //    if (mind.theme == "none")
+        //        return true;
 
-            if (!mind.theme_on)
-                return true;
+        //    if (!mind.theme_on)
+        //        return true;
 
-            HUB top = mind.mem.HUBS_SUB(mind.theme);
-            HUB curr = unit.HUB;
-            if (top.GetSubject() == curr.GetSubject())
-                return true;
-            //foreach (HUB h in top.hubs)
-            //{
-            //    if (h.GetSubject() != "LEARNING" && h.GetSubject() == curr.GetSubject())
-            //        return true;
-            //}
-            return false;
-        }
+        //    HUB top = mind.mem.HUBS_SUB(mind.theme);
+        //    HUB curr = unit.HUB;
+        //    if (top.GetSubject() == curr.GetSubject())
+        //        return true;
+        //    //foreach (HUB h in top.hubs)
+        //    //{
+        //    //    if (h.GetSubject() != "LEARNING" && h.GetSubject() == curr.GetSubject())
+        //    //        return true;
+        //    //}
+        //    return false;
+        //}
 
         //public static bool Elastic1(Direction dir)
         //{

@@ -53,27 +53,23 @@ namespace Awesome.AI.Web.Hubs
                 labels[9] = "bad";
             }
 
-
             string curr_index = "", reset_index = "";
-            int count_curr = 0, count_reset = 0;
-
+            
             string c_name = inst.mind.stats.curr_name;
-            double curr_conv = inst.mind.stats.list.Where(x => x.name.Contains(c_name)).FirstOrDefault().index_conv;
-            curr_index = "" + (int)FormatIndex(curr_conv, true, false, false);
-            count_curr = inst.mind.stats.list.Where(x => x.index_conv > FormatIndex(curr_conv, false, true, false) && x.index_conv <= FormatIndex(curr_conv, false, false, true)).Sum(x => x.count_all);
-
+            double curr_indx = inst.mind.stats.list.Where(x => x.name == c_name).FirstOrDefault().index;
+            curr_index = "" + (int)FormatIndex(curr_indx, true, false, false);
+            
             curr_name = $"index below: {curr_index}0.0";
-            curr_value = "" + count_curr;
+            curr_value = "" + inst.mind.stats.curr_value;
 
             if (!inst.mind.stats.reset_name.IsNullOrEmpty())
             {
-                string r_name = inst.mind.stats.reset_name;
-                double reset_conv = inst.mind.stats.list.Where(x => x.name.Contains(r_name)).FirstOrDefault().index_conv;
-                reset_index = "" + (int)FormatIndex(reset_conv, true, false, false);
-                count_reset = inst.mind.stats.list.Where(x => x.index_conv > FormatIndex(reset_conv, false, true, false) && x.index_conv <= FormatIndex(reset_conv, false, false, true)).Sum(x => x.count_all);
-
+                string reset_name = inst.mind.stats.reset_name;
+                double reset_indx = inst.mind.stats.list.Where(x => x.name == reset_name).FirstOrDefault().index;
+                reset_index = "" + (int)FormatIndex(reset_indx, true, false, false);
+                
                 reset_name = $"index below: {reset_index}0.0";
-                reset_value = "" + count_reset;
+                reset_value = "" + inst.mind.stats.reset_value;
             }
 
             bcol = "blue";
@@ -113,25 +109,23 @@ namespace Awesome.AI.Web.Hubs
 
 
             string curr_index = "", reset_index = "";
-            int count_curr = 0, count_reset = 0;
+            int curr_hits = 0, reset_hits = 0;
 
             string c_name = inst.mind.stats.curr_name;
             double curr_force = inst.mind.stats.list.Where(x => x.name.Contains(c_name)).FirstOrDefault().force;
             curr_index = "" + (int)FormatForce(inst.mind, curr_force, true, false, false);
-            count_curr = inst.mind.stats.list.Where(x => x.force > FormatForce(inst.mind, curr_force, false, true, false) && x.force <= FormatForce(inst.mind, curr_force, false, false, true)).Sum(x => x.count_all);
-
+            
             curr_name = $"force: {curr_index}0.0";
-            curr_value = "" + count_curr;
+            curr_value = "" + inst.mind.stats.curr_value;
 
             if (!inst.mind.stats.reset_name.IsNullOrEmpty())
             {
                 string r_name = inst.mind.stats.reset_name;
                 double reset_force = inst.mind.stats.list.Where(x => x.name.Contains(r_name)).FirstOrDefault().force;
                 reset_index = "" + (int)FormatForce(inst.mind, reset_force, true, false, false);
-                count_reset = inst.mind.stats.list.Where(x => x.force > FormatForce(inst.mind, reset_force, false, true, false) && x.force <= FormatForce(inst.mind, reset_force, false, false, true)).Sum(x => x.count_all);
-
+                
                 reset_name = $"force: {reset_index}0.0";
-                reset_value = "" + count_reset;
+                reset_value = "" + inst.mind.stats.reset_value;
             }
 
             bcol = "blue";
@@ -423,7 +417,8 @@ namespace Awesome.AI.Web.Hubs
 
                     string epochs = inst.mind._out.epochs;
                     string runtime = inst.mind._out.runtime;
-                    
+                    string occu = inst.mind._out.occu;
+
                     GraphInfo graph1 = new GraphInfo();
                     GraphInfo graph2 = new GraphInfo();
                     
@@ -436,14 +431,14 @@ namespace Awesome.AI.Web.Hubs
                     {
                         if (inst.type == MINDS.ROBERTA)
                         {
-                            await Clients.All.SendAsync("MIND1InfoReceive", epochs, runtime, momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise);
+                            await Clients.All.SendAsync("MIND1InfoReceive", epochs, runtime, momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise, occu);
                             await Clients.All.SendAsync("MIND1GraphReceive", graph1.labels, graph1.curr_name, graph1.curr_value, graph1.reset_name, graph1.reset_value, graph1.bcol);
                             await Clients.All.SendAsync("MIND3GraphReceive", graph2.labels, graph2.curr_name, graph2.curr_value, graph2.reset_name, graph2.reset_value, graph2.bcol);
                         }
 
                         if (inst.type == MINDS.ANDREW)
                         {
-                            await Clients.All.SendAsync("MIND2InfoReceive", epochs, runtime, momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise);
+                            await Clients.All.SendAsync("MIND2InfoReceive", epochs, runtime, momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise, occu);
                             await Clients.All.SendAsync("MIND2GraphReceive", graph1.labels, graph1.curr_name, graph1.curr_value, graph1.reset_name, graph1.reset_value, graph1.bcol);
                             await Clients.All.SendAsync("MIND4GraphReceive", graph2.labels, graph2.curr_name, graph2.curr_value, graph2.reset_name, graph2.reset_value, graph2.bcol);
                         }

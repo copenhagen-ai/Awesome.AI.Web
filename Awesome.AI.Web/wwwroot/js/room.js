@@ -21,6 +21,12 @@ const myChart1 = new Chart(document.getElementById('myChart1'), {
                     minRotation: 20
 
                 }
+            }],
+            yAxes: [{
+                ticks: {
+                    max: 20,
+                    min: 0
+                }
             }]
         }
     }
@@ -44,6 +50,12 @@ const myChart2 = new Chart(document.getElementById('myChart2'), {
                     maxRotation: 45,
                     minRotation: 20
 
+                }
+            }],
+            yAxes: [{
+                ticks: {
+                    max: 20,
+                    min: 0
                 }
             }]
         }
@@ -146,7 +158,7 @@ function timeout() {
     ;
 }
 
-function myinfo(epochs, runtime, momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise) {
+function myinfo(epochs, runtime, momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise, occu) {
 
     var div0 = document.getElementById("epochsSpan");
     var div1 = document.getElementById("momentumDiv");
@@ -156,7 +168,8 @@ function myinfo(epochs, runtime, momentum, cycles, pain, position, ratio_yes, ra
     var div5 = document.getElementById("ratioYesSpan");
     var div6 = document.getElementById("ratioNoSpan");
     var div7 = document.getElementById("theChoiceDiv");
-    var div8 = document.getElementById("painDiv");
+    var div8 = document.getElementById("occuDiv");
+    var div9 = document.getElementById("painDiv");
 
     // document.getElementById("messagesList").appendChild(li);
     // We can assign user-supplied strings to an element's textContent because it
@@ -174,7 +187,8 @@ function myinfo(epochs, runtime, momentum, cycles, pain, position, ratio_yes, ra
     div5.textContent = `${ratio_yes}`;
     div6.textContent = `${ratio_no}`;
     div7.textContent = `${the_choise}`;
-    div8.textContent = `${pain_out}`;
+    div8.textContent = `${occu}`;
+    div9.textContent = `${pain_out}`;
 
     if (the_choise == 'NO') {
         div7.classList.remove("i-color-red");
@@ -213,16 +227,16 @@ function mymessage(message, dot1, dot2, subject) {
 
 
 function onConnect() {
-    connection.on("MIND1InfoReceive", function (epochs, runtime, momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise_isno) {
+    connection.on("MIND1InfoReceive", function (epochs, runtime, momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise, occu) {
 
         if (room == 'room1')
-            myinfo(epochs, runtime, momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise_isno, viewers);
+            myinfo(epochs, runtime, momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise, occu, viewers);
     });
 
-    connection.on("MIND2InfoReceive", function (epochs, runtime, momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise_isno) {
+    connection.on("MIND2InfoReceive", function (epochs, runtime, momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise, occu) {
 
         if (room == 'room2')
-            myinfo(epochs, runtime, momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise_isno, viewers);
+            myinfo(epochs, runtime, momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise, occu, viewers);
     });
 
     connection.on("MIND1MessageReceive", function (message, dot1, dot2, subject) {
@@ -237,47 +251,47 @@ function onConnect() {
             mymessage(message, dot1, dot2, subject);
     });
 
-    connection.on("MIND1GraphReceive", function (_labs, _curr, _value, _curr_reset, _value_reset, _col) {
+    connection.on("MIND1GraphReceive", function (_labs, _lab, _value, _lab_reset, _value_reset, _col) {
 
         if (room == 'room1')
-            mygraph1(_labs, _curr, _value, _curr_reset, _value_reset, _col);
+            mygraph1(_labs, _lab, _value, _lab_reset, _value_reset, _col);
 
 
     });
 
-    connection.on("MIND2GraphReceive", function (_labs, _curr, _value, _curr_reset, _value_reset, _col) {
+    connection.on("MIND2GraphReceive", function (_labs, _lab, _value, _lab_reset, _value_reset, _col) {
 
         if (room == 'room2')
-            mygraph1(_labs, _curr, _value, _curr_reset, _value_reset, _col);
+            mygraph1(_labs, _lab, _value, _lab_reset, _value_reset, _col);
 
 
     });
 
-    connection.on("MIND3GraphReceive", function (_labs, _curr, _value, _curr_reset, _value_reset, _col) {
+    connection.on("MIND3GraphReceive", function (_labs, _lab, _value, _lab_reset, _value_reset, _col) {
 
         if (room == 'room1')
-            mygraph2(_labs, _curr, _value, _curr_reset, _value_reset, _col);
+            mygraph2(_labs, _lab, _value, _lab_reset, _value_reset, _col);
 
 
     });
 
-    connection.on("MIND4GraphReceive", function (_labs, _curr, _value, _curr_reset, _value_reset, _col) {
+    connection.on("MIND4GraphReceive", function (_labs, _lab, _value, _lab_reset, _value_reset, _col) {
 
         if (room == 'room2')
-            mygraph2(_labs, _curr, _value, _curr_reset, _value_reset, _col);
+            mygraph2(_labs, _lab, _value, _lab_reset, _value_reset, _col);
 
 
     });
 
 }
 
-function mygraph1(_labs, _curr, _value, _curr_reset, _value_reset, _col) {
+function mygraph1(_labs, _lab, _value, _lab_reset, _value_reset, _col) {
 
-    //alert('graph1');
+    //alert('graph1' + ' ' + _lab + ' ' + _value + ' ' + _lab_reset + ' ' + _value_reset);
 
-    var curr = `${_curr}`;
+    var lab = `${_lab}`;
     var value = _value;
-    var curr_reset = `${_curr_reset}`;
+    var lab_reset = `${_lab_reset}`;
     var value_reset = _value_reset;
     var color = `${_col}`;
 
@@ -297,9 +311,9 @@ function mygraph1(_labs, _curr, _value, _curr_reset, _value_reset, _col) {
 
     var index = 0;
     myChart1.data.labels.forEach((_l) => {
-        if (`${_l}` == curr)
+        if (`${_l}` == lab)
             myChart1.data.datasets[0].data[index] = value;
-        if (`${_l}` == curr_reset)
+        if (`${_l}` == lab_reset)
             myChart1.data.datasets[0].data[index] = value_reset;
         index++;
     });
@@ -309,13 +323,13 @@ function mygraph1(_labs, _curr, _value, _curr_reset, _value_reset, _col) {
     //alert('graph');
 }
 
-function mygraph2(_labs, _curr, _value, _curr_reset, _value_reset, _col) {
+function mygraph2(_labs, _lab, _value, _lab_reset, _value_reset, _col) {
 
-    //alert('graph1');
+    //alert('graph2');
 
-    var curr = `${_curr}`;
+    var lab = `${_lab}`;
     var value = _value;
-    var curr_reset = `${_curr_reset}`;
+    var lab_reset = `${_lab_reset}`;
     var value_reset = _value_reset;
     var color = `${_col}`;
 
@@ -335,9 +349,9 @@ function mygraph2(_labs, _curr, _value, _curr_reset, _value_reset, _col) {
 
     var index = 0;
     myChart2.data.labels.forEach((_l) => {
-        if (`${_l}` == curr)
+        if (`${_l}` == lab)
             myChart2.data.datasets[0].data[index] = value;
-        if (`${_l}` == curr_reset)
+        if (`${_l}` == lab_reset)
             myChart2.data.datasets[0].data[index] = value_reset;
         index++;
     });

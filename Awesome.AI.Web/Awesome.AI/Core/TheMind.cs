@@ -72,9 +72,9 @@ namespace Awesome.AI.Core
         public double pain = 0.0f;
         public int valid_units = 0;
 
-        public bool theme_on = false;
-        public string theme = "none";
-        public string theme_old = "";
+        //public bool theme_on = false;
+        //public string theme = "none";
+        //public string theme_old = "";
         public string hobby = "socializing";
         public string settings = "";
 
@@ -113,9 +113,10 @@ namespace Awesome.AI.Core
                     curr_unit = mem.UNITS_ALL().Where(x => x.root == "_macho machines10").FirstOrDefault();
 
                 curr_hub = curr_unit.HUB;
-                        
+
                 PreRun(true);
-            
+                PostRun(true);
+
                 theanswer = UNIT.Create(this, -1.0d, "I dont Know", "null", "SPECIAL", TYPE.JUSTAUNIT);//set it to "It does not", and the program terminates
             
                 ProcessPass();
@@ -184,9 +185,6 @@ namespace Awesome.AI.Core
                 if (do_process)
                     epochs++;
 
-                //if (epochs > 150)
-                //    epochs = 1;
-
                 bool _pro = do_process;
                 do_process = false;
                 
@@ -195,14 +193,14 @@ namespace Awesome.AI.Core
                 if (!Core(_pro))//the basics
                     ok = false;
 
-                //if (!ok)
-                //    throw new Exception("...DONE...");
-
                 TheSoup();//find new curr_unit/curr_hub
-
+                PostRun(_pro);
                 Process(_pro);
                 Systems(_pro);
-                Output(_pro);
+                //Output(_pro);
+
+                if (_pro) _out.Set();
+                if (_pro) cycles = 0;   
 
                 run = true;
             }
@@ -222,10 +220,16 @@ namespace Awesome.AI.Core
             convert.Reset();
             common.Reset();
 
+            //process.Stream();
+        }
+
+        private void PostRun(bool _pro)
+        {
+            if (!_pro)
+                return;
+
             _internal.Reset();
             _external.Reset();
-
-            process.Stream();            
         }
 
         private bool Core(bool _pro)
@@ -249,8 +253,8 @@ namespace Awesome.AI.Core
             mech.CALC();
             mech.XPOS();
 
-            if (curr_hub.IsIDLE())
-                core.SetTheme(_pro);            
+            //if (curr_hub.IsIDLE())
+            //    core.SetTheme(_pro);
             
             if (!curve.OK(out pain))
                 return false;
@@ -266,10 +270,8 @@ namespace Awesome.AI.Core
         private void Process(bool _pro)
         {
             process.History(this);
-            process.SetCommonUnit(this);
-            process.ProcessCommonUnit(this, _pro);
-            process.CommonHubs(this);
-            process.SetPercent(_pro);
+            process.CommonUnit(this);
+            process.Stats(this, _pro);
         }
 
         private void Systems(bool _pro)
@@ -277,24 +279,24 @@ namespace Awesome.AI.Core
             
         }
 
-        public string output_topic = "";
-        public string output_sub_th = "";
-        private void Output(bool _pro)
-        {
-            if (curr_unit.root.Split(':')[0] == "subject")
-                return;
+        //public string output_topic = "";
+        //public string output_sub_th = "";
+        //private void Output(bool _pro)
+        //{
+        //    if (curr_unit.root.Split(':')[0] == "subject")
+        //        return;
 
-            output_topic = process.StreamTop().HUB.GetSubject();
+        //    output_topic = process.StreamTop().HUB.GetSubject();
 
-            output_sub_th = "currently subprocessing:\t" + curr_unit.HUB.GetSubject() + "\n" +
-                            "- actual:\t\t\t" + curr_unit.root + "";
+        //    output_sub_th = "currently subprocessing:\t" + curr_unit.HUB.GetSubject() + "\n" +
+        //                    "- actual:\t\t\t" + curr_unit.root + "";
 
-            if (_pro)
-                _out.Set();
+        //    if (_pro)
+        //        _out.Set();
             
-            if (_pro)
-                cycles = 0;           
-        }
+        //    if (_pro)
+        //        cycles = 0;           
+        //}
 
         private async void ProcessPass()
         {

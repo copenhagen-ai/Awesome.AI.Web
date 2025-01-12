@@ -17,8 +17,7 @@ namespace Awesome.AI.Common
         public string root_val { get; set; }
         public double max_nrg { get; set; }
         public double credits { get; set; }
-        public int visited { get; set; }
-
+        
         TheMind mind;
         private UNIT() { }
         public UNIT(TheMind mind)

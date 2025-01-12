@@ -64,8 +64,8 @@ namespace Awesome.AI.Core
                    mind.filters.UnitIsValid(x)                   //comment to turn off
                 && mind.filters.Direction(x, curr, dir)       //comment to turn off
                 && !mind.filters.LowCut(x)                      //comment to turn off
-                && mind.filters.Theme(x)                         //comment to turn off
                 && mind.filters.Credits(x)                        //comment to turn off
+                //&& mind.filters.Theme(x)                         //comment to turn off
                 //&& Filters.Elastic2(dir)                  //comment to turn off
                 //&& Filters.Ideal(x)                       //comment to turn off
                 //&& Filters.Neighbor(x)

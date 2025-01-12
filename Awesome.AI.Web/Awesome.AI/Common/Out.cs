@@ -23,6 +23,7 @@ namespace Awesome.AI.Web.AI.Common
         public string the_choise { get; set; }
         public string epochs { get; set; }
         public string runtime { get; set; }
+        public string occu { get; set; }
 
         public UNIT common_unit { get; set; }
         public string common_hub { get; set; }
@@ -40,6 +41,7 @@ namespace Awesome.AI.Web.AI.Common
             the_choise = $"{(mind.parms._mech.dir.Choise.IsNo() ? "NO" : "YES")}";
             epochs = $"{mind.epochs}";
             runtime = $"{mind.parms.runtime}";
+            occu = $"{mind._internal.Occu}";
 
             List<UNIT> all = mind.mem.UNITS_ALL();
 

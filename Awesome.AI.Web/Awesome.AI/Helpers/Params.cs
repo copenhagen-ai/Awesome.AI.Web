@@ -167,7 +167,7 @@ namespace Awesome.AI.Helpers
                         setup_tags = TAGSETUP.PRIME;                                        //fixed, always set to PRIME
                         validation = VALIDATION.BOTH;                                       //BOTH or TAGS
                         case_tags = TAGS.ONE;                                               //used with TAGS and BOTH
-                        case_occupasion = OCCUPASION.FIXED;                                 //used with OCCU and BOTH
+                        case_occupasion = OCCUPASION.DYNAMIC;                               //used with OCCU and BOTH
                         hmode1 = HACKMODES.HACK;
                         hmode2 = HACKMODES.HACK;
                         mech = MECHANICS.HILL;
@@ -305,7 +305,7 @@ namespace Awesome.AI.Helpers
         public bool is_accord = true;
         public int learning_epochs = 100;
         public int first_run = 5;
-        public int runtime = 1; //minutes
+        public int runtime = 50; //minutes
 
         public double boost;                                              //dimm the fluctuations
         

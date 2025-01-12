@@ -2,10 +2,10 @@
 {
     public class Stat
     {
+        //public int hits { get; set; }
         public string name { get; set; }
-        public int count_all { get; set; }
         public double force { get; set; }
-        public double index_conv { get; set; }
+        public double index { get; set; }
     }
 
     public class Stats
@@ -16,6 +16,11 @@
         public int reset_value { get; set; }
 
         public List<Stat> list = new List<Stat>();
+
+        public void Reset()
+        {
+            list = new List<Stat>();
+        }
     }
 
 }

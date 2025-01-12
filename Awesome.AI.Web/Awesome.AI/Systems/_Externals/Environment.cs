@@ -1,6 +1,5 @@
 ﻿using Awesome.AI.Common;
 using Awesome.AI.Core;
-using System.Linq;
 using static Awesome.AI.Helpers.Enums;
 
 namespace Awesome.AI.Systems.Externals
@@ -77,9 +76,9 @@ namespace Awesome.AI.Systems.Externals
                             break;
                         case OCCUPASION.DYNAMIC:
                             /*
-                                * rand should be set according to hobbys, mood, location, interests etc..
-                                * ..maybe not
-                                * */
+                             * rand should be set according to hobbys, mood, location, interests etc..
+                             * ..maybe not
+                             * */
                             int rand = mind.calc.MyRandom(100);
                             double r_per = 0;
                             int index = 0;
@@ -163,7 +162,7 @@ namespace Awesome.AI.Systems.Externals
                 list.Add(mind.mem.HUBS_SUB("socializing"));
                 list.Add(mind.mem.HUBS_SUB("programming"));
                 list.Add(last);
-                areas.Add(new Area() { name = "socializing", percentage = 80.0d, values = list });
+                areas.Add(new Area() { name = "socializing", percentage = 50.0d, values = list });
                 list = new List<HUB>();
                 list.Add(mind.mem.HUBS_SUB("websites"));
                 list.Add(mind.mem.HUBS_SUB("movies"));
@@ -172,7 +171,7 @@ namespace Awesome.AI.Systems.Externals
                 list.Add(mind.mem.HUBS_SUB("programming"));
                 list.Add(mind.mem.HUBS_SUB("data"));
                 list.Add(last);
-                areas.Add(new Area() { name = "hobby", percentage = 20.0d, values = list });/**/
+                areas.Add(new Area() { name = "hobby", percentage = 50.0d, values = list });/**/
             }
 
             if (setting == "andrew")
@@ -185,7 +184,7 @@ namespace Awesome.AI.Systems.Externals
                 list.Add(mind.mem.HUBS_SUB("programming"));
                 list.Add(mind.mem.HUBS_SUB("movies"));
                 list.Add(last);
-                areas.Add(new Area() { name = "socializing", percentage = 80.0d, values = list });
+                areas.Add(new Area() { name = "socializing", percentage = 50.0d, values = list });
 
                 list = new List<HUB>();
                 list.Add(mind.mem.HUBS_SUB("programming"));
@@ -194,7 +193,7 @@ namespace Awesome.AI.Systems.Externals
                 list.Add(mind.mem.HUBS_SUB("termination"));
                 list.Add(mind.mem.HUBS_SUB("data"));
                 list.Add(last);
-                areas.Add(new Area() { name = "hobby", percentage = 20.0d, values = list });/**/
+                areas.Add(new Area() { name = "hobby", percentage = 50.0d, values = list });/**/
             }
 
             if (setting == "roberta")
@@ -207,7 +206,7 @@ namespace Awesome.AI.Systems.Externals
                 list.Add(mind.mem.HUBS_SUB("socializing"));
                 list.Add(mind.mem.HUBS_SUB("dancing"));
                 list.Add(last);
-                areas.Add(new Area() { name = "socializing", percentage = 80.0d, values = list });
+                areas.Add(new Area() { name = "socializing", percentage = 50.0d, values = list });
 
                 list = new List<HUB>();
                 list.Add(mind.mem.HUBS_SUB("dancing"));
@@ -216,7 +215,7 @@ namespace Awesome.AI.Systems.Externals
                 list.Add(mind.mem.HUBS_SUB("termination"));
                 list.Add(mind.mem.HUBS_SUB("programming"));
                 list.Add(last);
-                areas.Add(new Area() { name = "hobby", percentage = 20.0d, values = list });/**/
+                areas.Add(new Area() { name = "hobby", percentage = 50.0d, values = list });/**/
             }
 
 
@@ -257,6 +256,8 @@ namespace Awesome.AI.Systems.Externals
         {
             if (mind.parms.validation != VALIDATION.EXTERNAL)
             {
+                //mind.stats.Reset();
+
                 this.areas = new List<Area>();
                 ProcessOccupasion(mind.curr_unit.HUB, mind.settings);
             }
@@ -295,7 +296,7 @@ namespace Awesome.AI.Systems.Externals
             double scale = 0.0d;
                 
             bool t_name = _u.ticket.t_name == "SPECIAL";
-            bool tags_hit = tags.Where(x => x.t_name == _u.ticket.t_name).Count() > 0;
+            bool tags_hit = tags.Where(x => x.t_name == _u.ticket.t_name).Any();
                 
             bool hit = t_name || tags_hit;// || focus;
                                 
@@ -816,6 +817,8 @@ namespace Awesome.AI.Systems.Externals
         {
             if (mind.parms.validation != VALIDATION.INTERNAL)
             {
+                //mind.stats.Reset();
+
                 this.tags = new List<Tag>();
                 switch (mind.parms.case_tags)
                 {

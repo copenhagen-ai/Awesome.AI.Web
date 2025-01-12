@@ -6,8 +6,7 @@
          * maybe HUB should be renamed GROUP
          * */
         public string subject { get; set; }
-        public double percent { get; set; }
-
+        
         ///public BNet net_kutza;
         //public ActivationNetwork net_accord;
         //public BackPropagationLearning teacher;
@@ -18,7 +17,7 @@
             //CreateNet(is_accord, neurons, learningrate, momentum);
                         
             this.subject = subject;
-            this.percent = 0.0d;
+            //this.percent = 0.0d;
             this.units = units;
         }
 
