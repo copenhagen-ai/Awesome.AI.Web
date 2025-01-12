@@ -27,7 +27,7 @@ namespace Awesome.AI.Systems.Externals
     public class Area
     {
         public string name { get; set; }
-        public double percentage { get; set; }      //percentage of time
+        public int max_epochs { get; set; }
         public List<HUB> values { get; set; }
     }
 
@@ -49,22 +49,24 @@ namespace Awesome.AI.Systems.Externals
         public MyInternal(TheMind mind)
         {
             this.mind = mind;
-            this.occu = mind.hobby;
+            //this.occu = mind.hobby;
         }
 
         public List<Area> areas = new List<Area>();//this is the map
-                        
-        private string occu;
+
+        private Area occu = new Area() { name = "init", max_epochs = 10, values = null };
         private bool run = false;
         private int epoch_old = -1;
+        private int epoch_count = 0;
+        private int epoch_stop = -1;
 
         public string Occu
         {
             get
             {
                 /*
-                    * run is only true once per cycle
-                    * */                    
+                 * run is only true once per cycle
+                 * */                    
                 run = mind.epochs != epoch_old;
                 epoch_old = mind.epochs;
                 if (run)
@@ -72,28 +74,32 @@ namespace Awesome.AI.Systems.Externals
                     switch (mind.parms.case_occupasion)
                     {
                         case OCCUPASION.FIXED:
-                            occu = mind.hobby;
+                            occu = new Area() { name = mind.hobby, max_epochs = -1, values = null }; ;
                             break;
                         case OCCUPASION.DYNAMIC:
+
                             /*
                              * rand should be set according to hobbys, mood, location, interests etc..
                              * ..maybe not
                              * */
-                            int rand = mind.calc.MyRandom(100);
-                            double r_per = 0;
-                            int index = 0;
 
-                            while (rand > (r_per += areas[index].percentage))
-                                index++;
+                            if (epoch_count <= epoch_stop)
+                                break;
 
-                            occu = areas[index].name;
+                            epoch_count = 0;
+                            epoch_stop = mind.calc.MyRandom(occu.max_epochs);
+                            int index = mind.calc.MyRandom(areas.Count - 1);
+
+                            occu = areas[index];
                             break;
                         default:
                             throw new Exception();
                     }
+
+                    epoch_count++;
                 }
 
-                return occu;
+                return occu.name;
             }
         }
 
@@ -162,7 +168,7 @@ namespace Awesome.AI.Systems.Externals
                 list.Add(mind.mem.HUBS_SUB("socializing"));
                 list.Add(mind.mem.HUBS_SUB("programming"));
                 list.Add(last);
-                areas.Add(new Area() { name = "socializing", percentage = 50.0d, values = list });
+                areas.Add(new Area() { name = "socializing", max_epochs = 50, values = list });
                 list = new List<HUB>();
                 list.Add(mind.mem.HUBS_SUB("websites"));
                 list.Add(mind.mem.HUBS_SUB("movies"));
@@ -171,7 +177,7 @@ namespace Awesome.AI.Systems.Externals
                 list.Add(mind.mem.HUBS_SUB("programming"));
                 list.Add(mind.mem.HUBS_SUB("data"));
                 list.Add(last);
-                areas.Add(new Area() { name = "hobby", percentage = 50.0d, values = list });/**/
+                areas.Add(new Area() { name = "hobby", max_epochs = 50, values = list });/**/
             }
 
             if (setting == "andrew")
@@ -184,7 +190,7 @@ namespace Awesome.AI.Systems.Externals
                 list.Add(mind.mem.HUBS_SUB("programming"));
                 list.Add(mind.mem.HUBS_SUB("movies"));
                 list.Add(last);
-                areas.Add(new Area() { name = "socializing", percentage = 50.0d, values = list });
+                areas.Add(new Area() { name = "socializing", max_epochs = 50, values = list });
 
                 list = new List<HUB>();
                 list.Add(mind.mem.HUBS_SUB("programming"));
@@ -193,7 +199,7 @@ namespace Awesome.AI.Systems.Externals
                 list.Add(mind.mem.HUBS_SUB("termination"));
                 list.Add(mind.mem.HUBS_SUB("data"));
                 list.Add(last);
-                areas.Add(new Area() { name = "hobby", percentage = 50.0d, values = list });/**/
+                areas.Add(new Area() { name = "hobby", max_epochs = 50, values = list });/**/
             }
 
             if (setting == "roberta")
@@ -206,7 +212,7 @@ namespace Awesome.AI.Systems.Externals
                 list.Add(mind.mem.HUBS_SUB("socializing"));
                 list.Add(mind.mem.HUBS_SUB("dancing"));
                 list.Add(last);
-                areas.Add(new Area() { name = "socializing", percentage = 50.0d, values = list });
+                areas.Add(new Area() { name = "socializing", max_epochs = 50, values = list });
 
                 list = new List<HUB>();
                 list.Add(mind.mem.HUBS_SUB("dancing"));
@@ -215,7 +221,7 @@ namespace Awesome.AI.Systems.Externals
                 list.Add(mind.mem.HUBS_SUB("termination"));
                 list.Add(mind.mem.HUBS_SUB("programming"));
                 list.Add(last);
-                areas.Add(new Area() { name = "hobby", percentage = 50.0d, values = list });/**/
+                areas.Add(new Area() { name = "hobby", max_epochs = 50, values = list });/**/
             }
 
 

@@ -55,18 +55,26 @@ namespace Awesome.AI.Web.Hubs
 
             string curr_index = "", reset_index = "";
             
-            string c_name = inst.mind.stats.curr_name;
-            double curr_indx = inst.mind.stats.list.Where(x => x.name == c_name).FirstOrDefault().index;
-            curr_index = "" + (int)FormatIndex(curr_indx, true, false, false);
+            string c_name = "" + inst.mind.stats.curr_name;
+            Stat curr = inst.mind.stats.list.Where(x => x.name == c_name).FirstOrDefault();
+
+            if (curr.IsNull())
+                return;
+
+            curr_index = "" + (int)FormatIndex(curr.index, true, false, false);
             
             curr_name = $"index below: {curr_index}0.0";
             curr_value = "" + inst.mind.stats.curr_value;
 
             if (!inst.mind.stats.reset_name.IsNullOrEmpty())
             {
-                string reset_name = inst.mind.stats.reset_name;
-                double reset_indx = inst.mind.stats.list.Where(x => x.name == reset_name).FirstOrDefault().index;
-                reset_index = "" + (int)FormatIndex(reset_indx, true, false, false);
+                string r_name = "" + inst.mind.stats.reset_name;
+                Stat reset = inst.mind.stats.list.Where(x => x.name == r_name).FirstOrDefault();
+
+                if (reset.IsNull())
+                    return;
+
+                reset_index = "" + (int)FormatIndex(reset.index, true, false, false);
                 
                 reset_name = $"index below: {reset_index}0.0";
                 reset_value = "" + inst.mind.stats.reset_value;
@@ -111,18 +119,26 @@ namespace Awesome.AI.Web.Hubs
             string curr_index = "", reset_index = "";
             int curr_hits = 0, reset_hits = 0;
 
-            string c_name = inst.mind.stats.curr_name;
-            double curr_force = inst.mind.stats.list.Where(x => x.name.Contains(c_name)).FirstOrDefault().force;
-            curr_index = "" + (int)FormatForce(inst.mind, curr_force, true, false, false);
+            string c_name = "" + inst.mind.stats.curr_name;
+            Stat curr = inst.mind.stats.list.Where(x => x.name.Contains(c_name)).FirstOrDefault();
+
+            if (curr.IsNull())
+                return;
+
+            curr_index = "" + (int)FormatForce(inst.mind, curr.force, true, false, false);
             
             curr_name = $"force: {curr_index}0.0";
             curr_value = "" + inst.mind.stats.curr_value;
 
             if (!inst.mind.stats.reset_name.IsNullOrEmpty())
             {
-                string r_name = inst.mind.stats.reset_name;
-                double reset_force = inst.mind.stats.list.Where(x => x.name.Contains(r_name)).FirstOrDefault().force;
-                reset_index = "" + (int)FormatForce(inst.mind, reset_force, true, false, false);
+                string r_name = "" + inst.mind.stats.reset_name;
+                Stat reset = inst.mind.stats.list.Where(x => x.name.Contains(r_name)).FirstOrDefault();
+
+                if (reset.IsNull())
+                    return;
+
+                reset_index = "" + (int)FormatForce(inst.mind, reset.force, true, false, false);
                 
                 reset_name = $"force: {reset_index}0.0";
                 reset_value = "" + inst.mind.stats.reset_value;

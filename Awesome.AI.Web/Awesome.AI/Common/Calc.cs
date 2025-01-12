@@ -215,6 +215,7 @@ namespace Awesome.AI.Common
         {
             /*
              * max 999
+             * 0 <= res <= i_max
              */
 
             if (i_max > 999)
