@@ -58,6 +58,7 @@ namespace Awesome.AI.Core
         public UNIT curr_unit;
         public UNIT theanswer;
 
+        public MINDS mindtype;
         public MECHANICS mech;
         public THECHOISE goodbye = THECHOISE.NO;
 
@@ -76,19 +77,18 @@ namespace Awesome.AI.Core
         //public string theme = "none";
         //public string theme_old = "";
         public string hobby = "socializing";
-        public string settings = "";
 
         public List<KeyValuePair<string, int>> themes_stat = new List<KeyValuePair<string, int>>();
         public Stats stats = new Stats();
         
-        public TheMind(MECHANICS mech, string settings)
+        public TheMind(MECHANICS mech, MINDS mindtype)
         {
             try
             {
                 Console.BackgroundColor = ConsoleColor.DarkGray;
 
                 this.mech = mech;
-                this.settings = settings;
+                this.mindtype = mindtype;
 
                 parms = new Params(this, mech);
                 common = new Common.Common(this);
@@ -103,14 +103,14 @@ namespace Awesome.AI.Core
                 curve = new TheCurve(this);
                 _out = new Out(this);
 
-                mem = new Memory(this);
+                mem = new Memory(this, parms.number_of_units);
 
-                if (settings == "standart")
-                    curr_unit = mem.UNITS_ALL().Where(x => x.root == "_love10").FirstOrDefault();
-                if (settings == "andrew")
-                    curr_unit = mem.UNITS_ALL().Where(x => x.root == "_fembots10").FirstOrDefault();
-                if (settings == "roberta")
-                    curr_unit = mem.UNITS_ALL().Where(x => x.root == "_macho machines10").FirstOrDefault();
+                //if (mindtype == MINDS.STANDARD)
+                //    curr_unit = mem.UNITS_ALL().Where(x => x.root == "_love1").FirstOrDefault();
+                if (mindtype == MINDS.ANDREW)
+                    curr_unit = mem.UNITS_ALL().Where(x => x.root == "_fembots1").FirstOrDefault();
+                if (mindtype == MINDS.ROBERTA)
+                    curr_unit = mem.UNITS_ALL().Where(x => x.root == "_macho machines1").FirstOrDefault();
 
                 curr_hub = curr_unit.HUB;
 

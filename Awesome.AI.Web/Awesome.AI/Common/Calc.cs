@@ -1,6 +1,5 @@
 ﻿using Awesome.AI.Core;
 using Awesome.AI.Interfaces;
-using Microsoft.EntityFrameworkCore.Storage.Internal;
 
 namespace Awesome.AI.Common
 {
@@ -210,7 +209,7 @@ namespace Awesome.AI.Common
         //        return -9999.9999d;
         //    }
         //}
-        
+
         public int MyRandom(int i_max)
         {
             /*

@@ -88,27 +88,27 @@ namespace Awesome.AI.Web.Api.Error
         }
 
         // GET: api/<ValuesController>
-        [HttpGet]
-        [Route("api/path")]
-        [Authorize]
-        public GetPath Path()
-        {
-            try
-            {
-                //return new GetResponce() { error = PathHelper.PathSetup };
+        //[HttpGet]
+        //[Route("api/path")]
+        //[Authorize]
+        //public GetPath Path()
+        //{
+        //    try
+        //    {
+        //        //return new GetResponce() { error = PathHelper.PathSetup };
 
-                string path = PathSetup.MyPath("andrew");
+        //        string path = PathSetup.MyPath("andrew");
 
-                GetPath res = new GetPath();
-                res.path = path;
+        //        GetPath res = new GetPath();
+        //        res.path = path;
 
-                return res;
-            }
-            catch (Exception _e)
-            {
-                return new GetPath() { path = _e.Message };
-            }
-        }
+        //        return res;
+        //    }
+        //    catch (Exception _e)
+        //    {
+        //        return new GetPath() { path = _e.Message };
+        //    }
+        //}
 
         // GET api/<ValuesController>/5
         //[HttpGet("{id}")]

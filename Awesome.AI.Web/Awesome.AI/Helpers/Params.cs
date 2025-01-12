@@ -38,9 +38,8 @@ namespace Awesome.AI.Helpers
                     case MECHANICS.WHEEL: 
                         _mech = new _TheWheel(this);
 
-                        setup_tags = TAGSETUP.PRIME;                                        //fixed, always set to PRIME
                         validation = VALIDATION.BOTH;                                       //BOTH or OCCU
-                        case_tags = TAGS.ONE;                                               //used with TAGS and BOTH
+                        case_tags = TAGS.ALL;                                               //used with TAGS and BOTH
                         case_occupasion = OCCUPASION.FIXED;                                 //used with OCCU and BOTH
                         hmode1 = HACKMODES.HACK;
                         hmode2 = HACKMODES.NOHACK;
@@ -80,9 +79,8 @@ namespace Awesome.AI.Helpers
                     case MECHANICS.GRAVITY: 
                         _mech = new _TheGravity(this);
 
-                        setup_tags = TAGSETUP.PRIME;                                        //fixed, always set to PRIME
                         validation = VALIDATION.BOTH;                                       //BOTH or OCCU
-                        case_tags = TAGS.ONE;                                               //used with TAGS and BOTH
+                        case_tags = TAGS.ALL;                                               //used with TAGS and BOTH
                         case_occupasion = OCCUPASION.FIXED;                                 //used with OCCU and BOTH
                         hmode1 = HACKMODES.HACK;
                         hmode2 = HACKMODES.NOHACK;
@@ -122,10 +120,9 @@ namespace Awesome.AI.Helpers
                     case MECHANICS.CONTEST: 
                         _mech = new _TheContest(this);
 
-                        setup_tags = TAGSETUP.PRIME;                                        //fixed, always set to PRIME
                         validation = VALIDATION.BOTH;                                       //BOTH or OCCU
-                        case_tags = TAGS.ONE;                                               //used with TAGS and BOTH
-                        case_occupasion = OCCUPASION.FIXED;                                 //used with OCCU and BOTH
+                        case_tags = TAGS.ALL;                                               //used with TAGS and BOTH
+                        case_occupasion = OCCUPASION.DYNAMIC;                                 //used with OCCU and BOTH
                         hmode1 = HACKMODES.NOHACK;
                         hmode2 = HACKMODES.NOHACK;
                         mech = MECHANICS.CONTEST;
@@ -164,9 +161,8 @@ namespace Awesome.AI.Helpers
                     case MECHANICS.HILL: 
                         _mech = new _TheHill(this);
 
-                        setup_tags = TAGSETUP.PRIME;                                        //fixed, always set to PRIME
                         validation = VALIDATION.BOTH;                                       //BOTH or TAGS
-                        case_tags = TAGS.ONE;                                               //used with TAGS and BOTH
+                        case_tags = TAGS.ALL;                                               //used with TAGS and BOTH
                         case_occupasion = OCCUPASION.DYNAMIC;                               //used with OCCU and BOTH
                         hmode1 = HACKMODES.HACK;
                         hmode2 = HACKMODES.HACK;
@@ -224,7 +220,6 @@ namespace Awesome.AI.Helpers
          * VARIABLE parameters
          * */
 
-        public TAGSETUP setup_tags;                                          //fixed, always set to PRIME
         public VALIDATION validation;      
         public TAGS case_tags;                                               //used with WORLD and BOTH
         public OCCUPASION case_occupasion;                                   //used with SELF and BOTH
@@ -306,6 +301,7 @@ namespace Awesome.AI.Helpers
         public int learning_epochs = 100;
         public int first_run = 5;
         public int runtime = 50; //minutes
+        public int number_of_units = 10;
 
         public double boost;                                              //dimm the fluctuations
         

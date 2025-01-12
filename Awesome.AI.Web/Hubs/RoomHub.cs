@@ -4,14 +4,13 @@ using Awesome.AI.Web.Helpers;
 using Microsoft.AspNetCore.SignalR;
 using System.Diagnostics;
 using static Awesome.AI.Helpers.Enums;
-using static Awesome.AI.Web.Common.Enums;
 
 namespace Awesome.AI.Web.Hubs
 {
     public class Bot
     {
         public MECHANICS mech {  get; set; }
-        public MINDS mind { get; set; }
+        public MINDS mindtype { get; set; }
     }
 
     public class Instance
@@ -251,17 +250,16 @@ namespace Awesome.AI.Web.Hubs
                 helper = new RoomHelper();
 
                 int MAX = Enum.GetNames(typeof(MINDS)).Length;
-
-                //bots.Add(new Bot() { mind = MINDS.ROBERTA, mech = MECHANICS.HILL });
-                bots.Add(new Bot() { mind = MINDS.ROBERTA, mech = MECHANICS.HILL });
-                bots.Add(new Bot() { mind = MINDS.ANDREW, mech = MECHANICS.HILL });
+                                
+                bots.Add(new Bot() { mindtype = MINDS.ROBERTA, mech = MECHANICS.HILL });
+                bots.Add(new Bot() { mindtype = MINDS.ANDREW, mech = MECHANICS.HILL });
                 
                 foreach (Bot bot in bots)
                 {
                     Instance instance = new Instance();
 
-                    instance.mind = new TheMind(bot.mech, bot.mind.ToString().ToLower());
-                    instance.type = bot.mind;
+                    instance.mind = new TheMind(bot.mech, bot.mindtype);
+                    instance.type = bot.mindtype;
                         
                     // Instantiate new MicroTimer and add event handler
                     instance.microTimer.MicroTimerElapsed += new MicroLibrary.MicroTimer.MicroTimerElapsedEventHandler(instance.mind.Run);
