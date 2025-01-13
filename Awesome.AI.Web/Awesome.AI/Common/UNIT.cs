@@ -1,4 +1,5 @@
 ﻿using Awesome.AI.Core;
+using Awesome.AI.Helpers;
 using Awesome.AI.Interfaces;
 using Awesome.AI.Systems.Externals;
 using static Awesome.AI.Helpers.Enums;
@@ -24,23 +25,12 @@ namespace Awesome.AI.Common
         {
             this.mind = mind;
         }
-
-        public double index_conv
+        
+        private double dex = -1.0d;
+        public double Index
         {
-            get
-            {
-                double orig = index_orig;
-                double res = mind.convert.Process(orig, root, type);
-
-                return res;
-            }
-        }
-
-        private double dex_orig = -1.0d;
-        public double index_orig
-        {
-            get { return dex_orig; }
-            set { dex_orig = value; }
+            get { return dex; }
+            set { dex = value; }
         }
 
         double _f = -1d;
@@ -52,7 +42,7 @@ namespace Awesome.AI.Common
                     return _f;
 
                 IMechanics _mech = mind.parms.GetMechanics();
-                _f = _mech.VAR(this);
+                _f = _mech.Variable(this);
                 return _f;
             }
         }
@@ -79,8 +69,8 @@ namespace Awesome.AI.Common
         {
             get
             {
-                double min = ZUNIT.zero_dist < this.LowAtZero ? ZUNIT.zero_dist : this.LowAtZero;
-                double max = ZUNIT.zero_dist > this.LowAtZero ? ZUNIT.zero_dist : this.LowAtZero;
+                double min = Constants.VERY_LOW < this.LowAtZero ? Constants.VERY_LOW : this.LowAtZero;
+                double max = Constants.VERY_LOW > this.LowAtZero ? Constants.VERY_LOW : this.LowAtZero;
                 return max - min;
             }
         }
@@ -147,10 +137,7 @@ namespace Awesome.AI.Common
         {
             get
             {
-                double max = mind.convert.p_Max;
-                double min = mind.convert.p_Min;
-
-                double res = index_conv;
+                double res = Index;
                 res = mind.calc.NormalizeRange(res, 0.0d, 100.0d, 0.0d, mind.parms.max_index);
 
                 return res;
@@ -165,49 +152,12 @@ namespace Awesome.AI.Common
         {
             get
             {
-                double max = mind.convert.p_Max;
-                double min = mind.convert.p_Min;
-
-                double res = max - index_conv;
+                double res = Constants.MAX - Index;
                 res = mind.calc.NormalizeRange(res, 0.0d, 100.0d, 0.0d, mind.parms.max_index);
 
                 return res;
             }
         }
-
-        public double LowAtZeroReciprocal
-        {
-            get
-            {
-                double max = mind.convert.p_Max;
-                double min = mind.convert.p_Min;
-
-                double res = mind.calc.NormalizeRange(index_conv, 0.0d, 100.0d, 0.0d, mind.parms.scale);
-                res = res < 0.25d ? 0.25d : res;
-                res = mind.calc.Reciprocal(res);
-                res = res > 2.0d ? 2.0d : res;
-                res = mind.calc.NormalizeRange(res, 0.0d, 2.0d, 0.0d, mind.parms.max_index);
-
-                return res;
-            }
-        }
-
-        public double HighAtZeroReciprocal
-        {
-            get
-            {
-                double max = mind.convert.p_Max;
-                double min = mind.convert.p_Min;
-
-                double res = mind.calc.NormalizeRange(max - index_conv, 0.0d, 100.0d, 0.0d, mind.parms.scale);
-                res = res < 0.25d ? 0.25d : res;
-                res = mind.calc.Reciprocal(res);
-                res = res > 2.0d ? 2.0d : res;
-                res = mind.calc.NormalizeRange(res, 0.0d, 2.0d, 0.0d, mind.parms.max_index);
-
-                return res;
-            }
-        }        
 
         private HUB hub = null;
         public HUB HUB
@@ -240,9 +190,9 @@ namespace Awesome.AI.Common
             }
         }
 
-        public static UNIT Create(TheMind mind, double index_orig, string root, string root_val, string ticket, TYPE t)
+        public static UNIT Create(TheMind mind, double index, string root, string root_val, string ticket, TYPE t)
         {
-            UNIT _w = new UNIT() { mind = mind, index_orig = index_orig, root = root, root_val = root_val, type = t };
+            UNIT _w = new UNIT() { mind = mind, Index = index, root = root, root_val = root_val, type = t };
 
             if (ticket != "")
                 _w.ticket = new Ticket(ticket);

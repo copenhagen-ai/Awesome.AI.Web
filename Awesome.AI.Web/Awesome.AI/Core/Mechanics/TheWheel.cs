@@ -38,7 +38,7 @@ namespace Awesome.AI.Core.Mechanics
         }
 
         //NewtonForce
-        public double VAR(UNIT curr)
+        public double Variable(UNIT curr)
         {
             /*
              * I guess this is a changeable function, for now it is just the one I know to calculate force
@@ -56,19 +56,14 @@ namespace Awesome.AI.Core.Mechanics
             return acc;
         }
 
-        public double VAR(double var)
-        {
-            return var;
-        }
-
-        public double EXIT()
+        public double Result()
         {
             double res = POS_X;
 
             return res;
         }
 
-        public void XPOS()
+        public void Position()
         {
             //its a hack, yes its cheating..
             double boost = mind.parms.boost;
@@ -90,7 +85,7 @@ namespace Awesome.AI.Core.Mechanics
             dir.Stat();
         }
 
-        public void CALC()
+        public void Calculate()
         {
             //force left
             Fsta = ApplyStatic();

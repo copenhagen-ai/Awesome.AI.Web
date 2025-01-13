@@ -1,4 +1,5 @@
 ﻿using Awesome.AI.Core;
+using Awesome.AI.Helpers;
 using static Awesome.AI.Helpers.Enums;
 
 namespace Awesome.AI.Common
@@ -30,17 +31,6 @@ namespace Awesome.AI.Common
             return !Double.IsNaN(value) && !Double.IsInfinity(value);
         }
 
-        public static string Data(this string value)
-        {
-            return value.Split(':')[0];
-        }
-
-        public static string Class(this string value)
-        {
-            if (!value.Contains(":"))
-                return "null";
-            return value.Split(':')[1];
-        }
 
         private static Random rng = new Random();
         public static void Shuffle<T>(this IList<T> list)
@@ -54,6 +44,16 @@ namespace Awesome.AI.Common
                 list[k] = list[n];
                 list[n] = value;
             }
+        }
+
+        public static double Convert(this double _x, TheMind mind)
+        {
+            double _l = 0.0d;
+            double _h = 100.0d;
+            
+            double res = mind.calc.NormalizeRange(_x, _l, _h, Constants.MIN, Constants.MAX);
+
+            return res;
         }
 
         public static bool TheHack1(this bool _b, TheMind mind)
@@ -109,5 +109,17 @@ namespace Awesome.AI.Common
         {
             return q == OPINION.NOT || q == OPINION.OK;
         }
+
+        //public static string Data(this string value)
+        //{
+        //    return value.Split(':')[0];
+        //}
+
+        //public static string Class(this string value)
+        //{
+        //    if (!value.Contains(":"))
+        //        return "null";
+        //    return value.Split(':')[1];
+        //}
     }
 }

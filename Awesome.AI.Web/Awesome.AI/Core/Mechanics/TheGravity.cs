@@ -41,7 +41,7 @@ namespace Awesome.AI.Core.Mechanics
         }
         
         //NewtonForce
-        public double VAR(UNIT curr)
+        public double Variable(UNIT curr)
         {
             /*
              * I guess this is a changeable function, for now it is just the one I know to calculate force
@@ -55,7 +55,7 @@ namespace Awesome.AI.Core.Mechanics
 
             double dist = curr.LowAtZero;
             dist = dist == 0.0d ? 1.0E-50 : dist;// jajajaa
-            double mass_m = ZUNIT.zero_mass;
+            double mass_m = Vars.zero_mass;
             double mass_M = mind.parms.mass;
 
             //Gravitational Constant (G)
@@ -67,19 +67,14 @@ namespace Awesome.AI.Core.Mechanics
             return grav;
         }
 
-        public double VAR(double var)
-        {
-            return var;
-        }
-
-        public double EXIT()
+        public double Result()
         {
             double res = POS_X;
 
             return res;
         }
 
-        public void XPOS()
+        public void Position()
         {
             //its a hack, yes its cheating..
             double boost = mind.parms.boost;
@@ -103,7 +98,7 @@ namespace Awesome.AI.Core.Mechanics
         }
 
 
-        public void CALC()
+        public void Calculate()
         {
             bool reset = velocity >= 0.0d; //maybe 0.666 * max_velocity
 

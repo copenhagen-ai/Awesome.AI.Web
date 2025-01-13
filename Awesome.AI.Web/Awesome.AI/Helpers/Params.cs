@@ -52,18 +52,17 @@ namespace Awesome.AI.Helpers
                         //earth gravity:         9.807 m/s²
                         //distance sun:    148.010.000 km
                         //earth radius:          6,371 km
-                        ZUNIT.zero_mass = 10.0d * 1.989E30d;
-                        ZUNIT.zero_dist = 1.0E-50d;
-                        ZUNIT.gravity = -1d;
-
+                        Vars.zero_mass = 10.0d * 1.989E30d;
+                                                
                         mass = 5.972E24d;
                         max_index = 100.0d;
-                        scale = 2.0d;
-                        low_cut = 1.0E-9d;
                         pos_x_high = 10.0d;
                         pos_x_low = 0.0d;
                         pos_x_start = 5.0d;
+                        update_nrg = 0.050d;
 
+                        //low_cut = 1.0E-9d;
+                        //scale = 2.0d;
                         //dir_learningrate = -1d;
 
                         /*
@@ -93,18 +92,17 @@ namespace Awesome.AI.Helpers
                         //earth gravity:         9.807 m/s²
                         //distance sun:    148.010.000 km
                         //earth radius:          6,371 km
-                        ZUNIT.zero_mass = 5.972E24d;
-                        ZUNIT.zero_dist = 1.0E-50d;
-                        ZUNIT.gravity = -1d;
-
+                        Vars.zero_mass = 5.972E24d;
+                                                
                         mass = 0.05d;
                         max_index = 7000.0d;
-                        scale = -1d;
-                        low_cut = 5.610E7d;
                         pos_x_high = 10.0d;
                         pos_x_low = 0.0d;
                         pos_x_start = 5.0d;
+                        update_nrg = 0.050d;
 
+                        //low_cut = 5.610E7d;
+                        //scale = -1d;
                         //dir_learningrate = -1d;
 
                         /*
@@ -134,22 +132,19 @@ namespace Awesome.AI.Helpers
                         //earth gravity:         9.807 m/s²
                         //distance sun:    148.010.000 km
                         //earth radius:          6,371 km
-                        ZUNIT.zero_mass = -1d;
-                        ZUNIT.zero_dist = -1d;
-                        ZUNIT.gravity = 9.81d;
-
+                                                                        
                         high_at_zero = true;
 
                         mass = 500.0d;
                         max_index = 100.0d;
-                        scale = 80.0d;
-                        //high_pass = 5.610E7d;
                         pos_x_high = 10.0d;
                         pos_x_low = 0.0d;
                         pos_x_start = 5.0d;
-
-                        //dir_learningrate = -1d;
                         update_nrg = 0.030d;
+
+                        //low_cut = 5.610E7d;
+                        //scale = 80.0d;
+                        //dir_learningrate = -1d;
 
                         /*
                          * boost is life span
@@ -176,12 +171,9 @@ namespace Awesome.AI.Helpers
                         //earth mass:    5.972 × 10^24kg
                         //sun mass:      1.989 × 10^30kg
                         //earth gravity: 9.807m/s²
-                        ZUNIT.zero_mass = -1d;
-                        ZUNIT.zero_dist = 1.0E-50d;
-                        ZUNIT.gravity = 9.81d;
-                        ZUNIT.hill_a = -0.1d;
-                        ZUNIT.hill_b = 0.0d;
-                        ZUNIT.hill_c = 10.0d;
+                        Vars.var_a = -0.1d;
+                        Vars.var_b = 0.0d;
+                        Vars.var_c = 10.0d;
 
                         //hill_a = -0.01d;
                         //hill_b = 0.0d;
@@ -195,14 +187,14 @@ namespace Awesome.AI.Helpers
 
                         mass = 0.5d;
                         max_index = 100.0d;
-                        scale = -1d;
-                        //high_pass = 4.48d;
                         pos_x_high = 10.0d;
                         pos_x_low = 0.0d;
                         pos_x_start = 5.0d;
-
-                        //dir_learningrate = 0.001d;
                         update_nrg = 0.050d;
+
+                        //high_pass = 4.48d;
+                        //scale = -1d;
+                        //dir_learningrate = 0.001d;
 
                         /*
                          * boost is life span?
@@ -227,8 +219,8 @@ namespace Awesome.AI.Helpers
             List<UNIT> units = mind.mem.UNITS_ALL();
 
             units = high_at_zero ?
-                units = units.OrderBy(x => x.index_orig).ToList() :
-                units = units.OrderByDescending(x => x.index_orig).ToList();
+                units = units.OrderBy(x => x.Index).ToList() :
+                units = units.OrderByDescending(x => x.Index).ToList();
 
             UNIT _u = units[3];
                         
@@ -301,13 +293,9 @@ namespace Awesome.AI.Helpers
         // should it be 200, 1000 or more???
         public double mass;
         public double max_index;
-        public double scale;
         public double low_cut;
         public double pos_x_high;
         public double pos_x_low;
-        //public double hill_a;
-        //public double hill_b;
-        //public double hill_c;
         public double pos_x_start;
         public double update_nrg;
         public double boost;                                              //dimm the fluctuations
@@ -315,9 +303,13 @@ namespace Awesome.AI.Helpers
         public double max_nrg = 10.0d;
         
         public int first_run = 5;
-        public int runtime = 50; //minutes
         public int number_of_units = 10;
+        public int runtime = 5; //minutes
         
+        //public double scale;
+        //public double hill_a;
+        //public double hill_b;
+        //public double hill_c;
         //public double dir_learningrate;
         //public double lim_bias = 0.0d;                                            // approx start, then it auto adjusts
         //public double lim_learningrate;                                           // I call it learningrate, but really it is just an adjustment

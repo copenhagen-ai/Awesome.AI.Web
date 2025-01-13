@@ -2,7 +2,6 @@
 using Awesome.AI.CoreHelpers;
 using Awesome.AI.Helpers;
 using Awesome.AI.Interfaces;
-using static Awesome.AI.Helpers.Enums;
 
 namespace Awesome.AI.Core.Mechanics
 {
@@ -40,7 +39,7 @@ namespace Awesome.AI.Core.Mechanics
         }
 
         //NewtonForce
-        public double VAR(UNIT curr)
+        public double Variable(UNIT curr)
         {
             /*
              * I guess this is a changeable function, for now it is just the one I know to calculate force
@@ -53,27 +52,19 @@ namespace Awesome.AI.Core.Mechanics
                 throw new Exception();
 
             double acc = curr.HighAtZero;
-            acc = acc == 0.0d ? 1.0E-50 : acc;// jajajaa
+            acc = acc == 0.0d ? Constants.VERY_LOW : acc;// jajajaa
 
             return acc;
-        }
+        }        
 
-        public double VAR(double var)
-        {
-            double acc = var;
-            acc = acc == 0.0d ? 1.0E-50 : acc;// jajajaa
-
-            return acc;
-        }
-
-        public double EXIT()
+        public double Result()
         {
             double res = POS_X;
 
             return res;
         }
 
-        public void XPOS()
+        public void Position()
         {
             //its a hack, yes its cheating..
             double boost = mind.goodbye.IsNo() ? mind.parms.boost : 1.0d;
@@ -97,7 +88,7 @@ namespace Awesome.AI.Core.Mechanics
             dir.Stat();
         }
 
-        public void CALC()
+        public void Calculate()
         {
             //car left
             Fsta = ApplyStatic();
@@ -136,7 +127,7 @@ namespace Awesome.AI.Core.Mechanics
             double acc = mind.common.HighestForce().Variable / 10; //divided by 10 for aprox acc
             double m = mind.parms.mass;
             double u = mind.core.FrictionCoefficient(true, 0.0d);
-            double N = m * ZUNIT.gravity;
+            double N = m * Constants.GRAVITY;
 
             double Ffriction = u * N;
             double Fapplied = m * acc; //force, left
@@ -162,7 +153,7 @@ namespace Awesome.AI.Core.Mechanics
             double acc = max - curr_unit_th.Variable / 10; //divided by 10 for aprox acc
             double m = mind.parms.mass;
             double u = mind.core.FrictionCoefficient(false, curr_unit_th.credits);
-            double N = m * ZUNIT.gravity;
+            double N = m * Constants.GRAVITY;
 
             double Ffriction = u * N;
             double Fapplied = m * acc; //force, left

@@ -52,8 +52,7 @@ namespace Awesome.AI.Core
         public MyInternal _internal;
         public MyExternal _external;
         public Common.Common common;
-        public Common.Convert convert;
-        
+                
         public HUB curr_hub;
         public UNIT curr_unit;
         public UNIT theanswer;
@@ -98,7 +97,6 @@ namespace Awesome.AI.Core
                 _internal = new MyInternal(this);
                 _external = new MyExternal(this);
                 filters = new Filters(this);
-                convert = new Common.Convert(this);
                 core = new Core(this);
                 curve = new TheCurve(this);
                 _out = new Out(this);
@@ -149,7 +147,7 @@ namespace Awesome.AI.Core
             foreach (UNIT u in list.OrderBy(x => x.LengthFromZero).ToList())
                 units_dist.Add(u.root, u.LengthFromZero);
 
-            List<UNIT> list1 = list.OrderBy(x => x.index_conv).ToList();
+            List<UNIT> list1 = list.OrderBy(x => x.Index).ToList();
             List<UNIT> list2 = list.OrderBy(x => x.Variable).ToList();
             List<UNIT> list3 = list.Where(x => !filters.LowCut(x)).OrderBy(x => x.Variable).ToList();
 
@@ -219,10 +217,7 @@ namespace Awesome.AI.Core
             if (!_pro)
                 return;
 
-            convert.Reset();
-            common.Reset();
-
-            //process.Stream();
+            common.Reset();            
         }
 
         private void PostRun(bool _pro)
@@ -252,8 +247,8 @@ namespace Awesome.AI.Core
             if (curr_unit.IsIDLE())
                 return true;
 
-            mech.CALC();
-            mech.XPOS();
+            mech.Calculate();
+            mech.Position();
 
             //if (curr_hub.IsIDLE())
             //    core.SetTheme(_pro);

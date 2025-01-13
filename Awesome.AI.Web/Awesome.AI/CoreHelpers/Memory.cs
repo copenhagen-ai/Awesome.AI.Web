@@ -105,7 +105,7 @@ namespace Awesome.AI.CoreHelpers
                 foreach (HUB h in hubs)
                     units = units.Concat(h.units).ToList();
 
-                units = units.OrderBy(x => x.index_orig).ToList();
+                units = units.OrderBy(x => x.Index).ToList();
             }
             
             _c = mind.cycles_all;
@@ -193,6 +193,8 @@ namespace Awesome.AI.CoreHelpers
                 for (int i = 1; i <= u_count; i++)
                 {
                     double rand = random.NextDouble() * 100.0d;
+                    rand = rand.Convert(mind);
+
                     units.Add(
                         UNIT.Create(
                             mind,

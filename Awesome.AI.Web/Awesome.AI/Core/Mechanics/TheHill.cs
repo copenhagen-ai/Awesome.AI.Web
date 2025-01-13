@@ -38,7 +38,7 @@ namespace Awesome.AI.Core.Mechanics
 
         
         //Weight
-        public double VAR(UNIT _c)
+        public double Variable(UNIT _c)
         {
             /*
              * This is a changeable function.
@@ -52,7 +52,7 @@ namespace Awesome.AI.Core.Mechanics
             if (_c.IsIDLE())
                 throw new Exception();// return Params.idle_val;
 
-            double earth_gravity = ZUNIT.gravity;
+            double earth_gravity = Constants.GRAVITY;
             double mass = mind.parms.mass;
             double percent = mind.calc.NormalizeRange(_c.HighAtZero, 0.0d, mind.parms.max_index, 0.0d, 1.0d);
 
@@ -61,19 +61,14 @@ namespace Awesome.AI.Core.Mechanics
             return res;
         }
 
-        public double VAR(double var)
-        {
-            return var;
-        }
-
-        public double EXIT()
+        public double Result()
         {
             double res = 10.0d - POS_X;
 
             return res;
         }
 
-        public void XPOS()
+        public void Position()
         {
             //its a hack, yes its cheating..
             double boost = mind.parms.boost;
@@ -106,7 +101,7 @@ namespace Awesome.AI.Core.Mechanics
             Vector2D calc = new Vector2D();
             Vector2D _slope;
             
-            acc_slope = mind.calc.SlopeCoefficient(x, ZUNIT.hill_a, ZUNIT.hill_b);
+            acc_slope = mind.calc.SlopeCoefficient(x, Vars.var_a, Vars.var_b);
             _x = 1.0d;
             _y = acc_slope;
             _slope = calc.ToPolar(new Vector2D(_x, _y, null, null));
@@ -115,9 +110,9 @@ namespace Awesome.AI.Core.Mechanics
             return acc_degree;
         }
         
-        public void CALC()
+        public void Calculate()
         {
-            Check(ZUNIT.hill_a, ZUNIT.hill_b, ZUNIT.hill_c);
+            Check(Vars.var_a, Vars.var_b, Vars.var_c);
 
             Vector2D calc = new Vector2D();
             Vector2D res, sta = new Vector2D(), dyn = new Vector2D();
@@ -171,7 +166,7 @@ namespace Awesome.AI.Core.Mechanics
 
             double m = mind.parms.mass;
             double u = mind.core.FrictionCoefficient(true, 0.0d);
-            double N = m * ZUNIT.gravity;
+            double N = m * Constants.GRAVITY;
 
             double Ffriction = u * N;
             double Fapplied = _fN.magnitude;
@@ -199,8 +194,8 @@ namespace Awesome.AI.Core.Mechanics
             Vector2D _dynamic = new Vector2D(null, null, force_dyn, mind.calc.ToRadiansFromDegrees(angle_dyn));
 
             double m = mind.parms.mass;
-            double u = mind.core.FrictionCoefficient(true, curr_unit_th.credits);
-            double N = m * ZUNIT.gravity;
+            double u = mind.core.FrictionCoefficient(false, curr_unit_th.credits);
+            double N = m * Constants.GRAVITY;
 
             double Ffriction = u * N;
             double Fapplied = _dynamic.magnitude;

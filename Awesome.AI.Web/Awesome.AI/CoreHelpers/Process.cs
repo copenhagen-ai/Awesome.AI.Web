@@ -66,7 +66,7 @@ namespace Awesome.AI.CoreHelpers
             List<UNIT> units = mind.mem.UNITS_ALL();
 
             foreach (UNIT u in units)
-                stats.list.Add(new Stat() { name = u.root, force = u.Variable, index = u.index_conv });
+                stats.list.Add(new Stat() { name = u.root, force = u.Variable, index = u.Index });
 
             mind.stats = stats;
 

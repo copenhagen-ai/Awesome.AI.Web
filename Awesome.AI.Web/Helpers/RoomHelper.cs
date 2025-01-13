@@ -86,7 +86,7 @@ namespace Awesome.AI.Web.Helpers
         {
             string subject = common.HUB.subject;
 
-            string str = "" + common.index_orig;
+            string str = "" + common.Index;
             int dot = str.IndexOf(',');
             string index = str.Substring(0, dot + 2);
             

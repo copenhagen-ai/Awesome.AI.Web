@@ -17,11 +17,10 @@ namespace Awesome.AI.Interfaces
 
         Direction dir { get; set; }
         
-        void CALC();
-        void XPOS();
-        double EXIT();
-        double VAR(UNIT c);
-        double VAR(double var);
+        void Calculate();//do calculations
+        void Position();//calculate position of x
+        double Result();//get result of position
+        double Variable(UNIT c);//the force, mass, distance, acceleration etc
     }
 }
 

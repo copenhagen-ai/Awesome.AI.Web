@@ -16,25 +16,17 @@ namespace Awesome.AI.Core
             this.mind = mind;
         }
 
-        //private int count { get; set; }
         public bool OK(out double pain)
         {
             try
             {
-                double _e = mind.parms._mech.EXIT();
+                double _e = mind.parms._mech.Result();
                 pain = mind.calc.Reciprocal(_e);
                     
                 return pain < mind.parms.max_pain;
             }
             catch (Exception e)//thats it
             {
-                //count++;
-
-                //pain = 0.1;
-
-                //if (count < 100)
-                //    return true;
-                
                 pain = mind.parms.max_pain;
                 return false;
             }
@@ -80,25 +72,16 @@ namespace Awesome.AI.Core
             if (is_static)
                 return mind.parms.base_friction;
             
-            //friction = 
-            //    credits > 8.0d ? 0.33d :
-            //    credits > 5.0d ? mind.parms.base_friction :
-            //                     1.0d;
-
             Calc calc = new Calc(mind);
             double x = credits;
             double friction = 0.0d;
 
             switch(mind.mech)
             {
-                case MECHANICS.WHEEL:
-                    friction = calc.Linear(x, -1.0d, 10d) / 10;
-                    break;
-                case MECHANICS.CONTEST:
-                    friction = calc.Linear(x, -0.25d, 2.5d) / 10;
-                    break;
-                default:
-                    throw new Exception();
+                //this could be better
+                case MECHANICS.HILL: friction = calc.Linear(x, -0.5d, 7d) / 10; break;
+                case MECHANICS.CONTEST: friction = calc.Linear(x, -0.25d, 2.5d) / 10; break;
+                default: throw new Exception();
             }
 
             return friction;

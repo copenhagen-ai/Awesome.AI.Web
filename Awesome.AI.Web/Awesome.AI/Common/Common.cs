@@ -1,5 +1,4 @@
 ﻿using Awesome.AI.Core;
-using System.Linq.Expressions;
 
 namespace Awesome.AI.Common
 {
@@ -55,24 +54,24 @@ namespace Awesome.AI.Common
             lowest_force = null;
         }
 
-        public string GetMemberName<T>(Expression<Func<T>> memberExpression)
-        {
-            MemberExpression expressionBody = (MemberExpression)memberExpression.Body;
-            return expressionBody.Member.Name;
-        }
+        //public string GetMemberName<T>(Expression<Func<T>> memberExpression)
+        //{
+        //    MemberExpression expressionBody = (MemberExpression)memberExpression.Body;
+        //    return expressionBody.Member.Name;
+        //}
 
-        public Type GetType(string strFullyQualifiedName)
-        {
-            Type t = Type.GetType(strFullyQualifiedName);
-            return t;
-        }
+        //public Type GetType(string strFullyQualifiedName)
+        //{
+        //    Type t = Type.GetType(strFullyQualifiedName);
+        //    return t;
+        //}
 
-        public object GetInstance(string strFullyQualifiedName)
-        {
-            Type t = Type.GetType(strFullyQualifiedName);
-            if (t == null)
-                return null;
-            return Activator.CreateInstance(t);
-        }        
+        //public object GetInstance(string strFullyQualifiedName)
+        //{
+        //    Type t = Type.GetType(strFullyQualifiedName);
+        //    if (t == null)
+        //        return null;
+        //    return Activator.CreateInstance(t);
+        //}
     }
 }
