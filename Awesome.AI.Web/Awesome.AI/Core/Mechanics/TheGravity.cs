@@ -67,6 +67,11 @@ namespace Awesome.AI.Core.Mechanics
             return grav;
         }
 
+        public double VAR(double var)
+        {
+            return var;
+        }
+
         public double EXIT()
         {
             double res = POS_X;

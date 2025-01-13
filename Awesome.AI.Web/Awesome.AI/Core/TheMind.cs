@@ -105,6 +105,8 @@ namespace Awesome.AI.Core
 
                 mem = new Memory(this, parms.number_of_units);
 
+                parms.UpdateLowCut();
+
                 //if (mindtype == MINDS.STANDARD)
                 //    curr_unit = mem.UNITS_ALL().Where(x => x.root == "_love1").FirstOrDefault();
                 if (mindtype == MINDS.ANDREW)

@@ -58,6 +58,14 @@ namespace Awesome.AI.Core.Mechanics
             return acc;
         }
 
+        public double VAR(double var)
+        {
+            double acc = var;
+            acc = acc == 0.0d ? 1.0E-50 : acc;// jajajaa
+
+            return acc;
+        }
+
         public double EXIT()
         {
             double res = POS_X;
@@ -128,7 +136,7 @@ namespace Awesome.AI.Core.Mechanics
             double acc = mind.common.HighestForce().Variable / 10; //divided by 10 for aprox acc
             double m = mind.parms.mass;
             double u = mind.core.FrictionCoefficient(true, 0.0d);
-            double N = m * 9.81d;
+            double N = m * ZUNIT.gravity;
 
             double Ffriction = u * N;
             double Fapplied = m * acc; //force, left
@@ -154,7 +162,7 @@ namespace Awesome.AI.Core.Mechanics
             double acc = max - curr_unit_th.Variable / 10; //divided by 10 for aprox acc
             double m = mind.parms.mass;
             double u = mind.core.FrictionCoefficient(false, curr_unit_th.credits);
-            double N = m * 9.81;
+            double N = m * ZUNIT.gravity;
 
             double Ffriction = u * N;
             double Fapplied = m * acc; //force, left

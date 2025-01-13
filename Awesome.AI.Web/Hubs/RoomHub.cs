@@ -251,8 +251,8 @@ namespace Awesome.AI.Web.Hubs
 
                 int MAX = Enum.GetNames(typeof(MINDS)).Length;
                                 
-                bots.Add(new Bot() { mindtype = MINDS.ROBERTA, mech = MECHANICS.CONTEST });
-                bots.Add(new Bot() { mindtype = MINDS.ANDREW, mech = MECHANICS.CONTEST });
+                bots.Add(new Bot() { mindtype = MINDS.ROBERTA, mech = MECHANICS.HILL });
+                bots.Add(new Bot() { mindtype = MINDS.ANDREW, mech = MECHANICS.HILL });
                 
                 foreach (Bot bot in bots)
                 {

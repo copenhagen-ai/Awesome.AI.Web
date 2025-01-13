@@ -21,6 +21,7 @@ namespace Awesome.AI.Interfaces
         void XPOS();
         double EXIT();
         double VAR(UNIT c);
+        double VAR(double var);
     }
 }
 

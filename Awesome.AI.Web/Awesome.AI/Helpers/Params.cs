@@ -16,8 +16,9 @@ namespace Awesome.AI.Helpers
             GetMechanics(run);
         }
 
-        public int selector;
+        //public int selector;
         public IMechanics _mech = null;
+        private bool high_at_zero {  get; set; }
         
         public IMechanics GetMechanics(MECHANICS run = MECHANICS.NONE)
         {
@@ -52,18 +53,18 @@ namespace Awesome.AI.Helpers
                         //distance sun:    148.010.000 km
                         //earth radius:          6,371 km
                         ZUNIT.zero_mass = 10.0d * 1.989E30d;
-                        ZUNIT.zero_gravity = -1d;
                         ZUNIT.zero_dist = 1.0E-50d;
+                        ZUNIT.gravity = -1d;
 
                         mass = 5.972E24d;
                         max_index = 100.0d;
                         scale = 2.0d;
-                        high_pass = 1.0E-9d;
+                        low_cut = 1.0E-9d;
                         pos_x_high = 10.0d;
                         pos_x_low = 0.0d;
                         pos_x_start = 5.0d;
 
-                        dir_learningrate = -1d;
+                        //dir_learningrate = -1d;
 
                         /*
                          * boost is life span
@@ -73,7 +74,7 @@ namespace Awesome.AI.Helpers
 
                         boost = 1E9d;
 
-                        selector = 0;
+                        //selector = 0;
 
                         break;
                     case MECHANICS.GRAVITY: 
@@ -93,18 +94,18 @@ namespace Awesome.AI.Helpers
                         //distance sun:    148.010.000 km
                         //earth radius:          6,371 km
                         ZUNIT.zero_mass = 5.972E24d;
-                        ZUNIT.zero_gravity = -1d;
                         ZUNIT.zero_dist = 1.0E-50d;
+                        ZUNIT.gravity = -1d;
 
                         mass = 0.05d;
                         max_index = 7000.0d;
                         scale = -1d;
-                        high_pass = 5.610E7d;
+                        low_cut = 5.610E7d;
                         pos_x_high = 10.0d;
                         pos_x_low = 0.0d;
                         pos_x_start = 5.0d;
 
-                        dir_learningrate = -1d;
+                        //dir_learningrate = -1d;
 
                         /*
                          * boost is life span
@@ -114,7 +115,7 @@ namespace Awesome.AI.Helpers
 
                         boost = 1E-10d;
 
-                        selector = 1;
+                        //selector = 1;
 
                         break;
                     case MECHANICS.CONTEST: 
@@ -134,18 +135,21 @@ namespace Awesome.AI.Helpers
                         //distance sun:    148.010.000 km
                         //earth radius:          6,371 km
                         ZUNIT.zero_mass = -1d;
-                        ZUNIT.zero_gravity = -1d;
                         ZUNIT.zero_dist = -1d;
+                        ZUNIT.gravity = 9.81d;
+
+                        high_at_zero = true;
 
                         mass = 500.0d;
                         max_index = 100.0d;
                         scale = 80.0d;
-                        high_pass = 5.610E7d;
+                        //high_pass = 5.610E7d;
                         pos_x_high = 10.0d;
                         pos_x_low = 0.0d;
                         pos_x_start = 5.0d;
 
-                        dir_learningrate = -1d;
+                        //dir_learningrate = -1d;
+                        update_nrg = 0.030d;
 
                         /*
                          * boost is life span
@@ -155,7 +159,7 @@ namespace Awesome.AI.Helpers
 
                         boost = 1E-2d;
 
-                        selector = 1;
+                        //selector = 1;
 
                         break;
                     case MECHANICS.HILL: 
@@ -173,30 +177,32 @@ namespace Awesome.AI.Helpers
                         //sun mass:      1.989 × 10^30kg
                         //earth gravity: 9.807m/s²
                         ZUNIT.zero_mass = -1d;
-                        ZUNIT.zero_gravity = 9.81d;
                         ZUNIT.zero_dist = 1.0E-50d;
+                        ZUNIT.gravity = 9.81d;
+                        ZUNIT.hill_a = -0.1d;
+                        ZUNIT.hill_b = 0.0d;
+                        ZUNIT.hill_c = 10.0d;
+
+                        //hill_a = -0.01d;
+                        //hill_b = 0.0d;
+                        //hill_c = 1.0d;
+
+                        //hill_a = -0.001d;
+                        //hill_b = 0.0d;
+                        //hill_c = 0.1d;
+
+                        high_at_zero = true;
 
                         mass = 0.5d;
                         max_index = 100.0d;
                         scale = -1d;
-                        high_pass = 4.48d;
+                        //high_pass = 4.48d;
                         pos_x_high = 10.0d;
                         pos_x_low = 0.0d;
                         pos_x_start = 5.0d;
 
-                        val_a = -0.1d;
-                        val_b = 0.0d;
-                        val_c = 10.0d;/**/
-
-                        /*val_a = -0.01d;
-                        val_b = 0.0d;
-                        val_c = 1.0d;/**/
-
-                        /*val_a = -0.001d;
-                        val_b = 0.0d;
-                        val_c = 0.1d;/**/
-
-                        dir_learningrate = 0.001d;
+                        //dir_learningrate = 0.001d;
+                        update_nrg = 0.050d;
 
                         /*
                          * boost is life span?
@@ -206,7 +212,7 @@ namespace Awesome.AI.Helpers
 
                         boost = 1.0E1d;
 
-                        selector = 2;
+                        //selector = 2;
 
                         break;
                     default: throw new Exception();
@@ -214,6 +220,19 @@ namespace Awesome.AI.Helpers
             }
             
             return _mech;
+        }
+
+        public void UpdateLowCut()
+        {
+            List<UNIT> units = mind.mem.UNITS_ALL();
+
+            units = high_at_zero ?
+                units = units.OrderBy(x => x.index_orig).ToList() :
+                units = units.OrderByDescending(x => x.index_orig).ToList();
+
+            UNIT _u = units[3];
+                        
+            low_cut = _u.Variable + 0.1d;
         }
         
         /*
@@ -228,41 +247,42 @@ namespace Awesome.AI.Helpers
         public MECHANICS mech;
         public MATRIX matrix_type;
 
+
         //BOTH      WORLD       SELF
-        public double[,] update_nrg_vals = {
-            { 0.040d,   0.000d,     0.000d },//TheWheel
-            { 0.030d,   0.000d,     0.000d },//TheContest
-            { 0.050d,   0.000d,     0.000d } //TheHill
-        };
+        //public double[,] update_nrg_vals = {
+        //    { 0.040d,   0.000d,     0.000d },//TheWheel
+        //    { 0.030d,   0.000d,     0.000d },//TheContest
+        //    { 0.050d,   0.000d,     0.000d } //TheHill
+        //};
 
         //must be between 1.0 and 2.0
         //BOTH      WORLD       SELF
-        public double[,] lim_correction_vals = {
-            { 1.20d,    0.00d,      0.00d },//TheWheel
-            { 1.20d,    0.00d,      0.00d },//TheContest
-            { 1.80d,    0.00d,      0.00d } //TheHill
-        };
+        //public double[,] lim_correction_vals = {
+        //    { 1.20d,    0.00d,      0.00d },//TheWheel
+        //    { 1.20d,    0.00d,      0.00d },//TheContest
+        //    { 1.80d,    0.00d,      0.00d } //TheHill
+        //};
 
-        public double update_nrg {                                               // curve adjustment, spike the "U" form, lower -> flatter "U"
-            get
-            {
-                return
-                    validation == VALIDATION.BOTH ? update_nrg_vals[selector, 0] :
-                    validation == VALIDATION.EXTERNAL ? update_nrg_vals[selector, 1] :
-                    validation == VALIDATION.INTERNAL ? update_nrg_vals[selector, 2] : -1d;
-            }
-        }
+        //public double update_nrg
+        //{                                               // curve adjustment, spike the "U" form, lower -> flatter "U"
+        //    get
+        //    {
+        //        return
+        //            validation == VALIDATION.BOTH ? update_nrg_vals[selector, 0] :
+        //            validation == VALIDATION.EXTERNAL ? update_nrg_vals[selector, 1] :
+        //            validation == VALIDATION.INTERNAL ? update_nrg_vals[selector, 2] : -1d;
+        //    }
+        //}
 
-        public double lim_correction {                                           // yesno ratio, curve adjustment, tip the "U" form, MAX: 2.0 MIN: 0.1, lower -> more yes
-            get
-            {
-                return
-                    validation == VALIDATION.BOTH ? lim_correction_vals[selector, 0] :
-                    validation == VALIDATION.EXTERNAL ? lim_correction_vals[selector, 1] :
-                    validation == VALIDATION.INTERNAL ? lim_correction_vals[selector, 2] : -1d;
-            }
-        }
-
+        //public double lim_correction {                                           // yesno ratio, curve adjustment, tip the "U" form, MAX: 2.0 MIN: 0.1, lower -> more yes
+        //    get
+        //    {
+        //        return
+        //            validation == VALIDATION.BOTH ? lim_correction_vals[selector, 0] :
+        //            validation == VALIDATION.EXTERNAL ? lim_correction_vals[selector, 1] :
+        //            validation == VALIDATION.INTERNAL ? lim_correction_vals[selector, 2] : -1d;
+        //    }
+        //}
 
         /*
          * FIXED parameters
@@ -276,34 +296,35 @@ namespace Awesome.AI.Helpers
         public double base_friction = 6d / 9d;                                      // COMMENT NEEDS UPDATE: needs to be this otherwise position keeps going down
         public double lapses_total = 99d;                                           // yesno ratio : reaction time in cycles
         public double ratio = 50d;
-        //public double lim_bias = 0.0d;                                            // approx start, then it auto adjusts
-        //public double lim_learningrate;                                           // I call it learningrate, but really it is just an adjustment
-        public double dir_learningrate;
         public double slope = 0.666d;
 
         // should it be 200, 1000 or more???
         public double mass;
         public double max_index;
         public double scale;
-        public double high_pass;
+        public double low_cut;
         public double pos_x_high;
         public double pos_x_low;
-        public double val_a;
-        public double val_b;
-        public double val_c;
+        //public double hill_a;
+        //public double hill_b;
+        //public double hill_c;
         public double pos_x_start;
+        public double update_nrg;
+        public double boost;                                              //dimm the fluctuations
         public double max_pain = 999.99d;
         public double max_nrg = 10.0d;
         
-        public bool goto_school = false;
-        public bool debug = true;
-        public bool is_accord = true;
-        public int learning_epochs = 100;
         public int first_run = 5;
         public int runtime = 50; //minutes
         public int number_of_units = 10;
-
-        public double boost;                                              //dimm the fluctuations
+        
+        //public double dir_learningrate;
+        //public double lim_bias = 0.0d;                                            // approx start, then it auto adjusts
+        //public double lim_learningrate;                                           // I call it learningrate, but really it is just an adjustment
+        //public bool goto_school = false;
+        //public bool debug = true;
+        //public bool is_accord = true;
+        //public int learning_epochs = 100;
         
         /*
          * these seem to be related

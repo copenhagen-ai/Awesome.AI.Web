@@ -52,8 +52,11 @@ namespace Awesome.AI.Core
 
         public void UpdateCredit()
         {
-            List<UNIT> list = mind.mem.UNITS_VAL();
-            foreach (UNIT _u in list)//this could be a problem with many hubs
+            //List<UNIT> list = mind.mem.UNITS_VAL();
+            List<UNIT> list = mind.mem.UNITS_ALL();
+
+            //this could be a problem with many hubs
+            foreach (UNIT _u in list)
             {
                 if (_u.root == mind.curr_unit.root)
                     continue;
@@ -84,7 +87,6 @@ namespace Awesome.AI.Core
 
             Calc calc = new Calc(mind);
             double x = credits;
-
             double friction = 0.0d;
 
             switch(mind.mech)

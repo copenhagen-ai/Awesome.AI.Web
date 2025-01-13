@@ -49,11 +49,9 @@ namespace Awesome.AI.CoreHelpers
             if (_u == null)
                 throw new ArgumentNullException();
 
-            double lower_border = mind.parms.high_pass;
-            //double dist = Calc.DistPyth(UNIT.CreateMIN(), u);
+            double lower_border = mind.parms.low_cut;
             double force = _u.Variable;
 
-            //if (dist > lower_border)
             if (force < lower_border)
                 return false;
             return true;

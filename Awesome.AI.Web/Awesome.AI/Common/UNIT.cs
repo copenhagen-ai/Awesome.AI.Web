@@ -218,8 +218,9 @@ namespace Awesome.AI.Common
                     return hub;
 
                 hub = mind.mem.HUBS_ALL().Where(x => x.units.Contains(this)).FirstOrDefault();
+                
                 if (hub == null)
-                    return HUB.Create("IDLE", new List<UNIT>(), mind.parms.is_accord, new int?[] { 1, 1, 1 }, 0.0d, 0.0d);
+                    return HUB.Create("IDLE", new List<UNIT>());
 
                 return hub;
             }

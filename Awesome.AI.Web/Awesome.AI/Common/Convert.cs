@@ -18,8 +18,8 @@ namespace Awesome.AI.Common
 
         public double Process(double _x, string root, TYPE type)
         {
-            double _l = Low();
-            double _h = Max();
+            double _l = 0.0d;// Low();
+            double _h = 100.0d;// Max();
             double min = p_Min;
             double max = p_Max;
 
@@ -39,40 +39,40 @@ namespace Awesome.AI.Common
             }
         }
         
-        private double maxx = -1000.0d;
-        public double Max()
-        {
-            if (maxx != -1000.0d)
-                return maxx;
+        //private double maxx = -1000.0d;
+        //public double Max()
+        //{
+        //    if (maxx != -1000.0d)
+        //        return maxx;
             
-            //only valid UNITs
-            List<UNIT> _u = mind.mem.UNITS_VAL();
-            UNIT max = _u.OrderByDescending(x => x.index_orig).FirstOrDefault();
+        //    //only valid UNITs
+        //    List<UNIT> _u = mind.mem.UNITS_VAL();
+        //    UNIT max = _u.OrderByDescending(x => x.index_orig).FirstOrDefault();
 
-            maxx = max.index_orig;
+        //    maxx = max.index_orig;
 
-            return maxx;
-        }
+        //    return maxx;
+        //}
 
-        private double lowx = 1000.0d;
-        public double Low()
-        {
-            if (lowx != 1000.0d)
-                return lowx;
+        //private double lowx = 1000.0d;
+        //public double Low()
+        //{
+        //    if (lowx != 1000.0d)
+        //        return lowx;
 
-            //only valid UNITs
-            List<UNIT> _u = mind.mem.UNITS_VAL();
-            UNIT low = _u.OrderByDescending(x => x.index_orig).LastOrDefault();
+        //    //only valid UNITs
+        //    List<UNIT> _u = mind.mem.UNITS_VAL();
+        //    UNIT low = _u.OrderByDescending(x => x.index_orig).LastOrDefault();
 
-            lowx = low.index_orig;
+        //    lowx = low.index_orig;
 
-            return lowx;
-        }
+        //    return lowx;
+        //}
 
         public void Reset() 
         {
-            maxx = -1000.0d;
-            lowx = 1000.0d;
+            //maxx = -1000.0d;
+            //lowx = 1000.0d;
         }
     }
 }

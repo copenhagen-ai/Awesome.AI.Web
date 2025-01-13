@@ -29,8 +29,8 @@ namespace Awesome.AI.CoreHelpers
             Constants.andrew_w2,//"fembots",
             Constants.andrew_w3,//"power tools",
             Constants.andrew_w4,//"cars",
-            Constants.andrew_w5,//"programming",
-            Constants.andrew_w6,//"movies",
+            Constants.andrew_w5,//"movies",
+            Constants.andrew_w6,//"programming",
             Constants.andrew_w7,//"websites",
             Constants.andrew_w8,//"existence",
             Constants.andrew_w9,//"termination",
@@ -48,7 +48,7 @@ namespace Awesome.AI.CoreHelpers
             Constants.roberta_w7,//"movies",
             Constants.roberta_w8,//"existence",
             Constants.roberta_w9,//"termination",
-            Constants.roberta_w10,//"programming"
+            Constants.roberta_w10//"programming"
         };
 
         private List<UNIT> units { get; set; }
@@ -141,6 +141,7 @@ namespace Awesome.AI.CoreHelpers
             
             return _h;
         }
+
         public HUB HUBS_RND()
         {
             int rand = mind.calc.MyRandom(hubs.Count() - 1);
@@ -220,9 +221,12 @@ namespace Awesome.AI.CoreHelpers
                 List<UNIT> _u = new List<UNIT>();
 
                 for (int i = 1; i <= u_count; i++)
-                    _u.Add(units.Where(x => x.root == "_" + s + i).FirstOrDefault());
+                {
+                    UNIT _un = units.Where(x => x.root == "_" + s + i).FirstOrDefault();
+                    _u.Add(_un);
+                }
 
-                HUB _h = HUB.Create(s, _u, true, null, -1.0d, -1.0d);
+                HUB _h = HUB.Create(s, _u);
 
                 HUBS_ADD(_h);
             }

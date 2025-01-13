@@ -2,8 +2,6 @@
 using Awesome.AI.CoreHelpers;
 using Awesome.AI.Helpers;
 using Awesome.AI.Interfaces;
-using System;
-using static Awesome.AI.Helpers.Enums;
 
 namespace Awesome.AI.Core.Mechanics
 {
@@ -56,6 +54,11 @@ namespace Awesome.AI.Core.Mechanics
             acc = acc == 0.0d ? 1.0E-50 : acc;// jajajaa
 
             return acc;
+        }
+
+        public double VAR(double var)
+        {
+            return var;
         }
 
         public double EXIT()
