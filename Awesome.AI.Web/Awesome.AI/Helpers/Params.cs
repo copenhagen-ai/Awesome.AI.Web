@@ -42,8 +42,8 @@ namespace Awesome.AI.Helpers
                         validation = VALIDATION.BOTH;                                       //BOTH or OCCU
                         case_tags = TAGS.ALL;                                               //used with TAGS and BOTH
                         case_occupasion = OCCUPASION.FIXED;                                 //used with OCCU and BOTH
-                        hmode1 = HACKMODES.HACK;
-                        hmode2 = HACKMODES.NOHACK;
+                        hack1 = HACKMODES.HACK;
+                        hack2 = HACKMODES.NOHACK;
                         mech = MECHANICS.WHEEL;
                         matrix_type = MATRIX.GPT;
 
@@ -82,8 +82,8 @@ namespace Awesome.AI.Helpers
                         validation = VALIDATION.BOTH;                                       //BOTH or OCCU
                         case_tags = TAGS.ALL;                                               //used with TAGS and BOTH
                         case_occupasion = OCCUPASION.FIXED;                                 //used with OCCU and BOTH
-                        hmode1 = HACKMODES.HACK;
-                        hmode2 = HACKMODES.NOHACK;
+                        hack1 = HACKMODES.HACK;
+                        hack2 = HACKMODES.NOHACK;
                         mech = MECHANICS.GRAVITY;
                         matrix_type = MATRIX.GPT;
 
@@ -122,8 +122,8 @@ namespace Awesome.AI.Helpers
                         validation = VALIDATION.BOTH;                                       //BOTH or OCCU
                         case_tags = TAGS.ALL;                                               //used with TAGS and BOTH
                         case_occupasion = OCCUPASION.DYNAMIC;                                 //used with OCCU and BOTH
-                        hmode1 = HACKMODES.NOHACK;
-                        hmode2 = HACKMODES.NOHACK;
+                        hack1 = HACKMODES.NOHACK;
+                        hack2 = HACKMODES.NOHACK;
                         mech = MECHANICS.CONTEST;
                         matrix_type = MATRIX.GPT;
 
@@ -163,8 +163,8 @@ namespace Awesome.AI.Helpers
                         validation = VALIDATION.BOTH;                                       //BOTH or TAGS
                         case_tags = TAGS.ALL;                                               //used with TAGS and BOTH
                         case_occupasion = OCCUPASION.DYNAMIC;                               //used with OCCU and BOTH
-                        hmode1 = HACKMODES.HACK;
-                        hmode2 = HACKMODES.HACK;
+                        hack1 = HACKMODES.HACK;
+                        hack2 = HACKMODES.HACK;
                         mech = MECHANICS.HILL;
                         matrix_type = MATRIX.GPT;
 
@@ -175,13 +175,13 @@ namespace Awesome.AI.Helpers
                         Vars.var_b = 0.0d;
                         Vars.var_c = 10.0d;
 
-                        //hill_a = -0.01d;
-                        //hill_b = 0.0d;
-                        //hill_c = 1.0d;
+                        //Vars.var_a = -0.01d;
+                        //Vars.var_b = 0.0d;
+                        //Vars.var_c = 1.0d;
 
-                        //hill_a = -0.001d;
-                        //hill_b = 0.0d;
-                        //hill_c = 0.1d;
+                        //Vars.var_a = -0.001d;
+                        //Vars.var_b = 0.0d;
+                        //Vars.var_c = 0.1d;
 
                         high_at_zero = true;
 
@@ -234,8 +234,8 @@ namespace Awesome.AI.Helpers
         public VALIDATION validation;      
         public TAGS case_tags;                                               //used with WORLD and BOTH
         public OCCUPASION case_occupasion;                                   //used with SELF and BOTH
-        public HACKMODES hmode1;
-        public HACKMODES hmode2;
+        public HACKMODES hack1;
+        public HACKMODES hack2;
         public MECHANICS mech;
         public MATRIX matrix_type;
 
@@ -304,7 +304,7 @@ namespace Awesome.AI.Helpers
         
         public int first_run = 5;
         public int number_of_units = 10;
-        public int runtime = 5; //minutes
+        public int runtime = 2; //minutes
         
         //public double scale;
         //public double hill_a;
@@ -326,7 +326,7 @@ namespace Awesome.AI.Helpers
          * - hist_total seems to have impact on "thought patterns"
          * - I rarely change these variables anymore
          * */
-        public int micro_sec = 2000;                                       //call micro timer every 1000µs (1ms)
+        public int micro_sec = 4000;                                       //call micro timer every 1000µs (1ms)
         public int hist_total = 100;                                       //the number of UNITS???
         public int remember = 200;
     }

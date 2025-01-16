@@ -62,7 +62,7 @@ namespace Awesome.AI.Common
              * >> this is the hack/cheat <<
              * */
 
-            bool do_hack = mind.parms.hmode1 == HACKMODES.HACK;
+            bool do_hack = mind.parms.hack1 == HACKMODES.HACK;
             if (do_hack)
                 return !_b;
             return _b;
@@ -74,7 +74,7 @@ namespace Awesome.AI.Common
              * >> this is the hack/cheat <<
              * */
 
-            bool do_hack = mind.parms.hmode2 == HACKMODES.HACK;
+            bool do_hack = mind.parms.hack2 == HACKMODES.HACK;
             if (do_hack)
                 return !_b;
             return _b;

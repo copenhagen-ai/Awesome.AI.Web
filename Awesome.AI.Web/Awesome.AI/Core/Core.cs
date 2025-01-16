@@ -22,6 +22,9 @@ namespace Awesome.AI.Core
             {
                 double _e = mind.parms._mech.Result();
                 pain = mind.calc.Reciprocal(_e);
+
+                if (pain > 1000.0)
+                    throw new Exception();
                     
                 return pain < mind.parms.max_pain;
             }
@@ -78,11 +81,17 @@ namespace Awesome.AI.Core
 
             switch(mind.mech)
             {
-                //this could be better
+                //this could be better, use sigmoid/logistic
                 case MECHANICS.HILL: friction = calc.Linear(x, -0.5d, 7d) / 10; break;
                 case MECHANICS.CONTEST: friction = calc.Linear(x, -0.25d, 2.5d) / 10; break;
                 default: throw new Exception();
             }
+
+            if (friction < 0.0d)
+                friction = 0.0d;
+
+            if (friction > 10.0d)
+                friction = 10.0d;
 
             return friction;
         }
@@ -95,16 +104,37 @@ namespace Awesome.AI.Core
              * should there be some procedure for this(unlocking)?
              * */
 
-            if ((mind.epochs + 0) % (60 * mind.parms.runtime) == 0)
+            if ((mind.epochs - 0) == (60 * mind.parms.runtime))
                 mind.theanswer.root = "It does not";
 
-            if ((mind.epochs + 1) % (60 * mind.parms.runtime) == 0)
+            if ((mind.epochs - 1) == (60 * mind.parms.runtime))
                 mind.theanswer.root = "It does not";
 
-            if ((mind.epochs + 2) % (60 * mind.parms.runtime) == 0)
+            if ((mind.epochs - 2) == (60 * mind.parms.runtime))
                 mind.theanswer.root = "It does not";
 
-            if ((mind.epochs + 3) % (60 * mind.parms.runtime) == 0)
+            if ((mind.epochs - 3) == (60 * mind.parms.runtime))
+                mind.theanswer.root = "It does not";
+
+            if ((mind.epochs - 4) == (60 * mind.parms.runtime))
+                mind.theanswer.root = "It does not";
+
+            if ((mind.epochs - 5) == (60 * mind.parms.runtime))
+                mind.theanswer.root = "It does not";
+
+            if ((mind.epochs - 6) == (60 * mind.parms.runtime))
+                mind.theanswer.root = "It does not";
+
+            if ((mind.epochs - 7) == (60 * mind.parms.runtime))
+                mind.theanswer.root = "It does not";
+
+            if ((mind.epochs - 8) == (60 * mind.parms.runtime))
+                mind.theanswer.root = "It does not";
+
+            if ((mind.epochs - 9) == (60 * mind.parms.runtime))
+                mind.theanswer.root = "It does not";
+
+            if ((mind.epochs - 10) == (60 * mind.parms.runtime))
                 mind.theanswer.root = "It does not";
 
             string answer = mind.theanswer.root;

@@ -4,6 +4,7 @@ using Awesome.AI.Web.Helpers;
 using Microsoft.AspNetCore.SignalR;
 using System.Diagnostics;
 using static Awesome.AI.Helpers.Enums;
+using static Google.Protobuf.WellKnownTypes.Field.Types;
 
 namespace Awesome.AI.Web.Hubs
 {
@@ -252,7 +253,7 @@ namespace Awesome.AI.Web.Hubs
                 int MAX = Enum.GetNames(typeof(MINDS)).Length;
                                 
                 bots.Add(new Bot() { mindtype = MINDS.ROBERTA, mech = MECHANICS.HILL });
-                bots.Add(new Bot() { mindtype = MINDS.ANDREW, mech = MECHANICS.CONTEST });
+                bots.Add(new Bot() { mindtype = MINDS.ANDREW, mech = MECHANICS.HILL });
                 
                 foreach (Bot bot in bots)
                 {
@@ -310,7 +311,7 @@ namespace Awesome.AI.Web.Hubs
             catch (Exception ex)
             {
                 XmlHelper.WriteError("start - " + ex.Message);
-
+                
                 is_running = false;
             }
         }
@@ -336,7 +337,7 @@ namespace Awesome.AI.Web.Hubs
                         await Task.Delay(1000);
                     else if (wait2)
                     {
-                        for (int i = 0; i <= helper.Remaining(inst); i++)
+                        for (int i = 0; i <= helper.Remaining(inst, is_running); i++)
                             await Task.Delay(1000);
                     }
                                         
@@ -400,9 +401,18 @@ namespace Awesome.AI.Web.Hubs
             }
             catch (Exception ex)
             {
-                XmlHelper.WriteError("processmessage - " + ex.Message);
+                //if (inst.mind.ok)
+                //    ProcessMessage(inst);
+                //else
+                {
+                    XmlHelper.WriteError("processmessage - " + ex.Message);
 
-                is_running = false;
+                    //inst.mind.theanswer.root = "It does not";
+
+                    inst.microTimer.Enabled = false;
+
+                    is_running = false;
+                }
             }
         }
 
@@ -461,9 +471,18 @@ namespace Awesome.AI.Web.Hubs
             }
             catch (Exception ex)
             {
-                XmlHelper.WriteError("processinfo - " + ex.Message);
+                //if (inst.mind.ok)
+                //    ProcessInfo(inst);
+                //else
+                {
+                    XmlHelper.WriteError("processinfo - " + ex.Message);
 
-                is_running = false;
+                    //inst.mind.theanswer.root = "It does not";
+
+                    inst.microTimer.Enabled = false;
+
+                    is_running = false;
+                }
             }
         }
     }

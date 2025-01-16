@@ -3,14 +3,16 @@ using Awesome.AI.Web.Hubs;
 using Awesome.AI.Web.Models;
 using System.Text.Json;
 using static Awesome.AI.Helpers.Enums;
-using static Awesome.AI.Web.Common.Enums;
 
 namespace Awesome.AI.Web.Helpers
 {
     public class RoomHelper
     {
-        public long Remaining(Instance inst)
+        public long Remaining(Instance inst, bool is_running)
         {
+            if(!is_running)
+                return 1;
+
             int ms_wait = inst.sec_message * 1000;
             long remainingSec = (ms_wait - inst.elapsedMs) / 1000;
 

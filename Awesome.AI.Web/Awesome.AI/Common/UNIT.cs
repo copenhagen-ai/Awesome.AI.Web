@@ -152,7 +152,7 @@ namespace Awesome.AI.Common
         {
             get
             {
-                double res = Constants.MAX - Index;
+                double res = 100.0d - Index;
                 res = mind.calc.NormalizeRange(res, 0.0d, 100.0d, 0.0d, mind.parms.max_index);
 
                 return res;

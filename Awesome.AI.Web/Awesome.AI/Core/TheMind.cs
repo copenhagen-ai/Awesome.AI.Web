@@ -10,26 +10,37 @@ using static Awesome.AI.Helpers.Enums;
 namespace Awesome.AI.Core
 {
     /*
-     * Awesome-AI - Apache License Disclaimer
+     * Awesome-AI - Apache License Version 2.0 And Ethical Disclaimer
      * Copyright (C) 2023 Joakim Jacobsen <jjacobsen@copenhagen-ai.net>
      * https://www.copenhagen-ai.net
      * 
-     * This software is provided by the Awesome-AI project "as is" and 
-     * any expressed or implied warranties, including, but not limited to, 
-     * the implied warranties of merchantability and fitness for a particular 
-     * purpose are disclaimed. In no event shall the Awesome-AI project 
-     * or its contributors be liable for any direct, indirect, incidental, 
-     * special, exemplary, or consequential damages (including, but not 
-     * limited to, procurement of substitute goods or services; loss of use, 
-     * data, or profits; or business interruption) however caused and on any 
-     * theory of liability, whether in contract, strict liability, or tort 
-     * (including negligence or otherwise) arising in any way out of the use 
-     * of this software, even if advised of the possibility of such damage.
-     * 
-     * This disclaimer is in accordance with the Apache License, Version 2.0. 
-     * For more details about the Apache License, please refer to the LICENSE 
-     * file included with this software or visit the Apache Software Foundation's 
-     * website: https://www.apache.org/licenses/LICENSE-2.0.html
+     * This software is licensed under the Apache License, Version 2.0 (the "LICENCE"); you may not use this file except in compliance with the License. 
+     * You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-2.0
+     *
+     * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES 
+     * OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+     *
+     * Additional Ethical Standards
+     *
+     * By using this software, you agree to adhere to the ethical standards as defined and maintained by the AWESOME.AI Group. These standards are outlined 
+     * in the ETHICAL file included with the software distribution and can also be reviewed at the following URL: https://www.copenhagen-ai.net/docs/ethical.txt
+
+     * These ethical standards are intended to ensure that the software is used in ways that align with principles of fairness, safety, accountability, and 
+     * respect for human rights. By accepting this license, you commit to upholding these principles in your use, modification, and redistribution of the software.
+
+     * Future Modifications to the License
+
+     * The AWESOME.AI Group reserves the right to modify the formulation of this license in the future. Any such modifications will be communicated through 
+     * updates to the LICENSE file accompanying the software and published at the URL mentioned above.
+
+     * Acknowledgment
+
+     * By using this software, you acknowledge that:
+     * You have reviewed and accepted the ethical standards established by the AWESOME.AI Group.
+     * You understand that failure to comply with these ethical standards may result in the revocation of your rights under this license.
+
+     * If you have any questions or concerns about this license or the ethical standards, please contact the AWESOME.AI Group through the channels provided in 
+     * the accompanying documentation.
      * */
 
 
@@ -170,17 +181,15 @@ namespace Awesome.AI.Core
         {
             try
             {                
-                HUB _h = mem.HUBS_RND();
-
-                Lists();
-
                 if (!ok)
                     return;
-
+                
                 if (!run)
                     return;
 
                 run = false;
+
+                Lists();
 
                 if (do_process)
                     epochs++;
@@ -300,7 +309,7 @@ namespace Awesome.AI.Core
             while (true)
             {
                 do_process = true;
-                await Task.Delay(1000);
+                await Task.Delay(2000);
             }
         }                
     }

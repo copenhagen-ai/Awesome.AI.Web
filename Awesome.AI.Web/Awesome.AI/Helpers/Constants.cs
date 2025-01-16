@@ -25,8 +25,8 @@
         public const string roberta_w9 = "termination";
         public const string roberta_w10 = "programming";
 
-        public const double MIN = 1.5d;
-        public const double MAX = 98.5d;
+        public const double MIN = 0.5d;
+        public const double MAX = 99.5d;
 
         public const double VERY_LOW = 1.0E-50;
         public const double GRAVITY = 9.81d;

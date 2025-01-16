@@ -160,16 +160,17 @@ function timeout() {
 
 function myinfo(epochs, runtime, momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise, occu) {
 
-    var div0 = document.getElementById("epochsSpan");
-    var div1 = document.getElementById("momentumDiv");
-    var div2 = document.getElementById("cyclesSpan");
-    var div3 = document.getElementById("totalSpan");
-    var div4 = document.getElementById("positionDiv");
-    var div5 = document.getElementById("ratioYesSpan");
-    var div6 = document.getElementById("ratioNoSpan");
-    var div7 = document.getElementById("theChoiceDiv");
-    var div8 = document.getElementById("occuDiv");
-    var div9 = document.getElementById("painDiv");
+    //var div0 = document.getElementById("epochsSpan");
+    var div1 = document.getElementById("epochsremainingSpan");
+    var div2 = document.getElementById("momentumDiv");
+    var div3 = document.getElementById("cyclesSpan");
+    var div4 = document.getElementById("totalSpan");
+    var div5 = document.getElementById("positionDiv");
+    var div6 = document.getElementById("ratioYesSpan");
+    var div7 = document.getElementById("ratioNoSpan");
+    var div8 = document.getElementById("theChoiceDiv");
+    var div9 = document.getElementById("occuDiv");
+    var div10 = document.getElementById("painDiv");
 
     // document.getElementById("messagesList").appendChild(li);
     // We can assign user-supplied strings to an element's textContent because it
@@ -179,31 +180,39 @@ function myinfo(epochs, runtime, momentum, cycles, pain, position, ratio_yes, ra
     var epochs_remaining = (runtime * 60) - epochs;
     var pain_out = parseFloat(pain) > 1.0 ? 'OUCH' : `${pain}`;
     
-    div0.textContent = `${epochs_remaining}`;
-    div1.textContent = `${momentum}`;
-    div2.textContent = `${cycles[0]}`;
-    div3.textContent = `${cycles[1]}`;
-    div4.textContent = `${position}`;
-    div5.textContent = `${ratio_yes}`;
-    div6.textContent = `${ratio_no}`;
-    div7.textContent = `${the_choise}`;
-    div8.textContent = `${occu}`;
-    div9.textContent = `${pain_out}`;
+    //div0.textContent = `${epochs}`;
+    div1.textContent = `${epochs_remaining}`;
+    div2.textContent = `${momentum}`;
+    div3.textContent = `${cycles[0]}`;
+    div4.textContent = `${cycles[1]}`;
+    div5.textContent = `${position}`;
+    div6.textContent = `${ratio_yes}`;
+    div7.textContent = `${ratio_no}`;
+    div8.textContent = `${the_choise}`;
+    div9.textContent = `${occu}`;
+    div10.textContent = `${pain_out}`;
 
     if (the_choise == 'NO') {
-        div7.classList.remove("i-color-red");
-        div7.classList.add("i-color-green");
+        div8.classList.remove("i-color-red");
+        div8.classList.add("i-color-green");
     }
     else {
-        div7.classList.add("i-color-red");
-        div7.classList.remove("i-color-green");
+        div8.classList.add("i-color-red");
+        div8.classList.remove("i-color-green");
     }
 
     if (parseFloat(pain) > 1.0) {
-        div8.classList.add("i-color-red");        
+        div9.classList.add("i-color-red");
     }
     else {
-        div8.classList.remove("i-color-red");
+        div9.classList.remove("i-color-red");
+    }
+
+    if (epochs_remaining <= 2) {
+        div1.classList.add("i-color-red");
+    }
+    else {
+        div1.classList.remove("i-color-red");
     }
 }
 
