@@ -12,6 +12,8 @@ namespace Awesome.AI.Web.Hubs
     {
         public MECHANICS mech {  get; set; }
         public MINDS mindtype { get; set; }
+
+        public string location { get; set; }
     }
 
     public class Instance
@@ -252,14 +254,14 @@ namespace Awesome.AI.Web.Hubs
 
                 int MAX = Enum.GetNames(typeof(MINDS)).Length;
                                 
-                bots.Add(new Bot() { mindtype = MINDS.ROBERTA, mech = MECHANICS.HILL });
-                bots.Add(new Bot() { mindtype = MINDS.ANDREW, mech = MECHANICS.CONTEST });
+                bots.Add(new Bot() { mindtype = MINDS.ROBERTA, mech = MECHANICS.HILL, location= "KITCHEN" });
+                bots.Add(new Bot() { mindtype = MINDS.ANDREW, mech = MECHANICS.CONTEST, location = "LIVINGROOM" });
                 
                 foreach (Bot bot in bots)
                 {
                     Instance instance = new Instance();
 
-                    instance.mind = new TheMind(bot.mech, bot.mindtype);
+                    instance.mind = new TheMind(bot.mech, bot.mindtype, bot.location);
                     instance.type = bot.mindtype;
                         
                     // Instantiate new MicroTimer and add event handler
@@ -431,17 +433,18 @@ namespace Awesome.AI.Web.Hubs
                         await Task.Delay(1000);
                     
                     string[] cycles = new string[] { inst.mind._out.cycles, inst.mind._out.cycles_total };
-                    string momentum = inst.mind._out.momentum;
+                    string momentum = ("" + inst.mind._out.momentum).Length < 5 ? inst.mind._out.momentum : $"{inst.mind._out.momentum}"[..5];
 
-                    string pain = inst.mind._out.pain;
-                    string position = inst.mind._out.position;
-                    string ratio_yes = inst.mind._out.ratio_yes;
-                    string ratio_no = inst.mind._out.ratio_no;
+                    string pain = ("" + inst.mind._out.pain).Length < 5 ? inst.mind._out.pain : $"{inst.mind._out.pain}"[..5];
+                    string position = ("" + inst.mind._out.position).Length < 5 ? inst.mind._out.position : $"{inst.mind._out.position}"[..5];
+                    string[] ratio = new string[] { "" + inst.mind._out.ratio_yes, "" + inst.mind._out.ratio_no };
                     string the_choise = inst.mind._out.the_choise;
 
                     string epochs = inst.mind._out.epochs;
                     string runtime = inst.mind._out.runtime;
                     string occu = inst.mind._out.occu;
+                    string locationfinal = inst.mind._out.location;
+                    string state = inst.mind._out.state;
 
                     GraphInfo graph1 = new GraphInfo();
                     GraphInfo graph2 = new GraphInfo();
@@ -455,14 +458,16 @@ namespace Awesome.AI.Web.Hubs
                     {
                         if (inst.type == MINDS.ROBERTA)
                         {
-                            await Clients.All.SendAsync("MIND1InfoReceive", epochs, runtime, momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise, occu);
+                            await Clients.All.SendAsync("MIND1InfoReceive1", epochs, runtime, momentum, cycles, pain, position, ratio, the_choise);
+                            await Clients.All.SendAsync("MIND1InfoReceive2", occu, locationfinal, state);
                             await Clients.All.SendAsync("MIND1GraphReceive", graph1.labels, graph1.curr_name, graph1.curr_value, graph1.reset_name, graph1.reset_value, graph1.bcol);
                             await Clients.All.SendAsync("MIND3GraphReceive", graph2.labels, graph2.curr_name, graph2.curr_value, graph2.reset_name, graph2.reset_value, graph2.bcol);
                         }
 
                         if (inst.type == MINDS.ANDREW)
                         {
-                            await Clients.All.SendAsync("MIND2InfoReceive", epochs, runtime, momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise, occu);
+                            await Clients.All.SendAsync("MIND2InfoReceive1", epochs, runtime, momentum, cycles, pain, position, ratio, the_choise);
+                            await Clients.All.SendAsync("MIND2InfoReceive2", occu, locationfinal, state);
                             await Clients.All.SendAsync("MIND2GraphReceive", graph1.labels, graph1.curr_name, graph1.curr_value, graph1.reset_name, graph1.reset_value, graph1.bcol);
                             await Clients.All.SendAsync("MIND4GraphReceive", graph2.labels, graph2.curr_name, graph2.curr_value, graph2.reset_name, graph2.reset_value, graph2.bcol);
                         }

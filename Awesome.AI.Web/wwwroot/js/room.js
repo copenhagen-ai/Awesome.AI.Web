@@ -158,19 +158,18 @@ function timeout() {
     ;
 }
 
-function myinfo(epochs, runtime, momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise, occu) {
+function myinfo1(epochs, runtime, momentum, cycles, pain, position, ratio, the_choise) {
 
     //var div0 = document.getElementById("epochsSpan");
     var div1 = document.getElementById("epochsremainingSpan");
-    var div2 = document.getElementById("momentumDiv");
+    var div2 = document.getElementById("momentumSpan");
     var div3 = document.getElementById("cyclesSpan");
     var div4 = document.getElementById("totalSpan");
-    var div5 = document.getElementById("positionDiv");
+    var div5 = document.getElementById("positionSpan");
     var div6 = document.getElementById("ratioYesSpan");
     var div7 = document.getElementById("ratioNoSpan");
-    var div8 = document.getElementById("theChoiceDiv");
-    var div9 = document.getElementById("occuDiv");
-    var div10 = document.getElementById("painDiv");
+    var div8 = document.getElementById("theChoiceSpan");
+    var div9 = document.getElementById("painSpan");
 
     // document.getElementById("messagesList").appendChild(li);
     // We can assign user-supplied strings to an element's textContent because it
@@ -179,18 +178,17 @@ function myinfo(epochs, runtime, momentum, cycles, pain, position, ratio_yes, ra
 
     var epochs_remaining = (runtime * 60) - epochs;
     var pain_out = parseFloat(pain) > 1.0 ? 'OUCH' : `${pain}`;
-    
+
     //div0.textContent = `${epochs}`;
     div1.textContent = `${epochs_remaining}`;
-    div2.textContent = `${momentum}`;
+    div2.textContent = `${momentum} . . .`;
     div3.textContent = `${cycles[0]}`;
     div4.textContent = `${cycles[1]}`;
-    div5.textContent = `${position}`;
-    div6.textContent = `${ratio_yes}`;
-    div7.textContent = `${ratio_no}`;
+    div5.textContent = `${position} . . .`;
+    div6.textContent = `${ratio[0]}`;
+    div7.textContent = `${ratio[1]}`;
     div8.textContent = `${the_choise}`;
-    div9.textContent = `${occu}`;
-    div10.textContent = `${pain_out}`;
+    div9.textContent = `${pain_out} . . .`;
 
     if (the_choise == 'NO') {
         div8.classList.remove("i-color-red");
@@ -216,6 +214,34 @@ function myinfo(epochs, runtime, momentum, cycles, pain, position, ratio_yes, ra
     }
 }
 
+
+function myinfo2(occu, location, state) {
+
+    var div1 = document.getElementById("occuSpan");
+    var div2a = document.getElementById("locationSpan1");
+    var div2b = document.getElementById("locationSpan2");
+    var div3a = document.getElementById("stateSpan1");
+    var div3b = document.getElementById("stateSpan2");
+
+    // document.getElementById("messagesList").appendChild(li);
+    // We can assign user-supplied strings to an element's textContent because it
+    // is not interpreted as markup. If you're assigning in any other way, you
+    // should be aware of possible script injection concerns.
+
+    div1.textContent = `${occu}`;
+    div2b.textContent = `${location}`;
+    div3b.textContent = `${state}`;
+
+    if (state == 'making a decision') {
+        div2a.classList.add("i-color-green");
+        div3a.classList.add("i-color-green");
+    }
+    else {
+        div2a.classList.remove("i-color-green");
+        div3a.classList.remove("i-color-green");
+    }
+}
+
 function mymessage(message, dot1, dot2, subject) {
     var div1 = document.getElementById("messageDiv");
     var div2 = document.getElementById("dot1Span");
@@ -236,16 +262,28 @@ function mymessage(message, dot1, dot2, subject) {
 
 
 function onConnect() {
-    connection.on("MIND1InfoReceive", function (epochs, runtime, momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise, occu) {
+    connection.on("MIND1InfoReceive1", function (epochs, runtime, momentum, cycles, pain, position, ratio, the_choise) {
 
         if (room == 'room1')
-            myinfo(epochs, runtime, momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise, occu, viewers);
+            myinfo1(epochs, runtime, momentum, cycles, pain, position, ratio, the_choise);
     });
 
-    connection.on("MIND2InfoReceive", function (epochs, runtime, momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise, occu) {
+    connection.on("MIND2InfoReceive1", function (epochs, runtime, momentum, cycles, pain, position, ratio, the_choise) {
 
         if (room == 'room2')
-            myinfo(epochs, runtime, momentum, cycles, pain, position, ratio_yes, ratio_no, the_choise, occu, viewers);
+            myinfo1(epochs, runtime, momentum, cycles, pain, position, ratio, the_choise);
+    });
+
+    connection.on("MIND1InfoReceive2", function (occu, location, state) {
+
+        if (room == 'room1')
+            myinfo2(occu, location, state);
+    });
+
+    connection.on("MIND2InfoReceive2", function (occu, location, state) {
+
+        if (room == 'room2')
+            myinfo2(occu, location, state);
     });
 
     connection.on("MIND1MessageReceive", function (message, dot1, dot2, subject) {

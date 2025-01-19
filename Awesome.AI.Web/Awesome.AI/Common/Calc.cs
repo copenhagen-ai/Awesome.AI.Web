@@ -212,49 +212,63 @@ namespace Awesome.AI.Common
 
         public int MyRandom(int i_max)
         {
-            /*
-             * max 999
-             * 0 <= res <= i_max
-             */
+            try
+            {
+                /*
+                 * max 999
+                 * 0 <= res <= i_max
+                 */
 
-            if (i_max > 999)
-                throw new Exception();
+                if (i_max > 999)
+                    throw new Exception();
 
-            string rand = Rand();
+                string rand = Rand();
             
-            double dec = double.Parse($"{rand[0]}{rand[1]}{rand[2]}") / 1000;
-            int res = mind.calc.RoundInt((double)i_max * dec);
+                double dec = double.Parse($"{rand[0]}{rand[1]}{rand[2]}") / 1000;
+                int res = mind.calc.RoundInt((double)i_max * dec);
 
-            return res;
+                return res;
+            }
+            catch
+            {
+                return -1;
+            }
         }
 
         private string Rand()
         {
-            IMechanics mech = mind.parms._mech;
+            try
+            {
+                IMechanics mech = mind.parms._mech;
 
-            if (double.IsNaN(mech.dir.d_momentum))
-                throw new Exception();
+                if (double.IsNaN(mech.dir.d_momentum))
+                    throw new Exception();
 
-            if (double.IsInfinity(mech.dir.d_momentum))
-                throw new Exception();
+                if (double.IsInfinity(mech.dir.d_momentum))
+                    throw new Exception();
 
-            //make sure the system is running before proceeding
-            if (mind.cycles_all < mind.parms.first_run)
-                return "500";
+                //make sure the system is running before proceeding
+                if (mind.cycles_all < mind.parms.first_run)
+                    return "500";
 
-            //get momentum
-            string rand = "" + mech.dir.d_momentum;
+                //get momentum
+                string rand = "" + mech.dir.d_momentum;
             
-            //remove exponent
-            if (rand.ToUpper().Contains("E"))
-                rand = rand.Substring(0, rand.Length - 3);
+                //remove exponent
+                if (rand.ToUpper().Contains("E"))
+                    rand = rand.Substring(0, rand.Length - 3);
             
-            //reverse, this is the random part
-            string res = "";
-            for (int i = rand.Length; i > 0; i--)
-                res += char.IsDigit(rand[i - 1]) ? rand[i - 1] : "";
+                //reverse, this is the random part
+                string res = "";
+                for (int i = rand.Length; i > 0; i--)
+                    res += char.IsDigit(rand[i - 1]) ? rand[i - 1] : "";
             
-            return res;
+                return res;
+            }
+            catch
+            {
+                return "";
+            }
         }
 
         private Random r1 = new Random();
