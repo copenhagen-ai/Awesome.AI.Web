@@ -1,4 +1,5 @@
 ﻿using Awesome.AI.Common;
+using Awesome.AI.Helpers;
 using Awesome.AI.Web.Hubs;
 using Awesome.AI.Web.Models;
 using System.Text.Json;
@@ -87,6 +88,9 @@ namespace Awesome.AI.Web.Helpers
         public string GPTGiveMeADot(Instance inst, UNIT common)
         {
             string subject = common.HUB.subject;
+
+            if (Constants.subject_decision.Contains(subject))
+                return "";
 
             string str = "" + common.Index;
             int dot = str.IndexOf(',');

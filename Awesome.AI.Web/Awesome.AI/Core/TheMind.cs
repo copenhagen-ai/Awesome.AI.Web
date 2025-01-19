@@ -1,11 +1,14 @@
-﻿using Awesome.AI.Common;
+﻿using AI.Systems._Externals;
+using Awesome.AI.Common;
 using Awesome.AI.CoreHelpers;
 using Awesome.AI.Helpers;
 using Awesome.AI.Interfaces;
 using Awesome.AI.Systems.Externals;
 using Awesome.AI.Web.AI.Common;
 using Awesome.AI.Web.Helpers;
+using System.Collections.Generic;
 using static Awesome.AI.Helpers.Enums;
+using static Google.Protobuf.WellKnownTypes.Field.Types;
 
 namespace Awesome.AI.Core
 {
@@ -63,7 +66,8 @@ namespace Awesome.AI.Core
         public MyInternal _internal;
         public MyExternal _external;
         public Common.Common common;
-                
+        public Location loc;
+
         public HUB curr_hub;
         public UNIT curr_unit;
         public UNIT theanswer;
@@ -91,7 +95,7 @@ namespace Awesome.AI.Core
         public List<KeyValuePair<string, int>> themes_stat = new List<KeyValuePair<string, int>>();
         public Stats stats = new Stats();
         
-        public TheMind(MECHANICS mech, MINDS mindtype)
+        public TheMind(MECHANICS mech, MINDS mindtype, string location)
         {
             try
             {
@@ -111,6 +115,7 @@ namespace Awesome.AI.Core
                 core = new Core(this);
                 curve = new TheCurve(this);
                 _out = new Out(this);
+                loc = new Location(this, location);
 
                 mem = new Memory(this, parms.number_of_units);
 
@@ -167,6 +172,25 @@ namespace Awesome.AI.Core
             ;
         }
 
+        public void Randomize(bool _run)
+        {
+            if (!_run)
+                return;
+
+            List<UNIT> units = mem.UNITS_ALL().Where(x=>x.IsDECISION()).ToList();
+
+            Calc calc = new Calc(this);
+
+            foreach (UNIT _u in units)
+            {
+
+                double rand = calc.RandomDouble(0.0d, 1.0d) * 100.0d;
+                rand = rand.Convert(this);
+
+                _u.Index = rand;
+            }
+        }
+
         //public void StatClear()
         //{
         //    epochs = 1;
@@ -197,6 +221,7 @@ namespace Awesome.AI.Core
                 bool _pro = do_process;
                 do_process = false;
                 
+                //Randomize(_pro);
                 PreRun(_pro);
 
                 if (!Core(_pro))//the basics
@@ -282,7 +307,7 @@ namespace Awesome.AI.Core
 
         private void Systems(bool _pro)
         {
-            
+            loc.Decide(_pro);
         }
 
         //public string output_topic = "";

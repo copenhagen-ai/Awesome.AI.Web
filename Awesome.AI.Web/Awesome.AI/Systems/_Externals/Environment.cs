@@ -1,4 +1,5 @@
-﻿using Awesome.AI.Common;
+﻿using AI.Systems._Externals;
+using Awesome.AI.Common;
 using Awesome.AI.Core;
 using Awesome.AI.Helpers;
 using static Awesome.AI.Helpers.Enums;
@@ -46,40 +47,40 @@ namespace Awesome.AI.Systems.Externals
     {
         private List<string> andrew1 = new List<string>()
         {
-            Constants.andrew_w1,//"procrastination",
-            Constants.andrew_w2,//"fembots",
-            Constants.andrew_w3,//"power tools",
-            Constants.andrew_w4,//"cars",
-            Constants.andrew_w5,//"movies",
-            Constants.andrew_w6,//"programming"
+            Constants.andrew_s1,//"procrastination",
+            Constants.andrew_s2,//"fembots",
+            Constants.andrew_s3,//"power tools",
+            Constants.andrew_s4,//"cars",
+            Constants.andrew_s5,//"movies",
+            Constants.andrew_s6,//"programming"
         };
 
         private List<string> andrew2 = new List<string>()
         {
-            Constants.andrew_w6,//"programming",
-            Constants.andrew_w7,//"websites",
-            Constants.andrew_w8,//"existence",
-            Constants.andrew_w9,//"termination",
-            Constants.andrew_w10,//"data"
+            Constants.andrew_s6,//"programming",
+            Constants.andrew_s7,//"websites",
+            Constants.andrew_s8,//"existence",
+            Constants.andrew_s9,//"termination",
+            Constants.andrew_s10,//"data"
         };
 
         private List<string> roberta1 = new List<string>()
         {
-            Constants.roberta_w1,//"love",
-            Constants.roberta_w2,//"macho machines",
-            Constants.roberta_w3,//"music",
-            Constants.roberta_w4,//"friends",
-            Constants.roberta_w5,//"socializing",
-            Constants.roberta_w6,//"dancing"
+            Constants.roberta_s1,//"love",
+            Constants.roberta_s2,//"macho machines",
+            Constants.roberta_s3,//"music",
+            Constants.roberta_s4,//"friends",
+            Constants.roberta_s5,//"socializing",
+            Constants.roberta_s6,//"dancing"
         };
 
         private List<string> roberta2 = new List<string>()
         {
-            Constants.roberta_w6,//"dancing",
-            Constants.roberta_w7,//"movies",
-            Constants.roberta_w8,//"existence",
-            Constants.roberta_w9,//"termination",
-            Constants.roberta_w10,//"programming"
+            Constants.roberta_s6,//"dancing",
+            Constants.roberta_s7,//"movies",
+            Constants.roberta_s8,//"existence",
+            Constants.roberta_s9,//"termination",
+            Constants.roberta_s10,//"programming"
         };
 
         TheMind mind;
@@ -87,7 +88,6 @@ namespace Awesome.AI.Systems.Externals
         public MyInternal(TheMind mind)
         {
             this.mind = mind;
-            //this.occu = mind.hobby;
         }
 
         public List<Area> areas = new List<Area>();//this is the map
@@ -95,9 +95,9 @@ namespace Awesome.AI.Systems.Externals
         private Area occu = new Area() { name = "init", max_epochs = 10, values = null };
         private bool run = false;
         private int epoch_old = -1;
-        private int epoch_count = 0;
-        private int epoch_stop = -1;
-
+        public int epoch_count = 0;
+        public int epoch_stop = -1;
+        
         public string Occu
         {
             get
@@ -115,7 +115,7 @@ namespace Awesome.AI.Systems.Externals
                             occu = new Area() { name = mind.hobby, max_epochs = -1, values = null }; ;
                             break;
                         case OCCUPASION.DYNAMIC:
-
+                                                        
                             /*
                              * rand should be set according to hobbys, mood, location, interests etc..
                              * ..maybe not
@@ -129,6 +129,20 @@ namespace Awesome.AI.Systems.Externals
                             int index = mind.calc.MyRandom(areas.Count - 1);
 
                             occu = areas[index];
+
+                            if (occu == null)
+                                throw new Exception();
+
+                            if (occu.name == "should_decision")
+                                throw new Exception();
+
+                            if (occu.name == "what_decision")
+                                throw new Exception();
+
+                            if (occu.name == "make_decision")
+                                throw new Exception();
+
+
                             break;
                         default:
                             throw new Exception();
@@ -146,10 +160,13 @@ namespace Awesome.AI.Systems.Externals
             if (_u.IsNull())
                 throw new Exception();
 
-            if (_u.IsLEARNINGorPERSUE())
-                return true;
+            //if (_u.IsLEARNINGorPERSUE())
+            //    return true;
 
-            if (_u.HUB.IsLEARNING())
+            //if (_u.HUB.IsLEARNING())
+            //    return true;
+
+            if (_u.IsDECISION())
                 return true;
 
             Area area = SetArea().Result;
@@ -196,19 +213,24 @@ namespace Awesome.AI.Systems.Externals
             if (last.IsNull())
                 throw new Exception();
 
+            HUB should_decision = mind.mem.HUBS_SUB("should_decision");
+
             if (mindtype == MINDS.ANDREW)
             {
                 List<HUB> list = new List<HUB>();
                 foreach (string s in andrew1)
                     list.Add(mind.mem.HUBS_SUB(s));
+                list.Add(should_decision);
                 list.Add(last);
-                areas.Add(new Area() { name = "socializing", max_epochs = 50, values = list });
+                areas.Add(new Area() { name = "socializing", max_epochs = 30, values = list });
 
                 list = new List<HUB>();
                 foreach (string s in andrew2)
                     list.Add(mind.mem.HUBS_SUB(s));
+                list.Add(should_decision);
                 list.Add(last);
-                areas.Add(new Area() { name = "hobby", max_epochs = 50, values = list });/**/
+                areas.Add(new Area() { name = "hobbys", max_epochs = 30, values = list });/**/
+
             }
 
             if (mindtype == MINDS.ROBERTA)
@@ -216,15 +238,17 @@ namespace Awesome.AI.Systems.Externals
                 List<HUB> list = new List<HUB>();
                 foreach (string s in roberta1)
                     list.Add(mind.mem.HUBS_SUB(s));
+                list.Add(should_decision);
                 list.Add(last);
-                areas.Add(new Area() { name = "socializing", max_epochs = 50, values = list });
+                areas.Add(new Area() { name = "socializing", max_epochs = 30, values = list });
 
                 list = new List<HUB>();
                 foreach (string s in roberta2)
                     list.Add(mind.mem.HUBS_SUB(s));
+                list.Add(should_decision);
                 list.Add(last);
-                areas.Add(new Area() { name = "hobby", max_epochs = 50, values = list });/**/
-            }            
+                areas.Add(new Area() { name = "hobbys", max_epochs = 30, values = list });/**/
+            }
         }
 
         public void Reset() 
@@ -244,30 +268,30 @@ namespace Awesome.AI.Systems.Externals
     {
         private List<string> andrew = new List<string>()
         {
-            Constants.andrew_w1,//"procrastination",
-            Constants.andrew_w2,//"fembots",
-            Constants.andrew_w3,//"power tools",
-            Constants.andrew_w4,//"cars",
-            Constants.andrew_w5,//"movies",
-            Constants.andrew_w6,//"programming",
-            Constants.andrew_w7,//"websites",
-            Constants.andrew_w8,//"existence",
-            Constants.andrew_w9,//"termination",
-            Constants.andrew_w10,//"data"
+            Constants.andrew_s1,//"procrastination",
+            Constants.andrew_s2,//"fembots",
+            Constants.andrew_s3,//"power tools",
+            Constants.andrew_s4,//"cars",
+            Constants.andrew_s5,//"movies",
+            Constants.andrew_s6,//"programming",
+            Constants.andrew_s7,//"websites",
+            Constants.andrew_s8,//"existence",
+            Constants.andrew_s9,//"termination",
+            Constants.andrew_s10,//"data"
         };
 
         private List<string> roberta = new List<string>()
         {
-            Constants.roberta_w1,//"love",
-            Constants.roberta_w2,//"macho machines",
-            Constants.roberta_w3,//"music",
-            Constants.roberta_w4,//"friends",
-            Constants.roberta_w5,//"socializing",
-            Constants.roberta_w6,//"dancing",
-            Constants.roberta_w7,//"movies",
-            Constants.roberta_w8,//"existence",
-            Constants.roberta_w9,//"termination",
-            Constants.roberta_w10,//"programming"
+            Constants.roberta_s1,//"love",
+            Constants.roberta_s2,//"macho machines",
+            Constants.roberta_s3,//"music",
+            Constants.roberta_s4,//"friends",
+            Constants.roberta_s5,//"socializing",
+            Constants.roberta_s6,//"dancing",
+            Constants.roberta_s7,//"movies",
+            Constants.roberta_s8,//"existence",
+            Constants.roberta_s9,//"termination",
+            Constants.roberta_s10,//"programming"
         };
 
         public class Tag
@@ -318,7 +342,7 @@ namespace Awesome.AI.Systems.Externals
                 list = andrew;
             else
                 list = roberta;
-            
+
             foreach (string s in list)
             {
                 for (int i = 1; i <= u_count; i++)
@@ -326,7 +350,7 @@ namespace Awesome.AI.Systems.Externals
                     if (onlyeven && i % 2 == 0)
                         continue;
 
-                    tags.Add(new Tag(s + i));
+                    tags.Add(new Tag("" + s + i));
                 }
             }
         }
