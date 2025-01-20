@@ -177,7 +177,7 @@ namespace Awesome.AI.Systems.Externals
 
             public UNIT Read(string _section)
             {
-                bool hit = mind.calc.RandomInt(2) == 0 ? true : false;
+                bool hit = mind.rand.RandomInt(2) == 0 ? true : false;
                 string news = hit ? "new news" : "no news";
                 
                 return UNIT.Create(mind, 50.0d, news, "null", "", TYPE.JUSTAUNIT);                

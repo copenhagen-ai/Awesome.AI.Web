@@ -1,6 +1,5 @@
 ﻿using Awesome.AI.Common;
 using Awesome.AI.Core;
-using Awesome.AI.Helpers;
 
 namespace AI.Systems._Externals
 {
@@ -51,9 +50,9 @@ namespace AI.Systems._Externals
             UNIT current = mind.curr_unit;
             HUB hub = current.HUB;
 
-            Calc calc = new Calc(mind);
-            int rand = calc.MyRandom(5);
-            if(rand == 1)
+            MyRandom rand = mind.rand;
+            int[] _rand = rand.MyRandomInt(1, 5);
+            if (_rand[0] == 1)
                 mind.Randomize(true);
 
             if (hub.subject == "should_decision" && State == 0)
@@ -104,22 +103,22 @@ namespace AI.Systems._Externals
             //}
         }
 
-        private UNIT Random(string subject)
-        {
-            HUB hub = mind.mem.HUBS_SUB(subject);
+        //private UNIT Random(string subject)
+        //{
+        //    HUB hub = mind.mem.HUBS_SUB(subject);
 
-            List<UNIT> units = hub.units.Where(x =>
-                                mind.filters.Credits(x)
-                                && !mind.filters.LowCut(x)
-                                ).OrderByDescending(x => x.Variable).ToList();
+        //    List<UNIT> units = hub.units.Where(x =>
+        //                        mind.filters.Credits(x)
+        //                        && !mind.filters.LowCut(x)
+        //                        ).OrderByDescending(x => x.Variable).ToList();
 
-            int rand = mind.calc.MyRandom(units.Count - 1);
+        //    int rand = mind.calc.MyRandom(units.Count - 1);
 
-            if (!units.Any())
-                throw new Exception();
+        //    if (!units.Any())
+        //        throw new Exception();
 
-            UNIT __u = units[rand];
-            return __u;
-        }
+        //    UNIT __u = units[rand];
+        //    return __u;
+        //}
     }
 }

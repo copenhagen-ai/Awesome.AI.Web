@@ -434,7 +434,7 @@ namespace Awesome.AI.Web.Hubs
                         await Task.Delay(1000);
                     
                     string[] cycles = new string[] { inst.mind._out.cycles, inst.mind._out.cycles_total };
-                    string momentum = ("" + inst.mind._out.momentum).Length < 5 ? inst.mind._out.momentum : $"{inst.mind._out.momentum}"[..5];
+                    string momentum = ("" + inst.mind._out.momentum).Length < 5 ? inst.mind._out.momentum : $"{inst.mind._out.momentum}"[..10];
 
                     string pain = ("" + inst.mind._out.pain).Length < 5 ? inst.mind._out.pain : $"{inst.mind._out.pain}"[..5];
                     string position = ("" + inst.mind._out.position).Length < 5 ? inst.mind._out.position : $"{inst.mind._out.position}"[..5];

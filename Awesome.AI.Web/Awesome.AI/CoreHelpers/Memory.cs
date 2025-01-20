@@ -189,9 +189,9 @@ namespace Awesome.AI.CoreHelpers
 
         public HUB HUBS_RND()
         {
-            int rand = mind.calc.MyRandom(hubs.Count() - 1);
+            int[] rand = mind.rand.MyRandomInt(1, hubs.Count() - 1);
             
-            HUB _h = hubs[rand];
+            HUB _h = hubs[rand[0]];
             
             return _h;
         }

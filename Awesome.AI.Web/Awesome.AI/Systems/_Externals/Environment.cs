@@ -96,7 +96,7 @@ namespace Awesome.AI.Systems.Externals
         private bool run = false;
         private int epoch_old = -1;
         public int epoch_count = 0;
-        public int epoch_stop = -1;
+        public int[] epoch_stop = new int[] { -1 };
         
         public string Occu
         {
@@ -121,14 +121,14 @@ namespace Awesome.AI.Systems.Externals
                              * ..maybe not
                              * */
 
-                            if (epoch_count <= epoch_stop)
+                            if (epoch_count <= epoch_stop[0])
                                 break;
 
                             epoch_count = 0;
-                            epoch_stop = mind.calc.MyRandom(occu.max_epochs);
-                            int index = mind.calc.MyRandom(areas.Count - 1);
+                            epoch_stop = mind.rand.MyRandomInt(1, occu.max_epochs);
+                            int[] index = mind.rand.MyRandomInt(1, areas.Count - 1);
 
-                            occu = areas[index];
+                            occu = areas[index[0]];
 
                             if (occu == null)
                                 throw new Exception();

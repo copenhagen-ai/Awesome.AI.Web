@@ -75,7 +75,7 @@ namespace Awesome.AI.Core
             if (is_static)
                 return mind.parms.base_friction;
             
-            Calc calc = new Calc(mind);
+            Calc calc = mind.calc;
             double x = credits;
             double friction = 0.0d;
 

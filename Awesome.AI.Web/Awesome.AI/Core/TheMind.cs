@@ -60,6 +60,7 @@ namespace Awesome.AI.Core
         public Memory mem;
         public Params parms;
         public Calc calc;
+        public MyRandom rand;
         public Process process;
         public Filters filters;
         public Out _out;
@@ -108,6 +109,7 @@ namespace Awesome.AI.Core
                 common = new Common.Common(this);
                 matrix = new TheMatrix(this);
                 calc = new Calc(this);
+                rand = new MyRandom(this);
                 process = new Process(this);
                 _internal = new MyInternal(this);
                 _external = new MyExternal(this);
@@ -179,15 +181,20 @@ namespace Awesome.AI.Core
 
             List<UNIT> units = mem.UNITS_ALL().Where(x=>x.IsDECISION()).ToList();
 
-            Calc calc = new Calc(this);
+            MyRandom rand = this.rand;
 
+            int count = units.Count;
+            double[] doubles = rand.MyRandomDouble(count);
+
+            int _i = 0;
             foreach (UNIT _u in units)
             {
+                //double rand = calc.RandomDouble(0.0d, 1.0d) * 100.0d;
+                double _rand = doubles[_i] * 100.0d;
+                _rand = _rand.Convert(this);
 
-                double rand = calc.RandomDouble(0.0d, 1.0d) * 100.0d;
-                rand = rand.Convert(this);
-
-                _u.Index = rand;
+                _u.Index = _rand;
+                _i++;
             }
         }
 
@@ -248,10 +255,10 @@ namespace Awesome.AI.Core
 
         private void PreRun(bool _pro)
         {
-            if (!_pro)
-                return;
+            rand.SaveMomentum(parms._mech.dir.d_momentum);
 
-            common.Reset();            
+            if (_pro)
+                common.Reset();            
         }
 
         private void PostRun(bool _pro)
