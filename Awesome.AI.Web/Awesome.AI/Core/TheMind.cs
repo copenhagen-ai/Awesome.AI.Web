@@ -17,7 +17,7 @@ namespace Awesome.AI.Core
      * Copyright (C) 2023 Joakim Jacobsen <jjacobsen@copenhagen-ai.net>
      * https://www.copenhagen-ai.net
      * 
-     * This software is licensed under the Apache License, Version 2.0 (the "LICENCE"); you may not use this file except in compliance with the License. 
+     * This software is licensed under the Apache License, Version 2.0, you may not use this file except in compliance with the License. 
      * You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-2.0
      *
      * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES 
@@ -25,24 +25,24 @@ namespace Awesome.AI.Core
      *
      * Additional Ethical Standards
      *
-     * By using this software, you agree to adhere to the ethical standards as defined and maintained by the AWESOME.AI Group. These standards are outlined 
+     * By using this software, you agree to adhere to the ethical standards as defined and maintained by the copenhagen-ai group. These standards are outlined 
      * in the ETHICAL file included with the software distribution and can also be reviewed at the following URL: https://www.copenhagen-ai.net/docs/ethical.txt
 
      * These ethical standards are intended to ensure that the software is used in ways that align with principles of fairness, safety, accountability, and 
      * respect for human rights. By accepting this license, you commit to upholding these principles in your use, modification, and redistribution of the software.
 
-     * Future Modifications to the License
+     * Future Modifications to the ETHICAL
 
-     * The AWESOME.AI Group reserves the right to modify the formulation of this license in the future. Any such modifications will be communicated through 
-     * updates to the LICENSE file accompanying the software and published at the URL mentioned above.
+     * The copenhagen-ai group reserves the right to modify the formulation of this ETHICAL in the future. Any such modifications will be communicated through 
+     * updates to the ETHICAL file accompanying the software and published at the URL mentioned above.
 
      * Acknowledgment
 
      * By using this software, you acknowledge that:
-     * You have reviewed and accepted the ethical standards established by the AWESOME.AI Group.
-     * You understand that failure to comply with these ethical standards may result in the revocation of your rights under this license.
+     * You have reviewed and accepted the License and ethical standards established by the copenhagen-ai group.
+     * You understand that failure to comply with these may result in the revocation of your rights under this license.
 
-     * If you have any questions or concerns about this license or the ethical standards, please contact the AWESOME.AI Group through the channels provided in 
+     * If you have any questions or concerns about this license or the ethical standards, please contact the copenhagen-ai group through the channels provided in 
      * the accompanying documentation.
      * */
 
@@ -56,7 +56,6 @@ namespace Awesome.AI.Core
     {
         public TheMatrix matrix;
         public Core core;
-        public TheCurve curve;
         public Memory mem;
         public Params parms;
         public Calc calc;
@@ -115,7 +114,6 @@ namespace Awesome.AI.Core
                 _external = new MyExternal(this);
                 filters = new Filters(this);
                 core = new Core(this);
-                curve = new TheCurve(this);
                 _out = new Out(this);
                 loc = new Location(this, location);
 
@@ -173,39 +171,7 @@ namespace Awesome.AI.Core
 
             ;
         }
-
-        public void Randomize(bool _run)
-        {
-            if (!_run)
-                return;
-
-            List<UNIT> units = mem.UNITS_ALL().Where(x=>x.IsDECISION()).ToList();
-
-            MyRandom rand = this.rand;
-
-            int count = units.Count;
-            double[] doubles = rand.MyRandomDouble(count);
-
-            int _i = 0;
-            foreach (UNIT _u in units)
-            {
-                //double rand = calc.RandomDouble(0.0d, 1.0d) * 100.0d;
-                double _rand = doubles[_i] * 100.0d;
-                _rand = _rand.Convert(this);
-
-                _u.Index = _rand;
-                _i++;
-            }
-        }
-
-        //public void StatClear()
-        //{
-        //    epochs = 1;
-        //    stats = new Stats();
-        //    themes_stat = new List<KeyValuePair<string, int>>();
-        //    themes_stat.Add(new KeyValuePair<string, int>("none", 1));
-        //}
-
+        
         public bool run = true;
         public bool ok = true;
         public void Run(object sender, MicroLibrary.MicroTimerEventArgs timerEventArgs)
@@ -294,7 +260,7 @@ namespace Awesome.AI.Core
             //if (curr_hub.IsIDLE())
             //    core.SetTheme(_pro);
             
-            if (!curve.OK(out pain))
+            if (!core.OK(out pain))
                 return false;
             return true;
         }
@@ -316,25 +282,6 @@ namespace Awesome.AI.Core
         {
             loc.Decide(_pro);
         }
-
-        //public string output_topic = "";
-        //public string output_sub_th = "";
-        //private void Output(bool _pro)
-        //{
-        //    if (curr_unit.root.Split(':')[0] == "subject")
-        //        return;
-
-        //    output_topic = process.StreamTop().HUB.GetSubject();
-
-        //    output_sub_th = "currently subprocessing:\t" + curr_unit.HUB.GetSubject() + "\n" +
-        //                    "- actual:\t\t\t" + curr_unit.root + "";
-
-        //    if (_pro)
-        //        _out.Set();
-            
-        //    if (_pro)
-        //        cycles = 0;           
-        //}
 
         private async void ProcessPass()
         {

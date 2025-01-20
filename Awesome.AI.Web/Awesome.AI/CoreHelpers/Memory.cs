@@ -1,6 +1,7 @@
 ﻿using Awesome.AI.Common;
 using Awesome.AI.Core;
 using Awesome.AI.Helpers;
+using K4os.Compression.LZ4.Internal;
 using static Awesome.AI.Helpers.Enums;
 
 namespace Awesome.AI.CoreHelpers
@@ -214,7 +215,24 @@ namespace Awesome.AI.CoreHelpers
             hubs.Add(h);
             hubs = hubs.OrderBy(x=>x.GetSubject()).ToList();
         }
-        
+
+        public void Randomize(List<UNIT> units)
+        {
+            MyRandom rand = mind.rand;
+
+            int count = units.Count;
+            double[] doubles = rand.MyRandomDouble(count);
+
+            int _i = 0;
+            foreach (UNIT _u in units)
+            {
+                double _rand = doubles[_i] * 100.0d;
+                _rand = _rand.Convert(mind);
+
+                _u.Index = _rand;
+                _i++;
+            }
+        }
 
         public void UnitsCommon(int u_count, List<string> list, TYPE type)
         {

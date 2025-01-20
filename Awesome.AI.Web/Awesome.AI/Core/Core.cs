@@ -3,39 +3,6 @@ using static Awesome.AI.Helpers.Enums;
 
 namespace Awesome.AI.Core
 {
-    public class TheCurve
-    {
-        /*
-         * this is the Go/NoGo class
-         * actually not part of the algorithm
-         * */
-        TheMind mind;
-        private TheCurve() { }
-        public TheCurve(TheMind mind)
-        {
-            this.mind = mind;
-        }
-
-        public bool OK(out double pain)
-        {
-            try
-            {
-                double _e = mind.parms._mech.Result();
-                pain = mind.calc.Reciprocal(_e);
-
-                if (pain > 1000.0)
-                    throw new Exception();
-                    
-                return pain < mind.parms.max_pain;
-            }
-            catch (Exception e)//thats it
-            {
-                pain = mind.parms.max_pain;
-                return false;
-            }
-        }
-    }
-
     public class Core
     {
         TheMind mind;
@@ -45,55 +12,27 @@ namespace Awesome.AI.Core
             this.mind = mind;
         }
 
-        public void UpdateCredit()
+        public bool OK(out double pain)
         {
-            //List<UNIT> list = mind.mem.UNITS_VAL();
-            List<UNIT> list = mind.mem.UNITS_ALL();
-
-            //this could be a problem with many hubs
-            foreach (UNIT _u in list)
+            /*
+             * this is the Go/NoGo class
+             * actually not part of the algorithm
+             * */
+            try
             {
-                if (_u.root == mind.curr_unit.root)
-                    continue;
+                double _e = mind.parms._mech.Result();
+                pain = mind.calc.Reciprocal(_e);
 
-                double nrg = mind.parms.update_nrg;
-                _u.credits += nrg;
+                if (pain > 1000.0)
+                    throw new Exception();
 
-                if (_u.credits > _u.max_nrg)
-                    _u.credits = _u.max_nrg;
+                return pain < mind.parms.max_pain;
             }
-
-            mind.curr_unit.credits -= 1.0d;
-            if (mind.curr_unit.credits < 0.0d)
-                mind.curr_unit.credits = 0.0d;
-        }
-        
-        public double FrictionCoefficient(bool is_static, double credits)
-        {
-            //should friction be calculated from position???
-
-            if (is_static)
-                return mind.parms.base_friction;
-            
-            Calc calc = mind.calc;
-            double x = credits;
-            double friction = 0.0d;
-
-            switch(mind.mech)
+            catch (Exception e)//thats it
             {
-                //this could be better, use sigmoid/logistic
-                case MECHANICS.HILL: friction = calc.Linear(x, -0.5d, 7d) / 10; break;
-                case MECHANICS.CONTEST: friction = calc.Linear(x, -0.25d, 2.5d) / 10; break;
-                default: throw new Exception();
+                pain = mind.parms.max_pain;
+                return false;
             }
-
-            if (friction < 0.0d)
-                friction = 0.0d;
-
-            if (friction > 10.0d)
-                friction = 10.0d;
-
-            return friction;
         }
 
         public void AnswerQuestion()
@@ -143,7 +82,32 @@ namespace Awesome.AI.Core
 
             mind.goodbye = answer == "It does not" ? THECHOISE.YES : THECHOISE.NO;
         }
+
+        public void UpdateCredit()
+        {
+            //List<UNIT> list = mind.mem.UNITS_VAL();
+            List<UNIT> list = mind.mem.UNITS_ALL();
+
+            //this could be a problem with many hubs
+            foreach (UNIT _u in list)
+            {
+                if (_u.root == mind.curr_unit.root)
+                    continue;
+
+                double nrg = mind.parms.update_nrg;
+                _u.credits += nrg;
+
+                if (_u.credits > _u.max_nrg)
+                    _u.credits = _u.max_nrg;
+            }
+
+            mind.curr_unit.credits -= 1.0d;
+            if (mind.curr_unit.credits < 0.0d)
+                mind.curr_unit.credits = 0.0d;
+        }
         
+        
+
         //private bool passed = false;
         //private bool IsConsious()//something like this :)
         //{

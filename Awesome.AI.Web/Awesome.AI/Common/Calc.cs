@@ -1,4 +1,5 @@
 ﻿using Awesome.AI.Core;
+using static Awesome.AI.Helpers.Enums;
 
 namespace Awesome.AI.Common
 {
@@ -140,6 +141,34 @@ namespace Awesome.AI.Common
             double max = arr.Max();
             int index = arr.ToList().IndexOf(max);
             return index;
+        }
+
+        public double FrictionCoefficient(bool is_static, double credits)
+        {
+            //should friction be calculated from position???
+
+            if (is_static)
+                return mind.parms.base_friction;
+
+            Calc calc = mind.calc;
+            double x = credits;
+            double friction = 0.0d;
+
+            switch (mind.mech)
+            {
+                //this could be better, use sigmoid/logistic
+                case MECHANICS.HILL: friction = calc.Linear(x, -0.5d, 7d) / 10; break;
+                case MECHANICS.CONTEST: friction = calc.Linear(x, -0.25d, 2.5d) / 10; break;
+                default: throw new Exception();
+            }
+
+            if (friction < 0.0d)
+                friction = 0.0d;
+
+            if (friction > 10.0d)
+                friction = 10.0d;
+
+            return friction;
         }
 
         public double Reciprocal(double x)

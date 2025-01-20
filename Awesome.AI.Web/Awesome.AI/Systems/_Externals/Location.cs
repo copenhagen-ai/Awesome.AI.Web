@@ -1,5 +1,6 @@
 ﻿using Awesome.AI.Common;
 using Awesome.AI.Core;
+using K4os.Compression.LZ4.Internal;
 
 namespace AI.Systems._Externals
 {
@@ -50,10 +51,12 @@ namespace AI.Systems._Externals
             UNIT current = mind.curr_unit;
             HUB hub = current.HUB;
 
+            List<UNIT> units = mind.mem.UNITS_ALL().Where(x => x.IsDECISION()).ToList();
+
             MyRandom rand = mind.rand;
             int[] _rand = rand.MyRandomInt(1, 5);
             if (_rand[0] == 1)
-                mind.Randomize(true);
+                mind.mem.Randomize(units);
 
             if (hub.subject == "should_decision" && State == 0)
             {
