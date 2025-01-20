@@ -1,6 +1,5 @@
 ﻿using Awesome.AI.Common;
 using Awesome.AI.Core;
-using K4os.Compression.LZ4.Internal;
 
 namespace AI.Systems._Externals
 {

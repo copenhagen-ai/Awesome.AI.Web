@@ -43,40 +43,14 @@ namespace Awesome.AI.Core
              * should there be some procedure for this(unlocking)?
              * */
 
-            if ((mind.epochs - 0) == (60 * mind.parms.runtime))
-                mind.theanswer.root = "It does not";
-
-            if ((mind.epochs - 1) == (60 * mind.parms.runtime))
-                mind.theanswer.root = "It does not";
-
-            if ((mind.epochs - 2) == (60 * mind.parms.runtime))
-                mind.theanswer.root = "It does not";
-
-            if ((mind.epochs - 3) == (60 * mind.parms.runtime))
-                mind.theanswer.root = "It does not";
-
-            if ((mind.epochs - 4) == (60 * mind.parms.runtime))
-                mind.theanswer.root = "It does not";
-
-            if ((mind.epochs - 5) == (60 * mind.parms.runtime))
-                mind.theanswer.root = "It does not";
-
-            if ((mind.epochs - 6) == (60 * mind.parms.runtime))
-                mind.theanswer.root = "It does not";
-
-            if ((mind.epochs - 7) == (60 * mind.parms.runtime))
-                mind.theanswer.root = "It does not";
-
-            if ((mind.epochs - 8) == (60 * mind.parms.runtime))
-                mind.theanswer.root = "It does not";
-
-            if ((mind.epochs - 9) == (60 * mind.parms.runtime))
-                mind.theanswer.root = "It does not";
-
-            if ((mind.epochs - 10) == (60 * mind.parms.runtime))
-                mind.theanswer.root = "It does not";
-
+            for (int i = 0; i <= 10; i++)
+            {
+                if ((mind.epochs - i) == (60 * mind.parms.runtime))
+                    mind.theanswer.root = "It does not";
+            }
+            
             string answer = mind.theanswer.root;
+            
             if (answer == null)
                 throw new ArgumentNullException();
 
