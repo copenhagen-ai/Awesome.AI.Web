@@ -143,7 +143,22 @@ namespace Awesome.AI.Common
             return index;
         }
 
-        public double FrictionCoefficient(bool is_static, double credits)
+        public double FrictionCoefficient(bool is_static, double credits, double shift)
+        {
+            //should friction be calculated from position???
+
+            if (is_static)
+                return mind.parms.base_friction;
+
+            Calc calc = mind.calc;
+            
+            double x = 5.0d - credits + shift;
+            double friction = calc.Logistic(x);
+            
+            return friction;
+        }
+
+        public double FrictionCoefficientOld(bool is_static, double credits)
         {
             //should friction be calculated from position???
 
@@ -309,18 +324,6 @@ namespace Awesome.AI.Common
              * */
 
             double res = 2 * a * x + b;
-
-            return res;
-        }
-
-        public double Integral(double x, double a, double b, double c, double k)
-        {
-            /*
-             * derivative of:    f(x) = ax^2 + bx + c
-             *                   F(x)= (1/3)ax^3 + (1/2)bx^2 + cx + k
-             * */
-
-            double res = (1/3) * a * (x*x*x) + (1/2) * b * (x*x) + c * x + k;
 
             return res;
         }
