@@ -16,7 +16,6 @@ namespace Awesome.AI.Common
         private TYPE type { get; set; }
         public string root { get; set; }//name
         public string data { get; set; }//data
-        public double max_nrg { get; set; }
         public double credits { get; set; }
 
         private TheMind mind;
@@ -84,50 +83,6 @@ namespace Awesome.AI.Common
         {
             get { return mind.filters.Credits(this); }
         }
-
-        //UNIT next = null;
-        //public UNIT Next
-        //{
-        //    get
-        //    {
-        //        if (!next.IsNull())
-        //            return next;
-
-        //        List<UNIT> units = mind.mem.UNITS_VAL();
-        //        units = units.OrderByDescending(x => x.Variable).ToList();
-        //        units = units.Where(x => !x.IsSPECIAL()).ToList();
-        //        units = units.Where(x => !x.IsLowCut).ToList();
-        //        units = units.Where(x => x.Variable < this.Variable).ToList();
-
-        //        next = units.FirstOrDefault();
-        //        if (next.IsNull())
-        //            next = new UNIT() { type = TYPE.NOTNEXTPREV };
-
-        //        return next;
-        //    }
-        //}
-
-        //UNIT prev = null;
-        //public UNIT Prev
-        //{
-        //    get
-        //    {
-        //        if (!prev.IsNull())
-        //            return prev;
-
-        //        List<UNIT> units = mind.mem.UNITS_VAL();
-        //        units = units.OrderByDescending(x => x.Variable).ToList();
-        //        units = units.Where(x => !x.IsSPECIAL()).ToList();
-        //        units = units.Where(x => !x.IsLowCut).ToList();
-        //        units = units.Where(x => x.Variable > this.Variable).ToList();
-
-        //        prev = units.LastOrDefault();
-        //        if (prev.IsNull())
-        //            prev = new UNIT() { type = TYPE.NOTNEXTPREV };
-
-        //        return prev;
-        //    }
-        //}
 
         /*
          * used to be Distance
@@ -197,8 +152,7 @@ namespace Awesome.AI.Common
             if (ticket != "")
                 _w.ticket = new Ticket(ticket);
 
-            _w.max_nrg = mind.parms.max_nrg;
-            _w.credits = mind.parms.max_nrg;
+            _w.credits = Constants.MAX_CREDIT;
 
             return _w;
         }
@@ -213,6 +167,50 @@ namespace Awesome.AI.Common
         public bool IsIDLE() => type == TYPE.IDLE;
 
         public bool IsDECISION() => type == TYPE.DECISION;
+
+        //UNIT next = null;
+        //public UNIT Next
+        //{
+        //    get
+        //    {
+        //        if (!next.IsNull())
+        //            return next;
+
+        //        List<UNIT> units = mind.mem.UNITS_VAL();
+        //        units = units.OrderByDescending(x => x.Variable).ToList();
+        //        units = units.Where(x => !x.IsSPECIAL()).ToList();
+        //        units = units.Where(x => !x.IsLowCut).ToList();
+        //        units = units.Where(x => x.Variable < this.Variable).ToList();
+
+        //        next = units.FirstOrDefault();
+        //        if (next.IsNull())
+        //            next = new UNIT() { type = TYPE.NOTNEXTPREV };
+
+        //        return next;
+        //    }
+        //}
+
+        //UNIT prev = null;
+        //public UNIT Prev
+        //{
+        //    get
+        //    {
+        //        if (!prev.IsNull())
+        //            return prev;
+
+        //        List<UNIT> units = mind.mem.UNITS_VAL();
+        //        units = units.OrderByDescending(x => x.Variable).ToList();
+        //        units = units.Where(x => !x.IsSPECIAL()).ToList();
+        //        units = units.Where(x => !x.IsLowCut).ToList();
+        //        units = units.Where(x => x.Variable > this.Variable).ToList();
+
+        //        prev = units.LastOrDefault();
+        //        if (prev.IsNull())
+        //            prev = new UNIT() { type = TYPE.NOTNEXTPREV };
+
+        //        return prev;
+        //    }
+        //}
 
         //public bool IsLEARNING()
         //{

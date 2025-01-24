@@ -40,6 +40,7 @@
 
         public const double VERY_LOW = 1.0E-50;
         public const double GRAVITY = 9.81d;
+        public const double MAX_CREDIT = 10.0d;
 
         public static readonly string[] subject_decision = new string[]{ "should_decision", "what_decision" };
     }
