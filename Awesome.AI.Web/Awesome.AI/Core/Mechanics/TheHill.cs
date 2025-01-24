@@ -26,7 +26,7 @@ namespace Awesome.AI.Core.Mechanics
         public double POS_X { get; set; }
         public Direction dir { get; set; }
 
-        TheMind mind;
+        private TheMind mind;
         private _TheHill() { }
         public _TheHill(Params parms)
         {

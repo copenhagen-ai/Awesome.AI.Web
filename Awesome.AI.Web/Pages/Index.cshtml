@@ -6,8 +6,17 @@
 }
 
 
+@* <div class="absolute top-200 bg-gray-100 w-1/2 h-2/5 z-10 opacity-50">
+    <span>Hello1</span>
+</div> *@
 
-<div class="overflow-hidden flex flex-col">
+
+<div class="relative overflow-hidden flex flex-col">
+    
+    @* <div class="absolute top-0 left-0 w-full p-xxl-5 h-100">
+        <span>Hello2</span>
+    </div> *@
+    
     <div class="float-left overflow-hidden w-full sm:m-4">
         <div class="xl:w-1/2 float-left">
             <div class="text-gray-50"><span class="hidden sm:inline">Visit our github:</span><a class="text-blue-300 hover:underline" target="_blank" href="https://github.com/copenhagen-ai"> Awesome.AI Source</a>.</div>
@@ -45,7 +54,7 @@
         <a id="r2" class="text-gray-50 float-left sm:float-right mr-4 hover:underline cursor-pointer" onclick="room2();">Andrew</a>
         <a id="r1" class="text-gray-50 float-left sm:float-right mr-4 hover:underline cursor-pointer" onclick="room1();">[Roberta]</a>
 
-        <span id="joinButton" class="cursor-pointer mr-4 i-color-orange float-right" title="This will start the app and let it run for about 5 minutes">join</span>
+        <span id="joinButton" class="cursor-pointer mr-4 i-color-red float-right" title="This will start the app and let it run for about 5 minutes">join</span>
         <span id="" class="cursor-pointer mr-10 i-color-orange float-right">   </span>
         <span id="hideSpan" class="cursor-pointer mr-4 i-color-green float-right">view</span>
         <span id="" class="cursor-pointer mr-10 i-color-green float-right">   </span>

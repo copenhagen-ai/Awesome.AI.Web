@@ -5,7 +5,7 @@ namespace Awesome.AI.Common
 {
     public class Calc
     {
-        TheMind mind;
+        private TheMind mind;
         private Calc() { }
         public Calc(TheMind mind) 
         { 

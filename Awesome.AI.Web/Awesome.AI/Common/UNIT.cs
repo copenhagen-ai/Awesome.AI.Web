@@ -1,7 +1,7 @@
 ﻿using Awesome.AI.Core;
 using Awesome.AI.Helpers;
 using Awesome.AI.Interfaces;
-using Awesome.AI.Systems.Externals;
+using Awesome.AI.Systems;
 using static Awesome.AI.Helpers.Enums;
 
 namespace Awesome.AI.Common
@@ -18,8 +18,8 @@ namespace Awesome.AI.Common
         public string data { get; set; }//data
         public double max_nrg { get; set; }
         public double credits { get; set; }
-        
-        TheMind mind;
+
+        private TheMind mind;
         private UNIT() { }
         public UNIT(TheMind mind)
         {

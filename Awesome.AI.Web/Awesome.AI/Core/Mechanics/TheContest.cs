@@ -29,7 +29,7 @@ namespace Awesome.AI.Core.Mechanics
         public double POS_X { get; set; } = 10.0d;
         public Direction dir { get; set; }
         
-        TheMind mind;
+        private TheMind mind;
         private _TheContest() { }
         public _TheContest(Params parms)
         {

@@ -5,7 +5,7 @@ namespace Awesome.AI.Web.AI.Common
 {
     public class Out
     {
-        TheMind mind;
+        private TheMind mind;
         private Out() { }
         public Out(TheMind mind)
         {

@@ -5,7 +5,7 @@ namespace Awesome.AI.Core
 {
     public class Core
     {
-        TheMind mind;
+        private TheMind mind;
         private Core() { }
         public Core(TheMind mind)
         {

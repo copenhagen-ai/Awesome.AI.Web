@@ -1,7 +1,6 @@
 ﻿using Awesome.AI.Common;
 using Awesome.AI.Core;
 using Awesome.AI.Helpers;
-using K4os.Compression.LZ4.Internal;
 using static Awesome.AI.Helpers.Enums;
 
 namespace Awesome.AI.CoreHelpers
@@ -89,7 +88,7 @@ namespace Awesome.AI.CoreHelpers
         
         public List<UNIT> learning = new List<UNIT>();
 
-        TheMind mind;
+        private TheMind mind;
         private Memory() { }
         
         public Memory(TheMind mind, int u_count) 

@@ -4,14 +4,14 @@ namespace Awesome.AI.Common
 {
     public class MyRandom
     {
-        TheMind mind;
+        private TheMind mind;
         private MyRandom() { }
         public MyRandom(TheMind mind)
         {
             this.mind = mind;
         }
 
-        private List<double> momentum_saves { get; set; }
+        private List<double> saves { get; set; }
 
         public void SaveMomentum(double momentum)
         {
@@ -27,16 +27,16 @@ namespace Awesome.AI.Common
             if (momentum == 0.0d)
                 return;
 
-            if (momentum_saves == null)
+            if (saves == null)
             {
-                momentum_saves = new List<double>();
+                saves = new List<double>();
                 for (int i = 0; i < 495; i++)
-                    momentum_saves.Add(RandomDouble(0.0d, 1.0d));
+                    saves.Add(RandomDouble(0.0d, 1.0d));
             }
 
-            momentum_saves.Add(momentum);
-            if (momentum_saves.Count > 500)
-                momentum_saves.RemoveAt(0);
+            saves.Add(momentum);
+            if (saves.Count > 500)
+                saves.RemoveAt(0);
         }
 
         public double[] MyRandomDouble(int count)
@@ -55,7 +55,7 @@ namespace Awesome.AI.Common
             }
             catch
             {
-                return new double[] { -1.0d };
+                throw new Exception();
             }
         }
 
@@ -85,7 +85,7 @@ namespace Awesome.AI.Common
             }
             catch
             {
-                return new int[] { -1 };
+                throw new Exception();
             }
         }
 
@@ -93,11 +93,11 @@ namespace Awesome.AI.Common
         {
             try
             {
-                if (index + 1 > momentum_saves.Count)
+                if (index + 1 > saves.Count)
                     throw new Exception();
 
                 //get momentum
-                string rand = "" + momentum_saves[index];
+                string rand = "" + saves[index];
 
                 //remove exponent
                 if (rand.ToUpper().Contains("E"))
@@ -112,7 +112,7 @@ namespace Awesome.AI.Common
             }
             catch
             {
-                return "";
+                throw new Exception();
             }
         }
 

@@ -1,24 +1,23 @@
 ﻿using Awesome.AI.Common;
 using Awesome.AI.Core;
 
-namespace AI.Systems._Externals
+namespace Awesome.AI.Systems
 {
     public class Location
     {
-        private TheMind mind;
-
-        
         public string LocationFinal { get; set; }
         public int State { get; set; }
 
+        private TheMind mind;
         private Location() { }
+
         public Location(TheMind mind, string starting)
         {
             this.mind = mind;
-            this.State = 0;
-            this.LocationFinal = starting.Replace("WHAT", "");
+            State = 0;
+            LocationFinal = starting.Replace("WHAT", "");
         }
-        
+
         public void Decide(bool _pro)
         {
             /*
@@ -61,7 +60,7 @@ namespace AI.Systems._Externals
             {
                 if (current.data == "SHOULDYES")
                     State++;
-                
+
                 if (current.data == "SHOULDNO")
                     State = 0;
             }
@@ -81,7 +80,7 @@ namespace AI.Systems._Externals
             //    if (current.data == "SHOULDNO")
             //        State = 0;
             //}
-            
+
             //if (hub.subject == "what_decision" && State == 1)
             //{
             //    LocationTmp = current.data;

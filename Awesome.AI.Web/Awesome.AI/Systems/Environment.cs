@@ -1,10 +1,9 @@
-﻿using AI.Systems._Externals;
-using Awesome.AI.Common;
+﻿using Awesome.AI.Common;
 using Awesome.AI.Core;
 using Awesome.AI.Helpers;
 using static Awesome.AI.Helpers.Enums;
 
-namespace Awesome.AI.Systems.Externals
+namespace Awesome.AI.Systems
 {
     class Agent
     {
@@ -21,7 +20,7 @@ namespace Awesome.AI.Systems.Externals
          * */
     }
 
-    
+
     /*
      * rooms at home, work and other
      * ie. at work you mostly think about work and so on
@@ -39,7 +38,7 @@ namespace Awesome.AI.Systems.Externals
 
         public Ticket(string _n)
         {
-            this.t_name = _n;
+            t_name = _n;
         }
     }
 
@@ -83,7 +82,7 @@ namespace Awesome.AI.Systems.Externals
             Constants.roberta_s10,//"programming"
         };
 
-        TheMind mind;
+        private TheMind mind;
         private MyInternal() { }
         public MyInternal(TheMind mind)
         {
@@ -97,14 +96,14 @@ namespace Awesome.AI.Systems.Externals
         private int epoch_old = -1;
         public int epoch_count = 0;
         public int[] epoch_stop = new int[] { -1 };
-        
+
         public string Occu
         {
             get
             {
                 /*
                  * run is only true once per cycle
-                 * */                    
+                 * */
                 run = mind.epochs != epoch_old;
                 epoch_old = mind.epochs;
                 if (run)
@@ -115,7 +114,7 @@ namespace Awesome.AI.Systems.Externals
                             occu = new Area() { name = mind.hobby, max_epochs = -1, values = null }; ;
                             break;
                         case OCCUPASION.DYNAMIC:
-                                                        
+
                             /*
                              * rand should be set according to hobbys, mood, location, interests etc..
                              * ..maybe not
@@ -181,8 +180,8 @@ namespace Awesome.AI.Systems.Externals
         {
             /* weird error here, so let it be ugly */
             Area area = areas.Where(x => x.name == Occu).FirstOrDefault();
-            
-            while(area.IsNull())
+
+            while (area.IsNull())
             {
                 await Task.Delay(100);
                 area = areas.Where(x => x.name == Occu).FirstOrDefault();
@@ -191,7 +190,7 @@ namespace Awesome.AI.Systems.Externals
             return area;
         }
 
-        public void AddHUB(HUB hub, string name) 
+        public void AddHUB(HUB hub, string name)
         {
             if (hub.IsNull())
                 throw new Exception();
@@ -251,19 +250,19 @@ namespace Awesome.AI.Systems.Externals
             }
         }
 
-        public void Reset() 
+        public void Reset()
         {
             if (mind.parms.validation != VALIDATION.EXTERNAL)
             {
                 //mind.stats.Reset();
 
-                this.areas = new List<Area>();
+                areas = new List<Area>();
                 Setup(mind.curr_unit.HUB, mind.mindtype);
             }
         }
     }
-        
-        
+
+
     public class MyExternal// aka MapWorld
     {
         private List<string> andrew = new List<string>()
@@ -300,13 +299,13 @@ namespace Awesome.AI.Systems.Externals
 
             public Tag(string _n)
             {
-                this.t_name = _n;
+                t_name = _n;
             }
         }
-                
+
         public List<Tag> tags = new List<Tag>();//this is the map
 
-        TheMind mind;
+        private TheMind mind;
         private MyExternal() { }
         public MyExternal(TheMind mind)
         {
@@ -321,15 +320,15 @@ namespace Awesome.AI.Systems.Externals
             tags = tags.Where(x => x != null).ToList();
 
             double scale = 0.0d;
-                
+
             bool t_name = _u.ticket.t_name == "SPECIAL";
             bool tags_hit = tags.Where(x => x.t_name == _u.ticket.t_name).Any();
-                
+
             bool hit = t_name || tags_hit;// || focus;
-                                
+
             return hit;
         }
-        
+
         //setup input
         private void Setup(MINDS mindtype, int u_count, bool onlyeven)
         {
@@ -355,13 +354,13 @@ namespace Awesome.AI.Systems.Externals
             }
         }
 
-        public void Reset() 
+        public void Reset()
         {
             if (mind.parms.validation != VALIDATION.INTERNAL)
             {
                 //mind.stats.Reset();
 
-                this.tags = new List<Tag>();
+                tags = new List<Tag>();
                 switch (mind.parms.case_tags)
                 {
                     case TAGS.ALL: Setup(mind.mindtype, mind.parms.number_of_units, false); break;
@@ -378,7 +377,7 @@ namespace Awesome.AI.Systems.Externals
         //        tags = new List<Tag>();
 
         //        tags.Add(new Tag("SPECIAL"));
-                                
+
         //        //fembots - love, friends
         //        tags.Add(new Tag("procrastination1"));
         //        tags.Add(new Tag("procrastination2"));
@@ -761,7 +760,7 @@ namespace Awesome.AI.Systems.Externals
         //}
 
     }
-    
+
 }
-            
+
 

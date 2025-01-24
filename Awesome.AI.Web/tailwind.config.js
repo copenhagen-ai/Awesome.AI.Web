@@ -5,6 +5,11 @@ module.exports = {
         "./pages/**/*.{cshtml,js}",
         "./areas/**/*.{cshtml,js}"
     ],
+    //content: [
+    //    './Views/**/*.cshtml',
+    //    './wwwroot/**/*.html',
+    //    './wwwroot/**/*.js',
+    //],
     theme: {
         extend: {
             spacing: {
