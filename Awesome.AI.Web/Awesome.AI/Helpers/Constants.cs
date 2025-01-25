@@ -25,15 +25,22 @@
         public const string roberta_s9 = "termination";
         public const string roberta_s10 = "programming";
 
-        public const string should_decision_u1 = "SHOULDYES";
-        public const string should_decision_u2 = "SHOULDNO";
+        //public const string make_decision_u1 = "MAKEYES";
+        //public const string make_decision_u2 = "MAKENO";
 
-        public const string make_decision_u1 = "MAKEYES";
-        public const string make_decision_u2 = "MAKENO";
+        public const string location_should_decision_u1 = "SHOULDYES";
+        public const string location_should_decision_u2 = "SHOULDNO";
 
-        public const string what_decision_u1 = "WHATKITCHEN";
-        public const string what_decision_u2 = "WHATBEDROOM";
-        public const string what_decision_u3 = "WHATLIVINGROOM";
+        public const string location_what_decision_u1 = "WHATKITCHEN";
+        public const string location_what_decision_u2 = "WHATBEDROOM";
+        public const string location_what_decision_u3 = "WHATLIVINGROOM";
+
+        public const string answer_should_decision_u1 = "ANSWERYES";
+        public const string answer_should_decision_u2 = "ANSWERNO";
+
+        public const string answer_what_decision_u1 = "WHATIm busy right now..";
+        public const string answer_what_decision_u2 = "WHATNot right now..";
+        public const string answer_what_decision_u3 = "WHATTalk later..";
 
         public const double MIN = 0.5d;
         public const double MAX = 99.5d;
@@ -42,6 +49,10 @@
         public const double GRAVITY = 9.81d;
         public const double MAX_CREDIT = 10.0d;
 
-        public static readonly string[] subject_decision = new string[]{ "should_decision", "what_decision" };
+        public static readonly string[] subject_decision = new string[]
+        { 
+            "location_should_decision", "location_what_decision",
+            "answer_should_decision", "answer_what_decision"
+        };
     }
 }

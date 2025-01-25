@@ -13,9 +13,7 @@
 
 <div class="relative overflow-hidden flex flex-col">
     
-    @* <div class="absolute top-0 left-0 w-full p-xxl-5 h-100">
-        <span>Hello2</span>
-    </div> *@
+    
     
     <div class="float-left overflow-hidden w-full sm:m-4">
         <div class="xl:w-1/2 float-left">
@@ -54,7 +52,7 @@
         <a id="r2" class="text-gray-50 float-left sm:float-right mr-4 hover:underline cursor-pointer" onclick="room2();">Andrew</a>
         <a id="r1" class="text-gray-50 float-left sm:float-right mr-4 hover:underline cursor-pointer" onclick="room1();">[Roberta]</a>
 
-        <span id="joinButton" class="cursor-pointer mr-4 i-color-red float-right" title="This will start the app and let it run for about 5 minutes">join</span>
+        <span id="joinButton" class="cursor-pointer mr-4 i-color-orange float-right" title="This will start the app and let it run for about 5 minutes">join</span>
         <span id="" class="cursor-pointer mr-10 i-color-orange float-right">   </span>
         <span id="hideSpan" class="cursor-pointer mr-4 i-color-green float-right">view</span>
         <span id="" class="cursor-pointer mr-10 i-color-green float-right">   </span>
@@ -65,10 +63,10 @@
 </div>
 @* <div class="viewersDiv text-gray-50 ml-4 float-right overflow-hidden lg:hidden">viewers: 0</div> *@
 
-<div class="overflow-hidden flex flex-col-reverse md:flex-row ">
-    <div class="bg-neutral-900 border border-neutral-950 text-neutral-600 overflow-hidden h-box w-full md:w-500 p-4 md:mx-4 my-4">
-        <div class="xrow xp-1">
-            <div class="xcol-6">
+<div class="overflow-hidden grid grid-cols-1 lg:grid-cols-3">
+    <div class="bg-neutral-900 border border-neutral-950 text-neutral-600 overflow-hidden h-box1 p-4 md:mx-4 my-4">
+        <div class="">
+            <div class="">
                 <div class="text-gray-50">STATS</div>
                 <div class="i-filler-20"></div>
                 <hr class=""/>
@@ -83,48 +81,48 @@
         </div> *@
 
         Core:<br />
-        <div class="xrow xp-1">
-            <div class="xcol-6">
+        <div class="">
+            <div class="">
                 <span class="text-gray-50">epochs remaining:</span>
                 <span class="text-gray-400" id="epochsremainingSpan">xxxx</span>
             </div>
         </div>
-        <div class="xrow xp-1">
-            <div class="xcol-6">
+        <div class="">
+            <div class="">
                 <span class="text-gray-50">cycles: </span>
                 <span class="text-gray-400" id="cyclesSpan">xxxx</span>
                 <span class="text-gray-50">cycles total: </span>
                 <span class="text-gray-400" id="totalSpan">xxxx</span>
             </div>
         </div>
-        <div class="xrow xp-1">
-            <div class="xcol-6">
+        <div class="">
+            <div class="">
                 <span class="text-gray-50">ratio yes: </span>
                 <span class="text-gray-400" id="ratioYesSpan">xxxx</span>
                 <span class="text-gray-50">ratio no: </span>
                 <span class="text-gray-400" id="ratioNoSpan">xxxx</span>
             </div>
         </div>
-        <div class="xrow xp-1">
-            <div class="xcol-6">
+        <div class="">
+            <div class="">
                 <span class="text-gray-50">momentum:</span>
                 <span class="text-gray-400" id="momentumSpan">xxxx</span>
             </div>
         </div>
-        <div class="xrow xp-1">
-            <div class="xcol-6">
+        <div class="">
+            <div class="">
                 <span class="text-gray-50">position:</span>
                 <span class="text-gray-400" id="positionSpan">xxxx</span>
             </div>
         </div>
-        <div class="xrow xp-1">
-            <div class="xcol-6">
+        <div class="">
+            <div class="">
                 <span class="text-gray-50">pain:</span>
                 <span class="text-gray-400" id="painSpan">xxxx</span>
             </div>
         </div>
-        <div class="xrow xp-1">
-            <div class="xcol-6">
+        <div class="">
+            <div class="">
                 <span class="text-gray-50">THE CHOICE:</span>
                 <span class="text-gray-400" id="theChoiceSpan">xxxx</span>
             </div>
@@ -132,20 +130,20 @@
 
         <br />
         Systems:<br />
-        <div class="xrow xp-1">
-            <div class="xcol-6">
+        <div class="">
+            <div class="">
                 <span class="text-gray-50">occupation:</span>
                 <span class="text-gray-400" id="occuSpan">xxxx</span>
             </div>
         </div>
-        <div class="xrow xp-1">
-            <div class="xcol-6">
+        <div class="">
+            <div class="">
                 <span class="text-gray-50" id="locationSpan1">location:</span>
                 <span class="text-gray-400" id="locationSpan2">xxxx</span>                
             </div>
         </div>
-        <div class="xrow xp-1">
-            <div class="xcol-6">
+        <div class="">
+            <div class="">
                 <span class="text-gray-50" id="stateSpan1">state:</span>
                 <span class="text-gray-400" id="stateSpan2">xxxx</span>
             </div>
@@ -174,8 +172,8 @@
     </div>
 
     
-    <div class="bg-neutral-900 border border-neutral-950 text-neutral-600 overflow-hidden md:h-box w-full p-4 md:mx-4 my-4">
-        <div class="xrow xp-1">
+    <div class="bg-neutral-900 border border-neutral-950 text-neutral-600 overflow-hidden md:h-box1 p-4 md:mx-4 my-4">
+        <div class="">
             <div class="xcol-6">
                 <div class="text-gray-400" id="messageDiv">inner monologue.. (press view)</div>
                 <div class="i-filler-20"></div>
@@ -183,7 +181,7 @@
                 <div class="i-filler-20"></div>
             </div>
         </div>
-        <div class="xrow xp-1">
+        <div class="">
             <div class="xcol-6">
                 <span class="text-gray-50">Point A:</span>
                 <span class="text-gray-400" id="dot1Span">xxxx</span>
@@ -192,20 +190,47 @@
                 <span class="text-gray-400" id="dot2Span">xxxx</span>
             </div>
         </div>
-        <div class="xrow xp-1">
+        <div class="">
             <div class="xcol-6">
                 <div class="i-filler-20"></div>
                 <div class="text-gray-50">Subject:</div>
                 <div class="text-gray-400" id="subjectDiv">xxxx</div>
             </div>
         </div>
-        <div class="xrow xp-1">
+        <div class="">
             <div class="xcol-6">
                 <div class="i-filler-20"></div>
                 <div class="text-gray-50">Saved Monologue:</div>
                 <div class="text-gray-400" id="saveDiv">xxxx</div>
             </div>
         </div>
+        @* <div class="position-absolute bottom-25 xrow xp-1">
+            <div class="xcol-6 xtext-start">
+                <input type="button" id="joinButton" value="Join" />
+            </div>
+        </div> *@
+    </div>
+
+    <div class="bg-neutral-900 border border-neutral-950 text-neutral-600 overflow-hidden md:h-box1 p-4 md:mx-4 my-4">
+        <div class="">
+            <div class="">
+                <div class="text-gray-400">CHAT:</div>
+                <div class="i-filler-20"></div>
+                <hr class="" />
+                <div class="i-filler-20"></div>
+            </div>
+        </div>
+        <div class="">
+            <div class="">
+                <div class="chatRes text-white bg-neutral-800 h-box2">
+                    >> some text<br />
+                </div>
+                <div class="i-filler-20"></div>
+                <input class="chatTxt bg-neutral-800 text-white p-4" type="text" placeholder=">> ask me" />
+                <input class="chatBtn bg-orange-500 text-gray-400 p-4 rounded-sm" type="submit" value="submit"/>
+            </div>
+        </div>
+        
         @* <div class="position-absolute bottom-25 xrow xp-1">
             <div class="xcol-6 xtext-start">
                 <input type="button" id="joinButton" value="Join" />

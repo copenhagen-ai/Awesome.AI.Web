@@ -51,36 +51,70 @@ namespace Awesome.AI.CoreHelpers
             Constants.roberta_s10//"programming"
         };
 
-        private List<string> should_decision = new List<string>()
+        private List<string> location_should_decision = new List<string>()
         {
             //Constants.decision_u1,//MAKEDECISION
-            Constants.should_decision_u1,//YES
-            Constants.should_decision_u1,//YES
-            Constants.should_decision_u1,//YES
-            Constants.should_decision_u1,//YES
-            Constants.should_decision_u1,//YES
-            Constants.should_decision_u1,//YES
-            Constants.should_decision_u1,//YES
-            Constants.should_decision_u1,//YES
+            Constants.location_should_decision_u1,//YES
+            Constants.location_should_decision_u1,//YES
+            Constants.location_should_decision_u1,//YES
+            Constants.location_should_decision_u1,//YES
+            Constants.location_should_decision_u1,//YES
+            Constants.location_should_decision_u1,//YES
+            Constants.location_should_decision_u1,//YES
+            Constants.location_should_decision_u1,//YES
                                     
             //Constants.should_decision_u2,//NO
         };
 
-        private List<string> what_decision = new List<string>()
+        private List<string> location_what_decision = new List<string>()
         {
             //Constants.decision_u1,//MAKEDECISION
-            Constants.what_decision_u1,//KITCHEN
-            Constants.what_decision_u1,//KITCHEN
-            Constants.what_decision_u1,//KITCHEN
-            Constants.what_decision_u1,//KITCHEN
-            Constants.what_decision_u2,//BEDROOM
-            Constants.what_decision_u2,//BEDROOM
-            Constants.what_decision_u2,//BEDROOM
-            Constants.what_decision_u2,//BEDROOM
-            Constants.what_decision_u3,//LIVINGROOM
-            Constants.what_decision_u3,//LIVINGROOM
-            Constants.what_decision_u3,//LIVINGROOM
-            Constants.what_decision_u3,//LIVINGROOM
+            Constants.location_what_decision_u1,//KITCHEN
+            Constants.location_what_decision_u1,//KITCHEN
+            Constants.location_what_decision_u1,//KITCHEN
+            Constants.location_what_decision_u1,//KITCHEN
+            Constants.location_what_decision_u2,//BEDROOM
+            Constants.location_what_decision_u2,//BEDROOM
+            Constants.location_what_decision_u2,//BEDROOM
+            Constants.location_what_decision_u2,//BEDROOM
+            Constants.location_what_decision_u3,//LIVINGROOM
+            Constants.location_what_decision_u3,//LIVINGROOM
+            Constants.location_what_decision_u3,//LIVINGROOM
+            Constants.location_what_decision_u3,//LIVINGROOM
+        };
+
+        private List<string> answer_should_decision = new List<string>()
+        {
+            //Constants.decision_u1,//MAKEDECISION
+            Constants.answer_should_decision_u1,//YES
+            Constants.answer_should_decision_u1,//YES
+            Constants.answer_should_decision_u1,//YES
+            Constants.answer_should_decision_u1,//YES
+            Constants.answer_should_decision_u1,//YES
+            Constants.answer_should_decision_u2,//NO
+            Constants.answer_should_decision_u2,//NO
+            Constants.answer_should_decision_u2,//NO
+            Constants.answer_should_decision_u2,//NO
+            Constants.answer_should_decision_u2,//NO
+                                    
+            //Constants.should_decision_u2,//NO
+        };
+
+        private List<string> answer_what_decision = new List<string>()
+        {
+            //Constants.decision_u1,//MAKEDECISION
+            Constants.answer_what_decision_u1,//KITCHEN
+            Constants.answer_what_decision_u1,//KITCHEN
+            Constants.answer_what_decision_u1,//KITCHEN
+            Constants.answer_what_decision_u1,//KITCHEN
+            Constants.answer_what_decision_u2,//BEDROOM
+            Constants.answer_what_decision_u2,//BEDROOM
+            Constants.answer_what_decision_u2,//BEDROOM
+            Constants.answer_what_decision_u2,//BEDROOM
+            Constants.answer_what_decision_u3,//LIVINGROOM
+            Constants.answer_what_decision_u3,//LIVINGROOM
+            Constants.answer_what_decision_u3,//LIVINGROOM
+            Constants.answer_what_decision_u3,//LIVINGROOM
         };
 
         private List<UNIT> units { get; set; }
@@ -99,8 +133,10 @@ namespace Awesome.AI.CoreHelpers
             hubs = new List<HUB>();
 
             List<string> commen = mind.mindtype == MINDS.ROBERTA ? roberta : andrew;
-            List<string> should_decision = this.should_decision;
-            List<string> what_decision = this.what_decision;
+            List<string> location_should_decision = this.location_should_decision;
+            List<string> location_what_decision = this.location_what_decision;
+            List<string> answer_should_decision = this.answer_should_decision;
+            List<string> answer_what_decision = this.answer_what_decision;
 
             UnitsCommon(u_count, commen, TYPE.JUSTAUNIT);
             HubsCommon(u_count, commen);
@@ -108,11 +144,18 @@ namespace Awesome.AI.CoreHelpers
             int count1 = 1;
             int count2 = 1;
 
-            count1 = UnitsDecide(should_decision, TYPE.DECISION, count1);
-            count2 = HubsDecide(Constants.subject_decision[0], should_decision, TYPE.DECISION, count2);
+            count1 = UnitsDecide(location_should_decision, TYPE.DECISION, count1);
+            count2 = HubsDecide(Constants.subject_decision[0], location_should_decision, TYPE.DECISION, count2);
 
-            count1 = UnitsDecide(what_decision, TYPE.DECISION, count1);
-            count2 = HubsDecide(Constants.subject_decision[1], what_decision, TYPE.DECISION, count2);
+            count1 = UnitsDecide(location_what_decision, TYPE.DECISION, count1);
+            count2 = HubsDecide(Constants.subject_decision[1], location_what_decision, TYPE.DECISION, count2);
+
+            count1 = UnitsDecide(answer_should_decision, TYPE.DECISION, count1);
+            count2 = HubsDecide(Constants.subject_decision[2], answer_should_decision, TYPE.DECISION, count2);
+
+            count1 = UnitsDecide(answer_what_decision, TYPE.DECISION, count1);
+            count2 = HubsDecide(Constants.subject_decision[3], answer_what_decision, TYPE.DECISION, count2);
+
 
             /*
              * setup for learning

@@ -30,6 +30,7 @@ namespace Awesome.AI.Core
         public MyExternal _external;
         public Common.Common common;
         public Location loc;
+        public Chat chat;
 
         public HUB curr_hub;
         public UNIT curr_unit;
@@ -50,6 +51,8 @@ namespace Awesome.AI.Core
         public double pain = 0.0f;
         public int valid_units = 0;
 
+        public bool process_answer { get; set; }
+        
         //public bool theme_on = false;
         //public string theme = "none";
         //public string theme_old = "";
@@ -58,7 +61,7 @@ namespace Awesome.AI.Core
         public List<KeyValuePair<string, int>> themes_stat = new List<KeyValuePair<string, int>>();
         public Stats stats = new Stats();
         
-        public TheMind(MECHANICS mech, MINDS mindtype, string location)
+        public TheMind(MECHANICS mech, MINDS mindtype, string _location, string _chat)
         {
             try
             {
@@ -78,7 +81,8 @@ namespace Awesome.AI.Core
                 filters = new Filters(this);
                 core = new Core(this);
                 _out = new Out(this);
-                loc = new Location(this, location);
+                loc = new Location(this, _location);
+                chat = new Chat(this, _chat);
 
                 mem = new Memory(this, parms.number_of_units);
 
@@ -244,6 +248,9 @@ namespace Awesome.AI.Core
         private void Systems(bool _pro)
         {
             loc.Decide(_pro);
+            
+            if(process_answer)
+                chat.Decide(_pro);
         }
 
         private async void ProcessPass()

@@ -18,7 +18,9 @@ module.exports = {
                 sm: '15px'
             },
             height: {
-                box: '470px',
+                box1: '420px',
+                box2: '240px',
+                box3: '180px',
                 full: '100%'
             },
             width: {

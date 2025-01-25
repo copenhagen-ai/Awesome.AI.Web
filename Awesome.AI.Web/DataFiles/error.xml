@@ -1,3 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<error>
-error: no error</error>
+<error>processinfo - Cannot access a disposed object.
+Object name: 'RoomHub'.
+error: processmessage - not is_running</error>

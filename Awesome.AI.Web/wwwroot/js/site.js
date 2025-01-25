@@ -27,7 +27,9 @@ $(document).ready(function () {
             $(".info").show();
         }
     });
+
     $(".sortSpan").click(function (event) { sort(); });
+    $(".chatBtn").click(function (event) { chat($(".chatTxt").val()); });
 
     var isChart1 = true;
     $("#chartSpan").click(function (event) {
@@ -129,3 +131,35 @@ function sort() {
     });    
 }
 
+function chat(text) {
+
+    //alert(text);
+
+    var data = { "text": "" + text };
+
+    //alert('viewers');
+
+    var tmp = $('.chatRes').html().trim();
+    //alert("xxx" + tmp + "xxx");
+    if (tmp == '&gt;&gt; some text<br>') {
+        //alert('ok');
+        tmp = '';
+    }
+
+    $('.chatRes').html(tmp + '>>' + text + '<br>');
+
+    $.ajax({
+        type: "POST",
+        url: "/api/apichat",
+        data: JSON.stringify(data),
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        success: function (val) {
+            //alert('ok: ' + val + ' ' + val.value1 + ' ' + val.value2);
+
+            var text = val.res;
+
+            $('.chatRes').html(text);
+        }
+    });
+}

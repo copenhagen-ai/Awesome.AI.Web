@@ -227,9 +227,10 @@ namespace Awesome.AI.Web.Hubs
 
     public class RoomHub : Hub
     {
+        public static List<Instance> Instances = new List<Instance>();
+
         private RoomHelper helper {  get; set; }
         private List<Bot> bots = new List<Bot>();
-        private List<Instance> instances = new List<Instance>();
         
         private static bool is_running = false;
 
@@ -253,14 +254,14 @@ namespace Awesome.AI.Web.Hubs
 
                 int MAX = Enum.GetNames(typeof(MINDS)).Length;
                                 
-                bots.Add(new Bot() { mindtype = MINDS.ROBERTA, mech = MECHANICS.HILL, location= "KITCHEN" });
-                bots.Add(new Bot() { mindtype = MINDS.ANDREW, mech = MECHANICS.HILL, location = "LIVINGROOM" });
+                bots.Add(new Bot() { mindtype = MINDS.ROBERTA, mech = MECHANICS.CONTEST, location= "KITCHEN" });
+                bots.Add(new Bot() { mindtype = MINDS.ANDREW, mech = MECHANICS.CONTEST, location = "LIVINGROOM" });
                 
                 foreach (Bot bot in bots)
                 {
                     Instance instance = new Instance();
 
-                    instance.mind = new TheMind(bot.mech, bot.mindtype, bot.location);
+                    instance.mind = new TheMind(bot.mech, bot.mindtype, bot.location, "");
                     instance.type = bot.mindtype;
                         
                     // Instantiate new MicroTimer and add event handler
@@ -277,7 +278,7 @@ namespace Awesome.AI.Web.Hubs
                     ProcessInfo(instance);
                     ProcessMessage(instance);
 
-                    instances.Add(instance);
+                    Instances.Add(instance);
                 }
 
                 XmlHelper.WriteMessage("starting.. 1");
@@ -287,14 +288,14 @@ namespace Awesome.AI.Web.Hubs
                 {
                     await Task.Delay(1000);
 
-                    foreach (Instance inst in instances)
+                    foreach (Instance inst in Instances)
                     {
                         if (!inst.mind.ok)
                             is_running = false;
                         
-                        int index = instances.IndexOf(inst);
+                        int index = Instances.IndexOf(inst);
                         bool is_even = index % 2 == 0;
-                        bool is_all = instances.Count == MAX;
+                        bool is_all = Instances.Count == MAX;
 
                         inst.is_active = helper.Active(is_even, is_all);
                         inst.sec_message = helper.Delay(inst, WHEN_ACTIVE, WHEN_INACTIVE);

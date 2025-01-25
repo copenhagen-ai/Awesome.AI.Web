@@ -1,5 +1,6 @@
 ﻿using Awesome.AI.Common;
 using Awesome.AI.Core;
+using Microsoft.CodeAnalysis.Elfie.Model.Strings;
 
 namespace Awesome.AI.Web.AI.Common
 {
@@ -26,9 +27,21 @@ namespace Awesome.AI.Web.AI.Common
         public string occu { get; set; }
         public string location { get; set; }
         public string state { get; set; }
+        public string answer { get; set; }
 
         public UNIT common_unit { get; set; }
         public string common_hub { get; set; }
+
+        public async Task<string> GetAnswer()
+        {
+            answer = "";
+
+            int count = 0;
+            while((answer== null || answer == "") && count++ < 60)
+                await Task.Delay(1000);
+
+            return count >= 59 ? "gahh.." : answer;
+        }
 
         public void Set()
         {
@@ -46,13 +59,12 @@ namespace Awesome.AI.Web.AI.Common
             occu = $"{mind._internal.Occu}";
             location = $"{mind.loc.LocationFinal}";
             state = mind.loc.State > 0 ? "making a decision" : "just thinking";
+            answer = $"{mind.chat.Answer}";
 
-            //List<UNIT> all = mind.mem.UNITS_ALL();
+            mind.chat.Answer = "";
 
             common_unit = mind.process.most_common_unit;
-            //UNIT common = all.Where(x=>x.root == common_word).FirstOrDefault();
-            //if (common.IsNull())
-                //throw new Exception();
+            
             common_hub = common_unit.HUB.GetSubject();
         }
     }
