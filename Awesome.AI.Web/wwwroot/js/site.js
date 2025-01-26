@@ -134,8 +134,8 @@ function sort() {
 function chat(text) {
 
     //alert(text);
-
-    var data = { "text": "" + text };
+    var mind = $('#r1').text() == '[Roberta]' ? 'roberta' : 'andrew';
+    var data = { "text": "" + text, "mind": "" + mind };
 
     //alert('viewers');
 
@@ -146,7 +146,7 @@ function chat(text) {
         tmp = '';
     }
 
-    $('.chatRes').html(tmp + '>>' + text + '<br>');
+    $('.chatRes').html(tmp + '>> ' + text + '<br>');
 
     $.ajax({
         type: "POST",
@@ -157,9 +157,14 @@ function chat(text) {
         success: function (val) {
             //alert('ok: ' + val + ' ' + val.value1 + ' ' + val.value2);
 
-            var text = val.res;
-
-            $('.chatRes').html(text);
+            var res = val.res;
+            var ok = val.ok;
+            if (ok)
+                $('.chatRes').html(res);
+            else {
+                $('.chatRes').html(res);
+                alert('be patient, other users are asking questions..');
+            }
         }
     });
 }

@@ -42,6 +42,9 @@
         public const string answer_what_decision_u2 = "WHATNot right now..";
         public const string answer_what_decision_u3 = "WHATTalk later..";
 
+        public const string ask_should_decision_u1 = "ASKYES";
+        public const string ask_should_decision_u2 = "ASKNO";
+
         public const double MIN = 0.5d;
         public const double MAX = 99.5d;
 
@@ -52,7 +55,8 @@
         public static readonly string[] subject_decision = new string[]
         { 
             "location_should_decision", "location_what_decision",
-            "answer_should_decision", "answer_what_decision"
+            "answer_should_decision", "answer_what_decision",
+            "ask_should_decision",
         };
     }
 }

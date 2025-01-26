@@ -1,5 +1,6 @@
 ﻿using Awesome.AI.Common;
 using Awesome.AI.Core;
+using Awesome.AI.Web.Common;
 using Awesome.AI.Web.Helpers;
 using Microsoft.AspNetCore.SignalR;
 using System.Diagnostics;
@@ -21,11 +22,12 @@ namespace Awesome.AI.Web.Hubs
         public TheMind mind { get; set; }
         public MINDS type { get; set; }
 
-        public int sec_message = 1;//not set here
+        public int sec_message = 20;//not set here
         public int sec_info = 1;
-        public bool fast_responce = false;
-        public bool is_active = false;
-        public long elapsedMs = 0;
+        public int sec_chat = 1;
+        //public bool fast_responce = false;
+        //public bool is_active = false;
+        //public long elapsedMs = 0;
     }
 
     public class GraphInfo
@@ -228,15 +230,36 @@ namespace Awesome.AI.Web.Hubs
     public class RoomHub : Hub
     {
         public static List<Instance> Instances = new List<Instance>();
+        public static List<Bot> Bots = new List<Bot>();
 
         private RoomHelper helper {  get; set; }
-        private List<Bot> bots = new List<Bot>();
         
         private static bool is_running = false;
 
-        private const int WHEN_ACTIVE = 20;
-        private const int WHEN_INACTIVE = 60 * 5;
+        //private const int WHEN_ACTIVE = 20;
+        //private const int WHEN_INACTIVE = 60 * 5;
 
+        public static void ResetAsked()
+        {
+            foreach(Instance i in Instances)
+                i.mind.chat_asked = false;
+        }
+
+        public static bool IsDebug()
+        {
+            if (Bots == null)
+                throw new Exception();
+
+            if (!Bots.Any())
+                throw new Exception();
+
+            Bot bot = Bots.First();
+            MINDS type = bot.mindtype;
+            bool ok = Bots.Any(x => x.mindtype != type);
+
+            return ok;
+        }
+        
         public async Task Start()
         {
             try
@@ -246,6 +269,9 @@ namespace Awesome.AI.Web.Hubs
 
                 is_running = true;
 
+                Instances = new List<Instance>();
+                Bots = new List<Bot>();
+
                 XmlHelper.ClearError("no error");
                 XmlHelper.WriteMessage("starting.. 0");
                 UserHelper.MaintainUsers();
@@ -254,14 +280,14 @@ namespace Awesome.AI.Web.Hubs
 
                 int MAX = Enum.GetNames(typeof(MINDS)).Length;
                                 
-                bots.Add(new Bot() { mindtype = MINDS.ROBERTA, mech = MECHANICS.CONTEST, location= "KITCHEN" });
-                bots.Add(new Bot() { mindtype = MINDS.ANDREW, mech = MECHANICS.CONTEST, location = "LIVINGROOM" });
+                Bots.Add(new Bot() { mindtype = MINDS.ROBERTA, mech = MECHANICS.CONTEST, location= "KITCHEN" });
+                Bots.Add(new Bot() { mindtype = MINDS.ANDREW, mech = MECHANICS.CONTEST, location = "LIVINGROOM" });
                 
-                foreach (Bot bot in bots)
+                foreach (Bot bot in Bots)
                 {
                     Instance instance = new Instance();
 
-                    instance.mind = new TheMind(bot.mech, bot.mindtype, bot.location, "");
+                    instance.mind = new TheMind(bot.mech, bot.mindtype, bot.location);
                     instance.type = bot.mindtype;
                         
                     // Instantiate new MicroTimer and add event handler
@@ -276,7 +302,8 @@ namespace Awesome.AI.Web.Hubs
                         await Task.Delay(1000);
 
                     ProcessInfo(instance);
-                    ProcessMessage(instance);
+                    ProcessMonologue(instance);
+                    ProcessChat(instance);
 
                     Instances.Add(instance);
                 }
@@ -293,12 +320,12 @@ namespace Awesome.AI.Web.Hubs
                         if (!inst.mind.ok)
                             is_running = false;
                         
-                        int index = Instances.IndexOf(inst);
-                        bool is_even = index % 2 == 0;
-                        bool is_all = Instances.Count == MAX;
+                        //int index = Instances.IndexOf(inst);
+                        //bool is_even = index % 2 == 0;
+                        //bool is_all = Instances.Count == MAX;
 
-                        inst.is_active = helper.Active(is_even, is_all);
-                        inst.sec_message = helper.Delay(inst, WHEN_ACTIVE, WHEN_INACTIVE);
+                        //inst.is_active = helper.Active(is_even, is_all);
+                        //inst.sec_message = helper.Delay(inst, WHEN_ACTIVE, WHEN_INACTIVE);
                     }
 
                     counter++;
@@ -318,7 +345,7 @@ namespace Awesome.AI.Web.Hubs
             }
         }
 
-        private async Task ProcessMessage(Instance inst)
+        private async Task ProcessMonologue(Instance inst)
         {
             try
             {
@@ -329,78 +356,89 @@ namespace Awesome.AI.Web.Hubs
 
                 while (inst.mind.ok)
                 {
+                    //int ms_wait = inst.sec_message * 1000;
+                    //bool wait2 = ((double)inst.elapsedMs / (double)ms_wait) < 1.0d;
+
+                    //if(wait1)
+                    //    await Task.Delay(1000);
+                    //else if (wait2)
+                    //{
+                    //    for (int i = 0; i <= helper.Remaining(inst, is_running); i++)
+                    //        await Task.Delay(1000);
+                    //}
+
+                    //wait1 = false;
+
+                    if (wait1) {
+                        await Task.Delay(1000);
+                        wait1 = false;
+                    }
+                    else {
+                        for (int i = 0; i <= inst.sec_message; i++)
+                            await Task.Delay(1000);
+                    }
+
+
                     if (!is_running)
                         throw new Exception("not is_running");
 
-                    int ms_wait = inst.sec_message * 1000;
-                    bool wait2 = ((double)inst.elapsedMs / (double)ms_wait) < 1.0d;
-                    
-                    if(wait1)
-                        await Task.Delay(1000);
-                    else if (wait2)
-                    {
-                        for (int i = 0; i <= helper.Remaining(inst, is_running); i++)
-                            await Task.Delay(1000);
-                    }
-                                        
-                    wait1 = false;
+                    //var watch = System.Diagnostics.Stopwatch.StartNew();
 
-                    var watch = System.Diagnostics.Stopwatch.StartNew();
-                    
                     // the code that you want to measure comes here
 
-                    string subject = "";
-                    string dot = "";
-                    if (inst.mind.parms.matrix_type == MATRIX.SIMPLE)
-                    {
-                        UNIT common = inst.mind._out.common_unit;
-                        dot = helper.Format1(common.root.ToLower());
-                        subject = common.HUB.subject.ToLower();
-                    }
-                    else
-                    {
-                        UNIT common = inst.mind._out.common_unit;
-                        dot = helper.GPTGiveMeADot(inst, common);
+                    int user_count = UserHelper.CountUsers();
 
-                        if (dot.IsNullOrEmpty())
+                    if (user_count > 1 || IsDebug())
+                    {
+
+                        string subject = "";
+                        string dot = "";
+                        if (inst.mind.parms.matrix_type == MATRIX.SIMPLE)
                         {
-                            inst.elapsedMs = 0;
-                            wait1 = true;
-                            continue;
+                            UNIT common = inst.mind._out.common_unit;
+                            dot = helper.Format1(common.root.ToLower());
+                            subject = common.HUB.subject.ToLower();
+                        }
+                        else
+                        {
+                            UNIT common = inst.mind._out.common_unit;
+                            dot = helper.GPTGiveMeADot(inst, common);
+
+                            if (dot.IsNullOrEmpty())
+                            {
+                                //inst.elapsedMs = 0;
+                                wait1 = true;
+                                continue;
+                            }
+
+                            dot = helper.Format1(dot);
+                            subject = common.HUB.subject.ToLower();
                         }
 
-                        dot = helper.Format1(dot);
-                        subject = common.HUB.subject.ToLower();
-                    }
+                        dots.Add(dot);
 
-                    dots.Add(dot);
-                    
-                    while(dots.Count > 2)
-                        dots.RemoveAt(0);
+                        while (dots.Count > 2)
+                            dots.RemoveAt(0);
 
-                    if(dots.Count > 1)
-                    {
-                        string dot1 = dots[0];
-                        string dot2 = dots[1];
-
-                        string message = helper.GPTConnectTheDots(dot1, dot2, ref inst.fast_responce);
-                        
-                        message = message.Replace(dot1, $"<span class=\"i-color-green\">{dot1}</span>");
-                        message = message.Replace(dot2, $"<span class=\"i-color-red\">{dot2}</span>");
-
-                        int user_count = UserHelper.CountUsers();
-
-                        if(user_count > 0)
+                        if (dots.Count > 1)
                         {
+                            string dot1 = dots[0];
+                            string dot2 = dots[1];
+
+                            string message = helper.GPTConnectTheDots(dot1, dot2/*, ref inst.fast_responce*/);
+
+                            message = message.Replace(dot1, $"<span class=\"i-color-green\">{dot1}</span>");
+                            message = message.Replace(dot2, $"<span class=\"i-color-orange\">{dot2}</span>");
+
                             if (inst.type == MINDS.ROBERTA)
                                 await Clients.All.SendAsync("MIND1MessageReceive", message, dot1, dot2, subject);
                             if (inst.type == MINDS.ANDREW)
                                 await Clients.All.SendAsync("MIND2MessageReceive", message, dot1, dot2, subject);
                         }
+                        
+                        //watch.Stop();
+                        //inst.elapsedMs = watch.ElapsedMilliseconds;
                     }
-
-                    watch.Stop();
-                    inst.elapsedMs = watch.ElapsedMilliseconds;
                 }
             }
             catch (Exception ex)
@@ -425,15 +463,15 @@ namespace Awesome.AI.Web.Hubs
             try
             {
                 await Task.Delay(100);
-                
+
                 while (inst.mind.ok)
                 {
+                    for (int i = 0; i < inst.sec_info; i++)
+                        await Task.Delay(1000);
+
                     if (!is_running)
                         throw new Exception("not is_running");
 
-                    for (int i = 0; i < inst.sec_info; i++)
-                        await Task.Delay(1000);
-                    
                     string[] cycles = new string[] { inst.mind._out.cycles, inst.mind._out.cycles_total };
                     string momentum = ("" + inst.mind._out.momentum).Length < 5 ? inst.mind._out.momentum : $"{inst.mind._out.momentum}"[..10];
 
@@ -450,13 +488,13 @@ namespace Awesome.AI.Web.Hubs
 
                     GraphInfo graph1 = new GraphInfo();
                     GraphInfo graph2 = new GraphInfo();
-                    
+
                     graph1.SetupIndex(inst);
                     graph2.SetupUnit(inst);
 
                     int user_count = UserHelper.CountUsers();
 
-                    if (user_count > 0)
+                    if (user_count > 1 || IsDebug())
                     {
                         if (inst.type == MINDS.ROBERTA)
                         {
@@ -473,6 +511,68 @@ namespace Awesome.AI.Web.Hubs
                             await Clients.All.SendAsync("MIND2GraphReceive", graph1.labels, graph1.curr_name, graph1.curr_value, graph1.reset_name, graph1.reset_value, graph1.bcol);
                             await Clients.All.SendAsync("MIND4GraphReceive", graph2.labels, graph2.curr_name, graph2.curr_value, graph2.reset_name, graph2.reset_value, graph2.bcol);
                         }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                //if (inst.mind.ok)
+                //    ProcessInfo(inst);
+                //else
+                {
+                    XmlHelper.WriteError("processinfo - " + ex.Message);
+
+                    //inst.mind.theanswer.root = "It does not";
+
+                    inst.microTimer.Enabled = false;
+
+                    is_running = false;
+                }
+            }
+        }
+
+        private async Task ProcessChat(Instance inst)
+        {
+            try
+            {
+                await Task.Delay(100);
+
+                while (inst.mind.ok)
+                {
+                    for (int i = 0; i < inst.sec_chat; i++)
+                        await Task.Delay(1000);
+
+                    if (!is_running)
+                        throw new Exception("not is_running");
+
+                    if (inst.mind._out.chat_subject == "")
+                        continue;
+
+                    string subject = inst.mind._out.chat_subject;
+                    inst.mind._out.chat_subject = "";
+
+                    int user_count = UserHelper.CountUsers();
+
+                    if (user_count > 1 || IsDebug())
+                    {
+                        string ask = helper.GPTAskMeAQuestion(inst, subject);
+
+                        if (ask.IsNullOrEmpty())
+                            continue;
+
+                        ChatComm.Add(inst.type, $">> {ask}<br>");
+
+                        if (inst.type == MINDS.ROBERTA) {
+                            string res = ChatComm.GetResponce(inst.type);
+                            await Clients.All.SendAsync("MIND1ChatReceive1", res);
+                        }
+
+                        if (inst.type == MINDS.ANDREW) {
+                            string res = ChatComm.GetResponce(inst.type);
+                            await Clients.All.SendAsync("MIND2ChatReceive1", res);
+                        }
+
+                        inst.mind.chat_asked = true;
                     }
                 }
             }

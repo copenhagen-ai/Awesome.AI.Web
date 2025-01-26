@@ -5,6 +5,7 @@ using Awesome.AI.Interfaces;
 using Awesome.AI.Systems;
 using Awesome.AI.Web.AI.Common;
 using Awesome.AI.Web.Helpers;
+using System;
 using static Awesome.AI.Helpers.Enums;
 
 namespace Awesome.AI.Core
@@ -30,7 +31,8 @@ namespace Awesome.AI.Core
         public MyExternal _external;
         public Common.Common common;
         public Location loc;
-        public Chat chat;
+        public ChatAnswer chatans;
+        public ChatAsk chatask;
 
         public HUB curr_hub;
         public UNIT curr_unit;
@@ -51,8 +53,9 @@ namespace Awesome.AI.Core
         public double pain = 0.0f;
         public int valid_units = 0;
 
-        public bool process_answer { get; set; }
-        
+        public bool chat_answer { get; set; }
+        public bool chat_asked { get; set; }
+
         //public bool theme_on = false;
         //public string theme = "none";
         //public string theme_old = "";
@@ -61,7 +64,7 @@ namespace Awesome.AI.Core
         public List<KeyValuePair<string, int>> themes_stat = new List<KeyValuePair<string, int>>();
         public Stats stats = new Stats();
         
-        public TheMind(MECHANICS mech, MINDS mindtype, string _location, string _chat)
+        public TheMind(MECHANICS mech, MINDS mindtype, string _location)
         {
             try
             {
@@ -82,7 +85,8 @@ namespace Awesome.AI.Core
                 core = new Core(this);
                 _out = new Out(this);
                 loc = new Location(this, _location);
-                chat = new Chat(this, _chat);
+                chatans = new ChatAnswer(this, "");
+                chatask = new ChatAsk(this, "");
 
                 mem = new Memory(this, parms.number_of_units);
 
@@ -248,9 +252,8 @@ namespace Awesome.AI.Core
         private void Systems(bool _pro)
         {
             loc.Decide(_pro);
-            
-            if(process_answer)
-                chat.Decide(_pro);
+            chatans.Decide(_pro);
+            chatask.Decide(_pro);
         }
 
         private async void ProcessPass()

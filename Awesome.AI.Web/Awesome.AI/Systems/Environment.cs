@@ -214,6 +214,7 @@ namespace Awesome.AI.Systems
 
             HUB location_should_decision = mind.mem.HUBS_SUB("location_should_decision");
             HUB answer_should_decision = mind.mem.HUBS_SUB("answer_should_decision");
+            HUB ask_should_decision = mind.mem.HUBS_SUB("ask_should_decision");
 
             if (mindtype == MINDS.ANDREW)
             {
@@ -222,6 +223,7 @@ namespace Awesome.AI.Systems
                     list.Add(mind.mem.HUBS_SUB(s));
                 list.Add(location_should_decision);
                 list.Add(answer_should_decision);
+                list.Add(ask_should_decision);
                 list.Add(last);
                 areas.Add(new Area() { name = "socializing", max_epochs = 30, values = list });
 
@@ -230,6 +232,7 @@ namespace Awesome.AI.Systems
                     list.Add(mind.mem.HUBS_SUB(s));
                 list.Add(location_should_decision);
                 list.Add(answer_should_decision);
+                list.Add(ask_should_decision);
                 list.Add(last);
                 areas.Add(new Area() { name = "hobbys", max_epochs = 30, values = list });/**/
 
@@ -242,6 +245,7 @@ namespace Awesome.AI.Systems
                     list.Add(mind.mem.HUBS_SUB(s));
                 list.Add(location_should_decision);
                 list.Add(answer_should_decision);
+                list.Add(ask_should_decision);
                 list.Add(last);
                 areas.Add(new Area() { name = "socializing", max_epochs = 30, values = list });
 
@@ -250,6 +254,7 @@ namespace Awesome.AI.Systems
                     list.Add(mind.mem.HUBS_SUB(s));
                 list.Add(location_should_decision);
                 list.Add(answer_should_decision);
+                list.Add(ask_should_decision);
                 list.Add(last);
                 areas.Add(new Area() { name = "hobbys", max_epochs = 30, values = list });/**/
             }

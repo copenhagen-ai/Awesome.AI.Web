@@ -1,6 +1,7 @@
 ﻿using Awesome.AI.Common;
 using Awesome.AI.Core;
 using Awesome.AI.Helpers;
+using Microsoft.AspNetCore.SignalR;
 using static Awesome.AI.Helpers.Enums;
 
 namespace Awesome.AI.CoreHelpers
@@ -117,6 +118,23 @@ namespace Awesome.AI.CoreHelpers
             Constants.answer_what_decision_u3,//LIVINGROOM
         };
 
+        private List<string> ask_should_decision = new List<string>()
+        {
+            //Constants.decision_u1,//MAKEDECISION
+            Constants.ask_should_decision_u1,//YES
+            Constants.ask_should_decision_u1,//YES
+            Constants.ask_should_decision_u1,//YES
+            Constants.ask_should_decision_u1,//YES
+            Constants.ask_should_decision_u1,//YES
+            Constants.ask_should_decision_u2,//NO
+            Constants.ask_should_decision_u2,//NO
+            Constants.ask_should_decision_u2,//NO
+            Constants.ask_should_decision_u2,//NO
+            Constants.ask_should_decision_u2,//NO
+                                    
+            //Constants.should_decision_u2,//NO
+        };
+
         private List<UNIT> units { get; set; }
         private List<HUB> hubs { get; set; }
         
@@ -137,24 +155,28 @@ namespace Awesome.AI.CoreHelpers
             List<string> location_what_decision = this.location_what_decision;
             List<string> answer_should_decision = this.answer_should_decision;
             List<string> answer_what_decision = this.answer_what_decision;
+            List<string> ask_should_decision = this.ask_should_decision;
 
-            UnitsCommon(u_count, commen, TYPE.JUSTAUNIT);
-            HubsCommon(u_count, commen);
+            UnitsCommon(u_count, commen, TYPE.JUSTAUNIT, TONE.RANDOM);
+            HubsCommon(u_count, commen, TONE.RANDOM);
 
             int count1 = 1;
             int count2 = 1;
 
-            count1 = UnitsDecide(location_should_decision, TYPE.DECISION, count1);
-            count2 = HubsDecide(Constants.subject_decision[0], location_should_decision, TYPE.DECISION, count2);
+            count1 = UnitsDecide(location_should_decision, TYPE.DECISION, count1, TONE.RANDOM);
+            count2 = HubsDecide(Constants.subject_decision[0], location_should_decision, TYPE.DECISION, count2, TONE.RANDOM);
 
-            count1 = UnitsDecide(location_what_decision, TYPE.DECISION, count1);
-            count2 = HubsDecide(Constants.subject_decision[1], location_what_decision, TYPE.DECISION, count2);
+            count1 = UnitsDecide(location_what_decision, TYPE.DECISION, count1, TONE.POSITIVE);
+            count2 = HubsDecide(Constants.subject_decision[1], location_what_decision, TYPE.DECISION, count2, TONE.POSITIVE);
 
-            count1 = UnitsDecide(answer_should_decision, TYPE.DECISION, count1);
-            count2 = HubsDecide(Constants.subject_decision[2], answer_should_decision, TYPE.DECISION, count2);
+            count1 = UnitsDecide(answer_should_decision, TYPE.DECISION, count1, TONE.RANDOM);
+            count2 = HubsDecide(Constants.subject_decision[2], answer_should_decision, TYPE.DECISION, count2, TONE.RANDOM);
 
-            count1 = UnitsDecide(answer_what_decision, TYPE.DECISION, count1);
-            count2 = HubsDecide(Constants.subject_decision[3], answer_what_decision, TYPE.DECISION, count2);
+            count1 = UnitsDecide(answer_what_decision, TYPE.DECISION, count1, TONE.NEGATIVE);
+            count2 = HubsDecide(Constants.subject_decision[3], answer_what_decision, TYPE.DECISION, count2, TONE.NEGATIVE);
+
+            count1 = UnitsDecide(ask_should_decision, TYPE.DECISION, count1, TONE.RANDOM);
+            count2 = HubsDecide(Constants.subject_decision[4], ask_should_decision, TYPE.DECISION, count2, TONE.RANDOM);
 
 
             /*
@@ -258,25 +280,61 @@ namespace Awesome.AI.CoreHelpers
             hubs = hubs.OrderBy(x=>x.GetSubject()).ToList();
         }
 
-        public void Randomize(List<UNIT> units)
+        private double GetIndex(TONE tone, double _r, int i, int j, Calc calc)
+        {
+            double _rand = 0.0d;
+            double _t = 0.0d;
+            switch (tone)
+            {
+                case TONE.NEGATIVE:
+                    _t = (10.0d - i) * 10.0d;
+                    _rand = _r;
+                    _rand = calc.NormalizeRange(_rand, 0.0d, 1.0d, 0.0d, _t);
+                    _rand = _rand.Convert(mind);
+                    break;
+                case TONE.POSITIVE:
+                    _t = i * 10.0d;
+                    _rand = _r;
+                    _rand = calc.NormalizeRange(_rand, 0.0d, 1.0d, _t, 100.0d);
+                    _rand = _rand.Convert(mind);
+                    break;
+                case TONE.RANDOM:
+                    _rand = _r;
+                    _rand = calc.NormalizeRange(_rand, 0.0d, 1.0d, 0.0d, 100.0d);
+                    _rand = _rand.Convert(mind);
+                    break;
+                case TONE.NEUTRAL:
+                    _t = (j * 2) * 10.0d;
+                    _rand = _r;
+                    _rand = calc.NormalizeRange(_rand, 0.0d, 1.0d, _t, 100.0d);
+                    _rand = _rand.Convert(mind);
+                    break;
+            }
+
+            return _rand;
+        }
+
+        public void Randomize(HUB hub)
         {
             MyRandom rand = mind.rand;
+            Calc calc = mind.calc;
 
-            int count = units.Count;
+            int count = hub.units.Count;
             double[] doubles = rand.MyRandomDouble(count);
 
-            int _i = 0;
-            foreach (UNIT _u in units)
+            int index = 0;
+            int i = 0;
+            int j = 0;
+            foreach (UNIT _u in hub.units)
             {
-                double _rand = doubles[_i] * 100.0d;
-                _rand = _rand.Convert(mind);
-
-                _u.Index = _rand;
-                _i++;
+                _u.Index = GetIndex(hub.tone, doubles[index], i, j, calc);
+                index++;
+                i++;
+                j = i <= 5 ? j++ : j--;
             }
         }
 
-        public void UnitsCommon(int u_count, List<string> list, TYPE type)
+        public void UnitsCommon(int u_count, List<string> list, TYPE type, TONE tone)
         {
             //XElement xdoc;
             //if (mind.parms.setup_tags == TAGSETUP.PRIME)
@@ -285,7 +343,7 @@ namespace Awesome.AI.CoreHelpers
             //    throw new Exception();
 
             Random random = new Random();
-
+            
             foreach (string s in list)
             {
                 List<int> ticket = new List<int>();
@@ -294,25 +352,27 @@ namespace Awesome.AI.CoreHelpers
 
                 ticket.Shuffle<int>();
 
+                int j = 5;
                 for (int i = 1; i <= u_count; i++)
                 {
-                    double rand = random.NextDouble() * 100.0d;
-                    rand = rand.Convert(mind);
-
+                    double rand = random.NextDouble();
+                    
                     units.Add(
                         UNIT.Create(
                             mind,
-                            rand,//value
+                            GetIndex(tone, rand, i, j, mind.calc),//value
                             "_" + s + i,//root
                             null,
                             "" + s + ticket[i - 1],//ticket
                             type
                         ));
+
+                    j = i <= 5 ? j-- : j++;
                 }
             }
         }
 
-        public int UnitsDecide(List<string> list, TYPE type, int count)
+        public int UnitsDecide(List<string> list, TYPE type, int count, TONE tone)
         {
             //XElement xdoc;
             //if (mind.parms.setup_tags == TAGSETUP.PRIME)
@@ -321,29 +381,32 @@ namespace Awesome.AI.CoreHelpers
             //    throw new Exception();
 
             Random random = new Random();
-                        
+
+            int i = 1;
+            int j = 5;
             foreach (string s in list)
             {
-                double rand = random.NextDouble() * 100.0d;
-                rand = rand.Convert(mind);
-
+                double rand = random.NextDouble();
+                
                 units.Add(
                     UNIT.Create(
                         mind,
-                        rand,//value
+                        GetIndex(tone, rand, i, j, mind.calc),//value
                         "_" + type.ToString().ToLower() + count,//root
                         s,
                         "SPECIAL",//ticket
                         type
                     ));
-                          
+
+                i++;
+                j = i <= 5 ? j-- : j++;
                 count++;
             }
 
             return count;
         }
 
-        public void HubsCommon(int u_count, List<string> list)
+        public void HubsCommon(int u_count, List<string> list, TONE tone)
         {
             //XElement xdoc;
             //if (mind.parms.setup_tags == TAGSETUP.PRIME)
@@ -361,13 +424,13 @@ namespace Awesome.AI.CoreHelpers
                     _u.Add(_un);
                 }
 
-                HUB _h = HUB.Create(s, _u);
+                HUB _h = HUB.Create(s, _u, tone);
 
                 HUBS_ADD(_h);
             }
         }
 
-        public int HubsDecide(string subject, List<string> list, TYPE type, int count)
+        public int HubsDecide(string subject, List<string> list, TYPE type, int count, TONE tone)
         {
             //XElement xdoc;
             //if (mind.parms.setup_tags == TAGSETUP.PRIME)
@@ -385,7 +448,7 @@ namespace Awesome.AI.CoreHelpers
                 count++;
             }
             
-            HUB _h = HUB.Create(subject, _u);
+            HUB _h = HUB.Create(subject, _u, tone);
             
             HUBS_ADD(_h);
 

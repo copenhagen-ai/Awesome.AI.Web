@@ -158,6 +158,15 @@ function timeout() {
     ;
 }
 
+function mychat1(ask) {
+
+    //alert(ask);
+    //var div1 = document.getElementById("chatRes");
+
+    //div1.textContent = `${ask}`;
+    $('.chatRes').html(`${ask}`);
+}
+
 function myinfo1(epochs, runtime, momentum, cycles, pain, position, ratio, the_choise) {
 
     //var div0 = document.getElementById("epochsSpan");
@@ -222,6 +231,7 @@ function myinfo2(occu, location, state) {
     var div2b = document.getElementById("locationSpan2");
     var div3a = document.getElementById("stateSpan1");
     var div3b = document.getElementById("stateSpan2");
+    var div4 = document.getElementById("chatTitle");
 
     // document.getElementById("messagesList").appendChild(li);
     // We can assign user-supplied strings to an element's textContent because it
@@ -235,10 +245,12 @@ function myinfo2(occu, location, state) {
     if (state == 'making a decision') {
         div2a.classList.add("i-color-green");
         div3a.classList.add("i-color-green");
+        div4.classList.add("i-color-red");
     }
     else {
         div2a.classList.remove("i-color-green");
         div3a.classList.remove("i-color-green");
+        div4.classList.remove("i-color-red");
     }
 }
 
@@ -262,6 +274,20 @@ function mymessage(message, dot1, dot2, subject) {
 
 
 function onConnect() {
+    connection.on("MIND1ChatReceive1", function (ask) {
+        //alert('hello1: ' + ask);
+        if (room == 'room1')
+            mychat1(ask);
+    });
+
+    connection.on("MIND2ChatReceive1", function (ask) {
+        //alert('hello2: ' + ask);
+        if (room == 'room2')
+            mychat1(ask);
+    });
+
+
+
     connection.on("MIND1InfoReceive1", function (epochs, runtime, momentum, cycles, pain, position, ratio, the_choise) {
 
         if (room == 'room1')
@@ -286,6 +312,8 @@ function onConnect() {
             myinfo2(occu, location, state);
     });
 
+
+
     connection.on("MIND1MessageReceive", function (message, dot1, dot2, subject) {
     
         if (room == 'room1')
@@ -297,6 +325,8 @@ function onConnect() {
         if (room == 'room2')
             mymessage(message, dot1, dot2, subject);
     });
+
+
 
     connection.on("MIND1GraphReceive", function (_labs, _lab, _value, _lab_reset, _value_reset, _col) {
 

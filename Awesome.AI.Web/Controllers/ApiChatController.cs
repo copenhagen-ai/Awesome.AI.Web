@@ -1,10 +1,13 @@
-﻿using Awesome.AI.Web.Helpers;
+﻿using Awesome.AI.Web.Common;
+using Awesome.AI.Web.Helpers;
 using Awesome.AI.Web.Hubs;
 using Awesome.AI.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using MySqlX.XDevAPI.Relational;
+using System.Diagnostics;
 using System.Text.Json;
 using System.Web;
+using static Awesome.AI.Helpers.Enums;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,11 +16,13 @@ namespace Awesome.AI.Web.Controllers
     public class Post
     {
         public string text { get; set; }
+        public string mind { get; set; }
     }
 
     public class PostResponce
     {
         public string res { get; set; }
+        public bool ok { get; set; }
     }
 
     [Route("api/[controller]")]
@@ -25,7 +30,6 @@ namespace Awesome.AI.Web.Controllers
     public class ApiChatController : ControllerBase
     {
         private int counter = 0;
-        private static List<string> communication {  get; set; }
 
         // GET: api/<ApiChatController>
         //[HttpGet]
@@ -42,20 +46,57 @@ namespace Awesome.AI.Web.Controllers
         //    return new GetResponce() { res = "value: " + counter };
         //}
 
+        private static Stopwatch watch { get; set; }
         // POST api/<ApiChatController>
         [HttpPost]
         public async Task<PostResponce> Post([FromBody] Post obj)
         {
             counter++;
 
-            if(communication == null)
-                communication = new List<string>();
-            
             string question = obj.text;
-            Instance inst= RoomHub.Instances[0];
+            string mind = obj.mind;
+            MINDS _m = mind.ToUpper() == MINDS.ROBERTA.ToString() ? MINDS.ROBERTA : MINDS.ANDREW;
+            Instance inst = _m == MINDS.ROBERTA ? RoomHub.Instances[0] : RoomHub.Instances[1];
 
-            if(question.Length > 22)
-                return new PostResponce() { res = "question too long.." };
+            if(watch != null) { 
+                watch.Stop();
+                var m_sec = watch.ElapsedMilliseconds;
+                watch = System.Diagnostics.Stopwatch.StartNew();
+
+                if (m_sec < 5000) {
+                    RoomHub.ResetAsked();// inst.mind.chat_asked = false;
+                    string _res = ChatComm.GetResponce(_m);
+                    return new PostResponce() { ok = false, res = $"{_res}" };
+                }                
+            }
+
+            watch = System.Diagnostics.Stopwatch.StartNew();        
+
+            if (question.Length > 22) {
+                RoomHub.ResetAsked();// inst.mind.chat_asked = false;
+                string str = "Question is too long..";
+                ChatComm.Add(_m, $">> {question[..22]}..<br>");
+                ChatComm.Add(_m, $">> {str}<br>");
+                string _res = ChatComm.GetResponce(_m);
+                return new PostResponce() { ok = true, res = $"{_res}" };
+            }
+
+            if (question == "") {
+                RoomHub.ResetAsked();// inst.mind.chat_asked = false;
+                string str = "";
+                ChatComm.Add(_m, $">> {str}<br>");
+                string _res = ChatComm.GetResponce(_m);
+                return new PostResponce() { ok = true, res = $"{_res}" };
+            }
+
+            if (inst.mind.loc.LocationState > 0) {
+                RoomHub.ResetAsked();// inst.mind.chat_asked = false;
+                string str = "Dont you see Im busy..";
+                ChatComm.Add(_m, $">> {question}<br>");
+                ChatComm.Add(_m, $">> {str}<br>");
+                string _res = ChatComm.GetResponce(_m);
+                return new PostResponce() { ok = true, res = $"{_res}" };
+            }
 
             string _json = Json(question);
             string _base = "https://api.openai.com";
@@ -68,35 +109,47 @@ namespace Awesome.AI.Web.Controllers
             string _secret = "";
             string gpt = RestHelper.Send(HttpMethod.Post, _json, _base, _path, _params, _accept, _contenttype, _apikey, _token, _secret);
 
-            if(gpt == null)
-                return new PostResponce() { res = "processing.." };
+            if(gpt == null) {
+                RoomHub.ResetAsked();// inst.mind.chat_asked = false;
+                string str = "My bad..";
+                ChatComm.Add(_m, $">> {question}<br>");
+                ChatComm.Add(_m, $">> {str}<br>");
+                string _res = ChatComm.GetResponce(_m);
+                return new PostResponce() { ok = true, res = $"{_res}" };
+            }
 
             Root root = JsonSerializer.Deserialize<Root>(gpt);
             string content = root.choices[0].message.content;
-            content = content.Length > 65 ? $"{content[..65]}..." : content;
+            content = content.Length > 85 ? $"{content[..85]}..." : content;
 
 
 
-            inst.mind.process_answer = true;
+            inst.mind.chat_answer = true;
             string ans = await inst.mind._out.GetAnswer();
-            inst.mind.process_answer = false;
+            inst.mind.chat_answer = false;
+            RoomHub.ResetAsked();// inst.mind.chat_asked = false;
 
             string res = ans == ":YES" ? content : ans;
 
-            communication.Add($">> {question}<br>");
-            communication.Add($">> {res}<br>");
+            ChatComm.Add(_m, $">> {question}<br>");
+            ChatComm.Add(_m, $">> {res}<br>");
 
-            if(communication.Count >= 6)
-            {
-                communication.RemoveAt(0);
-                communication.RemoveAt(0);
-            }
+            res = ChatComm.GetResponce(_m);
 
-            res = "";
-            foreach(string str in communication)
-                res += str;
+            Stopper();
 
-            return new PostResponce() { res = res };
+            return new PostResponce() { ok = true, res = res };
+        }
+
+        private async Task Stopper()
+        {
+            await Task.Delay(10000);
+
+            if (watch == null)
+                return;
+            
+            watch.Stop();
+            watch = null;
         }
 
         // PUT api/<ApiChatController>/5
@@ -117,7 +170,11 @@ namespace Awesome.AI.Web.Controllers
                 "\"model\": \"gpt-3.5-turbo\"," +
                 "\"messages\": [" +
                 "{\"role\": \"system\", \"content\": \"you are a happy assistant\"}," +
-                "{\"role\": \"user\", \"content\": \"" + txt +
+                "{\"role\": \"user\", \"content\": \"" +
+                
+                "" + txt + ". " +
+                "use 10 words or less. " +
+
                 "\"}]," +
                 "\"temperature\": 0.7" +
                 "}";

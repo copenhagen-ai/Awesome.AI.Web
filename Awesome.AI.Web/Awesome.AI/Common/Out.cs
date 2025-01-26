@@ -27,20 +27,22 @@ namespace Awesome.AI.Web.AI.Common
         public string occu { get; set; }
         public string location { get; set; }
         public string state { get; set; }
-        public string answer { get; set; }
+        public string chat_answer { get; set; }
+        public string chat_subject { get; set; }
+        //public string chat_index { get; set; }
 
         public UNIT common_unit { get; set; }
         public string common_hub { get; set; }
 
         public async Task<string> GetAnswer()
         {
-            answer = "";
+            chat_answer = "";
 
             int count = 0;
-            while((answer== null || answer == "") && count++ < 60)
+            while((chat_answer == null || chat_answer == "") && count++ < 30)
                 await Task.Delay(1000);
 
-            return count >= 59 ? "gahh.." : answer;
+            return count >= 59 ? "I didnt hear you.." : chat_answer;
         }
 
         public void Set()
@@ -58,10 +60,20 @@ namespace Awesome.AI.Web.AI.Common
             runtime = $"{mind.parms.runtime}";
             occu = $"{mind._internal.Occu}";
             location = $"{mind.loc.LocationFinal}";
-            state = mind.loc.State > 0 ? "making a decision" : "just thinking";
-            answer = $"{mind.chat.Answer}";
+            state = mind.loc.LocationState > 0 ? "making a decision" : "just thinking";
+            
+            if(mind.chatans.Answer != "") {
+                chat_answer = $"{mind.chatans.Answer}";
+                mind.chatans.Answer = "";
+            }
 
-            mind.chat.Answer = "";
+            if(mind.chatask.Subject != "") {
+                chat_subject = $"{mind.chatask.Subject}";
+                mind.chatask.Subject = "";
+            }
+            //chat_index= $"{mind.chatask.Index}";
+
+            //mind.chatask.Index = "";
 
             common_unit = mind.process.most_common_unit;
             
