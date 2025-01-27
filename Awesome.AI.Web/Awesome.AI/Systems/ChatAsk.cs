@@ -63,7 +63,7 @@ namespace Awesome.AI.Systems
                     }
                     while (Constants.subject_decision.Contains(_hub.subject));
                     
-                    Subject = mind.parms._mech.dir.Choise.IsNo() ? "" + _hub.subject : "";
+                    Subject = mind.parms._mech.dir.Choise.IsNo() ? "" + _hub.subject : ". . . .";
                     AskState = 0;
                 }
             }

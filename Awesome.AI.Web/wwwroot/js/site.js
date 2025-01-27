@@ -159,10 +159,21 @@ function chat(text) {
 
             var res = val.res;
             var ok = val.ok;
-            if (ok)
-                $('.chatRes').html(res);
+            if (ok) {
+                var tmp = '';
+
+                tmp = res.replaceAll('user:', '');
+                tmp = tmp.replaceAll('ass:', '');
+
+                $('.chatRes').html(tmp);
+            }
             else {
-                $('.chatRes').html(res);
+                var tmp = '';
+
+                tmp = res.replaceAll('user:', '');
+                tmp = tmp.replaceAll('ass:', '');
+                
+                $('.chatRes').html(tmp);
                 alert('be patient, other users are asking questions..');
             }
         }

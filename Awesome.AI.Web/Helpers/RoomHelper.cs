@@ -1,10 +1,14 @@
 ﻿using Awesome.AI.Common;
 using Awesome.AI.Helpers;
+using Awesome.AI.Web.Common;
 using Awesome.AI.Web.Hubs;
 using Awesome.AI.Web.Models;
+using System.Drawing;
 using System.Reflection.PortableExecutable;
 using System.Text.Json;
 using static Awesome.AI.Helpers.Enums;
+using static Google.Protobuf.WellKnownTypes.Field.Types;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Awesome.AI.Web.Helpers
 {
@@ -180,6 +184,9 @@ namespace Awesome.AI.Web.Helpers
         {
             json = json.ToLower();
 
+            json = json.Replace("sure i understand lets give it a try resulting sentence", "");
+            json = json.Replace("sure i understand lets begin", "");
+            
             json = json.Replace("sure heres a resulting sentence", "");
             json = json.Replace("sure heres the resulting sentence", "");
             json = json.Replace("sure here is the resulting sentence", "");
@@ -192,7 +199,6 @@ namespace Awesome.AI.Web.Helpers
             json = json.Replace("sure lets give it a try heres the resulting sentence", "");
             json = json.Replace("sure i can play that game heres the resulting sentence", "");
             json = json.Replace("sure i would be happy to play the game with you heres the resulting sentence", "");
-            json = json.Replace("sure i understand lets give it a try resulting sentence", "");
             json = json.Replace("sure im ready to play heres the resulting sentence", "");
             json = json.Replace("sure im excited to play heres the resulting sentence", "");
             json = json.Replace("sure im excited to play this game with you heres the resulting sentence", "");
@@ -358,21 +364,39 @@ namespace Awesome.AI.Web.Helpers
 
                 "\"}]," +
                 "\"temperature\": 0.7" +
-                "}";
+            "}";
 
             return json;
         }
 
         private string Json3(Instance inst, string subject)
         {
+            string str = ChatComm.GetResponce(inst.type);
+
+            str = str.Replace("<br>", "");
+
+            List<string> conv = str.Split(">> ").ToList();
+
             string json = "{" +
                 "\"model\": \"gpt-3.5-turbo\"," +
                 "\"messages\": [" +
-                "{\"role\": \"system\", \"content\": \"you are a logical assistant\"}," +
-                "{\"role\": \"user\", \"content\": \"" +
+                "{\"role\": \"system\", \"content\": \"you are a happy assistant\"},";
 
-                "ask me a question about '" + subject + "'. " +
+            foreach (string s in conv)
+            {
+                if (s.StartsWith("user"))
+                {
+                    string tmp = s.Replace("user:", "");
+                    json += "{\"role\": \"user\", \"content\": \"" + tmp + "\"},";
+                }
+                else if (s.StartsWith("ass"))
+                {
+                    string tmp = s.Replace("ass:", "");
+                    json += "{\"role\": \"assistant\", \"content\": \"" + tmp + "\"},";
+                }
+            }
 
+            json += "{\"role\": \"user\", \"content\": \"ask me a question related to '" + subject + "'. " +
                 "use 10 words or less. " +
                 "only respond with one sentence. " +                
 

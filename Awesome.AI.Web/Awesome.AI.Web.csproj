@@ -6,9 +6,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
-	<PropertyGroup>
-		<AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
-	</PropertyGroup>
+	<!--<PropertyGroup>
+		<AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+	</PropertyGroup>-->
 
 
 	<ItemGroup>

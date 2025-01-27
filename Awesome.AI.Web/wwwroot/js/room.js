@@ -119,6 +119,7 @@ function room1() {
     room = 'room1';
     $('#r1').text('[Roberta]');
     $('#r2').text('Andrew');
+    $('.mechDiv').text('mech: hill');
     $('.roomHeader').text('Roberta');
     $('#messageDiv').text('inner monologue..');
     $('#dot1Span').text('xxxx');
@@ -145,6 +146,7 @@ function room2() {
     room = 'room2';
     $('#r1').text('Roberta');
     $('#r2').text('[Andrew]');
+    $('.mechDiv').text('mech: contest');
     $('.roomHeader').text('Andrew');
     $('#messageDiv').text('inner monologue..');
     $('#dot1Span').text('xxxx');
@@ -164,7 +166,13 @@ function mychat1(ask) {
     //var div1 = document.getElementById("chatRes");
 
     //div1.textContent = `${ask}`;
-    $('.chatRes').html(`${ask}`);
+
+    var tmp = '';
+
+    tmp = ask.replaceAll('user:', '');
+    tmp = tmp.replaceAll('ass:', '');
+
+    $('.chatRes').html(`${tmp}`);
 }
 
 function myinfo1(epochs, runtime, momentum, cycles, pain, position, ratio, the_choise) {

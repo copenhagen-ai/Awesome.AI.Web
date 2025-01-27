@@ -57,14 +57,15 @@ namespace Awesome.AI.Systems
 
                 if (current.data == "ANSWERNO")
                 {
-                    Answer = "";
+                    Answer = ". . . . .";
                     ChatState++;
                 }
             }
 
             if (hub.subject == "answer_what_decision" && ChatState == 1)
             {
-                Answer = mind.parms._mech.dir.Choise.IsNo() ? current.data : "";
+                //Answer = mind.parms._mech.dir.Choise.IsNo() ? current.data : ". . . . .";
+                Answer = current.data;
                 Answer = Answer.Replace("WHAT", "");
                 ChatState = 0;
             }

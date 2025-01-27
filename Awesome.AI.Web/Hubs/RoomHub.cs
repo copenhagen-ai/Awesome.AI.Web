@@ -558,9 +558,9 @@ namespace Awesome.AI.Web.Hubs
                         string ask = helper.GPTAskMeAQuestion(inst, subject);
 
                         if (ask.IsNullOrEmpty())
-                            continue;
+                            ask = ". .";
 
-                        ChatComm.Add(inst.type, $">> {ask}<br>");
+                        ChatComm.Add(inst.type, $">> ass:{ask}<br>");
 
                         if (inst.type == MINDS.ROBERTA) {
                             string res = ChatComm.GetResponce(inst.type);

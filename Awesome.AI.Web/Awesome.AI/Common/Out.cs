@@ -39,10 +39,10 @@ namespace Awesome.AI.Web.AI.Common
             chat_answer = "";
 
             int count = 0;
-            while((chat_answer == null || chat_answer == "") && count++ < 30)
+            while((chat_answer == null || chat_answer == "") && count++ < 60)
                 await Task.Delay(1000);
 
-            return count >= 59 ? "I didnt hear you.." : chat_answer;
+            return count >= 59 ? "come again.." : chat_answer;
         }
 
         public void Set()

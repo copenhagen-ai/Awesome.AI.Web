@@ -75,16 +75,16 @@ namespace Awesome.AI.Web.Controllers
             if (question.Length > 22) {
                 RoomHub.ResetAsked();// inst.mind.chat_asked = false;
                 string str = "Question is too long..";
-                ChatComm.Add(_m, $">> {question[..22]}..<br>");
-                ChatComm.Add(_m, $">> {str}<br>");
+                ChatComm.Add(_m, $">> user:{question[..22]}..<br>");
+                ChatComm.Add(_m, $">> ass:{str}<br>");
                 string _res = ChatComm.GetResponce(_m);
                 return new PostResponce() { ok = true, res = $"{_res}" };
             }
 
             if (question == "") {
                 RoomHub.ResetAsked();// inst.mind.chat_asked = false;
-                string str = "";
-                ChatComm.Add(_m, $">> {str}<br>");
+                string str = ". . .";
+                ChatComm.Add(_m, $">> ass:{str}<br>");
                 string _res = ChatComm.GetResponce(_m);
                 return new PostResponce() { ok = true, res = $"{_res}" };
             }
@@ -92,13 +92,13 @@ namespace Awesome.AI.Web.Controllers
             if (inst.mind.loc.LocationState > 0) {
                 RoomHub.ResetAsked();// inst.mind.chat_asked = false;
                 string str = "Dont you see Im busy..";
-                ChatComm.Add(_m, $">> {question}<br>");
-                ChatComm.Add(_m, $">> {str}<br>");
+                ChatComm.Add(_m, $">> user:{question}<br>");
+                ChatComm.Add(_m, $">> ass:{str}<br>");
                 string _res = ChatComm.GetResponce(_m);
                 return new PostResponce() { ok = true, res = $"{_res}" };
             }
 
-            string _json = Json(question);
+            string _json = Json(_m, question);
             string _base = "https://api.openai.com";
             string _path = "v1/chat/completions";
             string _params = "";
@@ -112,8 +112,8 @@ namespace Awesome.AI.Web.Controllers
             if(gpt == null) {
                 RoomHub.ResetAsked();// inst.mind.chat_asked = false;
                 string str = "My bad..";
-                ChatComm.Add(_m, $">> {question}<br>");
-                ChatComm.Add(_m, $">> {str}<br>");
+                ChatComm.Add(_m, $">> user:{question}<br>");
+                ChatComm.Add(_m, $">> ass:{str}<br>");
                 string _res = ChatComm.GetResponce(_m);
                 return new PostResponce() { ok = true, res = $"{_res}" };
             }
@@ -122,17 +122,15 @@ namespace Awesome.AI.Web.Controllers
             string content = root.choices[0].message.content;
             content = content.Length > 85 ? $"{content[..85]}..." : content;
 
-
-
             inst.mind.chat_answer = true;
             string ans = await inst.mind._out.GetAnswer();
             inst.mind.chat_answer = false;
-            RoomHub.ResetAsked();// inst.mind.chat_asked = false;
+            RoomHub.ResetAsked();
 
             string res = ans == ":YES" ? content : ans;
 
-            ChatComm.Add(_m, $">> {question}<br>");
-            ChatComm.Add(_m, $">> {res}<br>");
+            ChatComm.Add(_m, $">> user:{question}<br>");
+            ChatComm.Add(_m, $">> ass:{res}<br>");
 
             res = ChatComm.GetResponce(_m);
 
@@ -164,20 +162,34 @@ namespace Awesome.AI.Web.Controllers
         //{
         //}
 
-        private string Json(string txt)
+        private string Json(MINDS mind, string txt)
         {
+            string str = ChatComm.GetResponce(mind);
+
+            str = str.Replace("<br>", "");
+
+            List<string> conv = str.Split(">> ").ToList();
+
             string json = "{" +
                 "\"model\": \"gpt-3.5-turbo\"," +
                 "\"messages\": [" +
-                "{\"role\": \"system\", \"content\": \"you are a happy assistant\"}," +
-                "{\"role\": \"user\", \"content\": \"" +
+                "{\"role\": \"system\", \"content\": \"you are a happy assistant\"},";
                 
-                "" + txt + ". " +
-                "use 10 words or less. " +
+            foreach (string s in conv)
+            {
+                if (s.StartsWith("user")) {
+                    string tmp = s.Replace("user:", "");
+                    json += "{\"role\": \"user\", \"content\": \"" + tmp + "\"},";
+                }
+                else if (s.StartsWith("ass")) {
+                    string tmp = s.Replace("ass:", "");
+                    json += "{\"role\": \"assistant\", \"content\": \"" + tmp + "\"},";
+                }
+            }
 
-                "\"}]," +
-                "\"temperature\": 0.7" +
-                "}";
+            json += "{\"role\": \"user\", \"content\": \""+ txt + ". (answer in 10 words or less)\"}";
+
+            json += "],\"temperature\": 0.7}";
 
             return json;
         }

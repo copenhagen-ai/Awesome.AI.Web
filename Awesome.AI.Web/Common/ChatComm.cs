@@ -39,6 +39,13 @@ namespace Awesome.AI.Web.Common
         {
             try
             {
+                if (communication == null)
+                {
+                    communication = new Dictionary<MINDS, List<string>>();
+                    communication.Add(MINDS.ROBERTA, new List<string>());
+                    communication.Add(MINDS.ANDREW, new List<string>());
+                }
+
                 string res = "";
                 foreach (string str in ChatComm.communication[_m])
                     res += str;
