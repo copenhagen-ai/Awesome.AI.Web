@@ -133,16 +133,12 @@ function sort() {
 
 function chat(text) {
 
-    //alert(text);
     var mind = $('#r1').text() == '[Roberta]' ? 'roberta' : 'andrew';
     var data = { "text": "" + text, "mind": "" + mind };
 
-    //alert('viewers');
-
     var tmp = $('.chatRes').html().trim();
-    //alert("xxx" + tmp + "xxx");
+    
     if (tmp == '&gt;&gt; some text<br>') {
-        //alert('ok');
         tmp = '';
     }
 
@@ -155,7 +151,6 @@ function chat(text) {
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
         success: function (val) {
-            //alert('ok: ' + val + ' ' + val.value1 + ' ' + val.value2);
 
             var res = val.res;
             var ok = val.ok;

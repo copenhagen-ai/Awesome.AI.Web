@@ -38,9 +38,9 @@
         public const string answer_should_decision_u1 = "ANSWERYES";
         public const string answer_should_decision_u2 = "ANSWERNO";
 
-        public const string answer_what_decision_u1 = "WHATIm busy right now..";
-        public const string answer_what_decision_u2 = "WHATNot right now..";
-        public const string answer_what_decision_u3 = "WHATTalk later..";
+        public const string answer_what_decision_u1 = "WHATim busy right now..";
+        public const string answer_what_decision_u2 = "WHATnot right now..";
+        public const string answer_what_decision_u3 = "WHATtalk later..";
 
         public const string ask_should_decision_u1 = "ASKYES";
         public const string ask_should_decision_u2 = "ASKNO";

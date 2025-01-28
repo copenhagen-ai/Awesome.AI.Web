@@ -27,7 +27,7 @@ namespace Awesome.AI.Systems
             if (!mind.curr_unit.IsDECISION())
                 return;
 
-            if (mind.epochs < 5)
+            if (mind.epochs < 2)
                 return;
 
             if (!_pro)
@@ -52,12 +52,12 @@ namespace Awesome.AI.Systems
                 if (current.data == "ANSWERYES")
                 {
                     Answer = ":YES";
-                    ChatState = 0;
+                    ChatState++;
                 }
 
                 if (current.data == "ANSWERNO")
                 {
-                    Answer = ". . . . .";
+                    Answer = "";
                     ChatState++;
                 }
             }

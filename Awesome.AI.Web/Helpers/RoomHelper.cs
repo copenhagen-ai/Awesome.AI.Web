@@ -3,12 +3,9 @@ using Awesome.AI.Helpers;
 using Awesome.AI.Web.Common;
 using Awesome.AI.Web.Hubs;
 using Awesome.AI.Web.Models;
-using System.Drawing;
-using System.Reflection.PortableExecutable;
+using Org.BouncyCastle.Asn1.X509;
 using System.Text.Json;
 using static Awesome.AI.Helpers.Enums;
-using static Google.Protobuf.WellKnownTypes.Field.Types;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Awesome.AI.Web.Helpers
 {
@@ -145,6 +142,29 @@ namespace Awesome.AI.Web.Helpers
             Root root = JsonSerializer.Deserialize<Root>(gpt);
             string content = root.choices[0].message.content;
             content = Format1(content);
+
+            return content;
+        }
+
+        public string GPTGiveMeAnAnswer(MINDS _m, string question)
+        {
+            string _json = Json4(_m, question);
+            string _base = "https://api.openai.com";
+            string _path = "v1/chat/completions";
+            string _params = "";
+            string _accept = "";
+            string _contenttype = "application/json";
+            string _apikey = "";
+            string _token = SettingsHelper.SECRET;
+            string _secret = "";
+            string gpt = RestHelper.Send(HttpMethod.Post, _json, _base, _path, _params, _accept, _contenttype, _apikey, _token, _secret);
+
+            if (gpt == null)
+                return null;
+
+            Root root = JsonSerializer.Deserialize<Root>(gpt);
+            string content = root.choices[0].message.content;
+            content = content.Length > 85 ? $"{content[..85]}..." : content;
 
             return content;
         }
@@ -403,6 +423,40 @@ namespace Awesome.AI.Web.Helpers
                 "\"}]," +
                 "\"temperature\": 0.7" +
                 "}";
+
+            return json;
+        }
+
+        private string Json4(MINDS mind, string txt)
+        {
+            string str = ChatComm.GetResponce(mind);
+
+            str = str.Replace("<br>", "");
+
+            List<string> conv = str.Split(">> ").ToList();
+
+            string json = "{" +
+                "\"model\": \"gpt-3.5-turbo\"," +
+                "\"messages\": [" +
+                "{\"role\": \"system\", \"content\": \"you are a happy assistant\"},";
+
+            foreach (string s in conv)
+            {
+                if (s.StartsWith("user"))
+                {
+                    string tmp = s.Replace("user:", "");
+                    json += "{\"role\": \"user\", \"content\": \"" + tmp + "\"},";
+                }
+                else if (s.StartsWith("ass"))
+                {
+                    string tmp = s.Replace("ass:", "");
+                    json += "{\"role\": \"assistant\", \"content\": \"" + tmp + "\"},";
+                }
+            }
+
+            json += "{\"role\": \"user\", \"content\": \"" + txt + ". (answer in 10 words or less)\"}";
+
+            json += "],\"temperature\": 0.7}";
 
             return json;
         }
