@@ -29,7 +29,14 @@ $(document).ready(function () {
     });
 
     $(".sortSpan").click(function (event) { sort(); });
-    $(".chatBtn").click(function (event) { chat($(".chatTxt").val()); });
+    $(".chatBtn").click(function (event) {
+        chat($(".chatTxt").val());
+    });
+    $(".chatTxt").on("keydown", function () {
+        if ( event.which == 13 ) {
+            chat($(".chatTxt").val());               
+        }
+    });
 
     var isChart1 = true;
     $("#chartSpan").click(function (event) {
@@ -161,6 +168,10 @@ function chat(text) {
                 tmp = tmp.replaceAll('ass:', '');
 
                 $('.chatRes').html(tmp);
+
+                var div4 = document.getElementById("chatTitle");
+
+                div4.classList.remove("i-color-red");                
             }
             else {
                 var tmp = '';
@@ -169,6 +180,11 @@ function chat(text) {
                 tmp = tmp.replaceAll('ass:', '');
                 
                 $('.chatRes').html(tmp);
+
+                var div4 = document.getElementById("chatTitle");
+
+                div4.classList.remove("i-color-red");
+
                 alert('be patient, other users are asking questions..');
             }
         }

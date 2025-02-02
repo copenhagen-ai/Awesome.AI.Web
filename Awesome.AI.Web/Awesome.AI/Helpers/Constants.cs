@@ -9,10 +9,10 @@
         public const string andrew_s4 = "cars";
         public const string andrew_s5 = "movies";
         public const string andrew_s6 = "programming";
-        public const string andrew_s7 = "websites";
-        public const string andrew_s8 = "existence";
-        public const string andrew_s9 = "termination";
-        public const string andrew_s10 = "data";
+        public const string andrew_s7 = "the weather";
+        public const string andrew_s8 = "life";
+        public const string andrew_s9 = "computers";
+        public const string andrew_s10 = "work";
 
         public const string roberta_s1 = "love";
         public const string roberta_s2 = "macho machines";
@@ -21,9 +21,9 @@
         public const string roberta_s5 = "socializing";
         public const string roberta_s6 = "dancing";
         public const string roberta_s7 = "movies";
-        public const string roberta_s8 = "existence";
-        public const string roberta_s9 = "termination";
-        public const string roberta_s10 = "programming";
+        public const string roberta_s8 = "hobbys";
+        public const string roberta_s9 = "the weather";
+        public const string roberta_s10 = "having fun";
 
         //public const string make_decision_u1 = "MAKEYES";
         //public const string make_decision_u2 = "MAKENO";

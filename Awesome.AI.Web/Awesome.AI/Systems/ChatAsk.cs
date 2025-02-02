@@ -21,16 +21,19 @@ namespace Awesome.AI.Systems
 
         public void Decide(bool _pro)
         {
-            if (!mind.curr_unit.IsDECISION())
+            if (!_pro)
                 return;
 
             if (mind.epochs < 5)
                 return;
 
-            if (!_pro)
+            if (!mind.curr_unit.IsDECISION())
                 return;
 
             if (mind.chat_asked)
+                return;
+
+            if (mind.chatans.ChatState > 0)
                 return;
 
             UNIT current = mind.curr_unit;
@@ -62,8 +65,9 @@ namespace Awesome.AI.Systems
                         i++;
                     }
                     while (Constants.subject_decision.Contains(_hub.subject));
-                    
-                    Subject = mind.parms._mech.dir.Choise.IsNo() ? "" + _hub.subject : ". . . .";
+
+                    //Subject = mind.parms._mech.dir.Choise.IsNo() ? "" + _hub.subject : ". . . .";
+                    Subject = "" + _hub.subject;
                     AskState = 0;
                 }
             }

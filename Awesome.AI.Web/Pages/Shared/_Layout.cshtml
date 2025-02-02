@@ -29,11 +29,14 @@
     <meta property="og:site_name" content="copenhagen-ai" />
 
     @* <link href="~/css/dist/style.css" rel="stylesheet"> *@
-    <link href="/css/dist/style.css" rel="stylesheet" />
-    <link href="/css/site1.css" rel="stylesheet">
+    <link href="~/css/dist/style.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/site1.css" rel="stylesheet" asp-append-version="true" />
     @* <link href="~/css/site2.css" rel="stylesheet"> *@
     @* <link rel="stylesheet" href="~/Awesome.AI.Web.styles.css" asp-append-version="true" /> *@
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
+
+    @* <link href="@Url.Content("~/css/dist/style.css")" rel="stylesheet" /> *@
+    
 
     <meta name="ahrefs-site-verification" content="1b7c6ff96d7167f881637b8ae9a4bec42ac834bce20409c51d6ae3917c7b3783">
         
@@ -78,12 +81,12 @@
         </nav>
     </header>
 
-    <div class="d-sm-inline-block bg-white @ViewData["HeaderFull"]">
+    @* <div class="d-sm-inline-block bg-white @ViewData["HeaderFull"]">
         <hr />
         <div class="mx-4 px-0 md:mx-md md:px-md lg:mx-lg lg:px-lg overflow-hidden py-2">
             <span class="text-gray-950">INFO: Roberta, even hours - Andrew, uneven hours</span>
         </div>
-    </div>
+    </div> *@
 
     @* <div class="info display-none bg-white @ViewData["HeaderFull"]">
         <hr />
@@ -112,13 +115,13 @@
         <div class="mx-4 px-0 md:mx-md md:px-md lg:mx-lg lg:px-lg text-gray-50">
             <br />
             &copy; 2023 - copenhagen-ai<br />
-            Licensed by Apache 2.0<br />
-            <a class="hover:underline" target="_blank" href="https://www.copenhagen-ai.net/docs/ethical.txt"> Link to ethical</a><br />
-            contact info can be found on <a class="hover:underline" target="_blank" href="https://github.com/copenhagen-ai">GitHub</a><br /> @* - <a asp-area="" asp-page="/Privacy">Privacy</a> *@
+            <a class="hover:underline" target="_blank" href="http://www.apache.org/licenses/LICENSE-2.0">Licensed by Apache 2.0</a><br />
+            <a class="hover:underline" target="_blank" href="https://www.copenhagen-ai.net/docs/ethical.txt">Link to ethical</a><br />
+            Contact info can be found on <a class="hover:underline" target="_blank" href="https://github.com/copenhagen-ai">GitHub</a><br /> 
+            @* - <a asp-area="" asp-page="/Privacy">Privacy</a> *@
             <partial name="_LoginPartial" />
         </div>
     </footer>
-
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

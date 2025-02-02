@@ -351,7 +351,7 @@ namespace Awesome.AI.Web.Hubs
             {
                 await Task.Delay(100);
 
-                List<string> dots = new List<string>() { "No emotions that is a bummer" };
+                List<string> dots = new List<string>() { "feeling great" };
                 bool wait1 = false;
 
                 while (inst.mind.ok)
@@ -484,7 +484,8 @@ namespace Awesome.AI.Web.Hubs
                     string runtime = inst.mind._out.runtime;
                     string occu = inst.mind._out.occu;
                     string locationfinal = inst.mind._out.location;
-                    string state = inst.mind._out.state;
+                    string loc_state = inst.mind._out.loc_state;
+                    string chat_state = inst.mind._out.chat_state;
 
                     GraphInfo graph1 = new GraphInfo();
                     GraphInfo graph2 = new GraphInfo();
@@ -499,7 +500,7 @@ namespace Awesome.AI.Web.Hubs
                         if (inst.type == MINDS.ROBERTA)
                         {
                             await Clients.All.SendAsync("MIND1InfoReceive1", epochs, runtime, momentum, cycles, pain, position, ratio, the_choise);
-                            await Clients.All.SendAsync("MIND1InfoReceive2", occu, locationfinal, state);
+                            await Clients.All.SendAsync("MIND1InfoReceive2", occu, locationfinal, loc_state, chat_state);
                             await Clients.All.SendAsync("MIND1GraphReceive", graph1.labels, graph1.curr_name, graph1.curr_value, graph1.reset_name, graph1.reset_value, graph1.bcol);
                             await Clients.All.SendAsync("MIND3GraphReceive", graph2.labels, graph2.curr_name, graph2.curr_value, graph2.reset_name, graph2.reset_value, graph2.bcol);
                         }
@@ -507,7 +508,7 @@ namespace Awesome.AI.Web.Hubs
                         if (inst.type == MINDS.ANDREW)
                         {
                             await Clients.All.SendAsync("MIND2InfoReceive1", epochs, runtime, momentum, cycles, pain, position, ratio, the_choise);
-                            await Clients.All.SendAsync("MIND2InfoReceive2", occu, locationfinal, state);
+                            await Clients.All.SendAsync("MIND2InfoReceive2", occu, locationfinal, loc_state, chat_state);
                             await Clients.All.SendAsync("MIND2GraphReceive", graph1.labels, graph1.curr_name, graph1.curr_value, graph1.reset_name, graph1.reset_value, graph1.bcol);
                             await Clients.All.SendAsync("MIND4GraphReceive", graph2.labels, graph2.curr_name, graph2.curr_value, graph2.reset_name, graph2.reset_value, graph2.bcol);
                         }
@@ -548,6 +549,9 @@ namespace Awesome.AI.Web.Hubs
                     if (inst.mind._out.chat_subject == "")
                         continue;
 
+                    //if (inst.mind.chatans.ChatState > 0)
+                    //    continue;
+
                     string subject = inst.mind._out.chat_subject;
                     inst.mind._out.chat_subject = "";
 
@@ -558,7 +562,7 @@ namespace Awesome.AI.Web.Hubs
                         string ask = helper.GPTAskMeAQuestion(inst, subject);
 
                         if (ask.IsNullOrEmpty())
-                            ask = ". .";
+                            ask = ". . .";
 
                         ChatComm.Add(inst.type, $">> ass:{ask}<br>");
 

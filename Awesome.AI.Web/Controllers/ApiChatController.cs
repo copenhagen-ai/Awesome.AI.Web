@@ -49,7 +49,6 @@ namespace Awesome.AI.Web.Controllers
                 RoomHub.ResetAsked();
                 MINDS m = obj.mind.ToUpper() == MINDS.ROBERTA.ToString() ? MINDS.ROBERTA : MINDS.ANDREW;
                 string _res = ChatComm.GetResponce(m);
-                busy = false;
                 return new PostResponce() { ok = false, res = $"{_res}" };
             }
 
@@ -59,10 +58,10 @@ namespace Awesome.AI.Web.Controllers
             Instance inst = _m == MINDS.ROBERTA ? RoomHub.Instances[0] : RoomHub.Instances[1];
             string question = obj.text;
 
-            if (question.Length > 22) {
+            if (question.Length > 45) {
                 RoomHub.ResetAsked();
                 string str = "question is too long..";
-                ChatComm.Add(_m, $">> user:{question[..22]}..<br>");
+                ChatComm.Add(_m, $">> user:{question[..45]}..<br>");
                 ChatComm.Add(_m, $">> ass:{str}<br>");
                 string _res = ChatComm.GetResponce(_m);
                 busy = false;
@@ -78,15 +77,15 @@ namespace Awesome.AI.Web.Controllers
                 return new PostResponce() { ok = true, res = $"{_res}" };
             }
 
-            if (inst.mind.loc.LocationState > 0) {
-                RoomHub.ResetAsked();
-                string str = "dont you see im busy..";
-                ChatComm.Add(_m, $">> user:{question}<br>");
-                ChatComm.Add(_m, $">> ass:{str}<br>");
-                string _res = ChatComm.GetResponce(_m);
-                busy = false;
-                return new PostResponce() { ok = true, res = $"{_res}" };
-            }
+            //if (inst.mind.loc.LocationState > 0) {
+            //    RoomHub.ResetAsked();
+            //    string str = "dont you see im busy..";
+            //    ChatComm.Add(_m, $">> user:{question}<br>");
+            //    ChatComm.Add(_m, $">> ass:{str}<br>");
+            //    string _res = ChatComm.GetResponce(_m);
+            //    busy = false;
+            //    return new PostResponce() { ok = true, res = $"{_res}" };
+            //}
 
             RoomHelper helper = new RoomHelper();
 
@@ -102,12 +101,12 @@ namespace Awesome.AI.Web.Controllers
                 return new PostResponce() { ok = true, res = $"{_res}" };
             }
 
-            inst.mind.chat_answer = true;
+            //inst.mind.chat_answer = true;
             string ans = await inst.mind._out.GetAnswer();
-            inst.mind.chat_answer = false;
+            //inst.mind.chat_answer = false;
             RoomHub.ResetAsked();
 
-            string res = ans == ":YES" ? content : ans;
+            string res = ans == ":COMEAGAIN" ? "come again.." : content;
 
             ChatComm.Add(_m, $">> user:{question}<br>");
             ChatComm.Add(_m, $">> ass:{res}<br>");

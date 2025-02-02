@@ -119,7 +119,7 @@ function room1() {
     room = 'room1';
     $('#r1').text('[Roberta]');
     $('#r2').text('Andrew');
-    $('.mechDiv').text('mech: hill');
+    $('.mechSpan').text('hill');
     $('.roomHeader').text('Roberta');
     $('#messageDiv').text('inner monologue..');
     $('#dot1Span').text('xxxx');
@@ -146,7 +146,7 @@ function room2() {
     room = 'room2';
     $('#r1').text('Roberta');
     $('#r2').text('[Andrew]');
-    $('.mechDiv').text('mech: contest');
+    $('.mechSpan').text('contest');
     $('.roomHeader').text('Andrew');
     $('#messageDiv').text('inner monologue..');
     $('#dot1Span').text('xxxx');
@@ -232,7 +232,7 @@ function myinfo1(epochs, runtime, momentum, cycles, pain, position, ratio, the_c
 }
 
 
-function myinfo2(occu, location, state) {
+function myinfo2(occu, location, loc_state, chat_state) {
 
     var div1 = document.getElementById("occuSpan");
     var div2a = document.getElementById("locationSpan1");
@@ -248,16 +248,21 @@ function myinfo2(occu, location, state) {
 
     div1.textContent = `${occu}`;
     div2b.textContent = `${location}`;
-    div3b.textContent = `${state}`;
+    div3b.textContent = `${loc_state}`;
 
-    if (state == 'making a decision') {
+    if (loc_state == 'making a decision') {
         div2a.classList.add("i-color-green");
         div3a.classList.add("i-color-green");
-        div4.classList.add("i-color-red");
     }
     else {
         div2a.classList.remove("i-color-green");
         div3a.classList.remove("i-color-green");
+    }
+
+    if (chat_state == 'thinking') {
+        div4.classList.add("i-color-red");
+    }
+    else {
         div4.classList.remove("i-color-red");
     }
 }
@@ -308,16 +313,16 @@ function onConnect() {
             myinfo1(epochs, runtime, momentum, cycles, pain, position, ratio, the_choise);
     });
 
-    connection.on("MIND1InfoReceive2", function (occu, location, state) {
+    connection.on("MIND1InfoReceive2", function (occu, location, loc_state, chat_state) {
 
         if (room == 'room1')
-            myinfo2(occu, location, state);
+            myinfo2(occu, location, loc_state, chat_state);
     });
 
-    connection.on("MIND2InfoReceive2", function (occu, location, state) {
+    connection.on("MIND2InfoReceive2", function (occu, location, loc_state, chat_state) {
 
         if (room == 'room2')
-            myinfo2(occu, location, state);
+            myinfo2(occu, location, loc_state, chat_state);
     });
 
 

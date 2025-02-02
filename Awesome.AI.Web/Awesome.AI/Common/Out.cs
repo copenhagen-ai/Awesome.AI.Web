@@ -26,7 +26,8 @@ namespace Awesome.AI.Web.AI.Common
         public string runtime { get; set; }
         public string occu { get; set; }
         public string location { get; set; }
-        public string state { get; set; }
+        public string loc_state { get; set; }
+        public string chat_state { get; set; }
         public string chat_answer { get; set; }
         public string chat_subject { get; set; }
         //public string chat_index { get; set; }
@@ -42,7 +43,7 @@ namespace Awesome.AI.Web.AI.Common
             while((chat_answer == null || chat_answer == "") && count++ < 60)
                 await Task.Delay(1000);
 
-            return count >= 59 ? "come again.." : chat_answer;
+            return count >= 59 ? ":COMEAGAIN" : chat_answer;
         }
 
         public void Set()
@@ -60,9 +61,10 @@ namespace Awesome.AI.Web.AI.Common
             runtime = $"{mind.parms.runtime}";
             occu = $"{mind._internal.Occu}";
             location = $"{mind.loc.LocationFinal}";
-            state = mind.loc.LocationState > 0 ? "making a decision" : "just thinking";
-            
-            if(mind.chatans.Answer != "") {
+            loc_state = mind.loc.LocationState > 0 ? "making a decision" : "just thinking";
+            chat_state = mind.chatans.ChatState > 0 ? "thinking" : "just thinking";
+
+            if (mind.chatans.Answer != "") {
                 chat_answer = $"{mind.chatans.Answer}";
                 mind.chatans.Answer = "";
             }

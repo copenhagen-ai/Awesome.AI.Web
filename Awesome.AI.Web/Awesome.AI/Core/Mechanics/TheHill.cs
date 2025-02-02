@@ -161,8 +161,9 @@ namespace Awesome.AI.Core.Mechanics
             double force_com_y = mind.calc.PythNear(angle_com_y_pyth, force_sta);
 
             Vector2D calc = new Vector2D();
-            Vector2D _static = calc.ToCart(calc.Flip360(new Vector2D(null, null, force_sta, mind.calc.ToRadiansFromDegrees(angle_sta))));
-            Vector2D _N = calc.ToCart(new Vector2D(null, null, force_com_y, mind.calc.ToRadiansFromDegrees(angle_com_y_vec + 180.0d)));
+            //Vector2D _static = calc.ToCart(calc.Flip360(new Vector2D(null, null, force_sta, mind.calc.ToRadiansFromDegrees(angle_sta))));
+            Vector2D _static = calc.ToCart(new Vector2D(null, null, force_sta, calc.ToRadians(angle_sta)));
+            Vector2D _N = calc.ToCart(new Vector2D(null, null, force_com_y, calc.ToRadians(angle_com_y_vec + 180.0d)));
             Vector2D _fN = calc.ToPolar((calc.Add(_static, _N)));
 
             double m = mind.parms.mass;
@@ -173,8 +174,9 @@ namespace Awesome.AI.Core.Mechanics
             double Fapplied = _fN.magnitude;
             double Fnet = Fapplied - Ffriction;
 
-            Vector2D _res = calc.ToCart(calc.Flip360(new Vector2D(null, null, Fnet, _fN.theta_in_radians)));
-            
+            //Vector2D _res = calc.ToCart(calc.Flip360(new Vector2D(null, null, Fnet, _fN.theta_in_radians)));
+            Vector2D _res = calc.ToCart(new Vector2D(null, null, Fnet, _fN.theta_in_radians));
+
             return _res;
         }
 
@@ -192,7 +194,7 @@ namespace Awesome.AI.Core.Mechanics
             double force_dyn = max - curr_unit_th.Variable;
 
             Vector2D calc = new Vector2D();
-            Vector2D _dynamic = new Vector2D(null, null, force_dyn, mind.calc.ToRadiansFromDegrees(angle_dyn));
+            Vector2D _dynamic = new Vector2D(null, null, force_dyn, calc.ToRadians(angle_dyn));
 
             double m = mind.parms.mass;
             double u = mind.calc.FrictionCoefficient(false, curr_unit_th.credits, mind.parms.shift);
@@ -202,7 +204,7 @@ namespace Awesome.AI.Core.Mechanics
             double Fapplied = _dynamic.magnitude;
             double Fnet = Fapplied - Ffriction;
             
-            Vector2D _res = calc.ToCart(new Vector2D(null, null, Fnet, mind.calc.ToRadiansFromDegrees(angle_dyn)));
+            Vector2D _res = calc.ToCart(new Vector2D(null, null, Fnet, calc.ToRadians(angle_dyn)));
 
             return _res;
         }

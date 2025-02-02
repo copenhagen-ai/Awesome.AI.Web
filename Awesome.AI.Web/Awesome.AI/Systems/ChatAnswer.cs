@@ -21,17 +21,20 @@ namespace Awesome.AI.Systems
 
         public void Decide(bool _pro)
         {
-            if (!mind.chat_answer)
-                return;
-
-            if (!mind.curr_unit.IsDECISION())
+            if (!_pro)
                 return;
 
             if (mind.epochs < 2)
                 return;
 
-            if (!_pro)
+            //if (!mind.chat_answer)
+            //    return;
+
+            if (!mind.curr_unit.IsDECISION())
                 return;
+
+            //if (mind.curr_unit.IsDECISION() && ChatState == 1)
+            //    return;
 
             UNIT current = mind.curr_unit;
             HUB hub = current.HUB;
@@ -47,26 +50,29 @@ namespace Awesome.AI.Systems
                 mind.mem.Randomize(_2);
             }
 
-            if (hub.subject == "answer_should_decision" && ChatState == 0)
+            if (hub.subject == "answer_should_decision")// && ChatState == 0)
             {
                 if (current.data == "ANSWERYES")
                 {
                     Answer = ":YES";
-                    ChatState++;
+                    //ChatState++;
+                    //return;
                 }
 
                 if (current.data == "ANSWERNO")
                 {
-                    Answer = "";
+                    Answer = ":NO";
                     ChatState++;
+                    //return;
                 }
             }
 
-            if (hub.subject == "answer_what_decision" && ChatState == 1)
+            if (ChatState == 1)
             {
                 //Answer = mind.parms._mech.dir.Choise.IsNo() ? current.data : ". . . . .";
                 Answer = current.data;
                 Answer = Answer.Replace("WHAT", "");
+                //Answer = hub.subject;
                 ChatState = 0;
             }
         }
