@@ -1,5 +1,4 @@
 ﻿using Awesome.AI.Common;
-using Awesome.AI.CoreHelpers;
 using Awesome.AI.Helpers;
 using Awesome.AI.Interfaces;
 using Awesome.AI.Web.AI.Common;
@@ -24,14 +23,14 @@ namespace Awesome.AI.Core.Mechanics
         public double res_x_prev { get; set; } = 0;
 
         public double POS_X { get; set; }
-        public Direction dir { get; set; }
+        //public Direction dir { get; set; }
 
         private TheMind mind;
         private _TheHill() { }
-        public _TheHill(Params parms)
+        public _TheHill(TheMind mind, Params parms)
         {
-            this.mind = parms.mind;
-            dir = new Direction(parms.mind) { d_momentum = 0.0d };
+            this.mind = mind;
+            //dir = new Direction(parms.mind) { d_momentum = 0.0d };
             
             POS_X = parms.pos_x_start;//10;
         }
@@ -88,10 +87,10 @@ namespace Awesome.AI.Core.Mechanics
             if (POS_X <= posx_low) posx_low = POS_X;
             if (POS_X > posx_high) posx_high = POS_X;
 
-            dir.d_momentum = momentum;
-            dir.d_pos_x = POS_X;
+            mind.dir.d_momentum = momentum;
+            mind.dir.d_pos_x = POS_X;
             
-            dir.Stat();
+            mind.dir.Update();
         }
 
         private double SlopeInDegrees(double x)

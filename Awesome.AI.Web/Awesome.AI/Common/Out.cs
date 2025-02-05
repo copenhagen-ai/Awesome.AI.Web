@@ -50,13 +50,13 @@ namespace Awesome.AI.Web.AI.Common
         {
             cycles = $"{mind.cycles}";
             cycles_total = $"{mind.cycles_all}";
-            momentum = $"{mind.parms._mech.dir.d_momentum}";
+            momentum = $"{mind.dir.d_momentum}";
 
             pain = $"{mind.pain}";
-            position = $"{mind.parms._mech.dir.d_pos_x}";
-            ratio_yes = $"{mind.parms._mech.dir.ratio.CountYes()}";
-            ratio_no = $"{mind.parms._mech.dir.ratio.CountNo()}";
-            the_choise = $"{(mind.parms._mech.dir.Choise.IsNo() ? "NO" : "YES")}";
+            position = $"{mind.dir.d_pos_x}";
+            ratio_yes = $"{mind.dir.CountYes()}";
+            ratio_no = $"{mind.dir.CountNo()}";
+            the_choise = $"{(mind.dir.Choise.IsNo() ? "NO" : "YES")}";
             epochs = $"{mind.epochs}";
             runtime = $"{mind.parms.runtime}";
             occu = $"{mind._internal.Occu}";

@@ -27,15 +27,14 @@ namespace Awesome.AI.Core.Mechanics
         private double max { get; set; } = -1000.0d;
 
         public double POS_X { get; set; } = 10.0d;
-        public Direction dir { get; set; }
+        //public Direction dir { get; set; }
         
         private TheMind mind;
         private _TheContest() { }
-        public _TheContest(Params parms)
+        public _TheContest(TheMind mind, Params parms)
         {
-            this.mind = parms.mind;
-            this.dir = new Direction(parms.mind) { d_momentum = 0.0d };
-            this.mind = parms.mind;
+            this.mind = mind;
+            //this.dir = new Direction(parms.mind) { d_momentum = 0.0d };
         }
 
         //NewtonForce
@@ -82,10 +81,10 @@ namespace Awesome.AI.Core.Mechanics
             if (POS_X <= posx_low) posx_low = POS_X;
             if (POS_X > posx_high) posx_high = POS_X;
 
-            dir.d_momentum = momentum;
-            dir.d_pos_x = POS_X;
+            mind.dir.d_momentum = momentum;
+            mind.dir.d_pos_x = POS_X;
 
-            dir.Stat();
+            mind.dir.Update();
         }
 
         public void Calculate()

@@ -37,7 +37,7 @@ namespace Awesome.AI.Helpers
                 switch (run)
                 {
                     case MECHANICS.WHEEL: 
-                        _mech = new _TheWheel(this);
+                        _mech = new _TheWheel(this.mind, this);
 
                         validation = VALIDATION.BOTH;                                       //BOTH or OCCU
                         case_tags = TAGS.ALL;                                               //used with TAGS and BOTH
@@ -77,7 +77,7 @@ namespace Awesome.AI.Helpers
 
                         break;
                     case MECHANICS.GRAVITY: 
-                        _mech = new _TheGravity(this);
+                        _mech = new _TheGravity(this.mind, this);
 
                         validation = VALIDATION.BOTH;                                       //BOTH or OCCU
                         case_tags = TAGS.ALL;                                               //used with TAGS and BOTH
@@ -117,7 +117,7 @@ namespace Awesome.AI.Helpers
 
                         break;
                     case MECHANICS.CONTEST: 
-                        _mech = new _TheContest(this);
+                        _mech = new _TheContest(this.mind, this);
 
                         validation = VALIDATION.BOTH;                                       //BOTH or OCCU
                         case_tags = TAGS.ALL;                                               //used with TAGS and BOTH
@@ -159,7 +159,7 @@ namespace Awesome.AI.Helpers
 
                         break;
                     case MECHANICS.HILL: 
-                        _mech = new _TheHill(this);
+                        _mech = new _TheHill(this.mind, this);
 
                         validation = VALIDATION.BOTH;                                       //BOTH or TAGS
                         case_tags = TAGS.ALL;                                               //used with TAGS and BOTH

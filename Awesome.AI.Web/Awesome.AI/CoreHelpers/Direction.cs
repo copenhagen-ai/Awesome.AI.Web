@@ -4,27 +4,48 @@ using static Awesome.AI.Helpers.Enums;
 
 namespace Awesome.AI.CoreHelpers
 {
-    public class Ratio
+    public class Direction
     {
-        private TheMind mind;
-        private Ratio() { }
-        public Ratio(TheMind mind)
+        TheMind mind;
+        private Direction() { }
+        public Direction(TheMind mind)
         {
             this.mind = mind;
         }
 
+        public THECHOISE Choise { get; set; } = THECHOISE.NO;
         public List<THECHOISE> ratio { get; set; } = new List<THECHOISE>();
         public int all_yes { get; set; } = 0;
         public int all_no { get; set; } = 0;
+        public double d_pos_x { get; set; }
+        public double d_momentum { get; set; }
 
-        public void Update(THECHOISE choise)
+        public void Update()
         {
-            if (choise.IsYes())
+            SetChoise();                       
+            UpdateRatio();
+        }
+
+        private void SetChoise()
+        {
+            /*
+             * >> this is the hack/cheat <<
+             * "NO", is to say no to going downwards
+             * */
+            
+            bool is_low = d_momentum <= 0.0d;
+
+            Choise = is_low.TheHack1(mind) ? THECHOISE.NO : THECHOISE.YES;
+        }
+
+        public void UpdateRatio()
+        {
+            if (Choise.IsYes())
                 all_yes++;
             else
                 all_no++;
 
-            ratio.Add(choise);
+            ratio.Add(Choise);
 
             if (ratio.Count > mind.parms.lapses_total)
                 ratio.RemoveAt(0);
@@ -42,45 +63,6 @@ namespace Awesome.AI.CoreHelpers
             int count = ratio.Where(z => z.IsNo()).Count();
 
             return count;
-        }
-    }
-
-    public class Direction
-    {
-        public Ratio ratio;
-        public List<double> avg { get; set; } = new List<double>();
-        public List<double> limit_periode { get; set; } = new List<double>();
-        public List<double> limit { get; set; } = new List<double>();
-
-        public double d_pos_x { get; set; }
-        public double d_momentum { get; set; }
-
-        TheMind mind;
-        private Direction() { }
-        public Direction(TheMind mind)
-        {
-            this.mind = mind;
-            ratio = new Ratio(mind);
-        }
-
-        public THECHOISE Choise { get; set; } = THECHOISE.NO;
-        private void SetChoise()
-        {
-            /*
-             * >> this is the hack/cheat <<
-             * "NO", is to say no to going downwards
-             * */
-            
-            bool is_low = d_momentum <= 0.0d;
-
-            Choise = is_low.TheHack1(mind) ? THECHOISE.NO : THECHOISE.YES;
-        }
-
-        public void Stat()
-        {
-            SetChoise();
-                       
-            ratio.Update(Choise);
         }
 
         /*

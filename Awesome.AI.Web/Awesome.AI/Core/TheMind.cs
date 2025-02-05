@@ -33,6 +33,7 @@ namespace Awesome.AI.Core
         public Location loc;
         public ChatAnswer chatans;
         public ChatAsk chatask;
+        public Direction dir;
 
         public HUB curr_hub;
         public UNIT curr_unit;
@@ -68,8 +69,6 @@ namespace Awesome.AI.Core
         {
             try
             {
-                Console.BackgroundColor = ConsoleColor.DarkGray;
-
                 this.mech = mech;
                 this.mindtype = mindtype;
 
@@ -87,7 +86,7 @@ namespace Awesome.AI.Core
                 loc = new Location(this, _location);
                 chatans = new ChatAnswer(this, "");
                 chatask = new ChatAsk(this, "");
-
+                dir = new Direction(this) { d_momentum = 0.0d };
                 mem = new Memory(this, parms.number_of_units);
 
                 parms.UpdateLowCut();
@@ -192,7 +191,7 @@ namespace Awesome.AI.Core
 
         private void PreRun(bool _pro)
         {
-            rand.SaveMomentum(parms._mech.dir.d_momentum);
+            rand.SaveMomentum(dir.d_momentum);
 
             if (_pro)
                 common.Reset();            
@@ -239,7 +238,7 @@ namespace Awesome.AI.Core
         private void TheSoup() 
         {
             curr_hub = curr_unit.HUB;
-            curr_unit = matrix.NextUnit(curr_unit, parms._mech.dir);
+            curr_unit = matrix.NextUnit(curr_unit, dir);
         }
 
         private void Process(bool _pro)

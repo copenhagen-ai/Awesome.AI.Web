@@ -25,15 +25,15 @@ namespace Awesome.AI.Core.Mechanics
         public double res_x { get; set; } = -1.0d;
         
         public double POS_X { get; set; } = 10.0d;
-        public Direction dir { get; set; }
+        //public Direction dir { get; set; }
         //public Limitters lim { get; set; }
 
         private TheMind mind;
         private _TheWheel() { }
-        public _TheWheel(Params parms)
+        public _TheWheel(TheMind mind, Params parms)
         {
-            this.mind = parms.mind;
-            dir = new Direction(parms.mind) { d_momentum = 0.0d };
+            this.mind = mind;
+            //dir = new Direction(parms.mind) { d_momentum = 0.0d };
             //lim = new Limitters(parms.mind);
         }
 
@@ -79,10 +79,10 @@ namespace Awesome.AI.Core.Mechanics
             if (POS_X <= posx_low) posx_low = POS_X;
             if (POS_X > posx_high) posx_high = POS_X;
 
-            dir.d_momentum = momentum;
-            dir.d_pos_x = POS_X;
+            mind.dir.d_momentum = momentum;
+            mind.dir.d_pos_x = POS_X;
 
-            dir.Stat();
+            mind.dir.Update();
         }
 
         public void Calculate()

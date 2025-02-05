@@ -15,7 +15,7 @@ namespace Awesome.AI.Interfaces
         double POS_X { get; set; }
         double momentum { get; set; }
 
-        Direction dir { get; set; }
+        //Direction dir { get; set; }
         
         void Calculate();//do calculations
         void Position();//calculate position of x
