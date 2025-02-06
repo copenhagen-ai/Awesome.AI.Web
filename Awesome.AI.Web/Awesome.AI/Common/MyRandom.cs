@@ -1,4 +1,5 @@
 ﻿using Awesome.AI.Core;
+using System.Globalization;
 
 namespace Awesome.AI.Common
 {
@@ -48,7 +49,7 @@ namespace Awesome.AI.Common
                 {
                     string rand = Rand(i);
 
-                    res[i] = double.Parse($"0.{rand}");
+                    res[i] = double.Parse($"0.{rand[..10]}", CultureInfo.InvariantCulture);
                 }
 
                 return res;

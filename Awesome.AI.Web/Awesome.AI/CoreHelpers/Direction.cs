@@ -17,8 +17,6 @@ namespace Awesome.AI.CoreHelpers
         public List<THECHOISE> ratio { get; set; } = new List<THECHOISE>();
         public int all_yes { get; set; } = 0;
         public int all_no { get; set; } = 0;
-        public double d_pos_x { get; set; }
-        public double d_momentum { get; set; }
 
         public void Update()
         {
@@ -33,7 +31,7 @@ namespace Awesome.AI.CoreHelpers
              * "NO", is to say no to going downwards
              * */
             
-            bool is_low = d_momentum <= 0.0d;
+            bool is_low = mind.parms._mech.momentum <= 0.0d;
 
             Choise = is_low.TheHack1(mind) ? THECHOISE.NO : THECHOISE.YES;
         }
@@ -51,16 +49,14 @@ namespace Awesome.AI.CoreHelpers
                 ratio.RemoveAt(0);
         }
 
-        public int CountYes()
+        public int Count(THECHOISE choise)
         {
-            int count = ratio.Where(z => z.IsYes()).Count();
-
-            return count;
-        }
-
-        public int CountNo()
-        {
-            int count = ratio.Where(z => z.IsNo()).Count();
+            int count = 0;
+            switch (choise)
+            {
+                case THECHOISE.YES: ratio.Where(z => z.IsYes()).Count(); break;
+                case THECHOISE.NO: ratio.Where(z => z.IsNo()).Count(); break;
+            }
 
             return count;
         }

@@ -1,4 +1,7 @@
-﻿namespace Awesome.AI.Helpers
+﻿using Awesome.AI.CoreHelpers;
+using static Awesome.AI.Helpers.Enums;
+
+namespace Awesome.AI.Helpers
 {
     public class Constants
     {
@@ -58,5 +61,7 @@
             "answer_should_decision", "answer_what_decision",
             "ask_should_decision",
         };
+
+        public const POSITION position = POSITION.NEW;
     }
 }

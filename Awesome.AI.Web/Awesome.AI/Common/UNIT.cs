@@ -13,7 +13,7 @@ namespace Awesome.AI.Common
          * */
 
         public Ticket ticket = new Ticket("NOTICKET");
-        private TYPE type { get; set; }
+        private UNITTYPE type { get; set; }
         public string root { get; set; }//name
         public string data { get; set; }//data
         public double credits { get; set; }
@@ -145,7 +145,7 @@ namespace Awesome.AI.Common
             }
         }
 
-        public static UNIT Create(TheMind mind, double index, string root, string data, string ticket, TYPE t)
+        public static UNIT Create(TheMind mind, double index, string root, string data, string ticket, UNITTYPE t)
         {
             UNIT _w = new UNIT() { mind = mind, Index = index, root = root, data = data, type = t };
 
@@ -159,14 +159,14 @@ namespace Awesome.AI.Common
 
         public static UNIT IDLE_UNIT(TheMind mind)
         {
-            return UNIT.Create(mind, -1d, "XXXX", "XXXX", "", TYPE.IDLE);
+            return UNIT.Create(mind, -1d, "XXXX", "XXXX", "", UNITTYPE.IDLE);
         }
 
-        public bool IsUNIT() => type == TYPE.JUSTAUNIT;
+        public bool IsUNIT() => type == UNITTYPE.JUSTAUNIT;
 
-        public bool IsIDLE() => type == TYPE.IDLE;
+        public bool IsIDLE() => type == UNITTYPE.IDLE;
 
-        public bool IsDECISION() => type == TYPE.DECISION;
+        public bool IsDECISION() => type == UNITTYPE.DECISION;
 
         //UNIT next = null;
         //public UNIT Next

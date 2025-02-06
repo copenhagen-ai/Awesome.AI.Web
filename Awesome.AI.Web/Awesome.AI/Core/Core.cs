@@ -21,10 +21,13 @@ namespace Awesome.AI.Core
              * */
             try
             {
-                double _e = mind.parms._mech.Result();
+                double _e = Constants.position == POSITION.OLD ?
+                    mind.parms._mech.POS_XY :
+                    mind.pos.Pos;
+
                 pain = mind.calc.Reciprocal(_e);
 
-                if (pain > 1000.0)
+                if (pain > 10.0)
                     throw new Exception();
 
                 return pain < mind.parms.max_pain;

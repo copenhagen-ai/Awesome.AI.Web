@@ -157,26 +157,26 @@ namespace Awesome.AI.CoreHelpers
             List<string> answer_what_decision = this.answer_what_decision;
             List<string> ask_should_decision = this.ask_should_decision;
 
-            UnitsCommon(u_count, commen, TYPE.JUSTAUNIT, TONE.RANDOM);
+            UnitsCommon(u_count, commen, UNITTYPE.JUSTAUNIT, TONE.RANDOM);
             HubsCommon(u_count, commen, TONE.RANDOM);
 
             int count1 = 1;
             int count2 = 1;
 
-            count1 = UnitsDecide(location_should_decision, TYPE.DECISION, count1, TONE.RANDOM);
-            count2 = HubsDecide(Constants.subject_decision[0], location_should_decision, TYPE.DECISION, count2, TONE.RANDOM);
+            count1 = UnitsDecide(location_should_decision, UNITTYPE.DECISION, count1, TONE.RANDOM);
+            count2 = HubsDecide(Constants.subject_decision[0], location_should_decision, UNITTYPE.DECISION, count2, TONE.RANDOM);
 
-            count1 = UnitsDecide(location_what_decision, TYPE.DECISION, count1, TONE.POSITIVE);
-            count2 = HubsDecide(Constants.subject_decision[1], location_what_decision, TYPE.DECISION, count2, TONE.POSITIVE);
+            count1 = UnitsDecide(location_what_decision, UNITTYPE.DECISION, count1, TONE.POSITIVE);
+            count2 = HubsDecide(Constants.subject_decision[1], location_what_decision, UNITTYPE.DECISION, count2, TONE.POSITIVE);
 
-            count1 = UnitsDecide(answer_should_decision, TYPE.DECISION, count1, TONE.RANDOM);
-            count2 = HubsDecide(Constants.subject_decision[2], answer_should_decision, TYPE.DECISION, count2, TONE.RANDOM);
+            count1 = UnitsDecide(answer_should_decision, UNITTYPE.DECISION, count1, TONE.RANDOM);
+            count2 = HubsDecide(Constants.subject_decision[2], answer_should_decision, UNITTYPE.DECISION, count2, TONE.RANDOM);
 
-            count1 = UnitsDecide(answer_what_decision, TYPE.DECISION, count1, TONE.NEGATIVE);
-            count2 = HubsDecide(Constants.subject_decision[3], answer_what_decision, TYPE.DECISION, count2, TONE.NEGATIVE);
+            count1 = UnitsDecide(answer_what_decision, UNITTYPE.DECISION, count1, TONE.NEGATIVE);
+            count2 = HubsDecide(Constants.subject_decision[3], answer_what_decision, UNITTYPE.DECISION, count2, TONE.NEGATIVE);
 
-            count1 = UnitsDecide(ask_should_decision, TYPE.DECISION, count1, TONE.RANDOM);
-            count2 = HubsDecide(Constants.subject_decision[4], ask_should_decision, TYPE.DECISION, count2, TONE.RANDOM);
+            count1 = UnitsDecide(ask_should_decision, UNITTYPE.DECISION, count1, TONE.RANDOM);
+            count2 = HubsDecide(Constants.subject_decision[4], ask_should_decision, UNITTYPE.DECISION, count2, TONE.RANDOM);
 
 
             /*
@@ -334,7 +334,7 @@ namespace Awesome.AI.CoreHelpers
             }
         }
 
-        public void UnitsCommon(int u_count, List<string> list, TYPE type, TONE tone)
+        public void UnitsCommon(int u_count, List<string> list, UNITTYPE type, TONE tone)
         {
             //XElement xdoc;
             //if (mind.parms.setup_tags == TAGSETUP.PRIME)
@@ -372,7 +372,7 @@ namespace Awesome.AI.CoreHelpers
             }
         }
 
-        public int UnitsDecide(List<string> list, TYPE type, int count, TONE tone)
+        public int UnitsDecide(List<string> list, UNITTYPE type, int count, TONE tone)
         {
             //XElement xdoc;
             //if (mind.parms.setup_tags == TAGSETUP.PRIME)
@@ -430,7 +430,7 @@ namespace Awesome.AI.CoreHelpers
             }
         }
 
-        public int HubsDecide(string subject, List<string> list, TYPE type, int count, TONE tone)
+        public int HubsDecide(string subject, List<string> list, UNITTYPE type, int count, TONE tone)
         {
             //XElement xdoc;
             //if (mind.parms.setup_tags == TAGSETUP.PRIME)

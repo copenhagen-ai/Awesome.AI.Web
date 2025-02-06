@@ -90,26 +90,6 @@ namespace Awesome.AI.Common
             return q == THECHOISE.NO;
         }
 
-        public static bool IsNOT(this OPINION q)
-        {
-            return q == OPINION.NOT;
-        }
-
-        public static bool IsOK(this OPINION q)
-        {
-            return q == OPINION.OK;
-        }
-
-        public static bool IsNONE(this OPINION q)
-        {
-            return q == OPINION.NONE;
-        }
-
-        public static bool IsEITHER(this OPINION q)
-        {
-            return q == OPINION.NOT || q == OPINION.OK;
-        }
-
         //public static string Data(this string value)
         //{
         //    return value.Split(':')[0];

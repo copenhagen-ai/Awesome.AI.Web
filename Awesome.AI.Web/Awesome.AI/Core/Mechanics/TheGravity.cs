@@ -1,5 +1,4 @@
 ﻿using Awesome.AI.Common;
-using Awesome.AI.CoreHelpers;
 using Awesome.AI.Helpers;
 using Awesome.AI.Interfaces;
 
@@ -27,19 +26,39 @@ namespace Awesome.AI.Core.Mechanics
         private double min { get; set; } = 1000.0d;
         private double max { get; set; } = -1000.0d;
 
-        public double POS_X { get; set; } = 10.0d;
-        //public Direction dir { get; set; }
-        //public Limitters lim { get; set; }
-
         private TheMind mind;
         private _TheGravity() { }
         public _TheGravity(TheMind mind, Params parms)
         {
             this.mind = mind;
-            //dir = new Direction(parms.mind) { d_momentum = 0.0d };
-            //lim = new Limitters(parms.mind);
+
+            posxy = parms.pos_x_start;//10;
         }
         
+        private double posxy { get; set; }
+        public double POS_XY
+        {
+            get 
+            {
+                //its a hack, yes its cheating..
+                double boost = mind.parms.boost;
+
+                posxy = 10.0d + (boost * momentum);//dosnt seem right
+                //posx = posx + (boost * velocity);
+                //posx = 10.0d + (boost * momentum);
+
+                if (posxy < mind.parms.pos_x_low)
+                    posxy = mind.parms.pos_x_low;
+                if (posxy > mind.parms.pos_x_high)
+                    posxy = mind.parms.pos_x_high;
+
+                if (posxy <= posx_low) posx_low = posxy;
+                if (posxy > posx_high) posx_high = posxy;
+
+                return posxy;
+            }
+        }
+
         //NewtonForce
         public double Variable(UNIT curr)
         {
@@ -66,37 +85,6 @@ namespace Awesome.AI.Core.Mechanics
 
             return grav;
         }
-
-        public double Result()
-        {
-            double res = POS_X;
-
-            return res;
-        }
-
-        public void Position()
-        {
-            //its a hack, yes its cheating..
-            double boost = mind.parms.boost;
-
-            POS_X = 10.0d + (boost * momentum);//dosnt seem right
-            //POS_X = POS_X + (boost * velocity);
-            //POS_X = 10.0d + (boost * momentum);
-
-            if (POS_X < mind.parms.pos_x_low)
-                POS_X = mind.parms.pos_x_low;
-            if (POS_X > mind.parms.pos_x_high)
-                POS_X = mind.parms.pos_x_high;
-
-            if (POS_X <= posx_low) posx_low = POS_X;
-            if (POS_X > posx_high) posx_high = POS_X;
-
-            mind.dir.d_momentum = momentum;
-            mind.dir.d_pos_x = POS_X;
-
-            mind.dir.Update();
-        }
-
 
         public void Calculate()
         {

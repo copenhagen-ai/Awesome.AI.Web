@@ -34,6 +34,7 @@ namespace Awesome.AI.Core
         public ChatAnswer chatans;
         public ChatAsk chatask;
         public Direction dir;
+        public Position pos;
 
         public HUB curr_hub;
         public UNIT curr_unit;
@@ -86,7 +87,8 @@ namespace Awesome.AI.Core
                 loc = new Location(this, _location);
                 chatans = new ChatAnswer(this, "");
                 chatask = new ChatAsk(this, "");
-                dir = new Direction(this) { d_momentum = 0.0d };
+                dir = new Direction(this);
+                pos = new Position(this);
                 mem = new Memory(this, parms.number_of_units);
 
                 parms.UpdateLowCut();
@@ -103,7 +105,7 @@ namespace Awesome.AI.Core
                 PreRun(true);
                 PostRun(true);
 
-                theanswer = UNIT.Create(this, -1.0d, "I dont Know", "null", "SPECIAL", TYPE.JUSTAUNIT);//set it to "It does not", and the program terminates
+                theanswer = UNIT.Create(this, -1.0d, "I dont Know", "null", "SPECIAL", UNITTYPE.JUSTAUNIT);//set it to "It does not", and the program terminates
             
                 ProcessPass();
                         
@@ -191,7 +193,7 @@ namespace Awesome.AI.Core
 
         private void PreRun(bool _pro)
         {
-            rand.SaveMomentum(dir.d_momentum);
+            rand.SaveMomentum(parms._mech.momentum);
 
             if (_pro)
                 common.Reset();            
@@ -225,11 +227,14 @@ namespace Awesome.AI.Core
                 return true;
 
             mech.Calculate();
-            mech.Position();
+            //mech.Position();//Enums.POSITION.OLD
+
+            dir.Update();
+            pos.Update(_pro);//Enums.POSITION.NEW
 
             //if (curr_hub.IsIDLE())
             //    core.SetTheme(_pro);
-            
+
             if (!core.OK(out pain))
                 return false;
             return true;

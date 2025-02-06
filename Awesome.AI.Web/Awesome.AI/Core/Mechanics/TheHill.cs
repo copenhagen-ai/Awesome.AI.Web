@@ -17,25 +17,44 @@ namespace Awesome.AI.Core.Mechanics
         public double posx_high { get; set; } = -1000.0d;
         public double posx_low { get; set; } = 1000.0d;
         
-        //private double a { get { return mind.parms.hill_a; } }//-0.1d;
-        //private double b { get { return mind.parms.hill_b; } }//0.0d;
-        //private double c { get { return mind.parms.hill_c; } }//10.0d;
         public double res_x_prev { get; set; } = 0;
-
-        public double POS_X { get; set; }
-        //public Direction dir { get; set; }
-
+                
         private TheMind mind;
         private _TheHill() { }
         public _TheHill(TheMind mind, Params parms)
         {
             this.mind = mind;
-            //dir = new Direction(parms.mind) { d_momentum = 0.0d };
             
-            POS_X = parms.pos_x_start;//10;
+            posxy = parms.pos_x_start;//10;
+        }        
+
+        private double posxy { get; set; }
+        public double POS_XY
+        {
+            get
+            {
+                //its a hack, yes its cheating..
+                double boost = mind.parms.boost;
+
+                if (mind.goodbye.IsNo())
+                    posxy = mind.parms.pos_x_start + (boost * momentum);
+                else
+                    posxy += (boost * momentum);
+
+                //POS_X = 10.0d + (boost * momentum);
+
+                if (posxy < mind.parms.pos_x_low)
+                    posxy = mind.parms.pos_x_low;
+                if (posxy > mind.parms.pos_x_high)
+                    posxy = mind.parms.pos_x_high;
+
+                if (posxy <= posx_low) posx_low = posxy;
+                if (posxy > posx_high) posx_high = posxy;
+
+                return 10.0d - posxy;
+            }
         }
 
-        
         //Weight
         public double Variable(UNIT _c)
         {
@@ -58,39 +77,6 @@ namespace Awesome.AI.Core.Mechanics
             double res = (mass * earth_gravity) * percent;
 
             return res;
-        }
-
-        public double Result()
-        {
-            double res = 10.0d - POS_X;
-
-            return res;
-        }
-
-        public void Position()
-        {
-            //its a hack, yes its cheating..
-            double boost = mind.parms.boost;
-
-            if(mind.goodbye.IsNo())
-                POS_X = mind.parms.pos_x_start + (boost * momentum);
-            else
-                POS_X += (boost * momentum);
-
-            //POS_X = 10.0d + (boost * momentum);
-
-            if (POS_X < mind.parms.pos_x_low)
-                POS_X = mind.parms.pos_x_low;
-            if (POS_X > mind.parms.pos_x_high)
-                POS_X = mind.parms.pos_x_high;
-
-            if (POS_X <= posx_low) posx_low = POS_X;
-            if (POS_X > posx_high) posx_high = POS_X;
-
-            mind.dir.d_momentum = momentum;
-            mind.dir.d_pos_x = POS_X;
-            
-            mind.dir.Update();
         }
 
         private double SlopeInDegrees(double x)

@@ -283,14 +283,14 @@ namespace Awesome.AI.Helpers
          * 
          * 0.888 = 8 / 9
          * 0.777 = 7 / 9
-         * 0.666 = 6 / 9, hehe
+         * 0.666 = 2 / 3, hehe
          * 0.555 = 5 / 9
          * */
 
-        public double base_friction = 6d / 9d;                                      // COMMENT NEEDS UPDATE: needs to be this otherwise position keeps going down
+        public double base_friction = 2d / 3d;                                      // COMMENT NEEDS UPDATE: needs to be this otherwise position keeps going down
         public double lapses_total = 99d;                                           // yesno ratio : reaction time in cycles
         public double ratio = 50d;
-        public double slope = 0.666d;
+        //public double slope = 0.666d;
 
         // should it be 200, 1000 or more???
         public double mass;

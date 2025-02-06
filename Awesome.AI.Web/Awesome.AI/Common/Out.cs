@@ -1,6 +1,8 @@
 ﻿using Awesome.AI.Common;
 using Awesome.AI.Core;
+using Awesome.AI.Helpers;
 using Microsoft.CodeAnalysis.Elfie.Model.Strings;
+using static Awesome.AI.Helpers.Enums;
 
 namespace Awesome.AI.Web.AI.Common
 {
@@ -50,12 +52,15 @@ namespace Awesome.AI.Web.AI.Common
         {
             cycles = $"{mind.cycles}";
             cycles_total = $"{mind.cycles_all}";
-            momentum = $"{mind.dir.d_momentum}";
+            momentum = $"{mind.parms._mech.momentum}";
 
             pain = $"{mind.pain}";
-            position = $"{mind.dir.d_pos_x}";
-            ratio_yes = $"{mind.dir.CountYes()}";
-            ratio_no = $"{mind.dir.CountNo()}";
+            if (Constants.position == Enums.POSITION.OLD)
+                position = $"{mind.parms._mech.POS_XY}";
+            if (Constants.position == Enums.POSITION.NEW)
+                position = $"{mind.pos.Pos}";
+            ratio_yes = $"{mind.dir.Count(THECHOISE.YES)}";
+            ratio_no = $"{mind.dir.Count(THECHOISE.NO)}";
             the_choise = $"{(mind.dir.Choise.IsNo() ? "NO" : "YES")}";
             epochs = $"{mind.epochs}";
             runtime = $"{mind.parms.runtime}";
