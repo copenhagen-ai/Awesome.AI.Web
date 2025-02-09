@@ -52,7 +52,7 @@ namespace Awesome.AI.Web.AI.Common
         {
             cycles = $"{mind.cycles}";
             cycles_total = $"{mind.cycles_all}";
-            momentum = $"{mind.parms._mech.momentum}";
+            momentum = $"{mind.parms._mech.momentum.ToString("E3")}";
 
             pain = $"{mind.pain}";
             if (mind.mech == MECHANICS.HILL)

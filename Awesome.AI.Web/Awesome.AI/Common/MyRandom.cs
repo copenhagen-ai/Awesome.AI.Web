@@ -101,8 +101,9 @@ namespace Awesome.AI.Common
                 string rand = "" + saves[index];
 
                 //remove exponent
+                int index_e = rand.ToUpper().IndexOf('E');
                 if (rand.ToUpper().Contains("E"))
-                    rand = rand.Substring(0, rand.Length - 3);
+                    rand = rand[..index_e];
 
                 //reverse, this is the random part
                 string res = "";

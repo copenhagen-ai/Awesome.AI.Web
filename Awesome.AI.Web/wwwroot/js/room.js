@@ -198,14 +198,14 @@ function myinfo1(epochs, runtime, momentum, cycles, pain, position, ratio, the_c
 
     //div0.textContent = `${epochs}`;
     div1.textContent = `${epochs_remaining}`;
-    div2.textContent = `${momentum} . . .`;
+    div2.textContent = `${momentum}`;
     div3.textContent = `${cycles[0]}`;
     div4.textContent = `${cycles[1]}`;
-    div5.textContent = `${position} . . .`;
+    div5.textContent = `${position}`;
     div6.textContent = `${ratio[0]}`;
     div7.textContent = `${ratio[1]}`;
     div8.textContent = `${the_choise}`;
-    div9.textContent = `${pain_out} . . .`;
+    div9.textContent = `${pain_out}`;
 
     if (the_choise == 'NO') {
         div8.classList.remove("i-color-red");
