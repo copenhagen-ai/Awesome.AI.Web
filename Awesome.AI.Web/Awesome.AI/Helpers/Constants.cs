@@ -50,10 +50,15 @@ namespace Awesome.AI.Helpers
 
         public const double MIN = 0.5d;
         public const double MAX = 99.5d;
+        public const double LOWXY = 0.0d;
+        public const double HIGHXY = 10.0d;
+        public const double STARTXY = 5.0d;
 
         public const double VERY_LOW = 1.0E-50;
         public const double GRAVITY = 9.81d;
+        public const double GRAV_CONST = 6.674E-11d;
         public const double MAX_CREDIT = 10.0d;
+        public const double LOW_CREDIT = 0.0d;
 
         public static readonly string[] subject_decision = new string[]
         { 
@@ -62,6 +67,6 @@ namespace Awesome.AI.Helpers
             "ask_should_decision",
         };
 
-        public const POSITION position = POSITION.NEW;
+        //public const POSITION position = POSITION.NEW;
     }
 }

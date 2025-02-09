@@ -32,10 +32,10 @@ namespace Awesome.AI.Web.AI.Common
         public string chat_state { get; set; }
         public string chat_answer { get; set; }
         public string chat_subject { get; set; }
-        //public string chat_index { get; set; }
-
-        public UNIT common_unit { get; set; }
         public string common_hub { get; set; }
+
+        //public string chat_index { get; set; }
+        public UNIT common_unit { get; set; }
 
         public async Task<string> GetAnswer()
         {
@@ -55,9 +55,11 @@ namespace Awesome.AI.Web.AI.Common
             momentum = $"{mind.parms._mech.momentum}";
 
             pain = $"{mind.pain}";
-            if (Constants.position == Enums.POSITION.OLD)
+            if (mind.mech == MECHANICS.HILL)
                 position = $"{mind.parms._mech.POS_XY}";
-            if (Constants.position == Enums.POSITION.NEW)
+            if (mind.mech == MECHANICS.CONTEST)
+                position = $"{mind.pos.Pos}";
+            if (mind.mech == MECHANICS.GRAVITY)
                 position = $"{mind.pos.Pos}";
             ratio_yes = $"{mind.dir.Count(THECHOISE.YES)}";
             ratio_no = $"{mind.dir.Count(THECHOISE.NO)}";
@@ -83,7 +85,10 @@ namespace Awesome.AI.Web.AI.Common
             //mind.chatask.Index = "";
 
             common_unit = mind.process.most_common_unit;
-            
+
+            if (common_unit == null)
+                return;
+                       
             common_hub = common_unit.HUB.GetSubject();
         }
     }

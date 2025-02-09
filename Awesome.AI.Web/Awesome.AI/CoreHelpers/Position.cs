@@ -62,21 +62,28 @@ namespace Awesome.AI.CoreHelpers
         
         private void Schedule()
         {
-            switch (pos)
-            {
-                case < 1.0d:
-                    if (mind.goodbye.IsNo() && !is_no)
-                        is_no = true;
-                    break;
-                case < 5.0d:
-                    if (mind.goodbye.IsNo() && !is_no)
-                        is_no = mind.dir.Choise.IsNo();
-                    break;
-                case > 8.0d:
-                    is_no = false;
-                    down = 0.1d;
-                    break;
+            if (mind.goodbye.IsYes()) {
+                is_no = false;
+                return;
             }
-        }
+
+            if (pos < mind.parms.schedule_low) {
+                if (!is_no)
+                    is_no = true;
+                return;
+            }
+
+            if (pos < mind.parms.schedule_mid) {
+                if (!is_no)
+                    is_no = mind.dir.Choise.IsNo();
+                return;
+            }
+
+            if (pos >= mind.parms.schedule_high) {
+                is_no = false;
+                down = 0.1d;
+                return;
+            }
+        }        
     }
 }

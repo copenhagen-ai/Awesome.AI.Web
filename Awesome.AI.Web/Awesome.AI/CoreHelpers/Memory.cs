@@ -2,6 +2,7 @@
 using Awesome.AI.Core;
 using Awesome.AI.Helpers;
 using Microsoft.AspNetCore.SignalR;
+using System.Collections.Generic;
 using static Awesome.AI.Helpers.Enums;
 
 namespace Awesome.AI.CoreHelpers
@@ -163,20 +164,26 @@ namespace Awesome.AI.CoreHelpers
             int count1 = 1;
             int count2 = 1;
 
-            count1 = UnitsDecide(location_should_decision, UNITTYPE.DECISION, count1, TONE.RANDOM);
-            count2 = HubsDecide(Constants.subject_decision[0], location_should_decision, UNITTYPE.DECISION, count2, TONE.RANDOM);
+            TONE tone;
+            tone = mind.mech == MECHANICS.GRAVITY ? TONE.RANDOM : TONE.RANDOM;
+            count1 = UnitsDecide(location_should_decision, UNITTYPE.DECISION, count1, tone);
+            count2 = HubsDecide(Constants.subject_decision[0], location_should_decision, UNITTYPE.DECISION, count2, tone);
 
-            count1 = UnitsDecide(location_what_decision, UNITTYPE.DECISION, count1, TONE.POSITIVE);
-            count2 = HubsDecide(Constants.subject_decision[1], location_what_decision, UNITTYPE.DECISION, count2, TONE.POSITIVE);
+            tone = mind.mech == MECHANICS.GRAVITY ? TONE.RANDOM : TONE.POSITIVE;
+            count1 = UnitsDecide(location_what_decision, UNITTYPE.DECISION, count1, tone);
+            count2 = HubsDecide(Constants.subject_decision[1], location_what_decision, UNITTYPE.DECISION, count2, tone);
 
-            count1 = UnitsDecide(answer_should_decision, UNITTYPE.DECISION, count1, TONE.RANDOM);
-            count2 = HubsDecide(Constants.subject_decision[2], answer_should_decision, UNITTYPE.DECISION, count2, TONE.RANDOM);
+            tone = mind.mech == MECHANICS.GRAVITY ? TONE.RANDOM : TONE.RANDOM;
+            count1 = UnitsDecide(answer_should_decision, UNITTYPE.DECISION, count1, tone);
+            count2 = HubsDecide(Constants.subject_decision[2], answer_should_decision, UNITTYPE.DECISION, count2, tone);
 
-            count1 = UnitsDecide(answer_what_decision, UNITTYPE.DECISION, count1, TONE.NEGATIVE);
-            count2 = HubsDecide(Constants.subject_decision[3], answer_what_decision, UNITTYPE.DECISION, count2, TONE.NEGATIVE);
+            tone = mind.mech == MECHANICS.GRAVITY ? TONE.RANDOM : TONE.NEGATIVE;
+            count1 = UnitsDecide(answer_what_decision, UNITTYPE.DECISION, count1, tone);
+            count2 = HubsDecide(Constants.subject_decision[3], answer_what_decision, UNITTYPE.DECISION, count2, tone);
 
-            count1 = UnitsDecide(ask_should_decision, UNITTYPE.DECISION, count1, TONE.RANDOM);
-            count2 = HubsDecide(Constants.subject_decision[4], ask_should_decision, UNITTYPE.DECISION, count2, TONE.RANDOM);
+            tone = mind.mech == MECHANICS.GRAVITY ? TONE.RANDOM : TONE.RANDOM;
+            count1 = UnitsDecide(ask_should_decision, UNITTYPE.DECISION, count1, tone);
+            count2 = HubsDecide(Constants.subject_decision[4], ask_should_decision, UNITTYPE.DECISION, count2, tone);
 
 
             /*
@@ -237,6 +244,15 @@ namespace Awesome.AI.CoreHelpers
             return res;
         }
 
+        public UNIT UNIT_RND(int index)
+        {
+            int[] rand = mind.rand.MyRandomInt(index, units.Count() - 1);
+
+            UNIT _u = units[rand[index - 1]];
+
+            return _u;
+        }
+
         public List<HUB> HUBS_ALL()
         {
             return hubs.ToList();
@@ -280,7 +296,7 @@ namespace Awesome.AI.CoreHelpers
             hubs = hubs.OrderBy(x=>x.GetSubject()).ToList();
         }
 
-        private double GetIndex(TONE tone, double _r, int i, int j, Calc calc)
+        private double GetIndex(TONE tone, double _r, double i, double j, Calc calc)
         {
             double _rand = 0.0d;
             double _t = 0.0d;
@@ -311,6 +327,12 @@ namespace Awesome.AI.CoreHelpers
                     break;
             }
 
+            if (_rand < 0.0d)
+                ;
+
+            if (_rand > 100.0d)
+                ;
+
             return _rand;
         }
 
@@ -322,15 +344,16 @@ namespace Awesome.AI.CoreHelpers
             int count = hub.units.Count;
             double[] doubles = rand.MyRandomDouble(count);
 
+            double bit = 10.0d / hub.units.Count;
             int index = 0;
-            int i = 0;
-            int j = 0;
+            double i = 0;
+            double j = 0;
             foreach (UNIT _u in hub.units)
             {
                 _u.Index = GetIndex(hub.tone, doubles[index], i, j, calc);
                 index++;
-                i++;
-                j = i <= 5 ? j++ : j--;
+                i += bit;
+                j = i <= 5 ? j + bit : j - bit;
             }
         }
 
@@ -382,8 +405,9 @@ namespace Awesome.AI.CoreHelpers
 
             Random random = new Random();
 
-            int i = 1;
-            int j = 5;
+            double bit = 10.0d / list.Count;
+            double i = bit;
+            double j = bit * 5;
             foreach (string s in list)
             {
                 double rand = random.NextDouble();
@@ -398,8 +422,8 @@ namespace Awesome.AI.CoreHelpers
                         type
                     ));
 
-                i++;
-                j = i <= 5 ? j-- : j++;
+                i += bit;
+                j = i <= bit * 5 ? j - bit : j + bit;
                 count++;
             }
 

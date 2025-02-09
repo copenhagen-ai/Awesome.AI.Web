@@ -93,7 +93,7 @@ namespace Awesome.AI.Common
             get
             {
                 double res = Index;
-                res = mind.calc.NormalizeRange(res, 0.0d, 100.0d, 0.0d, mind.parms.max_index);
+                //res = mind.calc.NormalizeRange(res, 0.0d, 100.0d, 0.0d, 100.0d);
 
                 return res;
             }
@@ -108,7 +108,7 @@ namespace Awesome.AI.Common
             get
             {
                 double res = 100.0d - Index;
-                res = mind.calc.NormalizeRange(res, 0.0d, 100.0d, 0.0d, mind.parms.max_index);
+                //res = mind.calc.NormalizeRange(res, 0.0d, 100.0d, 0.0d, 100.0d);
 
                 return res;
             }

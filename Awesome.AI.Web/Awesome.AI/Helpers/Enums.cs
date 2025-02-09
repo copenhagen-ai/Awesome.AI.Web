@@ -12,7 +12,7 @@
         public enum MECHANICS { NONE, GRAVITY, CONTEST, WHEEL, HILL }
         public enum HACKMODES { HACK, NOHACK }
         public enum MATRIX { SIMPLE, GPT }
-        public enum POSITION { NEW, OLD }
+        public enum TYPELIMIT { SIMPLE, SIGMOID, CHANCE }
         public enum MOOD { GOOD, BAD }
     }
 }

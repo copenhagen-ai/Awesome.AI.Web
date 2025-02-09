@@ -32,7 +32,7 @@ namespace Awesome.AI.Core.Mechanics
         {
             this.mind = mind;
 
-            posxy = parms.pos_x_start;
+            posxy = Constants.STARTXY;
         }
 
         private double posxy { get; set; }
@@ -48,10 +48,10 @@ namespace Awesome.AI.Core.Mechanics
                 //posx = posx + (boost * velocity);
                 //posx = 10.0d + (boost * momentum);
 
-                if (posxy < mind.parms.pos_x_low)
-                    posxy = mind.parms.pos_x_low;
-                if (posxy > mind.parms.pos_x_high)
-                    posxy = mind.parms.pos_x_high;
+                if (posxy < Constants.LOWXY)
+                    posxy = Constants.LOWXY;
+                if (posxy > Constants.HIGHXY)
+                    posxy = Constants.HIGHXY;
 
                 if (posxy <= posx_low) posx_low = posxy;
                 if (posxy > posx_high) posx_high = posxy;
@@ -88,8 +88,8 @@ namespace Awesome.AI.Core.Mechanics
             Fdyn = ApplyDynamic();
 
             double Fnet = mind.goodbye.IsNo() ? -Fsta + Fdyn : -Fsta;
-            double dt = 0.002d; //delta time, 1sec/500cyc
             double m = mind.parms.mass;
+            double dt = mind.parms.delta_time;                             //delta time, 1sec/500cyc
 
             //F=m*a
             //a=dv/dt
@@ -118,7 +118,7 @@ namespace Awesome.AI.Core.Mechanics
         {
             double acc = mind.common.HighestForce().Variable / 10; //divided by 10 for aprox acc
             double m = mind.parms.mass;
-            double u = mind.calc.FrictionCoefficient(true, 0.0d, mind.parms.shift);
+            double u = mind.core.LimitterFriction(true, 0.0d, mind.parms.shift);
             double N = m * Constants.GRAVITY;
 
             double Ffriction = u * N;
@@ -144,7 +144,7 @@ namespace Awesome.AI.Core.Mechanics
             double max = mind.common.HighestForce().Variable / 10; //divided by 10 for aprox acc
             double acc = max - curr_unit_th.Variable / 10; //divided by 10 for aprox acc
             double m = mind.parms.mass;
-            double u = mind.calc.FrictionCoefficient(false, curr_unit_th.credits, mind.parms.shift);
+            double u = mind.core.LimitterFriction(false, curr_unit_th.credits, mind.parms.shift);
             double N = m * Constants.GRAVITY;
 
             double Ffriction = u * N;

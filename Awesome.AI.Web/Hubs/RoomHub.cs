@@ -280,8 +280,8 @@ namespace Awesome.AI.Web.Hubs
 
                 int MAX = Enum.GetNames(typeof(MINDS)).Length;
                                 
-                Bots.Add(new Bot() { mindtype = MINDS.ROBERTA, mech = MECHANICS.HILL, location= "KITCHEN" });
-                Bots.Add(new Bot() { mindtype = MINDS.ANDREW, mech = MECHANICS.CONTEST, location = "LIVINGROOM" });
+                Bots.Add(new Bot() { mindtype = MINDS.ROBERTA, mech = MECHANICS.GRAVITY, location= "KITCHEN" });
+                Bots.Add(new Bot() { mindtype = MINDS.ANDREW, mech = MECHANICS.GRAVITY, location = "LIVINGROOM" });
                 
                 foreach (Bot bot in Bots)
                 {
@@ -473,7 +473,9 @@ namespace Awesome.AI.Web.Hubs
                         throw new Exception("not is_running");
 
                     string[] cycles = new string[] { inst.mind._out.cycles, inst.mind._out.cycles_total };
-                    string momentum = ("" + inst.mind._out.momentum).Length < 5 ? inst.mind._out.momentum : $"{inst.mind._out.momentum}"[..10];
+                    int count = inst.mind._out.momentum.IndexOf("E");
+                    string e10 = inst.mind._out.momentum.ToLower().Contains("e") ? $"{inst.mind._out.momentum}"[count..] : "";
+                    string momentum = ("" + inst.mind._out.momentum).Length < 5 ? inst.mind._out.momentum : $"{inst.mind._out.momentum}"[..10] + e10;
 
                     string pain = ("" + inst.mind._out.pain).Length < 5 ? inst.mind._out.pain : $"{inst.mind._out.pain}"[..5];
                     string position = ("" + inst.mind._out.position).Length < 5 ? inst.mind._out.position : $"{inst.mind._out.position}"[..5];

@@ -15,8 +15,8 @@ namespace Awesome.AI.CoreHelpers
 
         public THECHOISE Choise { get; set; } = THECHOISE.NO;
         public List<THECHOISE> ratio { get; set; } = new List<THECHOISE>();
-        public int all_yes { get; set; } = 0;
-        public int all_no { get; set; } = 0;
+        //public int all_yes { get; set; } = 0;
+        //public int all_no { get; set; } = 0;
 
         public void Update()
         {
@@ -38,10 +38,10 @@ namespace Awesome.AI.CoreHelpers
 
         public void UpdateRatio()
         {
-            if (Choise.IsYes())
-                all_yes++;
-            else
-                all_no++;
+            //if (Choise.IsYes())
+            //    all_yes++;
+            //else
+            //    all_no++;
 
             ratio.Add(Choise);
 
@@ -54,8 +54,8 @@ namespace Awesome.AI.CoreHelpers
             int count = 0;
             switch (choise)
             {
-                case THECHOISE.YES: ratio.Where(z => z.IsYes()).Count(); break;
-                case THECHOISE.NO: ratio.Where(z => z.IsNo()).Count(); break;
+                case THECHOISE.YES: count = ratio.Where(z => z.IsYes()).Count(); break;
+                case THECHOISE.NO:  count = ratio.Where(z => z.IsNo()).Count(); break;
             }
 
             return count;

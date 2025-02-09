@@ -5,7 +5,6 @@ using Awesome.AI.Interfaces;
 using Awesome.AI.Systems;
 using Awesome.AI.Web.AI.Common;
 using Awesome.AI.Web.Helpers;
-using System;
 using static Awesome.AI.Helpers.Enums;
 
 namespace Awesome.AI.Core
@@ -35,7 +34,7 @@ namespace Awesome.AI.Core
         public ChatAsk chatask;
         public Direction dir;
         public Position pos;
-
+        
         public HUB curr_hub;
         public UNIT curr_unit;
         public UNIT theanswer;
@@ -90,7 +89,7 @@ namespace Awesome.AI.Core
                 dir = new Direction(this);
                 pos = new Position(this);
                 mem = new Memory(this, parms.number_of_units);
-
+                
                 parms.UpdateLowCut();
 
                 //if (mindtype == MINDS.STANDARD)
@@ -248,9 +247,9 @@ namespace Awesome.AI.Core
 
         private void Process(bool _pro)
         {
-            process.History(this);
-            process.CommonUnit(this);
-            process.Stats(this, _pro);
+            process.History();
+            process.Common();
+            process.Stats(_pro);
         }
 
         private void Systems(bool _pro)
