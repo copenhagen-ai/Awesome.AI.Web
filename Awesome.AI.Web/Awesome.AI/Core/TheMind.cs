@@ -39,10 +39,10 @@ namespace Awesome.AI.Core
         public UNIT curr_unit;
         public UNIT theanswer;
 
-        public IMechanics imech = null;
+        public IMechanics mech = null;
 
         public MINDS mindtype;
-        public MECHANICS mech;
+        public MECHANICS _mech;
         public THECHOISE goodbye = THECHOISE.NO;
 
         private bool do_process = false;
@@ -67,11 +67,11 @@ namespace Awesome.AI.Core
         public List<KeyValuePair<string, int>> themes_stat = new List<KeyValuePair<string, int>>();
         public Stats stats = new Stats();
         
-        public TheMind(MECHANICS mech, MINDS mindtype, string _location)
+        public TheMind(MECHANICS m, MINDS mindtype, string _location)
         {
             try
             {
-                this.mech = mech;
+                this._mech = m;
                 this.mindtype = mindtype;
 
                 parms = new Params(this);
@@ -92,7 +92,7 @@ namespace Awesome.AI.Core
                 pos = new Position(this);
                 mem = new Memory(this, parms.number_of_units);
                 
-                imech = parms.GetMechanics(mech);
+                mech = parms.GetMechanics(_mech);
                 parms.UpdateLowCut();
 
                 //if (mindtype == MINDS.STANDARD)
@@ -195,7 +195,7 @@ namespace Awesome.AI.Core
 
         private void PreRun(bool _pro)
         {
-            rand.SaveMomentum(imech.momentum);
+            rand.SaveMomentum(mech.momentum);
 
             if (_pro)
                 common.Reset();            
@@ -226,7 +226,7 @@ namespace Awesome.AI.Core
             if (curr_unit.IsIDLE())
                 return true;
 
-            imech.Calculate();
+            mech.Calculate();
             dir.Update();
             pos.Update(_pro);//Enums.POSITION.NEW
 
