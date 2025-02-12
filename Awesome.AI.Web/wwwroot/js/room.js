@@ -121,7 +121,7 @@ function room1() {
     $('#r2').text('Andrew');
     $('.mechSpan').text('hill');
     $('.roomHeader').text('Roberta');
-    $('#messageDiv').text('inner monologue..');
+    $('#messageDiv').text('inner monologue.. (press view)');
     $('#dot1Span').text('xxxx');
     $('#dot2Span').text('xxxx');
 
@@ -146,9 +146,9 @@ function room2() {
     room = 'room2';
     $('#r1').text('Roberta');
     $('#r2').text('[Andrew]');
-    $('.mechSpan').text('contest');
+    $('.mechSpan').text('cars');
     $('.roomHeader').text('Andrew');
-    $('#messageDiv').text('inner monologue..');
+    $('#messageDiv').text('inner monologue.. (press view)');
     $('#dot1Span').text('xxxx');
     $('#dot2Span').text('xxxx');
     

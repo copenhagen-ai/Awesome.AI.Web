@@ -28,7 +28,7 @@ namespace Awesome.AI.Core
                     ok = ReciprocalOK(mind.pos.Pos, out pain);
                     return ok;
                 case MECHANICS.HILL: 
-                    ok = ReciprocalOK(mind.parms._mech.POS_XY, out pain);
+                    ok = ReciprocalOK(mind.imech.POS_XY, out pain);
                     return ok;
                 case MECHANICS.GRAVITY:
                     ok = EventHorizonOK(mind.pos.Pos, out pain);
