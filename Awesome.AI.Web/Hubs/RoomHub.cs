@@ -205,7 +205,7 @@ namespace Awesome.AI.Web.Hubs
             if (is_upper)
                 return res_index;
             
-            throw new Exception();
+            throw new Exception("FormatIndex");
         }        
 
         private double FormatForce(TheMind mind, double index, bool is_index, bool is_lower, bool is_upper)
@@ -223,7 +223,7 @@ namespace Awesome.AI.Web.Hubs
             if (is_upper)
                 return mind.calc.NormalizeRange(res_index, 0.0d, 100.0d, min, max);
 
-            throw new Exception();
+            throw new Exception("FormatForce");
         }
     }
 
@@ -248,10 +248,10 @@ namespace Awesome.AI.Web.Hubs
         public static bool IsDebug()
         {
             if (Bots == null)
-                throw new Exception();
+                throw new Exception("IsDebug");
 
             if (!Bots.Any())
-                throw new Exception();
+                throw new Exception("IsDebug");
 
             Bot bot = Bots.First();
             MINDS type = bot.mindtype;
@@ -280,7 +280,7 @@ namespace Awesome.AI.Web.Hubs
 
                 int MAX = Enum.GetNames(typeof(MINDS)).Length;
                                 
-                Bots.Add(new Bot() { mindtype = MINDS.ROBERTA, mech = MECHANICS.HILL, location= "KITCHEN" });
+                Bots.Add(new Bot() { mindtype = MINDS.ROBERTA, mech = MECHANICS.CONTEST, location= "KITCHEN" });
                 Bots.Add(new Bot() { mindtype = MINDS.ANDREW, mech = MECHANICS.CONTEST, location = "LIVINGROOM" });
                 
                 foreach (Bot bot in Bots)
@@ -477,6 +477,7 @@ namespace Awesome.AI.Web.Hubs
                     //string e10 = inst.mind._out.momentum.ToLower().Contains("e") ? $"{inst.mind._out.momentum}"[count..] : "";
                     //string momentum = ("" + inst.mind._out.momentum).Length < 5 ? inst.mind._out.momentum : $"{inst.mind._out.momentum}"[..10] + e10;
                     string momentum = ("" + inst.mind._out.momentum);
+                    string deltaMom = ("" + inst.mind._out.deltaMom);
 
                     string pain = ("" + inst.mind._out.pain).Length < 5 ? inst.mind._out.pain : $"{inst.mind._out.pain}"[..5];
                     string position = ("" + inst.mind._out.position).Length < 5 ? inst.mind._out.position : $"{inst.mind._out.position}"[..5];
@@ -502,7 +503,7 @@ namespace Awesome.AI.Web.Hubs
                     {
                         if (inst.type == MINDS.ROBERTA)
                         {
-                            await Clients.All.SendAsync("MIND1InfoReceive1", epochs, runtime, momentum, cycles, pain, position, ratio, the_choise);
+                            await Clients.All.SendAsync("MIND1InfoReceive1", epochs, runtime, momentum, deltaMom, cycles, pain, position, ratio, the_choise);
                             await Clients.All.SendAsync("MIND1InfoReceive2", occu, locationfinal, loc_state, chat_state);
                             await Clients.All.SendAsync("MIND1GraphReceive", graph1.labels, graph1.curr_name, graph1.curr_value, graph1.reset_name, graph1.reset_value, graph1.bcol);
                             await Clients.All.SendAsync("MIND3GraphReceive", graph2.labels, graph2.curr_name, graph2.curr_value, graph2.reset_name, graph2.reset_value, graph2.bcol);
@@ -510,7 +511,7 @@ namespace Awesome.AI.Web.Hubs
 
                         if (inst.type == MINDS.ANDREW)
                         {
-                            await Clients.All.SendAsync("MIND2InfoReceive1", epochs, runtime, momentum, cycles, pain, position, ratio, the_choise);
+                            await Clients.All.SendAsync("MIND2InfoReceive1", epochs, runtime, momentum, deltaMom, cycles, pain, position, ratio, the_choise);
                             await Clients.All.SendAsync("MIND2InfoReceive2", occu, locationfinal, loc_state, chat_state);
                             await Clients.All.SendAsync("MIND2GraphReceive", graph1.labels, graph1.curr_name, graph1.curr_value, graph1.reset_name, graph1.reset_value, graph1.bcol);
                             await Clients.All.SendAsync("MIND4GraphReceive", graph2.labels, graph2.curr_name, graph2.curr_value, graph2.reset_name, graph2.reset_value, graph2.bcol);

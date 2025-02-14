@@ -639,7 +639,7 @@ video {
 }
 
 .h-box1 {
-  height: 420px;
+  height: 440px;
 }
 
 .h-box2 {
@@ -791,11 +791,6 @@ video {
 .py-2 {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
-}
-
-.py-4 {
-  padding-top: 1rem;
-  padding-bottom: 1rem;
 }
 
 .pb-4 {
@@ -1087,7 +1082,7 @@ video {
   }
 
   .md\:h-box1 {
-    height: 420px;
+    height: 440px;
   }
 
   .md\:w-full {

@@ -175,18 +175,19 @@ function mychat1(ask) {
     $('.chatRes').html(`${tmp}`);
 }
 
-function myinfo1(epochs, runtime, momentum, cycles, pain, position, ratio, the_choise) {
+function myinfo1(epochs, runtime, momentum, dmomentum, cycles, pain, position, ratio, the_choise) {
 
     //var div0 = document.getElementById("epochsSpan");
     var div1 = document.getElementById("epochsremainingSpan");
     var div2 = document.getElementById("momentumSpan");
-    var div3 = document.getElementById("cyclesSpan");
-    var div4 = document.getElementById("totalSpan");
-    var div5 = document.getElementById("positionSpan");
-    var div6 = document.getElementById("ratioYesSpan");
-    var div7 = document.getElementById("ratioNoSpan");
-    var div8 = document.getElementById("theChoiceSpan");
-    var div9 = document.getElementById("painSpan");
+    var div3 = document.getElementById("dmomentumSpan");
+    var div4 = document.getElementById("cyclesSpan");
+    var div5 = document.getElementById("totalSpan");
+    var div6 = document.getElementById("positionSpan");
+    var div7 = document.getElementById("ratioYesSpan");
+    var div8 = document.getElementById("ratioNoSpan");
+    var div9 = document.getElementById("theChoiceSpan");
+    var div10 = document.getElementById("painSpan");
 
     // document.getElementById("messagesList").appendChild(li);
     // We can assign user-supplied strings to an element's textContent because it
@@ -199,28 +200,29 @@ function myinfo1(epochs, runtime, momentum, cycles, pain, position, ratio, the_c
     //div0.textContent = `${epochs}`;
     div1.textContent = `${epochs_remaining}`;
     div2.textContent = `${momentum}`;
-    div3.textContent = `${cycles[0]}`;
-    div4.textContent = `${cycles[1]}`;
-    div5.textContent = `${position}`;
-    div6.textContent = `${ratio[0]}`;
-    div7.textContent = `${ratio[1]}`;
-    div8.textContent = `${the_choise}`;
-    div9.textContent = `${pain_out}`;
+    div3.textContent = `${dmomentum}`;
+    div4.textContent = `${cycles[0]}`;
+    div5.textContent = `${cycles[1]}`;
+    div6.textContent = `${position}`;
+    div7.textContent = `${ratio[0]}`;
+    div8.textContent = `${ratio[1]}`;
+    div9.textContent = `${the_choise}`;
+    div10.textContent = `${pain_out}`;
 
     if (the_choise == 'NO') {
-        div8.classList.remove("i-color-red");
-        div8.classList.add("i-color-green");
+        div9.classList.remove("i-color-red");
+        div9.classList.add("i-color-green");
     }
     else {
-        div8.classList.add("i-color-red");
-        div8.classList.remove("i-color-green");
+        div9.classList.add("i-color-red");
+        div9.classList.remove("i-color-green");
     }
 
     if (parseFloat(pain) > 1.0) {
-        div9.classList.add("i-color-red");
+        div10.classList.add("i-color-red");
     }
     else {
-        div9.classList.remove("i-color-red");
+        div10.classList.remove("i-color-red");
     }
 
     if (epochs_remaining <= 2) {
@@ -301,16 +303,16 @@ function onConnect() {
 
 
 
-    connection.on("MIND1InfoReceive1", function (epochs, runtime, momentum, cycles, pain, position, ratio, the_choise) {
+    connection.on("MIND1InfoReceive1", function (epochs, runtime, momentum, dmomentum, cycles, pain, position, ratio, the_choise) {
 
         if (room == 'room1')
-            myinfo1(epochs, runtime, momentum, cycles, pain, position, ratio, the_choise);
+            myinfo1(epochs, runtime, momentum, dmomentum, cycles, pain, position, ratio, the_choise);
     });
 
-    connection.on("MIND2InfoReceive1", function (epochs, runtime, momentum, cycles, pain, position, ratio, the_choise) {
+    connection.on("MIND2InfoReceive1", function (epochs, runtime, momentum, dmomentum, cycles, pain, position, ratio, the_choise) {
 
         if (room == 'room2')
-            myinfo1(epochs, runtime, momentum, cycles, pain, position, ratio, the_choise);
+            myinfo1(epochs, runtime, momentum, dmomentum, cycles, pain, position, ratio, the_choise);
     });
 
     connection.on("MIND1InfoReceive2", function (occu, location, loc_state, chat_state) {

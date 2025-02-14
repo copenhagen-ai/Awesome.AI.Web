@@ -17,7 +17,7 @@ namespace Awesome.AI.Web.Helpers
                         return elem.Value;                    
                 }
 
-                throw new Exception("A-OK, Check.");
+                throw new Exception("SECRET");
             }
         }
     }
