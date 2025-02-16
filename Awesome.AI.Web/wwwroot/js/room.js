@@ -24,7 +24,7 @@ const myChart1 = new Chart(document.getElementById('myChart1'), {
             }],
             yAxes: [{
                 ticks: {
-                    max: 20,
+                    max: 30,
                     min: 0
                 }
             }]
@@ -54,7 +54,7 @@ const myChart2 = new Chart(document.getElementById('myChart2'), {
             }],
             yAxes: [{
                 ticks: {
-                    max: 20,
+                    max: 30,
                     min: 0
                 }
             }]

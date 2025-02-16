@@ -210,8 +210,8 @@ namespace Awesome.AI.Web.Hubs
 
         private double FormatForce(TheMind mind, double index, bool is_index, bool is_lower, bool is_upper)
         {
-            double min = mind.common.LowestForce().Variable;
-            double max = mind.common.HighestForce().Variable;
+            double min = mind.mech.LowestVar;
+            double max = mind.mech.HighestVar;
             double temp = mind.calc.NormalizeRange(index, min, max, 0.01d, 99.99d);
 
             double res_index = ((int)Math.Floor(temp / 10.0)) * 10 + 10.0d;
@@ -280,7 +280,7 @@ namespace Awesome.AI.Web.Hubs
 
                 int MAX = Enum.GetNames(typeof(MINDS)).Length;
                                 
-                Bots.Add(new Bot() { mindtype = MINDS.ROBERTA, mech = MECHANICS.CONTEST, location= "KITCHEN" });
+                Bots.Add(new Bot() { mindtype = MINDS.ROBERTA, mech = MECHANICS.HILL, location= "KITCHEN" });
                 Bots.Add(new Bot() { mindtype = MINDS.ANDREW, mech = MECHANICS.CONTEST, location = "LIVINGROOM" });
                 
                 foreach (Bot bot in Bots)
@@ -298,8 +298,11 @@ namespace Awesome.AI.Web.Hubs
                     // Can choose to ignore event if late by Xµs (by default will try to catch up)
                     //microTimer.IgnoreEventIfLateBy = 500; // 500µs (0.5ms)
 
-                    while(instance.mind.cycles_all < 10)
+                    int count = 0;
+                    while (count < 5) {
                         await Task.Delay(1000);
+                        count++;
+                    }
 
                     ProcessInfo(instance);
                     ProcessMonologue(instance);
@@ -318,7 +321,7 @@ namespace Awesome.AI.Web.Hubs
                     foreach (Instance inst in Instances)
                     {
                         if (!inst.mind.ok)
-                            is_running = false;
+                            throw new Exception();
                         
                         //int index = Instances.IndexOf(inst);
                         //bool is_even = index % 2 == 0;
@@ -335,12 +338,19 @@ namespace Awesome.AI.Web.Hubs
 
                     XmlHelper.WriteMessage("running.. " + counter);
                     Debug.WriteLine("running.. " + counter);
-                }
+                }                
             }
             catch (Exception ex)
             {
                 XmlHelper.WriteError("start - " + ex.Message);
-                
+            }
+            finally
+            {
+                foreach(Instance inst in Instances)
+                    inst.microTimer.Enabled = false;
+
+                Instances = new List<Instance>();
+
                 is_running = false;
             }
         }
@@ -354,21 +364,8 @@ namespace Awesome.AI.Web.Hubs
                 List<string> dots = new List<string>() { "feeling great" };
                 bool wait1 = false;
 
-                while (inst.mind.ok)
+                while (is_running)
                 {
-                    //int ms_wait = inst.sec_message * 1000;
-                    //bool wait2 = ((double)inst.elapsedMs / (double)ms_wait) < 1.0d;
-
-                    //if(wait1)
-                    //    await Task.Delay(1000);
-                    //else if (wait2)
-                    //{
-                    //    for (int i = 0; i <= helper.Remaining(inst, is_running); i++)
-                    //        await Task.Delay(1000);
-                    //}
-
-                    //wait1 = false;
-
                     if (wait1) {
                         await Task.Delay(1000);
                         wait1 = false;
@@ -378,43 +375,27 @@ namespace Awesome.AI.Web.Hubs
                             await Task.Delay(1000);
                     }
 
-
-                    if (!is_running)
-                        throw new Exception("not is_running");
-
                     //var watch = System.Diagnostics.Stopwatch.StartNew();
-
                     // the code that you want to measure comes here
 
                     int user_count = UserHelper.CountUsers();
 
                     if (user_count > 1 || IsDebug())
                     {
-
                         string subject = "";
                         string dot = "";
-                        if (inst.mind.parms.matrix_type == MATRIX.SIMPLE)
-                        {
-                            UNIT common = inst.mind._out.common_unit;
-                            dot = helper.Format1(common.root.ToLower());
-                            subject = common.HUB.subject.ToLower();
-                        }
-                        else
-                        {
-                            UNIT common = inst.mind._out.common_unit;
-                            dot = helper.GPTGiveMeADot(inst, common);
+                        
+                        UNIT common = inst.mind._out.common_unit;
+                        dot = helper.GPTGiveMeADot(inst, common);
 
-                            if (dot.IsNullOrEmpty())
-                            {
-                                //inst.elapsedMs = 0;
-                                wait1 = true;
-                                continue;
-                            }
-
-                            dot = helper.Format1(dot);
-                            subject = common.HUB.subject.ToLower();
+                        if (dot.IsNullOrEmpty()) {
+                            wait1 = true;
+                            continue;
                         }
 
+                        dot = helper.Format1(dot);
+                        subject = common.HUB.subject.ToLower();
+                        
                         dots.Add(dot);
 
                         while (dots.Count > 2)
@@ -435,7 +416,7 @@ namespace Awesome.AI.Web.Hubs
                             if (inst.type == MINDS.ANDREW)
                                 await Clients.All.SendAsync("MIND2MessageReceive", message, dot1, dot2, subject);
                         }
-                        
+
                         //watch.Stop();
                         //inst.elapsedMs = watch.ElapsedMilliseconds;
                     }
@@ -443,18 +424,13 @@ namespace Awesome.AI.Web.Hubs
             }
             catch (Exception ex)
             {
-                //if (inst.mind.ok)
-                //    ProcessMessage(inst);
-                //else
-                {
-                    XmlHelper.WriteError("processmessage - " + ex.Message);
+                XmlHelper.WriteError("processmessage - " + ex.Message);
+            }
+            finally
+            {
+                inst.microTimer.Enabled = false;
 
-                    //inst.mind.theanswer.root = "It does not";
-
-                    inst.microTimer.Enabled = false;
-
-                    is_running = false;
-                }
+                is_running = false;
             }
         }
 
@@ -464,18 +440,13 @@ namespace Awesome.AI.Web.Hubs
             {
                 await Task.Delay(100);
 
-                while (inst.mind.ok)
+                while (is_running)
                 {
                     for (int i = 0; i < inst.sec_info; i++)
                         await Task.Delay(1000);
 
-                    if (!is_running)
-                        throw new Exception("not is_running");
-
                     string[] cycles = new string[] { inst.mind._out.cycles, inst.mind._out.cycles_total };
-                    //int count = inst.mind._out.momentum.IndexOf("E");
-                    //string e10 = inst.mind._out.momentum.ToLower().Contains("e") ? $"{inst.mind._out.momentum}"[count..] : "";
-                    //string momentum = ("" + inst.mind._out.momentum).Length < 5 ? inst.mind._out.momentum : $"{inst.mind._out.momentum}"[..10] + e10;
+                    
                     string momentum = ("" + inst.mind._out.momentum);
                     string deltaMom = ("" + inst.mind._out.deltaMom);
 
@@ -521,19 +492,15 @@ namespace Awesome.AI.Web.Hubs
             }
             catch (Exception ex)
             {
-                //if (inst.mind.ok)
-                //    ProcessInfo(inst);
-                //else
-                {
-                    XmlHelper.WriteError("processinfo - " + ex.Message);
-
-                    //inst.mind.theanswer.root = "It does not";
-
-                    inst.microTimer.Enabled = false;
-
-                    is_running = false;
-                }
+                XmlHelper.WriteError("processinfo - " + ex.Message);
             }
+            finally
+            {
+                inst.microTimer.Enabled = false;
+
+                is_running = false;
+            }
+
         }
 
         private async Task ProcessChat(Instance inst)
@@ -542,13 +509,10 @@ namespace Awesome.AI.Web.Hubs
             {
                 await Task.Delay(100);
 
-                while (inst.mind.ok)
+                while (is_running)
                 {
                     for (int i = 0; i < inst.sec_chat; i++)
                         await Task.Delay(1000);
-
-                    if (!is_running)
-                        throw new Exception("not is_running");
 
                     if (inst.mind._out.chat_subject == "")
                         continue;
@@ -586,18 +550,13 @@ namespace Awesome.AI.Web.Hubs
             }
             catch (Exception ex)
             {
-                //if (inst.mind.ok)
-                //    ProcessInfo(inst);
-                //else
-                {
-                    XmlHelper.WriteError("processinfo - " + ex.Message);
+                XmlHelper.WriteError("processinfo - " + ex.Message);
+            }
+            finally
+            {
+                inst.microTimer.Enabled = false;
 
-                    //inst.mind.theanswer.root = "It does not";
-
-                    inst.microTimer.Enabled = false;
-
-                    is_running = false;
-                }
+                is_running = false;
             }
         }
     }
