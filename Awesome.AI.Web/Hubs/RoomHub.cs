@@ -1,5 +1,6 @@
 ﻿using Awesome.AI.Common;
 using Awesome.AI.Core;
+using Awesome.AI.Helpers;
 using Awesome.AI.Web.Common;
 using Awesome.AI.Web.Helpers;
 using Microsoft.AspNetCore.SignalR;
@@ -292,7 +293,7 @@ namespace Awesome.AI.Web.Hubs
                         
                     // Instantiate new MicroTimer and add event handler
                     instance.microTimer.MicroTimerElapsed += new MicroLibrary.MicroTimer.MicroTimerElapsedEventHandler(instance.mind.Run);
-                    instance.microTimer.Interval = instance.mind.parms.micro_sec; // Call micro timer every 1000µs (1ms)
+                    instance.microTimer.Interval = Constants.MICRO_SEC; // Call micro timer every 1000µs (1ms)
                     instance.microTimer.Enabled = true; // Start timer
 
                     // Can choose to ignore event if late by Xµs (by default will try to catch up)
