@@ -36,6 +36,60 @@ namespace Awesome.AI.Web.Hubs
         public string[] labels = new string[10];
         public string curr_name = "", curr_value, reset_name = "", reset_value, bcol;
 
+        //public void SetupIndex(Instance inst)
+        //{
+        //    //because robeta has UNITs sorted one way and andrew the other way
+        //    if (inst.type == MINDS.ROBERTA)
+        //    {
+        //        int j = 9;
+        //        for (int i = 0; i < 10; i++)
+        //            labels[i] = $"index below: {(j-- + 1)}0.0";
+
+        //        labels[0] = "good";
+        //        labels[9] = "bad";
+        //    }
+        //    else
+        //    {
+        //        for (int i = 0; i < 10; i++)
+        //            labels[i] = $"index below: {(i + 1)}0.0";
+
+        //        labels[0] = "good";
+        //        labels[9] = "bad";
+        //    }
+
+        //    string curr_index = "", reset_index = "";
+            
+        //    List<Stat> curr = inst.mind.stats.list.Where(x => x._name == "" + inst.mind.stats.curr_name).First();
+
+        //    curr_index = FormatIndex(curr._index, true, false, false);
+            
+        //    curr_name = $"index below: {curr_index}0.0";
+        //    curr_value = "" + inst.mind.stats.curr_value;
+
+        //    if (!inst.mind.stats.reset_name.IsNullOrEmpty())
+        //    {
+        //        Stat reset = inst.mind.stats.list.Where(x => x._name == "" + inst.mind.stats.reset_name).First();
+
+        //        reset_index = FormatIndex(reset._index, true, false, false);
+                
+        //        reset_name = $"index below: {reset_index}0.0";
+        //        reset_value = "" + inst.mind.stats.reset_value;
+        //    }
+
+        //    bcol = "blue";
+
+        //    if (inst.type == MINDS.ROBERTA)
+        //    {
+        //        curr_name = curr_name == "index below: 100.0" ? "good" : curr_name == "index below: 10.0" ? "bad" : curr_name;
+        //        reset_name = reset_name == "index below: 10.0" ? "bad" : reset_name == "index below: 100.0" ? "good" : reset_name;
+        //    }
+        //    else
+        //    {
+        //        curr_name = curr_name == "index below: 100.0" ? "bad" : curr_name == "index below: 10.0" ? "good" : curr_name;
+        //        reset_name = reset_name == "index below: 10.0" ? "good" : reset_name == "index below: 100.0" ? "bad" : reset_name;
+        //    }
+        //}
+
         public void SetupIndex(Instance inst)
         {
             //because robeta has UNITs sorted one way and andrew the other way
@@ -57,31 +111,25 @@ namespace Awesome.AI.Web.Hubs
                 labels[9] = "bad";
             }
 
-            string curr_index = "", reset_index = "";
-            
-            string c_name = "" + inst.mind.stats.curr_name;
-            Stat curr = inst.mind.stats.list.Where(x => x.name == c_name).FirstOrDefault();
+            Stat curr = inst.mind.stats.list.Where(x => x._name == "" + inst.mind.stats.curr_name).First();
+                
+            int curr_index = FormatIndex(curr._index, true, false, false);
+                
+            List<Stat> list_curr = inst.mind.stats.list.Where(x => x._index < (curr_index - 0) * 10.0d && x._index > (curr_index - 1) * 10.0d).ToList();
 
-            if (curr.IsNull())
-                return;
-
-            curr_index = "" + (int)FormatIndex(curr.index, true, false, false);
-            
             curr_name = $"index below: {curr_index}0.0";
-            curr_value = "" + inst.mind.stats.curr_value;
+            curr_value = "" + list_curr.Sum(x=>x.hits);
 
             if (!inst.mind.stats.reset_name.IsNullOrEmpty())
             {
-                string r_name = "" + inst.mind.stats.reset_name;
-                Stat reset = inst.mind.stats.list.Where(x => x.name == r_name).FirstOrDefault();
+                Stat reset = inst.mind.stats.list.Where(x => x._name == "" + inst.mind.stats.reset_name).First();
 
-                if (reset.IsNull())
-                    return;
+                int reset_index = FormatIndex(reset._index, true, false, false);
 
-                reset_index = "" + (int)FormatIndex(reset.index, true, false, false);
-                
+                List<Stat> list_reset = inst.mind.stats.list.Where(x => x._index < (reset_index - 0) * 10.0d && x._index > (reset_index - 1) * 10.0d).ToList();
+
                 reset_name = $"index below: {reset_index}0.0";
-                reset_value = "" + inst.mind.stats.reset_value;
+                reset_value = "" + list_reset.Sum(x=>x.hits);
             }
 
             bcol = "blue";
@@ -98,70 +146,6 @@ namespace Awesome.AI.Web.Hubs
             }
         }
 
-        public void SetupForce(Instance inst)
-        {
-            //because robeta has UNITs sorted one way and andrew the other way
-            if (inst.type == MINDS.ROBERTA)
-            {
-                int j = 9;
-                for (int i = 0; i < 10; i++)
-                    labels[i] = $"force: {(j-- + 1)}0.0";
-
-                labels[0] = "light";
-                labels[9] = "heavy";
-            }
-            else
-            {
-                for (int i = 0; i < 10; i++)
-                    labels[i] = $"force: {(i + 1)}0.0";
-
-                labels[0] = "heavy";
-                labels[9] = "light";
-            }
-
-
-            string curr_index = "", reset_index = "";
-            int curr_hits = 0, reset_hits = 0;
-
-            string c_name = "" + inst.mind.stats.curr_name;
-            Stat curr = inst.mind.stats.list.Where(x => x.name.Contains(c_name)).FirstOrDefault();
-
-            if (curr.IsNull())
-                return;
-
-            curr_index = "" + (int)FormatForce(inst.mind, curr.force, true, false, false);
-            
-            curr_name = $"force: {curr_index}0.0";
-            curr_value = "" + inst.mind.stats.curr_value;
-
-            if (!inst.mind.stats.reset_name.IsNullOrEmpty())
-            {
-                string r_name = "" + inst.mind.stats.reset_name;
-                Stat reset = inst.mind.stats.list.Where(x => x.name.Contains(r_name)).FirstOrDefault();
-
-                if (reset.IsNull())
-                    return;
-
-                reset_index = "" + (int)FormatForce(inst.mind, reset.force, true, false, false);
-                
-                reset_name = $"force: {reset_index}0.0";
-                reset_value = "" + inst.mind.stats.reset_value;
-            }
-
-            bcol = "blue";
-
-            if (inst.type == MINDS.ROBERTA)
-            {
-                curr_name = curr_name == "force: 100.0" ? "light" : curr_name == "force: 10.0" ? "heavy" : curr_name;
-                reset_name = reset_name == "force: 10.0" ? "heavy" : reset_name == "force: 100.0" ? "light" : reset_name;
-            }
-            else
-            {
-                curr_name = curr_name == "force: 100.0" ? "light" : curr_name == "force: 10.0" ? "heavy" : curr_name;
-                reset_name = reset_name == "force: 10.0" ? "heavy" : reset_name == "force: 100.0" ? "light" : reset_name;
-            }
-        }
-
         public void SetupUnit(Instance inst)
         {
             labels = new string[inst.mind.stats.list.Count];
@@ -169,42 +153,91 @@ namespace Awesome.AI.Web.Hubs
             int i = 0;
             foreach (Stat stat in inst.mind.stats.list)
             {
-                labels[i] = stat.name;
+                labels[i] = stat._name;
                 i++;
             }
             
             curr_name = inst.mind.stats.curr_name;
-            curr_value = "" + inst.mind.stats.curr_value;
+            curr_value = "0";// "" + inst.mind.stats.curr_value;
 
             if (!inst.mind.stats.reset_name.IsNullOrEmpty())
             {
                 reset_name = inst.mind.stats.reset_name;
-                reset_value = "" + inst.mind.stats.reset_value;
+                reset_value = "0";// "" + inst.mind.stats.reset_value;
             }
 
             bcol = "blue";
         }
 
-        private string Extract(string str)
-        {
-            if(str.IsNullOrEmpty())
-                return "";
+        //public void SetupForce(Instance inst)
+        //{
+        //    //because robeta has UNITs sorted one way and andrew the other way
+        //    if (inst.type == MINDS.ROBERTA)
+        //    {
+        //        int j = 9;
+        //        for (int i = 0; i < 10; i++)
+        //            labels[i] = $"force: {(j-- + 1)}0.0";
 
-            string res = new String(str.Where(Char.IsDigit).ToArray());
+        //        labels[0] = "light";
+        //        labels[9] = "heavy";
+        //    }
+        //    else
+        //    {
+        //        for (int i = 0; i < 10; i++)
+        //            labels[i] = $"force: {(i + 1)}0.0";
 
-            return res;
-        }
+        //        labels[0] = "heavy";
+        //        labels[9] = "light";
+        //    }
 
-        private double FormatIndex(double index, bool is_index, bool is_lower, bool is_upper)
+
+        //    string curr_index = "", reset_index = "";
+        //    int curr_hits = 0, reset_hits = 0;
+
+        //    string c_name = "" + inst.mind.stats.curr_name;
+        //    Stat curr = inst.mind.stats.list.Where(x => x._name.Contains(c_name)).First();
+
+        //    curr_index = "" + (int)FormatForce(inst.mind, curr._var, true, false, false);
+            
+        //    curr_name = $"force: {curr_index}0.0";
+        //    curr_value = "" + inst.mind.stats.curr_value;
+
+        //    if (!inst.mind.stats.reset_name.IsNullOrEmpty())
+        //    {
+        //        string r_name = "" + inst.mind.stats.reset_name;
+        //        Stat reset = inst.mind.stats.list.Where(x => x._name.Contains(r_name)).First();
+
+        //        reset_index = "" + (int)FormatForce(inst.mind, reset._var, true, false, false);
+                
+        //        reset_name = $"force: {reset_index}0.0";
+        //        reset_value = "" + inst.mind.stats.reset_value;
+        //    }
+
+        //    bcol = "blue";
+
+        //    if (inst.type == MINDS.ROBERTA)
+        //    {
+        //        curr_name = curr_name == "force: 100.0" ? "light" : curr_name == "force: 10.0" ? "heavy" : curr_name;
+        //        reset_name = reset_name == "force: 10.0" ? "heavy" : reset_name == "force: 100.0" ? "light" : reset_name;
+        //    }
+        //    else
+        //    {
+        //        curr_name = curr_name == "force: 100.0" ? "light" : curr_name == "force: 10.0" ? "heavy" : curr_name;
+        //        reset_name = reset_name == "force: 10.0" ? "heavy" : reset_name == "force: 100.0" ? "light" : reset_name;
+        //    }
+        //}
+
+
+        private int FormatIndex(double index, bool is_index, bool is_lower, bool is_upper)
         {
             double res_index = ((int)Math.Floor(index / 10.0)) * 10 + 10.0d;
 
-            if (is_index)
-                return res_index / 10.0d;
+            if (is_index)//allways this
+                return (int)(res_index / 10.0d);
             if (is_lower)
-                return res_index - 10.0d;
+                return (int)(res_index - 10.0d);
             if (is_upper)
-                return res_index;
+                return (int)res_index;
             
             throw new Exception("FormatIndex");
         }        
