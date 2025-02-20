@@ -1,12 +1,3 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<error>
-error: no error
-error: start - Exception of type 'System.Exception' was thrown.
-error: processinfo - Cannot access a disposed object.
-Object name: 'RoomHub'.
-error: processinfo - Cannot access a disposed object.
-Object name: 'RoomHub'.
-error: processmessage - Cannot access a disposed object.
-Object name: 'RoomHub'.
-error: processmessage - Cannot access a disposed object.
+<error>processinfo - Cannot access a disposed object.
 Object name: 'RoomHub'.</error>

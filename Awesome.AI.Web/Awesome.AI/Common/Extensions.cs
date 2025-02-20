@@ -107,13 +107,28 @@ namespace Awesome.AI.Common
             return res;
         }
 
-        public static HARDCHOICE ToChoise(this double deltaMom, TheMind mind)
+        public static HARDCHOICE ToChoiseCurr(this double deltaMom, TheMind mind)
         {
             /*
              * "NO", is to say no to going downwards
              * */
 
             bool res = deltaMom <= 0.0d;
+
+            if (mind.parms.hack == HACKMODES.HACK)
+                res = !res;
+
+            //is this a hack or ok???
+            return res ? HARDCHOICE.NO : HARDCHOICE.YES;
+        }
+
+        public static HARDCHOICE ToChoisePrev(this double deltaMom, double prev, TheMind mind)
+        {
+            /*
+             * "NO", is to say no to going downwards
+             * */
+
+            bool res = deltaMom <= prev;
 
             if (mind.parms.hack == HACKMODES.HACK)
                 res = !res;

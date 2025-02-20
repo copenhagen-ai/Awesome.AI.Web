@@ -14,6 +14,7 @@ namespace Awesome.AI.Core.Mechanics
 
         public double momentum { get; set; }
         public double deltaMom { get; set; }
+        private double deltaMomPrev {  get; set; }
         public double Fsta { get; set; }
         public double Fdyn { get; set; }
         public double m_out_high { get; set; }
@@ -46,7 +47,8 @@ namespace Awesome.AI.Core.Mechanics
 
         public HARDCHOICE TheChoice
         {
-            get { return deltaMom.ToChoise(mind); }
+            get { return deltaMom.ToChoiseCurr(mind); }
+            //get { return deltaMom.ToChoisePrev(deltaMomPrev, mind); }
         }
 
         public double HighestVar
@@ -139,7 +141,9 @@ namespace Awesome.AI.Core.Mechanics
             velocity = dv;
 
             //momentum: p = m * v
-            momentum = (m) * velocity;
+            deltaMomPrev = deltaMom;
+            deltaMom = (m) * velocity;
+            momentum += deltaMom;
 
             if (momentum <= m_out_low) m_out_low = momentum;
             if (momentum > m_out_high) m_out_high = momentum;
