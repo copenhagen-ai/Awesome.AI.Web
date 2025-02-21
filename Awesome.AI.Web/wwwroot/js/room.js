@@ -175,7 +175,7 @@ function mychat1(ask) {
     $('.chatRes').html(`${tmp}`);
 }
 
-function myinfo1(epochs, runtime, momentum, dmomentum, cycles, pain, position, ratio, the_choise) {
+function myinfo1(epochs, runtime, momentum, dmomentum, cycles, pain, position, ratio, going_down) {
 
     //var div0 = document.getElementById("epochsSpan");
     var div1 = document.getElementById("epochsremainingSpan");
@@ -186,7 +186,7 @@ function myinfo1(epochs, runtime, momentum, dmomentum, cycles, pain, position, r
     var div6 = document.getElementById("positionSpan");
     var div7 = document.getElementById("ratioYesSpan");
     var div8 = document.getElementById("ratioNoSpan");
-    var div9 = document.getElementById("theChoiceSpan");
+    var div9 = document.getElementById("theDownSpan");
     var div10 = document.getElementById("painSpan");
 
     // document.getElementById("messagesList").appendChild(li);
@@ -206,10 +206,10 @@ function myinfo1(epochs, runtime, momentum, dmomentum, cycles, pain, position, r
     div6.textContent = `${position}`;
     div7.textContent = `${ratio[0]}`;
     div8.textContent = `${ratio[1]}`;
-    div9.textContent = `${the_choise}`;
+    div9.textContent = `${going_down}`;
     div10.textContent = `${pain_out}`;
 
-    if (the_choise == 'NO') {
+    if (going_down == 'NO') {
         div9.classList.remove("i-color-red");
         div9.classList.add("i-color-green");
     }
@@ -303,16 +303,16 @@ function onConnect() {
 
 
 
-    connection.on("MIND1InfoReceive1", function (epochs, runtime, momentum, dmomentum, cycles, pain, position, ratio, the_choise) {
+    connection.on("MIND1InfoReceive1", function (epochs, runtime, momentum, dmomentum, cycles, pain, position, ratio, going_down) {
 
         if (room == 'room1')
-            myinfo1(epochs, runtime, momentum, dmomentum, cycles, pain, position, ratio, the_choise);
+            myinfo1(epochs, runtime, momentum, dmomentum, cycles, pain, position, ratio, going_down);
     });
 
-    connection.on("MIND2InfoReceive1", function (epochs, runtime, momentum, dmomentum, cycles, pain, position, ratio, the_choise) {
+    connection.on("MIND2InfoReceive1", function (epochs, runtime, momentum, dmomentum, cycles, pain, position, ratio, going_down) {
 
         if (room == 'room2')
-            myinfo1(epochs, runtime, momentum, dmomentum, cycles, pain, position, ratio, the_choise);
+            myinfo1(epochs, runtime, momentum, dmomentum, cycles, pain, position, ratio, going_down);
     });
 
     connection.on("MIND1InfoReceive2", function (occu, location, loc_state, chat_state) {

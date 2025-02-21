@@ -487,7 +487,7 @@ namespace Awesome.AI.Web.Hubs
                     string pain = ("" + inst.mind._out.pain).Length < 5 ? inst.mind._out.pain : $"{inst.mind._out.pain}"[..5];
                     string position = ("" + inst.mind._out.position).Length < 5 ? inst.mind._out.position : $"{inst.mind._out.position}"[..5];
                     string[] ratio = new string[] { "" + inst.mind._out.ratio_yes, "" + inst.mind._out.ratio_no };
-                    string the_choise = inst.mind._out.the_choise;
+                    string going_down = inst.mind._out.going_down;
 
                     string epochs = inst.mind._out.epochs;
                     string runtime = inst.mind._out.runtime;
@@ -508,7 +508,7 @@ namespace Awesome.AI.Web.Hubs
                     {
                         if (inst.type == MINDS.ROBERTA)
                         {
-                            await Clients.All.SendAsync("MIND1InfoReceive1", epochs, runtime, momentum, deltaMom, cycles, pain, position, ratio, the_choise);
+                            await Clients.All.SendAsync("MIND1InfoReceive1", epochs, runtime, momentum, deltaMom, cycles, pain, position, ratio, going_down);
                             await Clients.All.SendAsync("MIND1InfoReceive2", occu, locationfinal, loc_state, chat_state);
                             await Clients.All.SendAsync("MIND1GraphReceive", graph1.labels, graph1.curr_name, graph1.curr_value, graph1.reset_name, graph1.reset_value, graph1.bcol);
                             await Clients.All.SendAsync("MIND3GraphReceive", graph2.labels, graph2.curr_name, graph2.curr_value, graph2.reset_name, graph2.reset_value, graph2.bcol);
@@ -516,7 +516,7 @@ namespace Awesome.AI.Web.Hubs
 
                         if (inst.type == MINDS.ANDREW)
                         {
-                            await Clients.All.SendAsync("MIND2InfoReceive1", epochs, runtime, momentum, deltaMom, cycles, pain, position, ratio, the_choise);
+                            await Clients.All.SendAsync("MIND2InfoReceive1", epochs, runtime, momentum, deltaMom, cycles, pain, position, ratio, going_down);
                             await Clients.All.SendAsync("MIND2InfoReceive2", occu, locationfinal, loc_state, chat_state);
                             await Clients.All.SendAsync("MIND2GraphReceive", graph1.labels, graph1.curr_name, graph1.curr_value, graph1.reset_name, graph1.reset_value, graph1.bcol);
                             await Clients.All.SendAsync("MIND4GraphReceive", graph2.labels, graph2.curr_name, graph2.curr_value, graph2.reset_name, graph2.reset_value, graph2.bcol);

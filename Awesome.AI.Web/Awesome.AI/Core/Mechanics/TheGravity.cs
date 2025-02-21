@@ -40,15 +40,15 @@ namespace Awesome.AI.Core.Mechanics
             posx_low = 1000.0d;
         }
 
-        public SOFTCHOICE FuzzyMom
+        public SOFTDOWN SoftMom
         {
             get { return deltaMom.ToFuzzy(mind); }
         }
 
-        public HARDCHOICE TheChoice
+        public HARDDOWN HardMom
         {
-            get { return deltaMom.ToChoiseCurr(mind); }
-            //get { return deltaMom.ToChoisePrev(deltaMomPrev, mind); }
+            get { return deltaMom.ToDownZero(mind); }
+            //get { return deltaMom.ToDownPrev(deltaMomPrev, mind); }
         }
 
         public double HighestVar
