@@ -16,8 +16,10 @@ namespace Awesome.AI.CoreHelpers
         {
             if (_x == null)
                 throw new ArgumentNullException();
-            
-            bool go_up = !mind.dir.DownHard.IsYes();
+
+            //introduce logic error
+            bool going_down = mind.dir.DownHard.IsYes();
+            bool go_up = going_down;
             bool hello = mind.goodbye.IsNo();
             bool dir_up = hello && go_up;
 

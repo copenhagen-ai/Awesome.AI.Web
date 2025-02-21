@@ -46,8 +46,8 @@ namespace Awesome.AI.Core.Mechanics
 
         public HARDDOWN HardMom
         {
-            //get { return deltaMom.ToDownZero(mind); }
-            get { return deltaMom.ToDownPrev(deltaMomPrev, mind); }
+            get { return deltaMom.ToDownZero(mind); }
+            //get { return deltaMom.ToDownPrev(deltaMomPrev, mind); }
         }
 
         public double HighestVar
