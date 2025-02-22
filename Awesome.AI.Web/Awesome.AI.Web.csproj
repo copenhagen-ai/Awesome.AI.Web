@@ -32,9 +32,17 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Quantum.Runtime.Core" Version="0.28.302812" />
+    <PackageReference Include="Microsoft.Quantum.Simulators" Version="0.28.302812" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.11" />
     <PackageReference Include="MySql.Data" Version="8.2.0" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="QuantumApp">
+      <HintPath>Awesome.AI\_dll\QuantumApp.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
