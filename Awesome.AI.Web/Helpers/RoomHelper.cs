@@ -89,6 +89,9 @@ namespace Awesome.AI.Web.Helpers
 
         public string GPTGiveMeADot(Instance inst, UNIT common)
         {
+            if (common == null)
+                throw new Exception("GPTGiveMeADot");
+
             string subject = common.HUB.subject;
 
             if (Constants.subject_decision.Contains(subject))

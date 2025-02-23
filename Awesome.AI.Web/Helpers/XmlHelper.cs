@@ -21,8 +21,13 @@ namespace Awesome.AI.Web.Helpers
             doc_msg.Load(PathHelper.PathMessage);
         }
 
+        private static bool IsBusyResetError { get; set; }
         public static void ResetError(string msg)
         {
+            if (IsBusyResetError)
+                return;
+            IsBusyResetError = true;
+
             XmlDocument root = new XmlDocument();
 
             root.LoadXml("<?xml version=\"1.0\" encoding=\"utf-8\"?><error></error>");
@@ -34,10 +39,17 @@ namespace Awesome.AI.Web.Helpers
             root.Save(PathHelper.PathError);
 
             root = null;
+
+            IsBusyResetError = false;
         }
 
+        private static bool IsBusyResetMessage { get; set; }
         public static void ResetMessage(string msg)
         {
+            if (IsBusyResetMessage)
+                return;
+            IsBusyResetMessage = true;
+
             XmlDocument root = new XmlDocument();
 
             root.LoadXml("<?xml version=\"1.0\" encoding=\"utf-8\"?><error></error>");
@@ -49,12 +61,19 @@ namespace Awesome.AI.Web.Helpers
             root.Save(PathHelper.PathMessage);
 
             root = null;
+
+            IsBusyResetMessage = false;
         }
 
+        private static bool IsBusyWriteError { get; set; }
         public static void WriteError(string msg)
         {
             try
             {
+                if (IsBusyWriteError)
+                    return;
+                IsBusyWriteError = true;
+
                 LoadError();
 
                 XmlNode root = doc_error.ChildNodes[1];
@@ -72,6 +91,7 @@ namespace Awesome.AI.Web.Helpers
             {
                 ResetError(msg);
             }
+            finally { IsBusyWriteError = false; }
         }
 
         public static void ClearError(string msg)
@@ -90,10 +110,14 @@ namespace Awesome.AI.Web.Helpers
             }
         }
 
+        private static bool IsBusyWriteMessage { get; set; }
         public static void WriteMessage(string msg)
         {
             try
             {
+                if (IsBusyWriteMessage)
+                    return;
+                IsBusyWriteMessage = true;
                 //throw new Exception();
 
                 LoadMessage();
@@ -113,6 +137,7 @@ namespace Awesome.AI.Web.Helpers
             {
                 ResetMessage(msg);
             }
+            finally { IsBusyWriteMessage = false; }
         }
 
         public static string GetError()

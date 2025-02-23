@@ -6,6 +6,16 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Awesome.AI\_dll\**" />
+    <Content Remove="Awesome.AI\_dll\**" />
+    <EmbeddedResource Remove="Awesome.AI\_dll\**" />
+    <None Remove="Awesome.AI\_dll\**" />
+  </ItemGroup>
+
+
+
+
 	<!--<PropertyGroup>
 		<AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
 	</PropertyGroup>-->
@@ -13,10 +23,6 @@
 
 	<ItemGroup>
     <Content Remove="web.config" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="web.config" />
   </ItemGroup>
 
   <ItemGroup>
@@ -37,12 +43,6 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.11" />
     <PackageReference Include="MySql.Data" Version="8.2.0" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="QuantumApp">
-      <HintPath>Awesome.AI\_dll\QuantumApp.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>
