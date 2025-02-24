@@ -168,11 +168,8 @@ namespace Awesome.AI.Common
                 return res ? HARDDOWN.YES : HARDDOWN.NO;
 
             //not tested, very experimental
-            if (Constants.LogicError == LOGICERROR.QUANTUM1) {
-                return res ? 
-                    mind.quantum.MySuperposition().ToDirection() : 
-                    HARDDOWN.NO;
-            }
+            if (Constants.LogicError == LOGICERROR.QUANTUM1)
+                return res ? mind.quantum.MySuperposition().ToDirection() : HARDDOWN.NO;
 
             //not tested, very experimental
             if (Constants.LogicError == LOGICERROR.QUANTUM2)
