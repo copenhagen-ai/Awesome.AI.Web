@@ -58,22 +58,22 @@ namespace Awesome.AI.Core
             }
         }
 
-        public bool EventHorizonOK(double pos, out double pain)
+        public bool EventHorizonOK(double pos, out double time)
         {
             try
             {
                 double _e = pos;
 
-                pain = mind.calc.EventHorizon(_e);
+                time = mind.calc.EventHorizon(_e);
 
-                if (pain <= 0.0)
+                if (time <= 0.0)
                     throw new Exception("EventHorizonOK");
 
                 return true;
             }
             catch (Exception e)//thats it
             {
-                pain = 0.0d;
+                time = 0.0d;
                 return false;
             }
         }
