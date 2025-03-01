@@ -62,10 +62,8 @@ $(document).ready(function () {
     //    $('.infosec').hide();
     //});
 
-    setTimeout(timer, 500);
-    setInterval(timer, 1000 * 60 * 2);
-    setInterval(viewers, 2000);
-    
+    setTimeout(viewer, 500);
+    setInterval(viewers, 2000);    
 });
 
 var guid = uuidv4();
@@ -91,16 +89,17 @@ function viewers() {
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
         success: function (val) {
+
             var viewers = val.viewers;
 
-            $('.viewersDiv').text(`viewers: ${viewers}`);
+            $('.viewersDiv').text(`viewers today: ${viewers}`);
         }
     });
 }
 
-function timer() {
+function viewer() {
 
-    var data = { "guid": "" + guid };
+    var data = { "value": "new user" };
 
     //alert('timer');
 
@@ -111,8 +110,8 @@ function timer() {
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
         success: function (val) {
-            var _val = val.guid;
-            //alert(_val);
+
+            var _val = val.ok;
         }
     });
 }
@@ -125,12 +124,13 @@ function sort() {
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
         success: function (val) {
+
             var text = $('.sortSpan').text();
+
             if (text == 'sort force')
                 $('.sortSpan').text('sort index');
             else
-                $('.sortSpan').text('sort force');
-            
+                $('.sortSpan').text('sort force');            
         },
         error: function (val) {
             alert('ups, error');

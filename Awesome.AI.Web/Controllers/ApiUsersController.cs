@@ -1,7 +1,10 @@
 ﻿using Awesome.AI.Web.Helpers;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using Awesome.AI.Common;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -9,13 +12,8 @@ namespace Awesome.AI.Web.Api.Users
 {
     public class Post
     {
-        public string guid { get; set; }
+        public string value { get; set; }
     }
-
-    //public class Put
-    //{
-    //    public string value { get; set; }
-    //}
 
     public class GetResponce
     {
@@ -24,22 +22,21 @@ namespace Awesome.AI.Web.Api.Users
 
     public class PostResponce
     {
-        public string guid { get; set; }
+        public string ok { get; set; }
     }
 
     [Route("api/[controller]")]
     [ApiController]
     public class ApiUsersController : ControllerBase
-    {
-        
-        // GET: api/<ValuesController>
+    {        
+        private static int UserCount {  get; set; }
+
         [HttpGet]
-        //[Authorize]
         public GetResponce Get()
         {
             try
             {
-                string viewers = "" + UserHelper.CountUsers();
+                string viewers = "" + UserCount;
 
                 GetResponce res = new GetResponce();
                 res.viewers = viewers;
@@ -54,35 +51,44 @@ namespace Awesome.AI.Web.Api.Users
             }
         }
 
-        // GET api/<ValuesController>/5
         //[HttpGet("{id}")]
         //public string Get(int id)
         //{
         //    return "value";
         //}
 
-        // POST api/<ValuesController>
-        [HttpPost]
-        //[Authorize]
+                
+        [HttpPost]        
         public PostResponce Post([FromBody] Post obj)
         {
             try
             {
-                //string guid = Guid.NewGuid().ToString();
+                string val = obj.value;
 
-                string guid = obj.guid;
+                if (val.IsNullOrEmpty())
+                    return new PostResponce();
 
-                UserHelper.AddUser(guid);
+                if(val != "new user")
+                    return new PostResponce();
+
+                var remoteIp = Request?.HttpContext?.Connection?.RemoteIpAddress?.ToString();
+                var now = DateTime.Now;
+
+                if (remoteIp.IsNullOrEmpty())
+                    return new PostResponce();
+
+                UserHelper.AddUser(remoteIp, now);
+                UserCount = UserHelper.CountUsers();
 
                 PostResponce res = new PostResponce();
-                res.guid = guid;
+                res.ok = "ok";
             
                 return res;
             }
             catch (Exception _e)
             {
                 PostResponce res = new PostResponce();
-                res.guid = "1234";
+                res.ok = "not ok";
 
                 return res;
             }
