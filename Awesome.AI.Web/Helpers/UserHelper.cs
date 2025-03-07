@@ -10,11 +10,15 @@
     {
         public static List<User> Users { get; set; }
 
-        public static void AddUser(string ip, DateTime now)
+        public static void AddUser(string ip)
         {
             Users ??= new List<User>();
 
+            DateTime now = DateTime.Now;
+            DateTime then = DateTime.Now.AddHours(-24);
+
             Users.Add(new User() { Ip = ip, Time = now });
+            Users = Users.Where(x => x.Time > then).ToList();
         }
 
         public static int CountUsers() 
@@ -26,40 +30,41 @@
             return count;
         }
 
-        private static bool IsRunning {  get; set; }
-        public async static void MaintainUsers()
-        {
-            try
-            {
-                if (IsRunning)
-                    return;
+        //private static bool IsRunning {  get; set; }
+        //public async static void MaintainUsers()
+        //{
+        //    try
+        //    {
+        //        if (IsRunning)
+        //            return;
 
-                IsRunning = true;
+        //        IsRunning = true;
 
-                Users ??= new List<User>();
+        //        Users ??= new List<User>();
 
-                XmlHelper.WriteMessage("maintain users..");
+        //        XmlHelper.WriteMessage("maintain users..");
                 
-                int time = 1000 * 60 * 1;
+        //        int time = 1000 * 60 * 1;
             
-                await Task.Delay(800);
+        //        await Task.Delay(800);
                 
-                while (true)
-                {
-                    DateTime now = DateTime.Now.AddHours(-24);
-                    Users = Users.Where(x => x.Time > now).ToList();
+        //        while (true)
+        //        {
+        //            DateTime now = DateTime.Now.AddHours(-24);
 
-                    await Task.Delay(time);
-                }
-            }
-            catch (Exception _e)
-            {
-                XmlHelper.WriteError("maintainUsers - " + _e.Message);
+        //            Users = Users.Where(x => x.Time > now).ToList();
 
-                IsRunning = false;
+        //            await Task.Delay(time);
+        //        }
+        //    }
+        //    catch (Exception _e)
+        //    {
+        //        XmlHelper.WriteError("maintainUsers - " + _e.Message);
 
-                MaintainUsers();
-            }
-        }        
+        //        IsRunning = false;
+
+        //        MaintainUsers();
+        //    }
+        //}
     }
 }

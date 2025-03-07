@@ -1,10 +1,6 @@
-﻿using Awesome.AI.Web.Helpers;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Http;
+﻿using Awesome.AI.Common;
+using Awesome.AI.Web.Helpers;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using Awesome.AI.Common;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -36,10 +32,8 @@ namespace Awesome.AI.Web.Api.Users
         {
             try
             {
-                string viewers = "" + UserCount;
-
                 GetResponce res = new GetResponce();
-                res.viewers = viewers;
+                res.viewers = "" + UserCount;
 
                 return res;
             }
@@ -50,14 +44,7 @@ namespace Awesome.AI.Web.Api.Users
                 return res;
             }
         }
-
-        //[HttpGet("{id}")]
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
-
-                
+                        
         [HttpPost]        
         public PostResponce Post([FromBody] Post obj)
         {
@@ -72,12 +59,11 @@ namespace Awesome.AI.Web.Api.Users
                     return new PostResponce();
 
                 var remoteIp = Request?.HttpContext?.Connection?.RemoteIpAddress?.ToString();
-                var now = DateTime.Now;
-
+                
                 if (remoteIp.IsNullOrEmpty())
                     return new PostResponce();
 
-                UserHelper.AddUser(remoteIp, now);
+                UserHelper.AddUser(remoteIp);
                 UserCount = UserHelper.CountUsers();
 
                 PostResponce res = new PostResponce();
@@ -93,6 +79,12 @@ namespace Awesome.AI.Web.Api.Users
                 return res;
             }
         }
+
+        //[HttpGet("{id}")]
+        //public string Get(int id)
+        //{
+        //    return "value";
+        //}
 
         // PUT api/<ValuesController>/5
         //[HttpPut("{id}")]

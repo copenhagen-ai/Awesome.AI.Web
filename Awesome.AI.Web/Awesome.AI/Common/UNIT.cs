@@ -1,7 +1,7 @@
 ﻿using Awesome.AI.Core;
 using Awesome.AI.Helpers;
 using Awesome.AI.Interfaces;
-using Awesome.AI.Systems;
+using Awesome.AI.CoreHelpers;
 using static Awesome.AI.Helpers.Enums;
 
 namespace Awesome.AI.Common
@@ -67,16 +67,6 @@ namespace Awesome.AI.Common
             }
         }
 
-        public double LengthFromZero
-        {
-            get
-            {
-                double min = Constants.VERY_LOW < this.LowAtZero ? Constants.VERY_LOW : this.LowAtZero;
-                double max = Constants.VERY_LOW > this.LowAtZero ? Constants.VERY_LOW : this.LowAtZero;
-                return max - min;
-            }
-        }
-        
         public bool IsLowCut
         {
             get { return mind.filters.LowCut(this); }
@@ -125,7 +115,7 @@ namespace Awesome.AI.Common
                 if (hub != null)
                     return hub;
 
-                hub = mind.mem.HUBS_ALL().Where(x => x.units.Contains(this)).FirstOrDefault();
+                hub = mind.mem.HUBS_ALL().Where(x => x.units.Contains(this)).First();
                 
                 if (hub == null)
                     return HUB.Create("IDLE", new List<UNIT>(), TONE.RANDOM);

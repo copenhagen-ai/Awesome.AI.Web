@@ -3,7 +3,7 @@ using Awesome.AI.Core;
 using Awesome.AI.Helpers;
 using static Awesome.AI.Helpers.Enums;
 
-namespace Awesome.AI.Systems
+namespace Awesome.AI.CoreHelpers
 {
     class Agent
     {

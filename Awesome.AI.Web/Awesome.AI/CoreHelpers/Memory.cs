@@ -1,8 +1,6 @@
 ﻿using Awesome.AI.Common;
 using Awesome.AI.Core;
 using Awesome.AI.Helpers;
-using Microsoft.AspNetCore.SignalR;
-using System.Collections.Generic;
 using static Awesome.AI.Helpers.Enums;
 
 namespace Awesome.AI.CoreHelpers
@@ -282,7 +280,7 @@ namespace Awesome.AI.CoreHelpers
             if (subject == null)
                 throw new ArgumentNullException();
 
-            HUB _h = hubs.Where(x=>x.GetSubject() == subject).FirstOrDefault();
+            HUB _h = hubs.Where(x=>x.GetSubject() == subject).First();
             
             return _h;
         }
@@ -329,16 +327,11 @@ namespace Awesome.AI.CoreHelpers
             int count = hub.units.Count;
             double[] doubles = rand.MyRandomDouble(count);
 
-            double bit = 10.0d / hub.units.Count;
             int index = 0;
-            double i = 0;
-            double j = 0;
             foreach (UNIT _u in hub.units)
             {
                 _u.Index = GetIndex(hub.tone, doubles[index]);
-                index++;
-                i += bit;
-                j = i <= 5 ? j + bit : j - bit;
+                index++;                
             }
         }
 
@@ -360,7 +353,6 @@ namespace Awesome.AI.CoreHelpers
 
                 ticket.Shuffle<int>();
 
-                int j = 5;
                 for (int i = 1; i <= u_count; i++)
                 {
                     double rand = random.NextDouble();
@@ -373,9 +365,7 @@ namespace Awesome.AI.CoreHelpers
                             null,
                             "" + s + ticket[i - 1],//ticket
                             type
-                        ));
-
-                    j = i <= 5 ? j-- : j++;
+                        ));                    
                 }
             }
         }
@@ -390,9 +380,6 @@ namespace Awesome.AI.CoreHelpers
 
             Random random = new Random();
 
-            double bit = 10.0d / list.Count;
-            double i = bit;
-            double j = bit * 5;
             foreach (string s in list)
             {
                 double rand = random.NextDouble();
@@ -407,8 +394,6 @@ namespace Awesome.AI.CoreHelpers
                         type
                     ));
 
-                i += bit;
-                j = i <= bit * 5 ? j - bit : j + bit;
                 count++;
             }
 

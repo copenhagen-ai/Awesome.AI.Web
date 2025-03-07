@@ -308,7 +308,7 @@ namespace Awesome.AI.Web.Hubs
 
                 XmlHelper.ClearError("no error");
                 XmlHelper.WriteMessage("starting.. 0");
-                UserHelper.MaintainUsers();
+                //UserHelper.MaintainUsers();
 
                 helper = new RoomHelper();
 
@@ -484,7 +484,7 @@ namespace Awesome.AI.Web.Hubs
                     string momentum = ("" + inst.mind._out.momentum);
                     string deltaMom = ("" + inst.mind._out.deltaMom);
 
-                    string pain = ("" + inst.mind._out.pain).Length < 5 ? inst.mind._out.pain : $"{inst.mind._out.pain}"[..5];
+                    string pain = ("" + inst.mind._out.user_var).Length < 5 ? inst.mind._out.user_var : $"{inst.mind._out.user_var}"[..5];
                     string position = ("" + inst.mind._out.position).Length < 5 ? inst.mind._out.position : $"{inst.mind._out.position}"[..5];
                     string[] ratio = new string[] { "" + inst.mind._out.ratio_yes, "" + inst.mind._out.ratio_no };
                     string going_down = inst.mind._out.going_down;

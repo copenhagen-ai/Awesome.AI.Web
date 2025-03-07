@@ -20,7 +20,7 @@ namespace Awesome.AI.Web.AI.Common
         public string momentum { get; set; }
         public string deltaMom { get; set; }
 
-        public string pain { get; set; }
+        public string user_var { get; set; }
         public string position { get; set; }
         public string ratio_yes { get; set; }
         public string ratio_no { get; set; }
@@ -56,7 +56,7 @@ namespace Awesome.AI.Web.AI.Common
             momentum = $"{mind.mech.momentum.ToString("E3")}";
             deltaMom = $"{mind.mech.deltaMom.ToString("E3")}";
 
-            pain = $"{mind.pain}";
+            user_var = $"{mind.user_var}";
             if (mind._mech == MECHANICS.HILL)
                 position = $"{mind.mech.POS_XY}";
             if (mind._mech == MECHANICS.CONTEST)

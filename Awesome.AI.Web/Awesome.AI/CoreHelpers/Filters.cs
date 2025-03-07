@@ -1,7 +1,5 @@
 ﻿using Awesome.AI.Common;
 using Awesome.AI.Core;
-using Awesome.AI.Helpers;
-using static Awesome.AI.Helpers.Enums;
 
 namespace Awesome.AI.CoreHelpers
 {
@@ -18,7 +16,6 @@ namespace Awesome.AI.CoreHelpers
         {
             /*
              * this filter can be on or off, just have to tweek HardMom and ToDownZero/ToDownPrev
-             * personally i think its nice to not have words like choice in the algorithm
              * */
 
             if (_x == null)
