@@ -34,6 +34,7 @@ namespace Awesome.AI.Web.AI.Common
         public string chat_answer { get; set; }
         public string chat_subject { get; set; }
         public string common_hub { get; set; }
+        public string whistle { get; set; }
 
         //public string chat_index { get; set; }
         public UNIT common_unit { get; set; }
@@ -49,8 +50,13 @@ namespace Awesome.AI.Web.AI.Common
             return count >= 59 ? ":COMEAGAIN" : chat_answer;
         }
 
+        private string[] arr = { "[..??]", "[.??.]", "[??..]", "[.??.]" };
+        private int count = 0;
         public void Set()
         {
+            if (count > 3)
+                count = 0;
+
             cycles = $"{mind.cycles}";
             cycles_total = $"{mind.cycles_all}";
             momentum = $"{mind.mech.momentum.ToString("E3")}";
@@ -73,6 +79,8 @@ namespace Awesome.AI.Web.AI.Common
             loc_state = mind.loc.LocationState > 0 ? "making a decision" : "just thinking";
             chat_state = mind.chatans.ChatState > 0 ? "thinking" : "just thinking";
 
+            whistle = mind.quick.Result ? "[Whistling to my self..]" : arr[count];
+
             if (mind.chatans.Answer != "") {
                 chat_answer = $"{mind.chatans.Answer}";
                 mind.chatans.Answer = "";
@@ -92,6 +100,8 @@ namespace Awesome.AI.Web.AI.Common
                 return;
                        
             common_hub = common_unit.HUB.GetSubject();
+
+            count++;
         }
     }
 }

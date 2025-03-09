@@ -341,6 +341,7 @@ namespace Awesome.AI.Web.Hubs
                     ProcessInfo(instance);
                     ProcessMonologue(instance);
                     ProcessChat(instance);
+                    ProcessDecision(instance);
 
                     Instances.Add(instance);
                 }
@@ -405,8 +406,10 @@ namespace Awesome.AI.Web.Hubs
                         wait1 = false;
                     }
                     else {
-                        for (int i = 0; i <= inst.sec_message; i++)
+                        for (int i = 0; i <= inst.sec_message; i++) {
                             await Task.Delay(1000);
+                            if (!is_running) break;
+                        }
                     }
 
                     //var watch = System.Diagnostics.Stopwatch.StartNew();
@@ -488,13 +491,13 @@ namespace Awesome.AI.Web.Hubs
                     string position = ("" + inst.mind._out.position).Length < 5 ? inst.mind._out.position : $"{inst.mind._out.position}"[..5];
                     string[] ratio = new string[] { "" + inst.mind._out.ratio_yes, "" + inst.mind._out.ratio_no };
                     string going_down = inst.mind._out.going_down;
+                    string chat_state = inst.mind._out.chat_state;
 
                     string epochs = inst.mind._out.epochs;
                     string runtime = inst.mind._out.runtime;
-                    string occu = inst.mind._out.occu;
-                    string locationfinal = inst.mind._out.location;
-                    string loc_state = inst.mind._out.loc_state;
-                    string chat_state = inst.mind._out.chat_state;
+                    //string occu = inst.mind._out.occu;
+                    //string locationfinal = inst.mind._out.location;
+                    //string loc_state = inst.mind._out.loc_state;
 
                     GraphInfo graph1 = new GraphInfo();
                     GraphInfo graph2 = new GraphInfo();
@@ -508,16 +511,14 @@ namespace Awesome.AI.Web.Hubs
                     {
                         if (inst.type == MINDS.ROBERTA)
                         {
-                            await Clients.All.SendAsync("MIND1InfoReceive1", epochs, runtime, momentum, deltaMom, cycles, pain, position, ratio, going_down);
-                            await Clients.All.SendAsync("MIND1InfoReceive2", occu, locationfinal, loc_state, chat_state);
+                            await Clients.All.SendAsync("MIND1InfoReceive1", epochs, runtime, momentum, deltaMom, cycles, pain, position, ratio, going_down, chat_state);
                             await Clients.All.SendAsync("MIND1GraphReceive", graph1.labels, graph1.curr_name, graph1.curr_value, graph1.reset_name, graph1.reset_value, graph1.bcol);
                             await Clients.All.SendAsync("MIND3GraphReceive", graph2.labels, graph2.curr_name, graph2.curr_value, graph2.reset_name, graph2.reset_value, graph2.bcol);
                         }
 
                         if (inst.type == MINDS.ANDREW)
                         {
-                            await Clients.All.SendAsync("MIND2InfoReceive1", epochs, runtime, momentum, deltaMom, cycles, pain, position, ratio, going_down);
-                            await Clients.All.SendAsync("MIND2InfoReceive2", occu, locationfinal, loc_state, chat_state);
+                            await Clients.All.SendAsync("MIND2InfoReceive1", epochs, runtime, momentum, deltaMom, cycles, pain, position, ratio, going_down, chat_state);
                             await Clients.All.SendAsync("MIND2GraphReceive", graph1.labels, graph1.curr_name, graph1.curr_value, graph1.reset_name, graph1.reset_value, graph1.bcol);
                             await Clients.All.SendAsync("MIND4GraphReceive", graph2.labels, graph2.curr_name, graph2.curr_value, graph2.reset_name, graph2.reset_value, graph2.bcol);
                         }
@@ -534,7 +535,6 @@ namespace Awesome.AI.Web.Hubs
 
                 is_running = false;
             }
-
         }
 
         private async Task ProcessChat(Instance inst)
@@ -579,6 +579,51 @@ namespace Awesome.AI.Web.Hubs
                         }
 
                         inst.mind.chat_asked = true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                XmlHelper.WriteError("processinfo - " + ex.Message);
+            }
+            finally
+            {
+                inst.microTimer.Enabled = false;
+
+                is_running = false;
+            }
+        }
+
+        private async Task ProcessDecision(Instance inst)
+        {
+            try
+            {
+                await Task.Delay(100);
+
+                while (is_running)
+                {
+                    for (int i = 0; i < inst.sec_info; i++)
+                        await Task.Delay(1000);
+
+                    string whistle = ("" + inst.mind._out.whistle);
+
+                    string occu = inst.mind._out.occu;
+                    string locationfinal = inst.mind._out.location;
+                    string loc_state = inst.mind._out.loc_state;
+                    
+                    int user_count = UserHelper.CountUsers();
+
+                    if (user_count > 1 || IsDebug())
+                    {
+                        if (inst.type == MINDS.ROBERTA)
+                        {
+                            await Clients.All.SendAsync("MIND1DecisionReceive1", whistle, occu, locationfinal, loc_state);
+                        }
+
+                        if (inst.type == MINDS.ANDREW)
+                        {
+                            await Clients.All.SendAsync("MIND2DecisionReceive1", whistle, occu, locationfinal, loc_state);
+                        }
                     }
                 }
             }

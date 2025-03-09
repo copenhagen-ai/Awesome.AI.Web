@@ -646,6 +646,10 @@ video {
   height: 240px;
 }
 
+.h-box4 {
+  height: 460px;
+}
+
 .h-full {
   height: 100%;
 }
@@ -1081,8 +1085,16 @@ video {
     margin-right: 50px;
   }
 
+  .md\:block {
+    display: block;
+  }
+
   .md\:h-box1 {
     height: 440px;
+  }
+
+  .md\:h-box4 {
+    height: 460px;
   }
 
   .md\:w-full {
@@ -1096,6 +1108,10 @@ video {
 }
 
 @media (min-width: 1024px) {
+  .lg\:col-span-2 {
+    grid-column: span 2 / span 2;
+  }
+
   .lg\:mx-lg {
     margin-left: 100px;
     margin-right: 100px;

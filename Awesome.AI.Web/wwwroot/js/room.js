@@ -175,7 +175,7 @@ function mychat1(ask) {
     $('.chatRes').html(`${tmp}`);
 }
 
-function myinfo1(epochs, runtime, momentum, dmomentum, cycles, pain, position, ratio, going_down) {
+function myinfo1(epochs, runtime, momentum, dmomentum, cycles, pain, position, ratio, going_down, chat_state) {
 
     //var div0 = document.getElementById("epochsSpan");
     var div1 = document.getElementById("epochsremainingSpan");
@@ -188,6 +188,7 @@ function myinfo1(epochs, runtime, momentum, dmomentum, cycles, pain, position, r
     var div8 = document.getElementById("ratioNoSpan");
     var div9 = document.getElementById("theDownSpan");
     var div10 = document.getElementById("painSpan");
+    var div11 = document.getElementById("chatTitle");
 
     // document.getElementById("messagesList").appendChild(li);
     // We can assign user-supplied strings to an element's textContent because it
@@ -231,18 +232,25 @@ function myinfo1(epochs, runtime, momentum, dmomentum, cycles, pain, position, r
     else {
         div1.classList.remove("i-color-red");
     }
+
+    if (chat_state == 'thinking') {
+        div11.classList.add("i-color-red");
+    }
+    else {
+        div11.classList.remove("i-color-red");
+    }
 }
 
 
-function myinfo2(occu, location, loc_state, chat_state) {
+function myinfo2(whistle, occu, location, loc_state) {
 
     var div1 = document.getElementById("occuSpan");
     var div2a = document.getElementById("locationSpan1");
     var div2b = document.getElementById("locationSpan2");
     var div3a = document.getElementById("stateSpan1");
     var div3b = document.getElementById("stateSpan2");
-    var div4 = document.getElementById("chatTitle");
-
+    var div4 = document.getElementById("quickSpan");
+    
     // document.getElementById("messagesList").appendChild(li);
     // We can assign user-supplied strings to an element's textContent because it
     // is not interpreted as markup. If you're assigning in any other way, you
@@ -251,6 +259,14 @@ function myinfo2(occu, location, loc_state, chat_state) {
     div1.textContent = `${occu}`;
     div2b.textContent = `${location}`;
     div3b.textContent = `${loc_state}`;
+    div4.textContent = `${whistle}`;
+
+    if (whistle.indexOf("?") >= 0) {
+        div4.classList.remove("i-color-green");
+    }
+    else {
+        div4.classList.add("i-color-green");
+    }
 
     if (loc_state == 'making a decision') {
         div2a.classList.add("i-color-green");
@@ -261,12 +277,6 @@ function myinfo2(occu, location, loc_state, chat_state) {
         div3a.classList.remove("i-color-green");
     }
 
-    if (chat_state == 'thinking') {
-        div4.classList.add("i-color-red");
-    }
-    else {
-        div4.classList.remove("i-color-red");
-    }
 }
 
 function mymessage(message, dot1, dot2, subject) {
@@ -303,28 +313,28 @@ function onConnect() {
 
 
 
-    connection.on("MIND1InfoReceive1", function (epochs, runtime, momentum, dmomentum, cycles, pain, position, ratio, going_down) {
+    connection.on("MIND1InfoReceive1", function (epochs, runtime, momentum, dmomentum, cycles, pain, position, ratio, going_down, chat_state) {
 
         if (room == 'room1')
-            myinfo1(epochs, runtime, momentum, dmomentum, cycles, pain, position, ratio, going_down);
+            myinfo1(epochs, runtime, momentum, dmomentum, cycles, pain, position, ratio, going_down, chat_state);
     });
 
-    connection.on("MIND2InfoReceive1", function (epochs, runtime, momentum, dmomentum, cycles, pain, position, ratio, going_down) {
+    connection.on("MIND2InfoReceive1", function (epochs, runtime, momentum, dmomentum, cycles, pain, position, ratio, going_down, chat_state) {
 
         if (room == 'room2')
-            myinfo1(epochs, runtime, momentum, dmomentum, cycles, pain, position, ratio, going_down);
+            myinfo1(epochs, runtime, momentum, dmomentum, cycles, pain, position, ratio, going_down, chat_state);
     });
 
-    connection.on("MIND1InfoReceive2", function (occu, location, loc_state, chat_state) {
+    connection.on("MIND1DecisionReceive1", function (whistle, occu, location, loc_state) {
 
         if (room == 'room1')
-            myinfo2(occu, location, loc_state, chat_state);
+            myinfo2(whistle, occu, location, loc_state);
     });
 
-    connection.on("MIND2InfoReceive2", function (occu, location, loc_state, chat_state) {
+    connection.on("MIND2DecisionReceive1", function (whistle, occu, location, loc_state) {
 
         if (room == 'room2')
-            myinfo2(occu, location, loc_state, chat_state);
+            myinfo2(whistle, occu, location, loc_state);
     });
 
 

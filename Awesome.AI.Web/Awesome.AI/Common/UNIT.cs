@@ -112,10 +112,13 @@ namespace Awesome.AI.Common
         {
             get
             {
-                if (hub != null)
-                    return hub;
+                //if (hub != null)
+                //    return hub;
 
-                hub = mind.mem.HUBS_ALL().Where(x => x.units.Contains(this)).First();
+                if(this.IsIDLE())
+                    return HUB.Create("IDLE", new List<UNIT>(), TONE.RANDOM);
+
+                hub = mind.mem.HUBS_ALL().Where(x => x.units.Contains(this)).FirstOrDefault();
                 
                 if (hub == null)
                     return HUB.Create("IDLE", new List<UNIT>(), TONE.RANDOM);
@@ -175,6 +178,8 @@ namespace Awesome.AI.Common
         public bool IsIDLE() => type == UNITTYPE.IDLE;
 
         public bool IsDECISION() => type == UNITTYPE.DECISION;
+
+        public bool IsQUICKDECISION() => type == UNITTYPE.QDECISION;
 
         //UNIT next = null;
         //public UNIT Next

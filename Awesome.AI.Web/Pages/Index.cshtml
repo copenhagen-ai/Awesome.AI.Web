@@ -66,7 +66,7 @@
 @* <div class="viewersDiv text-gray-50 ml-4 float-right overflow-hidden lg:hidden">viewers: 0</div> *@
 
 <div class="overflow-hidden grid grid-cols-1 lg:grid-cols-3">
-    <div class="bg-neutral-900 border border-neutral-950 text-neutral-600 overflow-hidden h-box1 p-4 md:mx-4 my-4">
+    <div class="bg-neutral-900 border border-neutral-950 text-neutral-600 overflow-hidden md:h-box1 p-4 md:mx-4 my-4">
         <div class="">
             <div class="">
                 <div class="text-gray-50">STATS</div>
@@ -136,7 +136,7 @@
             </div>
         </div>
 
-        <br />
+        @* <br />
         Systems:<br />
         <div class="">
             <div class="">
@@ -155,7 +155,7 @@
                 <span class="text-gray-50" id="stateSpan1">state:</span>
                 <span class="text-gray-400" id="stateSpan2">xxxx</span>
             </div>
-        </div>
+        </div> *@
         <br />
 
         @* <div class="xrow xp-1">
@@ -183,7 +183,7 @@
     <div class="bg-neutral-900 border border-neutral-950 text-neutral-600 overflow-hidden md:h-box1 p-4 md:mx-4 my-4">
         <div class="">
             <div class="xcol-6">
-                <div class="text-gray-400" id="messageDiv">inner monologue.. (press view)</div>
+                <div class="text-gray-50">MONOLOGUE</div>
                 <div class="i-filler-20"></div>
                 <hr class="" />
                 <div class="i-filler-20"></div>
@@ -191,9 +191,15 @@
         </div>
         <div class="">
             <div class="xcol-6">
+                <div class="text-gray-400" id="messageDiv">inner monologue.. (press view)</div>
+                <div class="i-filler-20"></div>
+            </div>
+        </div>
+        <div class="">
+            <div class="xcol-6">
                 <span class="i-color-green">Point A:</span>
                 <span class="text-gray-400" id="dot1Span">xxxx</span>
-                <br/>
+                <br />
                 <span class="i-color-orange">Point B:</span>
                 <span class="text-gray-400" id="dot2Span">xxxx</span>
             </div>
@@ -222,7 +228,7 @@
     <div class="bg-neutral-900 border border-neutral-950 text-neutral-600 overflow-hidden md:h-box1 p-4 md:mx-4 my-4">
         <div class="">
             <div class="">
-                <div class="text-gray-400" id="chatTitle">CHAT:</div>
+                <div class="text-gray-50" id="chatTitle">CHAT</div>
                 <div class="i-filler-20"></div>
                 <hr class="" />
                 <div class="i-filler-20"></div>
@@ -254,16 +260,72 @@
     <span class="sortSpan cursor-pointer text-gray-50 ml-4">sort force</span>
 </div> *@
 
-<div class="">
-    <span id="" class="p-2 md:mx-4 my-4 text-gray-50 float-left">sort: </span>
-    <span id="chartSpan" class="cursor-pointer p-2 md:mx-4 my-4 bg-neutral-900 text-gray-50 float-left">index</span>
+<div class="overflow-hidden grid grid-cols-1 lg:grid-cols-3">
+    <div></div>
+    <div class="hidden md:block">
+        <span id="" class="p-2 md:mx-4 my-4 text-gray-50 float-left">sort: </span>
+        <span id="chartSpan" class="cursor-pointer p-2 md:mx-4 my-4 bg-neutral-900 text-gray-50 float-left">index</span>
+    </div>    
 </div>
-<div class="i-filler-60"></div>
-<div class="chart1 bg-neutral-900 border border-neutral-950 p-4 md:mx-4 my-4">
-    <canvas id="myChart1" class="w-full max-w-[900px] "></canvas>
-</div>
-<div class="chart2 bg-neutral-900 border border-neutral-950 p-4 md:mx-4 my-4 hidden ">
-    <canvas id="myChart2" class="w-full max-w-[900px]"></canvas>
+
+<div class="overflow-hidden grid grid-cols-1 lg:grid-cols-3">
+    <div class="">
+        <div class="bg-neutral-900 border border-neutral-950 text-neutral-600 overflow-hidden md:h-box4 p-4 md:mx-4 my-4">
+            <div class="">
+                <div class="">
+                    <div class="text-gray-50">DECISIONS</div>
+                    <div class="i-filler-20"></div>
+                    <hr class="" />
+                    <div class="i-filler-20"></div>
+                </div>
+            </div>
+            @* <div class="xrow xp-1">
+                <div class="xcol-6">
+                    <span class="text-gray-50">epochs:</span>
+                    <span class="text-gray-400" id="epochsSpan">xxxx</span>
+                </div>
+            </div> *@
+
+            Quick:<br />
+            <div class="">
+                <div class="">
+                    <span class="text-gray-50">whistling:</span>
+                    <span class="text-gray-400" id="quickSpan">xxxx</span>
+                </div>
+            </div>
+        
+            <br />
+            Long:<br />
+            <div class="">
+                <div class="">
+                    <span class="text-gray-50">occupation:</span>
+                    <span class="text-gray-400" id="occuSpan">xxxx</span>
+                </div>
+            </div>
+            <div class="">
+                <div class="">
+                    <span class="text-gray-50" id="locationSpan1">location:</span>
+                    <span class="text-gray-400" id="locationSpan2">xxxx</span>
+                </div>
+            </div>
+            <div class="">
+                <div class="">
+                    <span class="text-gray-50" id="stateSpan1">state:</span>
+                    <span class="text-gray-400" id="stateSpan2">xxxx</span>
+                </div>
+            </div>
+            <br />
+        </div>
+    </div>
+
+    <div class="lg:col-span-2">
+        <div class="chart1 bg-neutral-900 border border-neutral-950 p-4 md:mx-4 my-4">
+            <canvas id="myChart1" class="w-full max-w-[900px] "></canvas>
+        </div>
+        <div class="chart2 bg-neutral-900 border border-neutral-950 p-4 md:mx-4 my-4 hidden ">
+            <canvas id="myChart2" class="w-full max-w-[900px]"></canvas>
+        </div>        
+    </div>
 </div>
 
 <div class="i-filler-40"></div>

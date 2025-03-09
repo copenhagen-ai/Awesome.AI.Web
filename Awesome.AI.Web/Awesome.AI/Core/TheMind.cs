@@ -20,6 +20,7 @@ namespace Awesome.AI.Core
         public TheMatrix matrix;
         public Core core;
         public Memory mem;
+        public QuickDecision quick;
         public Params parms;
         public Calc calc;
         public MyRandom rand;
@@ -91,7 +92,8 @@ namespace Awesome.AI.Core
                 pos = new Position(this);
                 quantum = new MyQubit(this);
                 mem = new Memory(this, Constants.NUMBER_OF_UNITS);
-                                
+                quick = new QuickDecision(this);
+
                 mech = parms.GetMechanics(_mech);
                 parms.UpdateLowCut();
 
@@ -195,7 +197,8 @@ namespace Awesome.AI.Core
         {
             //rand.SaveMomentum(mech.momentum);
             rand.SaveMomentum(mech.deltaMom);
-
+            quick.Run(_pro, curr_unit);
+            
             //if (_pro)
             //    common.Reset();            
         }
@@ -252,6 +255,9 @@ namespace Awesome.AI.Core
 
         private void Systems(bool _pro)
         {
+            if (parms.state == STATE.QUICKDECISION)
+                return;
+
             loc.Decide(_pro);
             chatans.Decide(_pro);
             chatask.Decide(_pro);
