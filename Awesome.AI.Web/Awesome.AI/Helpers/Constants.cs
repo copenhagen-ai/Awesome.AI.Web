@@ -50,7 +50,15 @@ namespace Awesome.AI.Helpers
         public const string should_decision_u1 = "DYES";
         public const string should_decision_u2 = "DNO";
 
-        public const string whistle_decision_u1 = "WHISTLE";
+        public static readonly Dictionary<string, int[]> DECISIONS_A = new Dictionary<string, int[]>
+        {
+            { "WHISTLE", new int[]{ 5, 5 } },
+        };
+
+        public static readonly Dictionary<string, int[]> DECISIONS_R = new Dictionary<string, int[]>
+        {
+            { "WHISTLE", new int[]{ 5, 15 } },
+        };
 
         public const double MIN = 0.5d;
         public const double MAX = 99.5d;
