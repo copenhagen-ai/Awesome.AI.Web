@@ -13,7 +13,7 @@
         public enum LIMITTYPE { SIMPLE, SIGMOID, CHANCE }
         public enum MOOD { GOOD, BAD }
         public enum HARDDOWN { YES, NO }
-        public enum FUZZYDOWN { VERYYES, YES, DUNNO, NO, VERYNO }
+        public enum FUZZYDOWN { VERYYES, YES, MAYBE, NO, VERYNO }
         public enum PERIODDOWN { YES, NO }
         public enum LOGICTYPE { BOOLEAN_ERROR, QUBIT }
 

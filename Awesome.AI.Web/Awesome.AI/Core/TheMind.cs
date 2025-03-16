@@ -90,7 +90,7 @@ namespace Awesome.AI.Core
                 chatask = new ChatAsk(this, "");
                 dir = new Direction(this);
                 pos = new Position(this);
-                quantum = new MyQubit(this);
+                quantum = new MyQubit();
                 mem = new Memory(this, Constants.NUMBER_OF_UNITS);
                 quick = new QuickDecision(this);
 

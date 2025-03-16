@@ -18,10 +18,38 @@
 <div>    
     @foreach (var item in Model.Doc) {
         <div class="text-neutral-200 font-bold">
+            <br />
             @Html.DisplayFor(modelItem => item.Header)
         </div>
+
+        string[] arr = item.Text.Split("<br />");
+
         <div class="text-neutral-200">
-            @Html.Raw(item.Text)
+            @{
+                int count = 1;
+                foreach(string s in arr){
+                    if(!s.StartsWith("- ")) {
+                        if (count > 1)
+                            @Html.Raw("</ul>")
+
+                        @Html.Raw(s + "<br />")
+
+                        count = 1;
+
+                    }
+                    else {
+                        if(count == 1)
+                            @Html.Raw("<ul style=\"margin-left: 20px;list-style-type: initial;\">")
+
+                        @Html.Raw("<li>" + s[2..] + "</li>")
+
+                        count++;
+
+                        if (count > arr.Length)
+                            @Html.Raw("</ul>")
+                    }
+                }
+        }
         </div>
         <div class="i-filler-20"></div>
 

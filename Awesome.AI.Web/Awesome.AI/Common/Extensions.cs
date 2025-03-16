@@ -84,7 +84,7 @@ namespace Awesome.AI.Common
             {
                 case < 20.0d: return FUZZYDOWN.VERYNO;
                 case < 40.0d: return FUZZYDOWN.NO;
-                case < 60.0d: return FUZZYDOWN.DUNNO;
+                case < 60.0d: return FUZZYDOWN.MAYBE;
                 case < 80.0d: return FUZZYDOWN.YES;
                 case < 100.0d: return FUZZYDOWN.VERYYES;
                 default: throw new NotSupportedException("ToFuzzy");
@@ -125,7 +125,7 @@ namespace Awesome.AI.Common
                 go_up = !go_up;//we flip direction
 
             if (Constants.Logic == LOGICTYPE.QUBIT)
-                go_up = mind.quantum.MyXOR(go_up, go_up);//we decide direction
+                go_up = mind.quantum.usage.MyXOR(go_up, go_up);//we decide direction
 
             return go_up;
         }
