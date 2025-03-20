@@ -269,6 +269,7 @@ namespace Awesome.AI.Web.Hubs
         private RoomHelper helper {  get; set; }
         
         private static bool is_running = false;
+        private static int users_count = 0;
 
         //private const int WHEN_ACTIVE = 20;
         //private const int WHEN_INACTIVE = 60 * 5;
@@ -417,7 +418,7 @@ namespace Awesome.AI.Web.Hubs
 
                     int user_count = UserHelper.CountUsers();
 
-                    if (user_count > 1 || IsDebug())
+                    if (user_count > users_count || IsDebug())
                     {
                         string subject = "";
                         string dot = "";
@@ -507,7 +508,7 @@ namespace Awesome.AI.Web.Hubs
 
                     int user_count = UserHelper.CountUsers();
 
-                    if (user_count > 1 || IsDebug())
+                    if (user_count > users_count || IsDebug())
                     {
                         if (inst.type == MINDS.ROBERTA)
                         {
@@ -559,7 +560,7 @@ namespace Awesome.AI.Web.Hubs
 
                     int user_count = UserHelper.CountUsers();
 
-                    if (user_count > 1 || IsDebug())
+                    if (user_count > users_count || IsDebug())
                     {
                         string ask = helper.GPTAskMeAQuestion(inst, subject);
 
@@ -613,7 +614,7 @@ namespace Awesome.AI.Web.Hubs
                     
                     int user_count = UserHelper.CountUsers();
 
-                    if (user_count > 1 || IsDebug())
+                    if (user_count > users_count || IsDebug())
                     {
                         if (inst.type == MINDS.ROBERTA)
                         {

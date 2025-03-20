@@ -184,6 +184,32 @@
             //Console.WriteLine("Measurement: " + psiPlus1.Measure() + " " + psiPlus2.Measure());
         }
 
+        public (MyQubit, MyQubit) CreateEntangledPair()
+        {
+            MyQubit qubitA = new MyQubit();
+            MyQubit qubitB = new MyQubit();
+            qubitA.ApplyHadamard();
+            qubitB.ApplyCNOT(qubitA);
+            return (qubitA, qubitB);
+        }
+
+        // Quantum XOR using entangled qubits
+        public bool MyQuantumXOR(bool a, bool b)
+        {
+            var (qubitA, qubitB) = CreateEntangledPair();
+
+            // Set initial states based on inputs
+            if (a) qubitA.ApplyPauliX();
+            if (b) qubitB.ApplyPauliX();
+
+            // Measurement collapses the state, but entanglement ensures XOR behavior
+            int measurementA = qubitA.Measure();
+            int measurementB = qubitB.Measure();
+
+            // XOR logic: a ⊕ b
+            return measurementA != measurementB;
+        }
+
         public bool MySuperposition()
         {
             MyQubit qubit = new MyQubit();
@@ -200,10 +226,10 @@
             MyQubit qubitA = new MyQubit();
             MyQubit qubitB = new MyQubit();
 
-            //if (a) qubitA.ApplyPauliX(); // Set to |1> if a is true
-            //if (b) qubitB.ApplyPauliX(); // Set to |1> if b is true
+            if (a) qubitA.ApplyPauliX(); // Set to |1> if a is true
+            if (b) qubitB.ApplyPauliX(); // Set to |1> if b is true
 
-            qubitA.ApplyHadamard();  // Superposition: (|0⟩ + |1⟩)/√2
+            //qubitA.ApplySuperposition();  // Superposition: (|0⟩ + |1⟩)/√2
 
             qubitA.ApplyXOR(qubitB);
 

@@ -48,7 +48,7 @@ namespace Awesome.AI.Core.Mechanics
             
             get 
             {
-                if (Constants.Logic == LOGICTYPE.BOOLEAN_ERROR)
+                if (Constants.Logic == LOGICTYPE.BOOLEAN)
                     //return deltaMom.ToDownPrev(deltaMomPrev, mind);
                     return deltaMom.ToDownZero(mind);
 
@@ -200,7 +200,6 @@ namespace Awesome.AI.Core.Mechanics
             //velocity += dv;
         }
 
-        //private double shift = -3.0d;
         public MyVector2D ApplyStatic(double acc_degree)
         {
             double acc_degree_positive = acc_degree < 0.0d ? -acc_degree : acc_degree;
@@ -212,7 +211,6 @@ namespace Awesome.AI.Core.Mechanics
             double force_com_y = mind.calc.PythNear(angle_com_y_pyth, force_sta);
 
             MyVector2D calc = new MyVector2D();
-            //Vector2D _static = calc.ToCart(calc.Flip360(new Vector2D(null, null, force_sta, mind.calc.ToRadiansFromDegrees(angle_sta))));
             MyVector2D _static = calc.ToCart(new MyVector2D(null, null, force_sta, calc.ToRadians(angle_sta)));
             MyVector2D _N = calc.ToCart(new MyVector2D(null, null, force_com_y, calc.ToRadians(angle_com_y_vec + 180.0d)));
             MyVector2D _fN = calc.ToPolar((calc.Add(_static, _N)));
@@ -228,7 +226,6 @@ namespace Awesome.AI.Core.Mechanics
             if (Fnet <= Constants.VERY_LOW)
                 Fnet = Constants.VERY_LOW;
 
-            //Vector2D _res = calc.ToCart(calc.Flip360(new Vector2D(null, null, Fnet, _fN.theta_in_radians)));
             MyVector2D _res = calc.ToCart(new MyVector2D(null, null, Fnet, _fN.theta_in_radians));
 
             return _res;
@@ -260,9 +257,7 @@ namespace Awesome.AI.Core.Mechanics
 
             if (Fnet <= Constants.VERY_LOW)
                 Fnet = Constants.VERY_LOW;
-            else
-                ;
-
+            
             MyVector2D _res = calc.ToCart(new MyVector2D(null, null, Fnet, calc.ToRadians(angle_dyn)));
 
             return _res;
