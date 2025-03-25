@@ -1,11 +1,11 @@
 ﻿using Awesome.AI.Common;
 using Awesome.AI.CoreHelpers;
-using Awesome.AI.Helpers;
 using Awesome.AI.Interfaces;
 using Awesome.AI.Systems;
+using Awesome.AI.Variables;
 using Awesome.AI.Web.AI.Common;
 using Awesome.AI.Web.Helpers;
-using static Awesome.AI.Helpers.Enums;
+using static Awesome.AI.Variables.Enums;
 
 namespace Awesome.AI.Core
 {

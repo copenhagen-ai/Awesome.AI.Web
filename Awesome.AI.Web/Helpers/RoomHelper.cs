@@ -1,11 +1,11 @@
 ﻿using Awesome.AI.Common;
-using Awesome.AI.Helpers;
+using Awesome.AI.Core;
+using Awesome.AI.Variables;
 using Awesome.AI.Web.Common;
 using Awesome.AI.Web.Hubs;
 using Awesome.AI.Web.Models;
-using Org.BouncyCastle.Asn1.X509;
 using System.Text.Json;
-using static Awesome.AI.Helpers.Enums;
+using static Awesome.AI.Variables.Enums;
 
 namespace Awesome.AI.Web.Helpers
 {

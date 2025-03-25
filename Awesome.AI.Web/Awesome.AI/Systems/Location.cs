@@ -1,6 +1,6 @@
 ﻿using Awesome.AI.Common;
 using Awesome.AI.Core;
-using Awesome.AI.Helpers;
+using Awesome.AI.Variables;
 
 namespace Awesome.AI.Systems
 {

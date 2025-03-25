@@ -196,7 +196,8 @@ function myinfo1(epochs, runtime, momentum, dmomentum, cycles, pain, position, r
     // should be aware of possible script injection concerns.
 
     var epochs_remaining = (runtime * 60) - epochs;
-    var pain_out = parseFloat(pain) > 1.0 ? 'OUCH' : `${pain}`;
+    //var pain_out = parseFloat(pain) > 1.0 ? 'OUCH' : `${pain}`;
+    var pain_out = `${pain}`;
 
     //div0.textContent = `${epochs}`;
     div1.textContent = `${epochs_remaining}`;

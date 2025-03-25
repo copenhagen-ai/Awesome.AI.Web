@@ -1,5 +1,4 @@
-﻿using Org.BouncyCastle.Crypto.Modes;
-using static Awesome.AI.Helpers.Enums;
+﻿using static Awesome.AI.Variables.Enums;
 
 namespace Awesome.AI.Web.Common
 {

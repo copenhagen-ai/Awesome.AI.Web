@@ -1,11 +1,11 @@
 ﻿using Awesome.AI.Common;
 using Awesome.AI.Core;
-using Awesome.AI.Helpers;
+using Awesome.AI.Variables;
 using Awesome.AI.Web.Common;
 using Awesome.AI.Web.Helpers;
 using Microsoft.AspNetCore.SignalR;
 using System.Diagnostics;
-using static Awesome.AI.Helpers.Enums;
+using static Awesome.AI.Variables.Enums;
 
 namespace Awesome.AI.Web.Hubs
 {
@@ -315,7 +315,7 @@ namespace Awesome.AI.Web.Hubs
 
                 int MAX = Enum.GetNames(typeof(MINDS)).Length;
                                 
-                Bots.Add(new Bot() { mindtype = MINDS.ROBERTA, mech = MECHANICS.HILL, location= "KITCHEN" });
+                Bots.Add(new Bot() { mindtype = MINDS.ROBERTA, mech = MECHANICS.GRAVITY, location= "KITCHEN" });
                 Bots.Add(new Bot() { mindtype = MINDS.ANDREW, mech = MECHANICS.CONTEST, location = "LIVINGROOM" });
                 
                 foreach (Bot bot in Bots)

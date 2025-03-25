@@ -1,6 +1,6 @@
 ﻿using Awesome.AI.Common;
 using Awesome.AI.Core;
-using static Awesome.AI.Helpers.Enums;
+using static Awesome.AI.Variables.Enums;
 
 namespace Awesome.AI.CoreHelpers
 {

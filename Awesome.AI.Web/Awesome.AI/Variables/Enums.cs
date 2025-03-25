@@ -1,4 +1,4 @@
-﻿namespace Awesome.AI.Helpers
+﻿namespace Awesome.AI.Variables
 {
     public class Enums
     {

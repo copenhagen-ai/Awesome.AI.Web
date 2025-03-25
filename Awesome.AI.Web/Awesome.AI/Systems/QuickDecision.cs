@@ -1,9 +1,8 @@
-﻿using Awesome.AI.Common;
-using Awesome.AI.Core;
-using Awesome.AI.Helpers;
-using static Awesome.AI.Helpers.Enums;
+﻿using Awesome.AI.Core;
+using Awesome.AI.Variables;
+using static Awesome.AI.Variables.Enums;
 
-namespace Awesome.AI.CoreHelpers
+namespace Awesome.AI.Systems
 {
     public class QuickDecision
     {
@@ -15,7 +14,7 @@ namespace Awesome.AI.CoreHelpers
             this.mind = mind;
         }
 
-        private bool Go {  get; set; }
+        private bool Go { get; set; }
         private int Period { get; set; }
         private int Count { get; set; }
 
@@ -23,18 +22,19 @@ namespace Awesome.AI.CoreHelpers
         private bool res = false;
         private bool new_res = false;
 
-        public bool Result 
+        public bool Result
         {
-            get 
+            get
             {
                 if (new_res && mind.epochs > epochold)
                 {
-                    if(Count > Period) {
+                    if (Count > Period)
+                    {
                         new_res = false;
                         res = false;
                     }
 
-                    Count++;                    
+                    Count++;
                 }
 
                 epochold = mind.epochs;
@@ -48,9 +48,10 @@ namespace Awesome.AI.CoreHelpers
             if (new_res)
                 return;
 
-            if(mind.parms.state == STATE.QUICKDECISION && mind.mem.QDCOUNT() > 0)
+            if (mind.parms.state == STATE.QUICKDECISION && mind.mem.QDCOUNT() > 0)
             {
-                if (mind.mem.QDCOUNT() <= 1) {
+                if (mind.mem.QDCOUNT() <= 1)
+                {
                     res = curr.data == "DYES";
                     new_res = true;
                     mind.parms.state = STATE.JUSTRUNNING;
@@ -79,7 +80,7 @@ namespace Awesome.AI.CoreHelpers
 
         private void Setup(int count, int period)
         {
-            Go = true;            
+            Go = true;
             Period = period;
             Count = 0;
 

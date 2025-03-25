@@ -1,6 +1,6 @@
-﻿using static Awesome.AI.Helpers.Enums;
+﻿using static Awesome.AI.Variables.Enums;
 
-namespace Awesome.AI.Helpers
+namespace Awesome.AI.Variables
 {
     public class Constants
     {
@@ -80,18 +80,18 @@ namespace Awesome.AI.Helpers
         public const int NUMBER_OF_UNITS = 10;
         public const int RUNTIME = 2;                       //minutes
 
-        public const LOGICTYPE Logic = LOGICTYPE.QUBIT;
+        public const LOGICTYPE Logic = LOGICTYPE.BOOLEAN;
 
         public const int MICRO_SEC = 4000;                  //call micro timer every 1000µs (1ms)
         public const int HIST_TOTAL = 100;                  //the number of UNITS???
         public const int REMEMBER = 200;
 
         public static readonly string[] subject_decision = new string[]
-        { 
+        {
             "location_should_decision", "location_what_decision",
             "answer_should_decision", "answer_what_decision",
-            "ask_should_decision", 
+            "ask_should_decision",
             "whistle_should_decision",
-        };        
+        };
     }
 }

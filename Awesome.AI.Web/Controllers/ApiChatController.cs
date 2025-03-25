@@ -2,7 +2,7 @@
 using Awesome.AI.Web.Helpers;
 using Awesome.AI.Web.Hubs;
 using Microsoft.AspNetCore.Mvc;
-using static Awesome.AI.Helpers.Enums;
+using static Awesome.AI.Variables.Enums;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
