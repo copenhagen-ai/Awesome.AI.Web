@@ -2,7 +2,7 @@
 using Awesome.AI.Variables;
 using static Awesome.AI.Variables.Enums;
 
-namespace Awesome.AI.Systems
+namespace Awesome.AI.CoreSystems
 {
     public class QuickDecision
     {
@@ -52,7 +52,7 @@ namespace Awesome.AI.Systems
             {
                 if (mind.mem.QDCOUNT() <= 1)
                 {
-                    res = curr.data == "DYES";
+                    res = curr.data == "QYES";
                     new_res = true;
                     mind.parms.state = STATE.JUSTRUNNING;
                 }
@@ -87,17 +87,17 @@ namespace Awesome.AI.Systems
             List<string> should_decision = new List<string>();
 
             for (int i = 0; i < count; i++)
-                should_decision.Add(/*YES*/Constants.should_decision_u1);
+                should_decision.Add(/*YES*/Constants.quick_deci_should_yes);
 
             for (int i = 0; i < count; i++)
-                should_decision.Add(/*NO*/Constants.should_decision_u2);
+                should_decision.Add(/*NO*/Constants.quick_deci_should_no);
 
             mind.mem.QDRESETU();
             mind.mem.QDRESETH();
 
             TONE tone = TONE.RANDOM;
-            mind.mem.UnitsDecide(STATE.QUICKDECISION, should_decision, UNITTYPE.QDECISION, 0, tone);
-            mind.mem.HubsDecide(STATE.QUICKDECISION, Constants.subject_decision[0], should_decision, UNITTYPE.QDECISION, 0, tone);
+            mind.mem.UnitsDecide(STATE.QUICKDECISION, should_decision, UNITTYPE.QDECISION, LONGTYPE.NONE, 0, tone);
+            mind.mem.HubsDecide(STATE.QUICKDECISION, Constants.deci_subject[2], should_decision, UNITTYPE.QDECISION, 0, tone);
         }
 
         private void Start(bool _pro)

@@ -14,7 +14,7 @@ namespace Awesome.AI.Web.Hubs
         public MECHANICS mech {  get; set; }
         public MINDS mindtype { get; set; }
 
-        public string location { get; set; }
+        public Dictionary<string, string> long_deci { get; set; }        
     }
 
     public class Instance
@@ -315,14 +315,14 @@ namespace Awesome.AI.Web.Hubs
 
                 int MAX = Enum.GetNames(typeof(MINDS)).Length;
                                 
-                Bots.Add(new Bot() { mindtype = MINDS.ROBERTA, mech = MECHANICS.GRAVITY, location= "KITCHEN" });
-                Bots.Add(new Bot() { mindtype = MINDS.ANDREW, mech = MECHANICS.CONTEST, location = "LIVINGROOM" });
+                Bots.Add(new Bot() { mindtype = MINDS.ROBERTA, mech = MECHANICS.HILL, long_deci = Constants.long_deci_roberta });
+                Bots.Add(new Bot() { mindtype = MINDS.ANDREW, mech = MECHANICS.CONTEST, long_deci = Constants.long_deci_andrew });
                 
                 foreach (Bot bot in Bots)
                 {
                     Instance instance = new Instance();
 
-                    instance.mind = new TheMind(bot.mech, bot.mindtype, bot.location);
+                    instance.mind = new TheMind(bot.mech, bot.mindtype, bot.long_deci);
                     instance.type = bot.mindtype;
                         
                     // Instantiate new MicroTimer and add event handler

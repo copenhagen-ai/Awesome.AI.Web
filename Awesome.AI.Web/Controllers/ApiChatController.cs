@@ -45,12 +45,18 @@ namespace Awesome.AI.Web.Controllers
         [HttpPost]
         public async Task<PostResponce> Post([FromBody] Post obj)
         {
+            bool reset = true;
             try
             {
                 if (busy) {
+
+                    string str = obj.text.Length > 45 ? obj.text[..45] : obj.text;
+
                     RoomHub.ResetAsked();
                     MINDS m = obj.mind.ToUpper() == MINDS.ROBERTA.ToString() ? MINDS.ROBERTA : MINDS.ANDREW;
+                    ChatComm.Add(m, $">> user:{str}..<br>");
                     string _res = ChatComm.GetResponce(m);
+                    reset = false;
                     return new PostResponce() { ok = false, res = $"{_res}" };
                 }
 
@@ -74,8 +80,7 @@ namespace Awesome.AI.Web.Controllers
                     RoomHub.ResetAsked();
                     string str = ". . .";
                     ChatComm.Add(_m, $">> ass:{str}<br>");
-                    string _res = ChatComm.GetResponce(_m);
-                    busy = false;
+                    string _res = ChatComm.GetResponce(_m);                    
                     return new PostResponce() { ok = true, res = $"{_res}" };
                 }
 
@@ -98,8 +103,7 @@ namespace Awesome.AI.Web.Controllers
                     string str = "my bad..";
                     ChatComm.Add(_m, $">> user:{question}<br>");
                     ChatComm.Add(_m, $">> ass:{str}<br>");
-                    string _res = ChatComm.GetResponce(_m);
-                    busy = false;
+                    string _res = ChatComm.GetResponce(_m);                    
                     return new PostResponce() { ok = true, res = $"{_res}" };
                 }
 
@@ -108,14 +112,19 @@ namespace Awesome.AI.Web.Controllers
                 //inst.mind.chat_answer = false;
                 RoomHub.ResetAsked();
 
-                string res = ans == ":COMEAGAIN" ? "come again.." : content;
-
+                string res = 
+                    ans == ":COMEAGAIN" ? 
+                    "come again.." : 
+                    ans == ":YES" ? 
+                    content : 
+                    ans;
+                
                 ChatComm.Add(_m, $">> user:{question}<br>");
                 ChatComm.Add(_m, $">> ass:{res}<br>");
 
                 res = ChatComm.GetResponce(_m);
 
-                busy = false;
+                //busy = false;
 
                 return new PostResponce() { ok = true, res = res };
             }
@@ -128,7 +137,8 @@ namespace Awesome.AI.Web.Controllers
             }
             finally 
             {
-                busy = false;
+                if(reset)
+                    busy = false;                
             }
         }
 

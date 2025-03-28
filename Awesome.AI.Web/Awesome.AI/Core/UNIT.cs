@@ -1,4 +1,4 @@
-﻿using Awesome.AI.CoreHelpers;
+﻿using Awesome.AI.CoreInternals;
 using Awesome.AI.Interfaces;
 using Awesome.AI.Variables;
 using static Awesome.AI.Variables.Enums;
@@ -12,7 +12,8 @@ namespace Awesome.AI.Core
          * */
 
         public Ticket ticket = new Ticket("NOTICKET");
-        private UNITTYPE type { get; set; }
+        private UNITTYPE unit_type { get; set; }
+        public LONGTYPE long_deci_type { get; set; }
         public string root { get; set; }//name
         public string data { get; set; }//data
         public double credits { get; set; }
@@ -140,9 +141,9 @@ namespace Awesome.AI.Core
             }
         }
 
-        public static UNIT Create(TheMind mind, double index, string root, string data, string ticket, UNITTYPE t)
+        public static UNIT Create(TheMind mind, double index, string root, string data, string ticket, UNITTYPE ut, LONGTYPE lt)
         {
-            UNIT _w = new UNIT() { mind = mind, Index = index, root = root, data = data, type = t };
+            UNIT _w = new UNIT() { mind = mind, Index = index, root = root, data = data, unit_type = ut, long_deci_type = lt };
 
             if (ticket != "")
                 _w.ticket = new Ticket(ticket);
@@ -156,29 +157,31 @@ namespace Awesome.AI.Core
         {
             get
             {
-                return Create(null, Constants.MAX, "MAX", "DATA", "TICKET", UNITTYPE.MAX);
+                return Create(null, Constants.MAX, "MAX", "DATA", "TICKET", UNITTYPE.MAX, LONGTYPE.NONE);
             }
         }
         public static UNIT GetLow
         {
             get
             {
-                return Create(null, Constants.MIN, "MIN", "DATA", "TICKET", UNITTYPE.MIN);
+                return Create(null, Constants.MIN, "MIN", "DATA", "TICKET", UNITTYPE.MIN, LONGTYPE.NONE);
             }
         }
 
         public static UNIT IDLE_UNIT(TheMind mind)
         {
-            return Create(mind, -1d, "XXXX", "XXXX", "", UNITTYPE.IDLE);
+            return Create(mind, -1d, "XXXX", "XXXX", "", UNITTYPE.IDLE, LONGTYPE.NONE);
         }
 
-        public bool IsUNIT() => type == UNITTYPE.JUSTAUNIT;
+        public bool IsUNIT() => unit_type == UNITTYPE.JUSTAUNIT;
 
-        public bool IsIDLE() => type == UNITTYPE.IDLE;
+        public bool IsIDLE() => unit_type == UNITTYPE.IDLE;
 
-        public bool IsDECISION() => type == UNITTYPE.DECISION;
+        public bool IsDECISION() => unit_type == UNITTYPE.DECISION;
 
-        public bool IsQUICKDECISION() => type == UNITTYPE.QDECISION;
+        public bool IsQUICKDECISION() => unit_type == UNITTYPE.QDECISION;
+
+        
 
         //UNIT next = null;
         //public UNIT Next

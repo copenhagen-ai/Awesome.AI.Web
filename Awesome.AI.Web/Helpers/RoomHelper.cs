@@ -94,7 +94,7 @@ namespace Awesome.AI.Web.Helpers
 
             string subject = common.HUB.subject;
 
-            if (Constants.subject_decision.Contains(subject))
+            if (Constants.deci_subject.Contains(subject))
                 return "";
 
             string str = "" + common.Index;

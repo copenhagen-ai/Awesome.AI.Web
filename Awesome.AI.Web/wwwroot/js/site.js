@@ -178,12 +178,8 @@ function chat(text) {
 
                 tmp = res.replaceAll('user:', '');
                 tmp = tmp.replaceAll('ass:', '');
-                
+
                 $('.chatRes').html(tmp);
-
-                var div4 = document.getElementById("chatTitle");
-
-                div4.classList.remove("i-color-red");
 
                 alert('be patient, other users are asking questions..');
             }

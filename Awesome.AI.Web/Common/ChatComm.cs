@@ -20,7 +20,8 @@ namespace Awesome.AI.Web.Common
                 //if (communication[_m] == null)
                 //    communication[_m] = new List<string>();
 
-                communication[_m].Add(line);
+                if(!communication[_m].Contains(line))
+                    communication[_m].Add(line);
 
                 int count = communication[_m].Count;
                 while (count >= 6) {
