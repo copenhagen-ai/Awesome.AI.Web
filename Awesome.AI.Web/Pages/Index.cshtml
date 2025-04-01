@@ -50,30 +50,48 @@
 </div>
 
 <div class="overflow-hidden grid grid-cols-1 lg:grid-cols-3">
-    <div class="overflow-hidden">        
+    <div class="hidden md:block overflow-hidden ">
         <div class="text-gray-50 md:px-4"></div>
         <div class="viewersDiv text-gray-50 md:px-4">viewers today: 0</div>
         <div class="text-gray-50 md:px-4">logic: <span>classic</span></div>
         <div class="text-gray-50 md:px-4">mech: <span class="mechSpan">hill</span></div>
         <div class="overflow-hidden md:px-4">
-            <a id="r2" class="text-gray-50 float-left sm:float-right mr-4 hover:underline cursor-pointer" onclick="room2();">Andrew</a>
-            <a id="r1" class="text-gray-50 float-left sm:float-right mr-4 hover:underline cursor-pointer" onclick="room1();">[Roberta]</a>
+            <a id="xr2" class="r2 text-gray-50 float-left sm:float-right mr-4 hover:underline cursor-pointer" >Andrew</a>
+            <a id="xr1" class="r1 text-gray-50 float-left sm:float-right mr-4 hover:underline cursor-pointer" >[Roberta]</a>
         </div>
     </div>
     <div class="hidden lg:block px-4">
         @* <h1 class="roomHeader text-gray-50 text-3xl sm:text-5xl font-bold">Roberta</h1> *@
-    </div>    
-    <div class="relative xoverflow-hidden sm:px-4">
-        <div class="absolute bottom-0 w-full px-4">
+    </div>
+    <div class="hidden md:block relative ">
+        <div class="absolute w-full bottom-0 px-4">
 
-        <span id="joinButton" class="cursor-pointer mr-4 i-color-orange float-right" title="This will start the app and let it run for about 5 minutes">join</span>
+        <span id="" class="joinButton cursor-pointer xmr-4 i-color-orange float-right" title="This will start the app and let it run for about 5 minutes">join</span>
         <span id="" class="cursor-pointer mr-10 i-color-orange float-right">   </span>
-        <span id="hideSpan" class="cursor-pointer mr-4 i-color-green float-right">view</span>
+        <span id="" class="hideSpan cursor-pointer mr-4 i-color-green float-right">view</span>
         <span id="" class="cursor-pointer mr-10 i-color-green float-right">   </span>
-        <span id="saveSpan" class="cursor-pointer mr-4 i-color-green float-right">save</span>
+        <span id="" class="saveSpan cursor-pointer mr-4 i-color-green float-right">save</span>
         <span id="" class="cursor-pointer mr-4 i-color-green float-right">   </span>
         </div>
     </div>    
+    <div class="md:hidden w-full">
+        <div class="text-gray-50 md:px-4"></div>
+        <div class="viewersDiv text-gray-50 md:px-4">viewers today: 0</div>
+        <div class="text-gray-50 md:px-4">logic: <span>classic</span></div>
+        <div class="text-gray-50 md:px-4">mech: <span class="mechSpan">hill</span></div>
+        <div class="overflow-hidden md:px-4">
+            <a id="xr2" class="r2 text-gray-50 float-left mr-4 hover:underline cursor-pointer">Andrew</a>
+            <a id="xr1" class="r1 text-gray-50 float-left mr-4 hover:underline cursor-pointer">[Roberta]</a>
+    
+
+            <span id="" class="joinButton cursor-pointer mr-4 i-color-orange float-right" title="This will start the app and let it run for about 5 minutes">join</span>
+            @* <span id="" class="cursor-pointer mr-10 i-color-orange float-right">   </span> *@
+            <span id="" class="hideSpan cursor-pointer mr-4 i-color-green float-right">view</span>
+            @* <span id="" class="cursor-pointer mr-10 i-color-green float-right">   </span> *@
+            <span id="" class="saveSpan cursor-pointer mr-4 i-color-green float-right">save</span>
+            @* <span id="" class="cursor-pointer mr-4 i-color-green float-right">   </span> *@
+        </div>
+    </div>
 </div>
 
 @* <div class="viewersDiv text-gray-50 ml-4 float-right overflow-hidden lg:hidden">viewers: 0</div> *@

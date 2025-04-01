@@ -7,14 +7,14 @@ var isHidden = true;
 var showinfo = false;
 $(document).ready(function () {
     
-    $("#hideSpan").click(function () {
+    $(".hideSpan").click(function () {
         isHidden = !isHidden;
-        $("#hideSpan").text('hide');
+        $(".hideSpan").text('hide');
         if (isHidden)
-            $("#hideSpan").text('view');
+            $(".hideSpan").text('view');
     });
 
-    $("#saveSpan").click(function () {
+    $(".saveSpan").click(function () {
         var text = $("#messageDiv").text();
         $("#saveDiv").text(text)
     });
@@ -54,6 +54,16 @@ $(document).ready(function () {
             $(".chart2").hide();
             $(".chart1").show();
         }
+    });
+
+    $(".r1").click(function (event) {
+        //alert('hep1');
+        room1();
+    });
+
+    $(".r2").click(function (event) {
+        //alert('hep2');
+        room2();
     });
 
     //$(".infomain").hover(function () {

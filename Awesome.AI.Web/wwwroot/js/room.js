@@ -64,7 +64,7 @@ const myChart2 = new Chart(document.getElementById('myChart2'), {
 
 $(document).ready(function () {
 
-    $("#joinButton").click(function (event) {
+    $(".joinButton").click(function (event) {
         connection.start();
         event.preventDefault();
 
@@ -102,7 +102,7 @@ function mycrashed() {
 }
 
 function room1() {
-
+    //alert('hello1');
     $("#overlay").fadeIn(300);
     setTimeout(timeout, 300);
 
@@ -117,8 +117,8 @@ function room1() {
     myChart2.data.datasets[0].backgroundColor = [];
 
     room = 'room1';
-    $('#r1').text('[Roberta]');
-    $('#r2').text('Andrew');
+    $('.r1').text('[Roberta]');
+    $('.r2').text('Andrew');
     $('.mechSpan').text('hill');
     $('.roomHeader').text('Roberta');
     $('#messageDiv').text('inner monologue.. (press view)');
@@ -129,7 +129,7 @@ function room1() {
 }
 
 function room2() {
-
+    //alert('hello2');
     $("#overlay").fadeIn(300);
     setTimeout(timeout, 300);
 
@@ -144,9 +144,9 @@ function room2() {
     myChart2.data.datasets[0].backgroundColor = [];
 
     room = 'room2';
-    $('#r1').text('Roberta');
-    $('#r2').text('[Andrew]');
-    $('.mechSpan').text('cars');
+    $('.r1').text('Roberta');
+    $('.r2').text('[Andrew]');
+    $('.mechSpan').text('tugofwar');
     $('.roomHeader').text('Andrew');
     $('#messageDiv').text('inner monologue.. (press view)');
     $('#dot1Span').text('xxxx');

@@ -534,10 +534,6 @@ video {
   --tw-backdrop-sepia:  ;
 }
 
-.static {
-  position: static;
-}
-
 .absolute {
   position: absolute;
 }
@@ -1073,6 +1069,10 @@ video {
     display: block;
   }
 
+  .md\:hidden {
+    display: none;
+  }
+
   .md\:h-box1 {
     height: 440px;
   }
@@ -1081,14 +1081,14 @@ video {
     height: 460px;
   }
 
-  .md\:px-md {
-    padding-left: 50px;
-    padding-right: 50px;
-  }
-
   .md\:px-4 {
     padding-left: 1rem;
     padding-right: 1rem;
+  }
+
+  .md\:px-md {
+    padding-left: 50px;
+    padding-right: 50px;
   }
 }
 
@@ -1117,11 +1117,6 @@ video {
   .lg\:px-lg {
     padding-left: 100px;
     padding-right: 100px;
-  }
-
-  .lg\:px-4 {
-    padding-left: 1rem;
-    padding-right: 1rem;
   }
 }
 
