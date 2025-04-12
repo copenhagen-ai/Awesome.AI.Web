@@ -291,13 +291,6 @@
     <span class="sortSpan cursor-pointer text-gray-50 ml-4">sort force</span>
 </div> *@
 
-<div class="overflow-hidden grid grid-cols-1 lg:grid-cols-3">
-    <div></div>
-    <div class="hidden md:block">
-        <span id="" class="p-2 md:mx-4 my-4 text-gray-50 float-left">sort: </span>
-        <span id="chartSpan" class="cursor-pointer p-2 md:mx-4 my-4 bg-neutral-900 text-gray-50 float-left">index</span>
-    </div>    
-</div>
 
 <div class="overflow-hidden grid grid-cols-1 lg:grid-cols-3">
     <div class="">
@@ -324,7 +317,7 @@
                     <span class="text-gray-400" id="quickSpan">xxxx</span>
                 </div>
             </div>
-        
+
             <br />
             Long:<br />
             <div class="">
@@ -349,13 +342,74 @@
         </div>
     </div>
 
+    <div class="">
+        <div class="bg-neutral-900 border border-neutral-950 text-neutral-600 overflow-hidden md:h-box4 p-4 md:mx-4 my-4">
+            <div class="">
+                <div class="">
+                    <div class="text-gray-50">MOOD</div>
+                    <div class="i-filler-20"></div>
+                    <hr class="" />
+                    <div class="i-filler-20"></div>
+                </div>
+            </div>
+            
+            <span class="text-gray-400">
+            This is the current mood of the system. If the color is green, delta momentum is within limits, if not then red. it should not be red. 
+            Currently the mood is controlled by a MoodGenerator (changes every 10 seconds or so), this should be replaced with user input like: Pinch and Tickle. <br /><br />
+            The values are converted, like so:<br />
+            GENERAL limits: 0.0 -> 1.0<br />
+            GOOD limits: 0.5 -> 1.0<br />
+            BAD limits: 0.0 -> 0.5<br /><br />
+            </span>
+            <div class="">
+                <div class="">
+                    <span class="text-gray-50">current mood:</span>
+                    <span class="text-gray-400" id="moodSpan">xxxx</span>
+                </div>
+            </div>
+            <br />
+        </div>
+    </div>    
+</div>
+
+<div class="overflow-hidden grid grid-cols-1 lg:grid-cols-3">
+    <div class="hidden md:block">
+        <span id="" class="p-2 md:mx-4 my-4 text-gray-50 float-left">sort: </span>
+        <span id="chartSpan" class="cursor-pointer p-2 md:mx-4 my-4 bg-neutral-900 text-gray-50 float-left">index</span>
+    </div>    
+</div>
+
+<div class="overflow-hidden grid grid-cols-1 lg:grid-cols-3">
     <div class="lg:col-span-2">
         <div class="chart1 bg-neutral-900 border border-neutral-950 p-4 md:mx-4 my-4">
             <canvas id="myChart1" class="w-full max-w-[900px] "></canvas>
         </div>
         <div class="chart2 bg-neutral-900 border border-neutral-950 p-4 md:mx-4 my-4 hidden ">
             <canvas id="myChart2" class="w-full max-w-[900px]"></canvas>
-        </div>        
+        </div>
+    </div>
+
+    <div class="">
+        <div class="bg-neutral-900 border border-neutral-950 text-neutral-600 overflow-hidden md:h-box4 p-4 md:mx-4 my-4">
+            <div class="">
+                <div class="">
+                    <div class="text-gray-50">NOTES</div>
+                    <div class="i-filler-20"></div>
+                    <hr class="" />
+                    <div class="i-filler-20"></div>
+                </div>
+            </div>
+            
+            note 1:<br />
+            <div class="">
+                <span class="text-gray-400">The sections seen here are not interconnected, only to the STATS window, this will be easily accomplished if that is needed.</span>
+            </div>
+
+            @* note 2:<br />
+            <div class="">
+                <span class="text-gray-50">.....</span>
+            </div> *@
+        </div>
     </div>
 </div>
 

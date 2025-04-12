@@ -251,7 +251,7 @@ function myinfo2(whistle, occu, location, loc_state) {
     var div3a = document.getElementById("stateSpan1");
     var div3b = document.getElementById("stateSpan2");
     var div4 = document.getElementById("quickSpan");
-    
+
     // document.getElementById("messagesList").appendChild(li);
     // We can assign user-supplied strings to an element's textContent because it
     // is not interpreted as markup. If you're assigning in any other way, you
@@ -278,6 +278,20 @@ function myinfo2(whistle, occu, location, loc_state) {
         div3a.classList.remove("i-color-green");
     }
 
+}
+
+function mymood(mood, moodOK) {
+
+    $("#moodSpan").text(`${mood.replace("MOOD", "") }`);
+    
+    if (moodOK) {
+        $("#moodSpan").addClass("i-color-green");
+        $("#moodSpan").removeClass("i-color-red");
+    }
+    else {
+        $("#moodSpan").addClass("i-color-red");
+        $("#moodSpan").removeClass("i-color-green");
+    }
 }
 
 function mymessage(message, dot1, dot2, subject) {
@@ -336,6 +350,19 @@ function onConnect() {
 
         if (room == 'room2')
             myinfo2(whistle, occu, location, loc_state);
+    });
+
+
+    connection.on("MIND1MoodReceive1", function (mood, moodOK) {
+
+        if (room == 'room1')
+            mymood(mood, moodOK);
+    });
+
+    connection.on("MIND2MoodReceive1", function (whistle, occu, location, loc_state) {
+
+        if (room == 'room2')
+            mymood(mood, moodOK);
     });
 
 

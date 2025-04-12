@@ -343,6 +343,7 @@ namespace Awesome.AI.Web.Hubs
                     ProcessMonologue(instance);
                     ProcessChat(instance);
                     ProcessDecision(instance);
+                    ProcessMood(instance);
 
                     Instances.Add(instance);
                 }
@@ -611,7 +612,7 @@ namespace Awesome.AI.Web.Hubs
                     string occu = inst.mind._out.occu;
                     string locationfinal = inst.mind._out.location;
                     string loc_state = inst.mind._out.loc_state;
-                    
+
                     int user_count = UserHelper.CountUsers();
 
                     if (user_count > users_count || IsDebug())
@@ -624,6 +625,48 @@ namespace Awesome.AI.Web.Hubs
                         if (inst.type == MINDS.ANDREW)
                         {
                             await Clients.All.SendAsync("MIND2DecisionReceive1", whistle, occu, locationfinal, loc_state);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                XmlHelper.WriteError("processinfo - " + ex.Message);
+            }
+            finally
+            {
+                inst.microTimer.Enabled = false;
+
+                is_running = false;
+            }
+        }
+
+        private async Task ProcessMood(Instance inst)
+        {
+            try
+            {
+                await Task.Delay(100);
+
+                while (is_running)
+                {
+                    for (int i = 0; i < inst.sec_info; i++)
+                        await Task.Delay(1000);
+
+                    string mood = ("" + inst.mind._out.mood);
+                    bool moodOK = inst.mind._out.moodOK;
+                    
+                    int user_count = UserHelper.CountUsers();
+
+                    if (user_count > users_count || IsDebug())
+                    {
+                        if (inst.type == MINDS.ROBERTA)
+                        {
+                            await Clients.All.SendAsync("MIND1MoodReceive1", mood, moodOK);
+                        }
+
+                        if (inst.type == MINDS.ANDREW)
+                        {
+                            await Clients.All.SendAsync("MIND2MoodReceive1", mood, moodOK);
                         }
                     }
                 }
