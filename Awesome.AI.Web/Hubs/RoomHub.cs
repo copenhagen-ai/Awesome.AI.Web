@@ -242,23 +242,23 @@ namespace Awesome.AI.Web.Hubs
             throw new Exception("FormatIndex");
         }        
 
-        private double FormatForce(TheMind mind, double index, bool is_index, bool is_lower, bool is_upper)
-        {
-            double min = mind.mech.LowestVar;
-            double max = mind.mech.HighestVar;
-            double temp = mind.calc.NormalizeRange(index, min, max, 0.01d, 99.99d);
+        //private double FormatForce(TheMind mind, double index, bool is_index, bool is_lower, bool is_upper)
+        //{
+        //    double min = mind.mech["current"].LowestVar;
+        //    double max = mind.mech["current"].HighestVar;
+        //    double temp = mind.calc.NormalizeRange(index, min, max, 0.01d, 99.99d);
 
-            double res_index = ((int)Math.Floor(temp / 10.0)) * 10 + 10.0d;
+        //    double res_index = ((int)Math.Floor(temp / 10.0)) * 10 + 10.0d;
 
-            if (is_index)
-                return res_index / 10.0d;
-            if (is_lower)
-                return mind.calc.NormalizeRange(res_index - 10.0d, 0.0d, 100.0d, min, max);
-            if (is_upper)
-                return mind.calc.NormalizeRange(res_index, 0.0d, 100.0d, min, max);
+        //    if (is_index)
+        //        return res_index / 10.0d;
+        //    if (is_lower)
+        //        return mind.calc.NormalizeRange(res_index - 10.0d, 0.0d, 100.0d, min, max);
+        //    if (is_upper)
+        //        return mind.calc.NormalizeRange(res_index, 0.0d, 100.0d, min, max);
 
-            throw new Exception("FormatForce");
-        }
+        //    throw new Exception("FormatForce");
+        //}
     }
 
     public class RoomHub : Hub
