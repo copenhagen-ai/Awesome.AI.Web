@@ -357,7 +357,7 @@ namespace Awesome.AI.Web.Hubs
 
                     foreach (Instance inst in Instances)
                     {
-                        if (!inst.mind.ok)
+                        if (!TheMind.ok)
                             throw new Exception();
                         
                         //int index = Instances.IndexOf(inst);
