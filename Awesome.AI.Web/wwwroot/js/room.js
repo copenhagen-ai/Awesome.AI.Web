@@ -73,13 +73,23 @@ $(document).ready(function () {
         total = $('#totalSpan').text();
         temp = total;
 
+        //if(startup)
+        $("#overlay2").fadeIn(300);
         setTimeout(mycrashed, 3000);
+        setTimeout(mystart, 5000);
     });    
 });
 
+var startup = true;
 var total = '';
 var temp = '';
 var crashed = false;
+
+function mystart() {
+    $("#overlay2").fadeOut(100);
+    //startup = false;
+}
+
 function mycrashed() {
     total = $('#totalSpan').text();
 
@@ -119,7 +129,7 @@ function room1() {
     room = 'room1';
     $('.r1').text('[Roberta]');
     $('.r2').text('Andrew');
-    $('.mechSpan').text('hill');
+    $('.mechSpan').text('ballonhill');
     $('.roomHeader').text('Roberta');
     $('#messageDiv').text('inner monologue.. (press view)');
     $('#dot1Span').text('xxxx');

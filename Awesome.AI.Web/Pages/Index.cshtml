@@ -11,10 +11,10 @@
 </div> *@
 
 
-<div class="relative overflow-hidden flex flex-col">
+<div class="relative xoverflow-hidden flex flex-col">
     
     
-    
+    <div id="overlay2" class="mt-8 w-80 h-24 bg-neutral-600 z-10 md:left-1/2 absolute hidden rounded-md z-10"><div class="i-filler-40"></div><p class="text-gray-50 text-center">Starting app..</p></div>
     <div class="float-left overflow-hidden w-full sm:m-4">
         <div class="xl:w-1/2 float-left">
             <div class="text-gray-50"><span class="hidden sm:inline">Visit our github:</span><a class="text-blue-300 hover:underline" target="_blank" href="https://github.com/copenhagen-ai"> Awesome.AI Source</a>.</div>
@@ -41,7 +41,7 @@
     <div class="lg:col-span-2">
         <h5 class="text-gray-50 md:px-4">INTRODUCTION</h5>
         <div class="text-gray-50 md:px-4">
-            This is a showcase for the Awesome.AI algorithm. It is a highly autonomous agent, capable of controlling other AI systems. Its still a work in progress, so therefore not the final version.
+            This is a showcase for the Awesome.AI algorithm. It is a highly autonomous agent, capable of controlling other AI systems. Its still a work in progress, so therefore not the final version. <a class="text-blue-300 hover:underline" href="/Docs">[read more]</a>
             <div class="filler-60"></div >
             
         </div>
@@ -54,7 +54,7 @@
         <div class="text-gray-50 md:px-4"></div>
         <div class="viewersDiv text-gray-50 md:px-4">viewers today: 0</div>
         <div class="text-gray-50 md:px-4">logic: <span>classic</span></div>
-        <div class="text-gray-50 md:px-4">mech: <span class="mechSpan">hill</span></div>
+        <div class="text-gray-50 md:px-4">mech: <span class="mechSpan">ballonhill</span></div>
         <div class="overflow-hidden md:px-4">
             <a id="xr2" class="r2 text-gray-50 float-left sm:float-right mr-4 hover:underline cursor-pointer" >Andrew</a>
             <a id="xr1" class="r1 text-gray-50 float-left sm:float-right mr-4 hover:underline cursor-pointer" >[Roberta]</a>
@@ -65,7 +65,7 @@
     </div>
     <div class="hidden md:block relative ">
         <div class="absolute w-full bottom-0 px-4">
-
+        <span id="" class="text-gray-50">press 'join' to start app..</span>
         <span id="" class="joinButton cursor-pointer xmr-4 i-color-orange float-right" title="This will start the app and let it run for about 5 minutes">join</span>
         <span id="" class="cursor-pointer mr-10 i-color-orange float-right">   </span>
         <span id="" class="hideSpan cursor-pointer mr-4 i-color-green float-right">view</span>
@@ -75,10 +75,11 @@
         </div>
     </div>    
     <div class="md:hidden w-full">
+        <div class="text-gray-50">press 'join' to start app..</div><br />
         <div class="text-gray-50 md:px-4"></div>
         <div class="viewersDiv text-gray-50 md:px-4">viewers today: 0</div>
         <div class="text-gray-50 md:px-4">logic: <span>classic</span></div>
-        <div class="text-gray-50 md:px-4">mech: <span class="mechSpan">hill</span></div>
+        <div class="text-gray-50 md:px-4">mech: <span class="mechSpan">ballonhill</span></div>
         <div class="overflow-hidden md:px-4">
             <a id="xr2" class="r2 text-gray-50 float-left mr-4 hover:underline cursor-pointer">Andrew</a>
             <a id="xr1" class="r1 text-gray-50 float-left mr-4 hover:underline cursor-pointer">[Roberta]</a>
@@ -249,6 +250,7 @@
                 <div class="text-gray-400" id="saveDiv">xxxx</div>
             </div>
         </div>
+        <br />
         @* <div class="position-absolute bottom-25 xrow xp-1">
             <div class="xcol-6 xtext-start">
                 <input type="button" id="joinButton" value="Join" />
@@ -256,34 +258,34 @@
         </div> *@
     </div>
 
-    <div class="bg-neutral-900 border border-neutral-950 text-neutral-600 overflow-hidden md:h-box1 p-4 md:mx-4 my-4">
-        <div class="">
+    <div class="">
+        <div class="bg-neutral-900 border border-neutral-950 text-neutral-600 overflow-hidden md:h-box1 p-4 md:mx-4 my-4">
             <div class="">
-                <div class="text-gray-50" id="chatTitle">CHAT</div>
-                <div class="i-filler-20"></div>
-                <hr class="" />
-                <div class="i-filler-20"></div>
-            </div>
-        </div>
-        <div class="">
-            <div class="">
-                <div class="chatRes text-white bg-neutral-800 h-box2">
-                    >> some text<br />
-                </div>
-                <div class="i-filler-20"></div>
-                <div class="grid grid-cols-3 gap-4">
-                    <input class="chatTxt col-span-2 bg-neutral-800 text-white p-4" type="text" placeholder=">> ask me" />
-                    <input class="chatBtn col-start-3 bg-orange-500 text-black p-4 rounded-sm" type="submit" value="submit"/>
+                <div class="">
+                    <div class="text-gray-50">MOOD</div>
+                    <div class="i-filler-20"></div>
+                    <hr class="" />
+                    <div class="i-filler-20"></div>
                 </div>
             </div>
-        </div>
-        
 
-        @* <div class="position-absolute bottom-25 xrow xp-1">
-            <div class="xcol-6 xtext-start">
-                <input type="button" id="joinButton" value="Join" />
+            <div class="">
+                <div class="">
+                    <span class="text-gray-50">current mood:</span>
+                    <span class="text-gray-400" id="moodSpan">xxxx</span>
+                </div>
             </div>
-        </div> *@
+            <br />
+            <span class="text-gray-400">
+            This is the current mood of the system. If the color is green, delta momentum is within limits, if not then red. it should not be red. 
+            Currently the mood is controlled by a MoodGenerator (changes every 10 seconds or so), this should be replaced with user input like: Pinch and Tickle. <br /><br />
+            Delta momentum is converted, like so:<br />
+            GENERAL limits: 0.0 -> 1.0<br />
+            GOOD limits: 0.5 -> 1.0<br />
+            BAD limits: 0.0 -> 0.5<br /><br />
+            </span>
+            <br />
+        </div>
     </div>
 </div>
 
@@ -294,7 +296,7 @@
 
 <div class="overflow-hidden grid grid-cols-1 lg:grid-cols-3">
     <div class="">
-        <div class="bg-neutral-900 border border-neutral-950 text-neutral-600 overflow-hidden md:h-box4 p-4 md:mx-4 my-4">
+        <div class="bg-neutral-900 border border-neutral-950 text-neutral-600 overflow-hidden md:h-box1 p-4 md:mx-4 my-4">
             <div class="">
                 <div class="">
                     <div class="text-gray-50">DECISIONS</div>
@@ -342,34 +344,35 @@
         </div>
     </div>
 
-    <div class="">
-        <div class="bg-neutral-900 border border-neutral-950 text-neutral-600 overflow-hidden md:h-box4 p-4 md:mx-4 my-4">
+    <div class="bg-neutral-900 border border-neutral-950 text-neutral-600 overflow-hidden md:h-box1 p-4 md:mx-4 my-4">
+        <div class="">
             <div class="">
-                <div class="">
-                    <div class="text-gray-50">MOOD</div>
-                    <div class="i-filler-20"></div>
-                    <hr class="" />
-                    <div class="i-filler-20"></div>
-                </div>
+                <div class="text-gray-50" id="chatTitle">CHAT</div>
+                <div class="i-filler-20"></div>
+                <hr class="" />
+                <div class="i-filler-20"></div>
             </div>
-            
-            <span class="text-gray-400">
-            This is the current mood of the system. If the color is green, delta momentum is within limits, if not then red. it should not be red. 
-            Currently the mood is controlled by a MoodGenerator (changes every 10 seconds or so), this should be replaced with user input like: Pinch and Tickle. <br /><br />
-            The values are converted, like so:<br />
-            GENERAL limits: 0.0 -> 1.0<br />
-            GOOD limits: 0.5 -> 1.0<br />
-            BAD limits: 0.0 -> 0.5<br /><br />
-            </span>
-            <div class="">
-                <div class="">
-                    <span class="text-gray-50">current mood:</span>
-                    <span class="text-gray-400" id="moodSpan">xxxx</span>
-                </div>
-            </div>
-            <br />
         </div>
-    </div>    
+        <div class="">
+            <div class="">
+                <div class="chatRes text-white bg-neutral-800 p-4 md:p-0 md:h-box2">
+                    >> some text<br />
+                </div>
+                <div class="i-filler-20"></div>
+                <div class="grid grid-cols-3 gap-4">
+                    <input class="chatTxt col-span-2 bg-neutral-800 text-white p-4" type="text" placeholder=">> ask me" />
+                    <input class="chatBtn col-start-3 bg-orange-500 text-black p-4 rounded-sm" type="submit" value="submit"/>
+                </div>
+            </div>
+        </div>
+
+
+        @* <div class="position-absolute bottom-25 xrow xp-1">
+            <div class="xcol-6 xtext-start">
+                <input type="button" id="joinButton" value="Join" />
+            </div>
+        </div> *@
+    </div>
 </div>
 
 <div class="overflow-hidden grid grid-cols-1 lg:grid-cols-3">
@@ -381,16 +384,16 @@
 
 <div class="overflow-hidden grid grid-cols-1 lg:grid-cols-3">
     <div class="lg:col-span-2">
-        <div class="chart1 bg-neutral-900 border border-neutral-950 p-4 md:mx-4 my-4">
+        <div class="chart1 bg-neutral-900 border border-neutral-950 md:h-box1 p-4 md:mx-4 my-4">
             <canvas id="myChart1" class="w-full max-w-[900px] "></canvas>
         </div>
-        <div class="chart2 bg-neutral-900 border border-neutral-950 p-4 md:mx-4 my-4 hidden ">
+        <div class="chart2 bg-neutral-900 border border-neutral-950 md:h-box1 p-4 md:mx-4 my-4 hidden ">
             <canvas id="myChart2" class="w-full max-w-[900px]"></canvas>
         </div>
     </div>
 
     <div class="">
-        <div class="bg-neutral-900 border border-neutral-950 text-neutral-600 overflow-hidden md:h-box4 p-4 md:mx-4 my-4">
+        <div class="bg-neutral-900 border border-neutral-950 text-neutral-600 overflow-hidden md:h-box1 p-4 md:mx-4 my-4">
             <div class="">
                 <div class="">
                     <div class="text-gray-50">NOTES</div>
@@ -402,13 +405,13 @@
             
             note 1:<br />
             <div class="">
-                <span class="text-gray-400">The sections seen here are not interconnected, only to the STATS window, this will be easily accomplished if that is needed.</span>
+                <span class="text-gray-400">The sections seen here are not interconnected, only to the STATS window, this will be easily accomplished if it is needed.</span>
             </div>
-
-            @* note 2:<br />
+            <br />
+            note 2:<br />
             <div class="">
-                <span class="text-gray-50">.....</span>
-            </div> *@
+                <span class="text-gray-400">The update intervals may seem laggy, this is because they are taken at random moments.</span>
+            </div>
         </div>
     </div>
 </div>
