@@ -73,7 +73,7 @@ $(document).ready(function () {
     //});
 
     setTimeout(viewer, 500);
-    setInterval(viewers, 2000);    
+    setInterval(server_check, 2000);    
 });
 
 var guid = uuidv4();
@@ -86,7 +86,7 @@ function uuidv4() {
         });
 }
 
-function viewers() {
+function server_check() {
 
     var data = { "value": "some value" };
 
@@ -94,13 +94,14 @@ function viewers() {
 
     $.ajax({
         type: "GET",
-        url: "/api/apiusers",
+        url: "/api/apiserverchecks",
         data: {},
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
         success: function (val) {
 
             var viewers = val.viewers;
+            server_running = val.server_running;
 
             $('.viewersDiv').text(`viewers today: ${viewers}`);
         }
@@ -115,7 +116,7 @@ function viewer() {
 
     $.ajax({
         type: "POST",
-        url: "/api/apiusers",
+        url: "/api/apiserverchecks",
         data: JSON.stringify(data),
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',

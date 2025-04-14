@@ -64,58 +64,77 @@ const myChart2 = new Chart(document.getElementById('myChart2'), {
 
 $(document).ready(function () {
 
+    //mytimer();
+    setInterval(mytimer, 5000);
+
     $(".joinButton").click(function (event) {
+
+        //alert('server_running: ' + server_running);
+
+        if (is_busy)
+            return;
+
+        if (is_running)
+            return;
+
+        is_busy = true;
+
+        $("#overlay2").fadeIn(300);
+
         connection.start();
         event.preventDefault();
 
         onConnect();
 
-        total = $('#totalSpan').text();
-        temp = total;
-
-        //if(startup)
-        $("#overlay2").fadeIn(300);
         setTimeout(mycrashed, 3000);
-        setTimeout(mystart, 5000);
+        setTimeout(mystart, 10000);
     });    
 });
 
-var startup = true;
-var total = '';
-var temp = '';
-var crashed = false;
+var server_running = false;
+
+var is_busy = false;
+var is_running = false;
+var total_curr = 'xxxx';
+var total_prev = 'xxxx';
+
+function mytimer() {
+
+    total_prev = total_curr;
+    total_curr = $('#totalSpan').text();
+    is_running = total_curr != total_prev;
+}
 
 function mystart() {
+
     $("#overlay2").fadeOut(100);
-    //startup = false;
+    is_busy = false;
 }
 
 function mycrashed() {
-    total = $('#totalSpan').text();
+    
+    if (is_running)
+        return;
 
-    if (temp == total) {
-        //alert('CRASHED1');
+    if (server_running)
+        return;
 
-        connection = new signalR.HubConnectionBuilder().withUrl("/roomhub").build();
+    connection = new signalR.HubConnectionBuilder().withUrl("/roomhub").build();
 
-        connection.start().then(function () {
-            connection.invoke("Start").catch(function (err) {
-                return console.error(err.toString());
-            });
+    connection.start().then(function () {
+        connection.invoke("Start").catch(function (err) {
+            return console.error(err.toString());
         });
-        //event.preventDefault();
+    });
+    //event.preventDefault();
 
-        onConnect();
-
-        //alert('CRASHED2');
-    }
+    onConnect();    
 }
 
 function room1() {
-    //alert('hello1');
+    
     $("#overlay").fadeIn(300);
-    setTimeout(timeout, 300);
-
+    
     myChart1.data.labels = [];
     myChart1.data.datasets[0].label = 'Real-time Data';
     myChart1.data.datasets[0].data = [];
@@ -139,9 +158,8 @@ function room1() {
 }
 
 function room2() {
-    //alert('hello2');
+    
     $("#overlay").fadeIn(300);
-    setTimeout(timeout, 300);
 
     myChart1.data.labels = [];
     myChart1.data.datasets[0].label = 'Real-time Data';
@@ -164,10 +182,6 @@ function room2() {
     
 
     $("#overlay").fadeOut(100);    
-}
-
-function timeout() {
-    ;
 }
 
 function mychat1(ask) {
@@ -292,6 +306,8 @@ function myinfo2(whistle, occu, location, loc_state) {
 
 function mymood(mood, moodOK) {
 
+    ///alert(mood + ' ' + moodOK);
+
     $("#moodSpan").text(`${mood.replace("MOOD", "") }`);
     
     if (moodOK) {
@@ -369,7 +385,7 @@ function onConnect() {
             mymood(mood, moodOK);
     });
 
-    connection.on("MIND2MoodReceive1", function (whistle, occu, location, loc_state) {
+    connection.on("MIND2MoodReceive1", function (mood, moodOK) {
 
         if (room == 'room2')
             mymood(mood, moodOK);

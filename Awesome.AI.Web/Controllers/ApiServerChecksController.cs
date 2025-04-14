@@ -1,5 +1,6 @@
 ﻿using Awesome.AI.Common;
 using Awesome.AI.Web.Helpers;
+using Awesome.AI.Web.Hubs;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -14,6 +15,7 @@ namespace Awesome.AI.Web.Api.Users
     public class GetResponce
     {
         public string viewers { get; set; }
+        public bool server_running { get; set; }
     }
 
     public class PostResponce
@@ -23,7 +25,7 @@ namespace Awesome.AI.Web.Api.Users
 
     [Route("api/[controller]")]
     [ApiController]
-    public class ApiUsersController : ControllerBase
+    public class ApiServerChecksController : ControllerBase
     {        
         private static int UserCount {  get; set; }
 
@@ -34,6 +36,7 @@ namespace Awesome.AI.Web.Api.Users
             {
                 GetResponce res = new GetResponce();
                 res.viewers = "" + UserCount;
+                res.server_running = RoomHub.is_running;
 
                 return res;
             }

@@ -268,7 +268,7 @@ namespace Awesome.AI.Web.Hubs
 
         private RoomHelper helper {  get; set; }
         
-        private static bool is_running = false;
+        public static bool is_running = false;
         private static int users_count = 0;
 
         //private const int WHEN_ACTIVE = 20;
