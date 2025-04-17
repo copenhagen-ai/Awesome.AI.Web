@@ -3,7 +3,7 @@ using Awesome.AI.Interfaces;
 
 namespace Awesome.AI.Core
 {
-    public class TheMatrix
+    public class TheSoup
     {
         /*
          * as it is now, it is very simple just up or down
@@ -21,8 +21,8 @@ namespace Awesome.AI.Core
          * */
 
         private TheMind mind;
-        private TheMatrix() { }
-        public TheMatrix(TheMind mind)
+        private TheSoup() { }
+        public TheSoup(TheMind mind)
         {
             this.mind = mind;
         }

@@ -62,26 +62,12 @@ namespace Awesome.AI.CoreSystems
 
             PATTERN currentmood = mind.parms[mind.current].version;
 
-            if (mind.mindtype == MINDS.ROBERTA)
+            switch (currentmood)
             {
-                switch (currentmood)
-                {
-                    case PATTERN.MOODGENERAL: Result = PATTERNCOLOR.GREEN; break;
-                    case PATTERN.MOODGOOD: Result = res >= 50.0d ? PATTERNCOLOR.GREEN : PATTERNCOLOR.RED; break;
-                    case PATTERN.MOODBAD: Result = res < 50.0d ? PATTERNCOLOR.GREEN : PATTERNCOLOR.RED; break;
-                }
+                case PATTERN.MOODGENERAL: Result = PATTERNCOLOR.GREEN; break;
+                case PATTERN.MOODGOOD: Result = res >= 50.0d ? PATTERNCOLOR.GREEN : PATTERNCOLOR.RED; break;
+                case PATTERN.MOODBAD: Result = res < 50.0d ? PATTERNCOLOR.GREEN : PATTERNCOLOR.RED; break;
             }
-            
-            if(mind.mindtype == MINDS.ANDREW)
-            {
-                switch (currentmood)
-                {
-                    case PATTERN.MOODGENERAL: Result = PATTERNCOLOR.GREEN; break;
-                    case PATTERN.MOODGOOD: Result = res >= 50.0d ? PATTERNCOLOR.GREEN : PATTERNCOLOR.RED; break;
-                    case PATTERN.MOODBAD: Result = res < 50.0d ? PATTERNCOLOR.GREEN : PATTERNCOLOR.RED; break;
-                }
-            }
-
         }
     }
 }
