@@ -65,7 +65,7 @@ namespace Awesome.AI.Core.Mechanics
             {
                 double x_meter = position_x;
 
-                if (x_meter <= 0 && mind.goodbye.IsNo())
+                if (x_meter <= 0.1d && mind.goodbye.IsNo())
                     x_meter = Constants.VERY_LOW;
 
                 if (x_meter < Constants.LOWXY) x_meter = Constants.LOWXY;

@@ -233,7 +233,7 @@ namespace Awesome.AI.Core.Mechanics
 
             double Fx = F0 * Sine(version, t, omega) + GetRandomNoise(eta); // Wind force
 
-            if (Fx < 0.0d)
+            if (Fx <= 0.0d)
                 Fx = 0.0d;
             
             return Fx;
