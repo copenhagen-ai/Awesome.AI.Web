@@ -111,7 +111,7 @@ namespace Awesome.AI.Core
             //double v_h = mech.d_out_high;
             //double v_l = mech.d_out_low;
 
-            double nrg = mind.calc.NormalizeRange(_v, v_l, v_h, f_l, f_h);
+            double nrg = mind.calc.Normalize(_v, v_l, v_h, f_l, f_h);
 
             return nrg;
         }
@@ -128,7 +128,7 @@ namespace Awesome.AI.Core
             double v_h = mech.d_out_high;
             double v_l = mech.d_out_low;
 
-            double pct = mind.calc.NormalizeRange(_v, v_l, v_h, 0.0d, 100.0d);
+            double pct = mind.calc.Normalize(_v, v_l, v_h, 0.0d, 100.0d);
 
             return pct;
         }

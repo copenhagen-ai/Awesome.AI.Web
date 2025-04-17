@@ -1,5 +1,4 @@
 ﻿using Awesome.AI.Core;
-using Awesome.AI.Interfaces;
 using static Awesome.AI.Variables.Enums;
 
 namespace Awesome.AI.CoreSystems
@@ -58,7 +57,7 @@ namespace Awesome.AI.CoreSystems
             double p_low = mind.mech[mind.current].m_out_low;
 
             double avg = Avg.Average();
-            double res = mind.calc.NormalizeRange(avg, p_low, p_high, 0.0d, 100.0d);
+            double res = mind.calc.Normalize(avg, p_low, p_high, 0.0d, 100.0d);
 
             PATTERN currentmood = mind.parms[mind.current].version;
 
