@@ -31,19 +31,13 @@ namespace Awesome.AI.Core
             set { dex = value; }
         }
 
-        double _f = -1d;
         public double Variable
         {
             get
             {
-                if (_f != -1d)
-                    return _f;
-
                 bool high_at_zero = mind.parms[mind.current].high_at_zero;
 
-                _f = high_at_zero ? HighAtZero : LowAtZero;
-                                
-                return _f;
+                return high_at_zero ? HighAtZero : LowAtZero;
             }
         }
 

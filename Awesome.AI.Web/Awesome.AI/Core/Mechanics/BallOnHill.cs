@@ -7,6 +7,7 @@ namespace Awesome.AI.Core.Mechanics
 {
     public class BallOnHill : IMechanics
     {
+        public double n_momentum { get; set; }
         public double p_curr { get; set; }
         public double p_prev { get; set; }
         public double p_delta { get; set; }
@@ -95,7 +96,7 @@ namespace Awesome.AI.Core.Mechanics
         //    return _var;
         //}
 
-        public double Momentum(UNIT _c)
+        public void Momentum(UNIT _c)
         {
             throw new NotImplementedException();
         }

@@ -7,6 +7,7 @@ namespace Awesome.AI.Core.Mechanics
 {
     public class NoiseGenerator : IMechanics
     {
+        public double n_momentum { get; set; }
         public double p_curr { get; set; }
         public double p_prev { get; set; }
         public double p_delta { get; set; }
@@ -95,7 +96,7 @@ namespace Awesome.AI.Core.Mechanics
         //}
 
         //Momentum
-        public double Momentum(UNIT curr)
+        public void Momentum(UNIT curr)
         {
             /*
              * I guess this is a changeable function, for now it is just the one I know to calculate force
@@ -107,12 +108,10 @@ namespace Awesome.AI.Core.Mechanics
             if (curr.IsIDLE())
                 throw new Exception("NoiseGenerator, Variable");
 
-            double momentum = Calc(curr, true);
-
-            return momentum;
+            Calc(curr, true);
         }
 
-        public double Calc(UNIT curr, bool peek)
+        public void Calc(UNIT curr, bool peek)
         {
             double deltaT = 0.002d;
             double m = 500.0d;
@@ -132,30 +131,28 @@ namespace Awesome.AI.Core.Mechanics
             //dv=(F*dt)/m
             //double dv = (Fnet * dt) / m;
             double deltaVel = (Fnet * deltaT) / m;
-            double momentum = 0.0d;
-
+            
+            //momentum: p = m * v
             if (peek) {
-                momentum = p_curr + (m * 2) * deltaVel;            
+                n_momentum += (m * 2) * deltaVel;            
             }
             else
             {
-                //momentum: p = m * v
                 p_delta_prev = p_delta;
                 p_delta = (m * 2) * deltaVel;
                 p_curr += p_delta;
             }
 
-            if (momentum <= m_out_low_n) m_out_low_n = momentum;
-            if (momentum > m_out_high_n) m_out_high_n = momentum;
+            if (n_momentum <= m_out_low_n) m_out_low_n = n_momentum;
+            if (n_momentum > m_out_high_n) m_out_high_n = n_momentum;
 
-            if (p_curr <= m_out_low_n) m_out_low_n = p_curr;
-            if (p_curr > m_out_high_n) m_out_high_n = p_curr;
+            if (p_curr <= m_out_low_n) m_out_low_c = p_curr;
+            if (p_curr > m_out_high_n) m_out_high_c = p_curr;
 
             if (p_delta <= d_out_low) d_out_low = p_delta;
             if (p_delta > d_out_high) d_out_high = p_delta;
 
-            return momentum;
-            
+            //return momentum;            
         }
 
         public void CalcPattern1(PATTERN version, int cycles)
@@ -204,7 +201,7 @@ namespace Awesome.AI.Core.Mechanics
                 throw new Exception("ApplyDynamic");
 
             double max = Constants.MAX;
-            double acc = (max / 10.0d) - (curr.Variable / 10.0d); //divided by 10 for aprox acc
+            double acc = (max / 10.0d) - (curr.HighAtZero / 10.0d); //divided by 10 for aprox acc
             double m = 500.0d;
 
             if (acc <= 0.0d)

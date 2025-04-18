@@ -7,6 +7,7 @@ namespace Awesome.AI.Core.Mechanics
 {
     public class TugOfWar : IMechanics
     {
+        public double n_momentum { get; set; }
         public double p_curr { get; set; }
         public double p_prev { get; set; }
         public double p_delta { get; set; }
@@ -93,7 +94,7 @@ namespace Awesome.AI.Core.Mechanics
         //    return _var;
         //}
 
-        public double Momentum(UNIT curr)
+        public void Momentum(UNIT curr)
         {
             throw new NotImplementedException();
         }

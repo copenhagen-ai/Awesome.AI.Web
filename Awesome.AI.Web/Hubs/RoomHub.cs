@@ -491,7 +491,7 @@ namespace Awesome.AI.Web.Hubs
 
                     string pain = ("" + inst.mind._out.user_var).Length < 5 ? inst.mind._out.user_var : $"{inst.mind._out.user_var}"[..5];
                     string position = ("" + inst.mind._out.position).Length < 5 ? inst.mind._out.position : $"{inst.mind._out.position}"[..5];
-                    string[] ratio = new string[] { "" + inst.mind._out.ratio_yes, "" + inst.mind._out.ratio_no };
+                    string[] ratio = new string[] { "" + inst.mind._out.ratio_yes_c, "" + inst.mind._out.ratio_no_c, "" + inst.mind._out.ratio_yes_n, "" + inst.mind._out.ratio_no_n };
                     string going_down = inst.mind._out.going_down;
                     string chat_state = inst.mind._out.chat_state;
 

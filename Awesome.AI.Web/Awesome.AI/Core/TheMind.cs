@@ -124,7 +124,7 @@ namespace Awesome.AI.Core
                 
 
                 parms["current"].UpdateLowCut();
-                parms["noise"].UpdateLowCut();
+                //parms["noise"].UpdateLowCut();
 
                 PreRun("noise", true);
                 PostRun(true);

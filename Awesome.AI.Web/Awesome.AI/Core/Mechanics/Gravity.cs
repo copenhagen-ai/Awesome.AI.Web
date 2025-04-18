@@ -7,6 +7,7 @@ namespace Awesome.AI.Core.Mechanics
 {
     public class Gravity : IMechanics
     {
+        public double n_momentum { get; set; }
         public double p_curr { get; set; }
         public double p_prev { get; set; }
         public double p_delta { get; set; }
@@ -73,7 +74,7 @@ namespace Awesome.AI.Core.Mechanics
         //    throw new NotImplementedException();
         //}
 
-        public double Momentum(UNIT curr)
+        public void Momentum(UNIT curr)
         {
             throw new NotImplementedException();
         }

@@ -13,6 +13,8 @@ namespace Awesome.AI.Interfaces
         double d_out_low { get; set; }
         double posx_high { get; set; }
         double posx_low { get; set; }
+
+        double n_momentum { get; set; }
         double p_curr { get; set; }
         double p_prev { get; set; }
         double p_delta { get; set; }
@@ -34,6 +36,6 @@ namespace Awesome.AI.Interfaces
 
         //double Variable(UNIT c);//force, mass, distance, acceleration etc
 
-        double Momentum(UNIT c);
+        void Momentum(UNIT c);
     }
 }

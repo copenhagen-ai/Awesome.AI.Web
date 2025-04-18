@@ -210,9 +210,11 @@ function myinfo1(epochs, runtime, momentum, dmomentum, cycles, pain, position, r
     var div6 = document.getElementById("positionSpan");
     var div7 = document.getElementById("ratioYesSpan");
     var div8 = document.getElementById("ratioNoSpan");
-    var div9 = document.getElementById("theDownSpan");
-    var div10 = document.getElementById("painSpan");
-    var div11 = document.getElementById("chatTitle");
+    var div9 = document.getElementById("noiseYesSpan");
+    var div10 = document.getElementById("noiseNoSpan");
+    var div11 = document.getElementById("theDownSpan");
+    var div12 = document.getElementById("painSpan");
+    var div13 = document.getElementById("chatTitle");
 
     // document.getElementById("messagesList").appendChild(li);
     // We can assign user-supplied strings to an element's textContent because it
@@ -232,23 +234,25 @@ function myinfo1(epochs, runtime, momentum, dmomentum, cycles, pain, position, r
     div6.textContent = `${position}`;
     div7.textContent = `${ratio[0]}`;
     div8.textContent = `${ratio[1]}`;
-    div9.textContent = `${going_down}`;
-    div10.textContent = `${pain_out}`;
+    div9.textContent = `${ratio[2]}`;
+    div10.textContent = `${ratio[3]}`;
+    div11.textContent = `${going_down}`;
+    div12.textContent = `${pain_out}`;
 
     if (going_down == 'NO') {
-        div9.classList.remove("i-color-red");
-        div9.classList.add("i-color-green");
+        div11.classList.remove("i-color-red");
+        div11.classList.add("i-color-green");
     }
     else {
-        div9.classList.add("i-color-red");
-        div9.classList.remove("i-color-green");
+        div11.classList.add("i-color-red");
+        div11.classList.remove("i-color-green");
     }
 
     if (parseFloat(pain) > 1.0) {
-        div10.classList.add("i-color-red");
+        div12.classList.add("i-color-red");
     }
     else {
-        div10.classList.remove("i-color-red");
+        div12.classList.remove("i-color-red");
     }
 
     if (epochs_remaining <= 2) {
@@ -259,10 +263,10 @@ function myinfo1(epochs, runtime, momentum, dmomentum, cycles, pain, position, r
     }
 
     if (chat_state == 'thinking') {
-        div11.classList.add("i-color-red");
+        div12.classList.add("i-color-red");
     }
     else {
-        div11.classList.remove("i-color-red");
+        div12.classList.remove("i-color-red");
     }
 }
 

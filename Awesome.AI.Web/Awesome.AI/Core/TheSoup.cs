@@ -113,7 +113,9 @@ namespace Awesome.AI.Core
 
             IMechanics mech = mind.mech["noise"];
 
-            double _v = mech.Momentum(x);
+            mech.Momentum(x);
+
+            double _v = mech.n_momentum;
             double v_h = mech.m_out_high_n;
             double v_l = mech.m_out_low_n;
 
