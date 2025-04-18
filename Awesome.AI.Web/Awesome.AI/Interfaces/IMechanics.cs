@@ -5,8 +5,10 @@ namespace Awesome.AI.Interfaces
 {
     public interface IMechanics
     {
-        double m_out_high { get; set; }
-        double m_out_low { get; set; }
+        double m_out_high_c { get; set; }
+        double m_out_low_c { get; set; }
+        double m_out_high_n { get; set; }
+        double m_out_low_n { get; set; }
         double d_out_high { get; set; }
         double d_out_low { get; set; }
         double posx_high { get; set; }
@@ -31,5 +33,7 @@ namespace Awesome.AI.Interfaces
         void CalcPattern3(PATTERN version, int cycles);//bad mood
 
         //double Variable(UNIT c);//force, mass, distance, acceleration etc
+
+        double Momentum(UNIT c);
     }
 }

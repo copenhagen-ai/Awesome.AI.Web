@@ -1,5 +1,4 @@
 ﻿using Awesome.AI.CoreInternals;
-using Awesome.AI.Interfaces;
 using Awesome.AI.Variables;
 using static Awesome.AI.Variables.Enums;
 
@@ -40,10 +39,42 @@ namespace Awesome.AI.Core
                 if (_f != -1d)
                     return _f;
 
-                _f = mind.parms[mind.current].high_at_zero ? HighAtZero : LowAtZero;
+                bool high_at_zero = mind.parms[mind.current].high_at_zero;
+
+                _f = high_at_zero ? HighAtZero : LowAtZero;
                                 
                 return _f;
             }
+        }
+
+        public double LowAtZero
+        {
+            get { return Index; }
+        }
+
+        public double HighAtZero
+        {
+            get { return 100.0d - Index; }
+        }
+
+        public static UNIT GetHigh
+        {
+            get { return Create(null, Constants.MAX, "MAX", "DATA", "TICKET", UNITTYPE.MAX, LONGTYPE.NONE); }
+        }
+
+        public static UNIT GetLow
+        {
+            get { return Create(null, Constants.MIN, "MIN", "DATA", "TICKET", UNITTYPE.MIN, LONGTYPE.NONE); }
+        }
+
+        public bool IsLowCut
+        {
+            get { return mind.filters.LowCut(this); }
+        }
+
+        public bool CreditOK
+        {
+            get { return mind.filters.Credits(this); }
         }
 
         public bool IsValid
@@ -61,46 +92,6 @@ namespace Awesome.AI.Core
                     default:
                         throw new Exception("IsValid");
                 }
-            }
-        }
-
-        public bool IsLowCut
-        {
-            get { return mind.filters.LowCut(this); }
-        }
-
-        public bool CreditOK
-        {
-            get { return mind.filters.Credits(this); }
-        }
-
-        /*
-         * used to be Distance
-         * used in WorkWithWheelAndContest
-         * */
-        public double LowAtZero
-        {
-            get
-            {
-                double res = Index;
-                //res = mind.calc.NormalizeRange(res, 0.0d, 100.0d, 0.0d, 100.0d);
-
-                return res;
-            }
-        }
-
-        /*
-         * used to be Mass
-         * used in WorksWithHill
-         * */
-        public double HighAtZero
-        {
-            get
-            {
-                double res = 100.0d - Index;
-                //res = mind.calc.NormalizeRange(res, 0.0d, 100.0d, 0.0d, 100.0d);
-
-                return res;
             }
         }
 
@@ -160,20 +151,6 @@ namespace Awesome.AI.Core
             Index += rand * Constants.ETA * sign;
         }
 
-        public static UNIT GetHigh
-        {
-            get
-            {
-                return Create(null, Constants.MAX, "MAX", "DATA", "TICKET", UNITTYPE.MAX, LONGTYPE.NONE);
-            }
-        }
-        public static UNIT GetLow
-        {
-            get
-            {
-                return Create(null, Constants.MIN, "MIN", "DATA", "TICKET", UNITTYPE.MIN, LONGTYPE.NONE);
-            }
-        }
 
         public static UNIT IDLE_UNIT(TheMind mind)
         {

@@ -13,8 +13,10 @@ namespace Awesome.AI.Core.Mechanics
         public double p_delta_prev {  get; set; }
         public double Fsta { get; set; }
         public double Fdyn { get; set; }
-        public double m_out_high { get; set; }
-        public double m_out_low { get; set; }
+        public double m_out_high_c { get; set; }
+        public double m_out_low_c { get; set; }
+        public double m_out_high_n { get; set; }
+        public double m_out_low_n { get; set; }
         public double d_out_high { get; set; }
         public double d_out_low { get; set; }
         public double posx_high { get; set; }
@@ -28,10 +30,10 @@ namespace Awesome.AI.Core.Mechanics
 
             posxy = Constants.STARTXY;//10;
 
-            m_out_high = -1.0E20d;
-            m_out_low = 1.0E20d;
-            d_out_high = -1.0E20d;
-            d_out_low = 1.0E20d;
+            //m_out_high = -1.0E20d;
+            //m_out_low = 1.0E20d;
+            //d_out_high = -1.0E20d;
+            //d_out_low = 1.0E20d;
             posx_high = -1.0E20d;
             posx_low = 1.0E20d;
         }
@@ -70,6 +72,11 @@ namespace Awesome.AI.Core.Mechanics
         //{
         //    throw new NotImplementedException();
         //}
+
+        public double Momentum(UNIT curr)
+        {
+            throw new NotImplementedException();
+        }
 
         public void CalcPattern1(PATTERN version, int cycles)
         {
