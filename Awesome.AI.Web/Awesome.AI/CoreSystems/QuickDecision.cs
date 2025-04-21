@@ -95,9 +95,10 @@ namespace Awesome.AI.CoreSystems
             mind.mem.QDRESETU();
             mind.mem.QDRESETH();
 
+            string guid = Guid.NewGuid().ToString();
             TONE tone = TONE.RANDOM;
-            mind.mem.UnitsDecide(STATE.QUICKDECISION, should_decision, UNITTYPE.QDECISION, LONGTYPE.NONE, 0, tone);
-            mind.mem.HubsDecide(STATE.QUICKDECISION, Constants.deci_subject[2], should_decision, UNITTYPE.QDECISION, 0, tone);
+            mind.mem.UnitsDecide(STATE.QUICKDECISION, guid, should_decision, UNITTYPE.QDECISION, LONGTYPE.NONE, 0, tone);
+            mind.mem.HubsDecide(STATE.QUICKDECISION, guid, Constants.deci_subject[2], should_decision, UNITTYPE.QDECISION, 0, tone);
         }
 
         private void Start(bool _pro)

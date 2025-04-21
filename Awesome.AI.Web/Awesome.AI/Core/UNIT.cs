@@ -13,6 +13,7 @@ namespace Awesome.AI.Core
         public Ticket ticket = new Ticket("NOTICKET");
         private UNITTYPE unit_type { get; set; }
         public LONGTYPE long_deci_type { get; set; }
+        public string hub_guid { get; set; }//name
         public string root { get; set; }//name
         public string data { get; set; }//data
         public double credits { get; set; }
@@ -53,12 +54,12 @@ namespace Awesome.AI.Core
 
         public static UNIT GetHigh
         {
-            get { return Create(null, Constants.MAX, "MAX", "DATA", "TICKET", UNITTYPE.MAX, LONGTYPE.NONE); }
+            get { return Create(null, "GUID", Constants.MAX, "MAX", "DATA", "NONE", UNITTYPE.MAX, LONGTYPE.NONE); }
         }
 
         public static UNIT GetLow
         {
-            get { return Create(null, Constants.MIN, "MIN", "DATA", "TICKET", UNITTYPE.MIN, LONGTYPE.NONE); }
+            get { return Create(null, "GUID", Constants.MIN, "MIN", "DATA", "NONE", UNITTYPE.MIN, LONGTYPE.NONE); }
         }
 
         public bool IsLowCut
@@ -94,15 +95,15 @@ namespace Awesome.AI.Core
             get
             {
                 if (IsIDLE())
-                    return HUB.Create("IDLE", new List<UNIT>(), TONE.RANDOM);
+                    return HUB.Create("GUID", "IDLE", new List<UNIT>(), TONE.RANDOM);
 
                 STATE state = mind.parms[mind.current].state;
 
                 try {
-                    return mind.mem.HUBS_ALL(state).Where(x => x.units.Contains(this)).First();
+                    return mind.mem.HUBS_ALL(state).Where(x => x.hub_guid == this.hub_guid).First();
                 }
                 catch {
-                    return HUB.Create("IDLE", new List<UNIT>(), TONE.RANDOM);
+                    return HUB.Create("GUID", "IDLE", new List<UNIT>(), TONE.RANDOM);
                 }
             }
         }
@@ -117,9 +118,9 @@ namespace Awesome.AI.Core
             }
         }
 
-        public static UNIT Create(TheMind mind, double index, string root, string data, string ticket, UNITTYPE ut, LONGTYPE lt)
+        public static UNIT Create(TheMind mind, string h_guid, double index, string root, string data, string ticket, UNITTYPE ut, LONGTYPE lt)
         {
-            UNIT _w = new UNIT() { mind = mind, Index = index, root = root, data = data, unit_type = ut, long_deci_type = lt };
+            UNIT _w = new UNIT() { mind = mind, hub_guid = h_guid, Index = index, root = root, data = data, unit_type = ut, long_deci_type = lt };
 
             if (ticket != "")
                 _w.ticket = new Ticket(ticket);
@@ -142,7 +143,7 @@ namespace Awesome.AI.Core
 
         public static UNIT IDLE_UNIT(TheMind mind)
         {
-            return Create(mind, -1d, "XXXX", "XXXX", "", UNITTYPE.IDLE, LONGTYPE.NONE);
+            return Create(mind, "GUID", -1d, "ROOT", "DATA", "NONE", UNITTYPE.IDLE, LONGTYPE.NONE);
         }
 
         public bool IsUNIT() => unit_type == UNITTYPE.JUSTAUNIT;

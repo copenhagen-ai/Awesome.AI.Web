@@ -125,7 +125,7 @@ namespace Awesome.AI.Core
                 PreRun("noise", true);
                 PostRun(true);
 
-                theanswer = UNIT.Create(this, -1.0d, "I dont Know", "null", "SPECIAL", UNITTYPE.JUSTAUNIT, LONGTYPE.NONE);//set it to "It does not", and the program terminates
+                theanswer = UNIT.Create(this, "GUID", -1.0d, "I dont Know", "DATA", "SPECIAL", UNITTYPE.JUSTAUNIT, LONGTYPE.NONE);//set it to "It does not", and the program terminates
 
                 ok = true;
                 do_process = false;

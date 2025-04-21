@@ -113,7 +113,7 @@ namespace Awesome.AI.Web.AI.Common
             if (common_unit == null)
                 return;
                        
-            common_hub = common_unit.HUB.GetSubject();
+            common_hub = common_unit.HUB.subject;
 
             count++;
         }
