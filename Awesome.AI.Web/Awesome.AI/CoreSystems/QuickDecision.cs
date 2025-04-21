@@ -1,4 +1,5 @@
-﻿using Awesome.AI.Core;
+﻿using Awesome.AI.Common;
+using Awesome.AI.Core;
 using Awesome.AI.Variables;
 using static Awesome.AI.Variables.Enums;
 
@@ -80,7 +81,7 @@ namespace Awesome.AI.CoreSystems
 
         private void Setup(bool _pro, int count, int period)
         {
-            if (!mind.calc.IsRandomSample(4500, 10))
+            if (!CONST.SAMPLE4500.RandomSample(mind))
                 return;
 
             Go = true;

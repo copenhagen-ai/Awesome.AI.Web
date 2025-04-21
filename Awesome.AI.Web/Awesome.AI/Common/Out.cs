@@ -61,7 +61,7 @@ namespace Awesome.AI.Web.AI.Common
             if(mind.current == "noise")
                 return;
 
-            if (!mind.calc.IsRandomSample(200, 10)) return;
+            if (!CONST.SAMPLE200.RandomSample(mind)) return;
 
             if (count > 1)
                 count = 0;

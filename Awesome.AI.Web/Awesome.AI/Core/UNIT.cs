@@ -158,7 +158,7 @@ namespace Awesome.AI.Core
              * it is difficult determinating if the does as supposed, but the logic seems correct
              * */
 
-            if (!mind.calc.IsRandomSample(CONST.ACTIVATOR, 10))
+            if (!CONST.ACTIVATOR.RandomSample(mind))
                 return;
 
             if (Add(near, dist))

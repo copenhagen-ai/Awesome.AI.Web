@@ -29,7 +29,7 @@ namespace Awesome.AI.CoreInternals
             if (mind.current == "noise")
                 return;
 
-            if (!mind.calc.IsRandomSample(200, 10)) 
+            if (!CONST.SAMPLE200.RandomSample(mind)) 
                 return;
 
             Schedule();

@@ -13,6 +13,12 @@ namespace Awesome.AI.Common
                 Console.WriteLine(txt);
         }
 
+        public static bool RandomSample(this int count, TheMind mind)
+        {
+            //this is a replacement, for just performing task when (mind)do_process
+            return mind.calc.Chance(count, 10);
+        }
+
         public static bool IsNull<T>(this T source)
         {
             return source == null;
