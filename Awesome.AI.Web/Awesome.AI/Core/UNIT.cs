@@ -153,7 +153,7 @@ namespace Awesome.AI.Core
 
         public void Adjust(double sign, double dist)
         {
-            if (!mind.calc.IsRandomSample(200, 10))
+            if (!mind.calc.IsRandomSample(CONST.RANDOMNESS, 10))
                 return;
 
             if (dist < CONST.ALPHA)
