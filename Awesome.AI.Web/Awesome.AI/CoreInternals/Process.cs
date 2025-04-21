@@ -42,7 +42,7 @@ namespace Awesome.AI.CoreInternals
             }
 
             u_history.Insert(0, mind.unit[mind.current]);
-            if (u_history.Count > Constants.HIST_TOTAL)
+            if (u_history.Count > CONST.HIST_TOTAL)
                 u_history.RemoveAt(u_history.Count - 1);
         }
 
@@ -104,7 +104,7 @@ namespace Awesome.AI.CoreInternals
                 _s_curr.hits = hits[nam];
 
                 remember.Insert(0, nam);
-                if (remember.Count > Constants.REMEMBER)
+                if (remember.Count > CONST.REMEMBER)
                 {
                     string name = remember.Last();
                 

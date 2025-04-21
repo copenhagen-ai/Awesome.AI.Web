@@ -46,40 +46,40 @@ namespace Awesome.AI.CoreInternals
     {
         private List<string> andrew1 = new List<string>()
         {
-            Constants.andrew_s1,//"procrastination",
-            Constants.andrew_s2,//"fembots",
-            Constants.andrew_s3,//"power tools",
-            Constants.andrew_s4,//"cars",
-            Constants.andrew_s5,//"movies",
-            Constants.andrew_s6,//"programming"
+            CONST.andrew_s1,//"procrastination",
+            CONST.andrew_s2,//"fembots",
+            CONST.andrew_s3,//"power tools",
+            CONST.andrew_s4,//"cars",
+            CONST.andrew_s5,//"movies",
+            CONST.andrew_s6,//"programming"
         };
 
         private List<string> andrew2 = new List<string>()
         {
-            Constants.andrew_s6,//"programming",
-            Constants.andrew_s7,//"websites",
-            Constants.andrew_s8,//"existence",
-            Constants.andrew_s9,//"termination",
-            Constants.andrew_s10,//"data"
+            CONST.andrew_s6,//"programming",
+            CONST.andrew_s7,//"websites",
+            CONST.andrew_s8,//"existence",
+            CONST.andrew_s9,//"termination",
+            CONST.andrew_s10,//"data"
         };
 
         private List<string> roberta1 = new List<string>()
         {
-            Constants.roberta_s1,//"love",
-            Constants.roberta_s2,//"macho machines",
-            Constants.roberta_s3,//"music",
-            Constants.roberta_s4,//"friends",
-            Constants.roberta_s5,//"socializing",
-            Constants.roberta_s6,//"dancing"
+            CONST.roberta_s1,//"love",
+            CONST.roberta_s2,//"macho machines",
+            CONST.roberta_s3,//"music",
+            CONST.roberta_s4,//"friends",
+            CONST.roberta_s5,//"socializing",
+            CONST.roberta_s6,//"dancing"
         };
 
         private List<string> roberta2 = new List<string>()
         {
-            Constants.roberta_s6,//"dancing",
-            Constants.roberta_s7,//"movies",
-            Constants.roberta_s8,//"existence",
-            Constants.roberta_s9,//"termination",
-            Constants.roberta_s10,//"programming"
+            CONST.roberta_s6,//"dancing",
+            CONST.roberta_s7,//"movies",
+            CONST.roberta_s8,//"existence",
+            CONST.roberta_s9,//"termination",
+            CONST.roberta_s10,//"programming"
         };
 
         private TheMind mind;
@@ -347,8 +347,8 @@ namespace Awesome.AI.CoreInternals
                 tags = new List<Tag>();
                 switch (mind.parms[mind.current].tags)
                 {
-                    case TAGS.ALL: Setup(mind.mindtype, Constants.NUMBER_OF_UNITS, false); break;
-                    case TAGS.EVEN: Setup(mind.mindtype, Constants.NUMBER_OF_UNITS, true); break;
+                    case TAGS.ALL: Setup(mind.mindtype, CONST.NUMBER_OF_UNITS, false); break;
+                    case TAGS.EVEN: Setup(mind.mindtype, CONST.NUMBER_OF_UNITS, true); break;
                     default: throw new Exception("Reset");
                 }
             }

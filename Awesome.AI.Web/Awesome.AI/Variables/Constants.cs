@@ -2,7 +2,7 @@
 
 namespace Awesome.AI.Variables
 {
-    public class Constants
+    public class CONST
     {
         /*
          * these are HUB subjects

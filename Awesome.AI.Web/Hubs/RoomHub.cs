@@ -315,8 +315,8 @@ namespace Awesome.AI.Web.Hubs
 
                 int MAX = Enum.GetNames(typeof(MINDS)).Length;
                                 
-                Bots.Add(new Bot() { mindtype = MINDS.ROBERTA, mech = MECHANICS.HILL, long_deci = Constants.long_deci_roberta });
-                Bots.Add(new Bot() { mindtype = MINDS.ANDREW, mech = MECHANICS.TUGOFWAR, long_deci = Constants.long_deci_andrew });
+                Bots.Add(new Bot() { mindtype = MINDS.ROBERTA, mech = MECHANICS.HILL, long_deci = CONST.long_deci_roberta });
+                Bots.Add(new Bot() { mindtype = MINDS.ANDREW, mech = MECHANICS.TUGOFWAR, long_deci = CONST.long_deci_andrew });
                 
                 foreach (Bot bot in Bots)
                 {
@@ -327,7 +327,7 @@ namespace Awesome.AI.Web.Hubs
                         
                     // Instantiate new MicroTimer and add event handler
                     instance.microTimer.MicroTimerElapsed += new MicroLibrary.MicroTimer.MicroTimerElapsedEventHandler(instance.mind.Run);
-                    instance.microTimer.Interval = Constants.MICRO_SEC; // Call micro timer every 1000µs (1ms)
+                    instance.microTimer.Interval = CONST.MICRO_SEC; // Call micro timer every 1000µs (1ms)
                     instance.microTimer.Enabled = true; // Start timer
 
                     // Can choose to ignore event if late by Xµs (by default will try to catch up)

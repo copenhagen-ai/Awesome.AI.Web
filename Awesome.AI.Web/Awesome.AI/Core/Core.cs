@@ -49,14 +49,14 @@ namespace Awesome.AI.Core
 
                 pain = mind.calc.Reciprocal(_e);
 
-                if (pain > Constants.MAX_PAIN)
+                if (pain > CONST.MAX_PAIN)
                     throw new Exception("ReciprocalOK");
 
                 return true;
             }
             catch (Exception e)//thats it
             {
-                pain = Constants.MAX_PAIN;
+                pain = CONST.MAX_PAIN;
                 return false;
             }
         }
@@ -94,7 +94,7 @@ namespace Awesome.AI.Core
 
             for (int i = 0; i <= 10; i++)
             {
-                if ((mind.epochs - i) == (60 * Constants.RUNTIME))
+                if ((mind.epochs - i) == (60 * CONST.RUNTIME))
                     mind.theanswer.data = "It does not";
             }
             
@@ -108,6 +108,12 @@ namespace Awesome.AI.Core
 
         public void UpdateCredit()
         {
+            //if (mind.unit[mind.current].IsIDLE())
+            //    return;
+
+            if (mind.unit[mind.current].IsQUICKDECISION())
+                return;
+
             List<UNIT> list = mind.mem.UNITS_ALL();
 
             //this could be a problem with many hubs
@@ -125,19 +131,13 @@ namespace Awesome.AI.Core
                 double cred = mind.parms[mind.current].update_cred;
                 _u.credits += cred;
 
-                if (_u.credits > Constants.MAX_CREDIT)
-                    _u.credits = Constants.MAX_CREDIT;
+                if (_u.credits > CONST.MAX_CREDIT)
+                    _u.credits = CONST.MAX_CREDIT;
             }
 
-            //if (mind.unit[mind.current].IsIDLE())
-            //    return;
-
-            if (mind.unit[mind.current].IsQUICKDECISION())
-                return;
-
             mind.unit[mind.current].credits -= 1.0d;
-            if (mind.unit[mind.current].credits < Constants.LOW_CREDIT)
-                mind.unit[mind.current].credits = Constants.LOW_CREDIT;
+            if (mind.unit[mind.current].credits < CONST.LOW_CREDIT)
+                mind.unit[mind.current].credits = CONST.LOW_CREDIT;
         }
         
         

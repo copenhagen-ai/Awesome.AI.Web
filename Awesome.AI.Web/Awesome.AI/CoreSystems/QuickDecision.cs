@@ -67,7 +67,7 @@ namespace Awesome.AI.CoreSystems
             if (!curr.IsQUICKDECISION())
                 return;
 
-            Dictionary<string, int[]> dict = mind.mindtype == MINDS.ROBERTA ? Constants.DECISIONS_R : Constants.DECISIONS_A;
+            Dictionary<string, int[]> dict = mind.mindtype == MINDS.ROBERTA ? CONST.DECISIONS_R : CONST.DECISIONS_A;
             foreach (var kv in dict)
             {
                 if (curr.data == kv.Key)
@@ -80,7 +80,7 @@ namespace Awesome.AI.CoreSystems
 
         private void Setup(bool _pro, int count, int period)
         {
-            if (!mind.calc.IsRandomSample(400, 10))
+            if (!mind.calc.IsRandomSample(500, 10))
                 return;
 
             Go = true;
@@ -90,16 +90,16 @@ namespace Awesome.AI.CoreSystems
             List<string> should_decision = new List<string>();
 
             for (int i = 0; i < count; i++)
-                should_decision.Add(/*YES*/Constants.quick_deci_should_yes);
+                should_decision.Add(/*YES*/CONST.quick_deci_should_yes);
 
             for (int i = 0; i < count; i++)
-                should_decision.Add(/*NO*/Constants.quick_deci_should_no);
+                should_decision.Add(/*NO*/CONST.quick_deci_should_no);
 
             mind.mem.QDRESETU();
             mind.mem.QDRESETH();
 
             TONE tone = TONE.RANDOM;
-            mind.mem.Decide(STATE.QUICKDECISION, Constants.deci_subject[2], should_decision, UNITTYPE.QDECISION, LONGTYPE.NONE, 0, tone);
+            mind.mem.Decide(STATE.QUICKDECISION, CONST.deci_subject[2], should_decision, UNITTYPE.QDECISION, LONGTYPE.NONE, 0, tone);
             //mind.mem.HubsDecide(STATE.QUICKDECISION, guid, Constants.deci_subject[2], should_decision, UNITTYPE.QDECISION, 0, tone);
         }
 

@@ -33,7 +33,7 @@ namespace Awesome.AI.Core
             {
                 HUB hub = HUB;
                 List<UNIT> list = hub.units.OrderBy(x => x.created).ToList();
-                int idx = list.IndexOf(this);
+                int idx = list.IndexOf(this) + 1;
                 string res = "_" + hub.subject + idx;
 
                 return res;
@@ -69,12 +69,12 @@ namespace Awesome.AI.Core
 
         public static UNIT GetHigh
         {
-            get { return Create(null, "GUID", Constants.MAX, "MAX", "NONE", UNITTYPE.MAX, LONGTYPE.NONE); }
+            get { return Create(null, "GUID", CONST.MAX, "MAX", "NONE", UNITTYPE.MAX, LONGTYPE.NONE); }
         }
 
         public static UNIT GetLow
         {
-            get { return Create(null, "GUID", Constants.MIN, "MIN", "NONE", UNITTYPE.MIN, LONGTYPE.NONE); }
+            get { return Create(null, "GUID", CONST.MIN, "MIN", "NONE", UNITTYPE.MIN, LONGTYPE.NONE); }
         }
 
         public bool IsLowCut
@@ -146,7 +146,7 @@ namespace Awesome.AI.Core
             if (ticket != "")
                 _w.ticket = new Ticket(ticket);
 
-            _w.credits = Constants.MAX_CREDIT;
+            _w.credits = CONST.MAX_CREDIT;
 
             return _w;
         }
@@ -156,12 +156,12 @@ namespace Awesome.AI.Core
             if (!mind.calc.IsRandomSample(200, 10))
                 return;
 
-            if (dist < Constants.ALPHA)
+            if (dist < CONST.ALPHA)
                 return;
 
             double rand = mind.rand.MyRandomDouble(10)[5];
 
-            Index += rand * Constants.ETA * sign;
+            Index += rand * CONST.ETA * sign;
         }
 
 

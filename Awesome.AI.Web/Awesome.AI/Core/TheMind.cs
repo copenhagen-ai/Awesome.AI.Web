@@ -105,7 +105,7 @@ namespace Awesome.AI.Core
                 dir = new Direction(this);
                 pos = new Position(this);
                 quantum = new MyQubit();
-                mem = new Memory(this, Constants.NUMBER_OF_UNITS);
+                mem = new Memory(this, CONST.NUMBER_OF_UNITS);
 
                 unit = new Dictionary<string, UNIT>();
                 

@@ -84,7 +84,7 @@ namespace Awesome.AI.Web.AI.Common
             ratio_no_n = $"{mind.dir.Count(HARDDOWN.NO, true)}";
             going_down = $"{(mind.dir.DownHard.IsNo() ? "NO" : "YES")}";
             epochs = $"{mind.epochs}";
-            runtime = $"{Constants.RUNTIME}";
+            runtime = $"{CONST.RUNTIME}";
             occu = $"{mind._internal.Occu}";
             location = $"{mind._long.Result["location"]}";
             loc_state = mind._long.State["location"] > 0 ? "making a decision" : "just thinking";

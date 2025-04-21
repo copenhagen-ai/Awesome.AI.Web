@@ -26,7 +26,7 @@ namespace Awesome.AI.Common
             if (double.IsInfinity(momentum))
                 throw new Exception("SaveMomentum");
 
-            if (mind.cycles_all < Constants.FIRST_RUN)
+            if (mind.cycles_all < CONST.FIRST_RUN)
                 momentum = RandomDouble(0.0d, 1.0d);
 
             if (momentum == 0.0d)
