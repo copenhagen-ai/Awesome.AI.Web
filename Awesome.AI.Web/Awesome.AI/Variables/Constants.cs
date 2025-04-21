@@ -94,7 +94,7 @@ namespace Awesome.AI.Variables
 
         public const double ETA = 0.1d;                     //learningrate
         public const double ALPHA = 1.0d;                   //distance
-        public const int ACTIVATOR = 2000;                  //randomness, turn it way down
+        public const int ACTIVATOR = 4000;                  //randomness, turn it way down
         public const double VERY_LOW = 1.0E-2;
         public const double GRAVITY = 9.81d;
         public const double GRAV_CONST = 6.674E-11d;

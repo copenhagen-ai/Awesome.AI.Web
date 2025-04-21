@@ -34,12 +34,12 @@ namespace Awesome.AI.Web.AI.Common
         public string chat_state { get; set; }
         public string chat_answer { get; set; }
         public string chat_subject { get; set; }
-        public string common_hub { get; set; }
         public string whistle { get; set; }
 
         public string mood {  get; set; }
         public bool moodOK { get; set; }
 
+        //public string common_hub { get; set; }
         //public string chat_index { get; set; }
         public UNIT common_unit { get; set; }
 
@@ -54,7 +54,7 @@ namespace Awesome.AI.Web.AI.Common
             return count >= 59 ? ":COMEAGAIN" : chat_answer;
         }
 
-        private string[] arr = { "[.??]", "[??.]" };
+        private string[] gimmick = { "[.??]", "[??.]" };
         private int count = 0;
         public void Set()
         {
@@ -90,7 +90,7 @@ namespace Awesome.AI.Web.AI.Common
             loc_state = mind._long.State["location"] > 0 ? "making a decision" : "just thinking";
             chat_state = mind._long.State["answer"] > 0 ? "thinking" : "just thinking";
 
-            whistle = mind._quick.Result ? "[Whistling to my self..]" : arr[count];
+            whistle = mind._quick.Result ? "[Whistling to my self..]" : gimmick[count];
 
             mood = mind.parms[mind.current].pattern.ToString();
             moodOK = mind.mood.Result == PATTERNCOLOR.GREEN;
@@ -110,10 +110,10 @@ namespace Awesome.AI.Web.AI.Common
 
             common_unit = mind.process.most_common_unit;
 
-            if (common_unit == null)
-                return;
+            //if (common_unit == null)
+            //    return;
                        
-            common_hub = common_unit.HUB.subject;
+            //common_hub = common_unit.HUB.subject;
 
             count++;
         }

@@ -154,6 +154,10 @@ namespace Awesome.AI.Core
 
         public void Update(double sign, double near, double dist)
         {
+            /*
+             * it is difficult determinating if the does as supposed, but the logic seems correct
+             * */
+
             if (!mind.calc.IsRandomSample(CONST.ACTIVATOR, 10))
                 return;
 
@@ -186,8 +190,8 @@ namespace Awesome.AI.Core
             if (dist < avg)
                 return false;
 
-            double low = near - 2.5d >= CONST.MIN ? CONST.MIN : near - 2.5d;
-            double high = near + 2.5d >= CONST.MAX ? CONST.MAX : near + 2.5d;
+            double low = near - CONST.ALPHA >= CONST.MIN ? CONST.MIN : near - CONST.ALPHA;
+            double high = near + CONST.ALPHA >= CONST.MAX ? CONST.MAX : near + CONST.ALPHA;
             double idx = mind.rand.MyRandomDouble(1)[0];
             idx = mind.calc.Normalize(idx, 0.0d, 1.0d, low, high);
 
@@ -198,8 +202,8 @@ namespace Awesome.AI.Core
             string guid = hub_guid;
 
             UNIT _u = Create(mind, guid, idx, "DATA", ticket, UNITTYPE.JUSTAUNIT, LONGTYPE.NONE);
-            HUB.AddUnit(_u);
-
+            mind.mem.UNITS_ADD(_u);
+            
             return true;
         }
 

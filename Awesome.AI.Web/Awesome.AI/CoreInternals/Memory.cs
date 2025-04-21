@@ -252,12 +252,20 @@ namespace Awesome.AI.CoreInternals
             return _u;
         }
 
+        public void UNITS_ADD(UNIT _u)
+        {
+            HUB _h = _u.HUB;
+
+            _h.units.Add(_u);
+            units_running.Add(_u);
+        }
+
         public void UNITS_REM(UNIT _u)
         {
             HUB _h = _u.HUB;
 
             _h.units.Remove(_u);
-            units_running.Remove(_u);            
+            units_running.Remove(_u);
         }
 
         public List<HUB> HUBS_ALL(STATE state)
