@@ -112,9 +112,9 @@ namespace Awesome.AI.Core
                 foreach (string s in list)
                 {
                     if (mindtype == MINDS.ANDREW)
-                        unit[s] = mem.UNITS_ALL().Where(x => x.root == "_fembots1").FirstOrDefault();
+                        unit[s] = mem.UNITS_ALL().Where(x => x.Root == "_fembots1").First();
                     if (mindtype == MINDS.ROBERTA)
-                        unit[s] = mem.UNITS_ALL().Where(x => x.root == "_macho machines1").FirstOrDefault();
+                        unit[s] = mem.UNITS_ALL().Where(x => x.Root == "_macho machines1").First();
                 }
 
                 
@@ -125,7 +125,7 @@ namespace Awesome.AI.Core
                 PreRun("noise", true);
                 PostRun(true);
 
-                theanswer = UNIT.Create(this, "GUID", -1.0d, "I dont Know", "DATA", "SPECIAL", UNITTYPE.JUSTAUNIT, LONGTYPE.NONE);//set it to "It does not", and the program terminates
+                theanswer = UNIT.Create(this, "GUID", -1.0d, "I dont Know", "SPECIAL", UNITTYPE.JUSTAUNIT, LONGTYPE.NONE);//set it to "It does not", and the program terminates
 
                 ok = true;
                 do_process = false;
@@ -151,7 +151,7 @@ namespace Awesome.AI.Core
 
             List<Tuple<string, bool, double>> units_force = new List<Tuple<string, bool, double>>();
             foreach (UNIT u in list.OrderBy(x => x.Variable).ToList())
-                units_force.Add(new Tuple<string, bool, double>(u.root, u.IsValid, u.Variable));
+                units_force.Add(new Tuple<string, bool, double>(u.Root, u.IsValid, u.Variable));
 
             //List<Tuple<string, bool, double>> units_mass = new List<Tuple<string, bool, double>>();
             //foreach (UNIT u in list.OrderBy(x => x.HighAtZero).ToList())
@@ -262,9 +262,33 @@ namespace Awesome.AI.Core
             return true;
         }
 
+        public STATE State
+        {
+            get
+            {
+                //if (current == "noise")
+                //    return STATE.JUSTRUNNING;
+
+                return parms[current].state;
+            }
+            set
+            {
+                parms[current].state = value;
+            }
+        }
+
         private void TheSoup() 
         {
-            unit[current] = matrix.NextUnit();
+            //if (unit["noise"].IsIDLE())
+            //    unit["noise"] = matrix.NextUnit(UNIT.IDLE_UNIT(this));
+
+            //if (unit["current"].IsIDLE())
+            //    unit["current"] = matrix.NextUnit(UNIT.IDLE_UNIT(this));
+
+            //if (unit["noise"].IsIDLE() || unit["current"].IsIDLE())
+            //    return;
+
+            unit[current] = matrix.NextUnit(unit[current]);
         }
 
         private void Process(bool _pro)
@@ -279,7 +303,7 @@ namespace Awesome.AI.Core
             if (current == "noise")
                 return;
 
-            if (parms[current].state == STATE.QUICKDECISION)
+            if (State == STATE.QUICKDECISION)
                 return;
 
             foreach(var kv in this.long_deci)

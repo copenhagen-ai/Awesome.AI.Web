@@ -95,10 +95,10 @@ namespace Awesome.AI.Core
             for (int i = 0; i <= 10; i++)
             {
                 if ((mind.epochs - i) == (60 * Constants.RUNTIME))
-                    mind.theanswer.root = "It does not";
+                    mind.theanswer.data = "It does not";
             }
             
-            string answer = mind.theanswer.root;
+            string answer = mind.theanswer.data;
             
             if (answer == null)
                 throw new ArgumentNullException();
@@ -113,7 +113,13 @@ namespace Awesome.AI.Core
             //this could be a problem with many hubs
             foreach (UNIT _u in list)
             {
-                if (_u.root == mind.unit[mind.current].root)
+                //if (_u.IsIDLE())
+                //    continue;
+
+                if (_u.IsQUICKDECISION())
+                    continue;
+
+                if (_u.Root == mind.unit[mind.current].Root)
                     continue;
 
                 double cred = mind.parms[mind.current].update_cred;
@@ -122,6 +128,12 @@ namespace Awesome.AI.Core
                 if (_u.credits > Constants.MAX_CREDIT)
                     _u.credits = Constants.MAX_CREDIT;
             }
+
+            //if (mind.unit[mind.current].IsIDLE())
+            //    return;
+
+            if (mind.unit[mind.current].IsQUICKDECISION())
+                return;
 
             mind.unit[mind.current].credits -= 1.0d;
             if (mind.unit[mind.current].credits < Constants.LOW_CREDIT)

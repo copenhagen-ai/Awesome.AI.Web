@@ -78,7 +78,7 @@ namespace Awesome.AI.CoreInternals
             if (mind.unit[mind.current].IsQUICKDECISION())
                 return;
 
-            if (mind.parms[mind.current].state == STATE.QUICKDECISION)
+            if (mind.State == STATE.QUICKDECISION)
                 return;
 
             Stats stats = new Stats();
@@ -86,9 +86,9 @@ namespace Awesome.AI.CoreInternals
             List<UNIT> units = mind.mem.UNITS_ALL();
 
             foreach (UNIT u in units)
-                stats.list.Add(new Stat() { _name = u.root, _var = u.Variable, _index = u.Index });
+                stats.list.Add(new Stat() { _name = u.Root, _var = u.Variable, _index = u.Index });
 
-            string nam = most_common_unit.root;
+            string nam = most_common_unit.Root;
 
             try
             {

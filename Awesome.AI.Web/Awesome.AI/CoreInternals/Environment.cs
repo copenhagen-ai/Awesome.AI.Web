@@ -219,13 +219,13 @@ namespace Awesome.AI.CoreInternals
             {
                 List<HUB> list = new List<HUB>();
                 foreach (string s in andrew1)
-                    list.Add(mind.mem.HUBS_SUB(mind.parms[mind.current].state, s));
+                    list.Add(mind.mem.HUBS_SUB(mind.State, s));
                 list.Add(last);
                 areas.Add(new Area() { name = "socializing", max_epochs = 30, values = list });
 
                 list = new List<HUB>();
                 foreach (string s in andrew2)
-                    list.Add(mind.mem.HUBS_SUB(mind.parms[mind.current].state, s));
+                    list.Add(mind.mem.HUBS_SUB(mind.State, s));
                 list.Add(last);
                 areas.Add(new Area() { name = "hobbys", max_epochs = 30, values = list });/**/
 
@@ -235,13 +235,13 @@ namespace Awesome.AI.CoreInternals
             {
                 List<HUB> list = new List<HUB>();
                 foreach (string s in roberta1)
-                    list.Add(mind.mem.HUBS_SUB(mind.parms[mind.current].state, s));
+                    list.Add(mind.mem.HUBS_SUB(mind.State, s));
                 list.Add(last);
                 areas.Add(new Area() { name = "socializing", max_epochs = 30, values = list });
 
                 list = new List<HUB>();
                 foreach (string s in roberta2)
-                    list.Add(mind.mem.HUBS_SUB(mind.parms[mind.current].state, s));
+                    list.Add(mind.mem.HUBS_SUB(mind.State, s));
                 list.Add(last);
                 areas.Add(new Area() { name = "hobbys", max_epochs = 30, values = list });/**/
             }

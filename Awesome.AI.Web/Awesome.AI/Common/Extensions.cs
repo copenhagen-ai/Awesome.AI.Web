@@ -6,6 +6,13 @@ namespace Awesome.AI.Common
 {
     public static class Extensions
     {
+        public static void BusyWait(this string txt, int count)
+        {
+            //because i dont want to implement async
+            for (int i = 0; i < count; i++) 
+                Console.WriteLine(txt);
+        }
+
         public static bool IsNull<T>(this T source)
         {
             return source == null;

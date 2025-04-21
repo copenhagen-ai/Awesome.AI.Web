@@ -26,9 +26,9 @@ namespace Awesome.AI.Core
             this.mind = mind;
         }
 
-        public UNIT NextUnit()
+        public UNIT NextUnit(UNIT _u)
         {
-            if (!mind.unit[mind.current].IsIDLE())
+            if (!_u.IsIDLE())
             {
                 UNIT w_act = Unit();
 
@@ -39,8 +39,8 @@ namespace Awesome.AI.Core
             /*
              * with more HUBS and UNITS added, this buffer wil be used less often
              * */
-            UNIT _u = Buffer();
-            return _u;
+            UNIT __u = Buffer();
+            return __u;
         }
 
         /*
@@ -112,6 +112,8 @@ namespace Awesome.AI.Core
 
         private double Map(UNIT x)
         {
+            return x.Variable;
+
             if (mind.current == "current")
                 return x.Variable;
 

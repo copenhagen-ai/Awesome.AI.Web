@@ -1,4 +1,5 @@
-﻿using Awesome.AI.CoreInternals;
+﻿using Awesome.AI.Common;
+using Awesome.AI.CoreInternals;
 using Awesome.AI.Variables;
 using static Awesome.AI.Variables.Enums;
 
@@ -13,16 +14,30 @@ namespace Awesome.AI.Core
         public Ticket ticket = new Ticket("NOTICKET");
         private UNITTYPE unit_type { get; set; }
         public LONGTYPE long_deci_type { get; set; }
+        public DateTime created {  get; set; }
         public string hub_guid { get; set; }//name
-        public string root { get; set; }//name
         public string data { get; set; }//data
         public double credits { get; set; }
+        //public string root { get; set; }//name
 
         private TheMind mind;
         private UNIT() { }
         public UNIT(TheMind mind)
         {
             this.mind = mind;
+        }
+
+        public string Root
+        {
+            get
+            {
+                HUB hub = HUB;
+                List<UNIT> list = hub.units.OrderBy(x => x.created).ToList();
+                int idx = list.IndexOf(this);
+                string res = "_" + hub.subject + idx;
+
+                return res;
+            }
         }
 
         private double dex = -1.0d;
@@ -54,12 +69,12 @@ namespace Awesome.AI.Core
 
         public static UNIT GetHigh
         {
-            get { return Create(null, "GUID", Constants.MAX, "MAX", "DATA", "NONE", UNITTYPE.MAX, LONGTYPE.NONE); }
+            get { return Create(null, "GUID", Constants.MAX, "MAX", "NONE", UNITTYPE.MAX, LONGTYPE.NONE); }
         }
 
         public static UNIT GetLow
         {
-            get { return Create(null, "GUID", Constants.MIN, "MIN", "DATA", "NONE", UNITTYPE.MIN, LONGTYPE.NONE); }
+            get { return Create(null, "GUID", Constants.MIN, "MIN", "NONE", UNITTYPE.MIN, LONGTYPE.NONE); }
         }
 
         public bool IsLowCut
@@ -97,10 +112,11 @@ namespace Awesome.AI.Core
                 if (IsIDLE())
                     return HUB.Create("GUID", "IDLE", new List<UNIT>(), TONE.RANDOM);
 
-                STATE state = mind.parms[mind.current].state;
+                STATE state = mind.State;
+                List<HUB> list = mind.mem.HUBS_ALL(state);
 
                 try {
-                    return mind.mem.HUBS_ALL(state).Where(x => x.hub_guid == this.hub_guid).First();
+                    return list.Where(x => x.hub_guid == this.hub_guid).First();
                 }
                 catch {
                     return HUB.Create("GUID", "IDLE", new List<UNIT>(), TONE.RANDOM);
@@ -118,9 +134,14 @@ namespace Awesome.AI.Core
             }
         }
 
-        public static UNIT Create(TheMind mind, string h_guid, double index, string root, string data, string ticket, UNITTYPE ut, LONGTYPE lt)
+        public static UNIT Create(TheMind mind, string h_guid, double index, string data, string ticket, UNITTYPE ut, LONGTYPE lt)
         {
-            UNIT _w = new UNIT() { mind = mind, hub_guid = h_guid, Index = index, root = root, data = data, unit_type = ut, long_deci_type = lt };
+            //make sure some time has gone before creating a new unit
+            "hello world!".BusyWait(10);
+
+            DateTime create = DateTime.Now;
+
+            UNIT _w = new UNIT() { mind = mind, created = create, hub_guid = h_guid, Index = index, data = data, unit_type = ut, long_deci_type = lt };
 
             if (ticket != "")
                 _w.ticket = new Ticket(ticket);
@@ -132,6 +153,9 @@ namespace Awesome.AI.Core
 
         public void Adjust(double sign, double dist)
         {
+            if (!mind.calc.IsRandomSample(200, 10))
+                return;
+
             if (dist < Constants.ALPHA)
                 return;
 
@@ -143,7 +167,7 @@ namespace Awesome.AI.Core
 
         public static UNIT IDLE_UNIT(TheMind mind)
         {
-            return Create(mind, "GUID", -1d, "ROOT", "DATA", "NONE", UNITTYPE.IDLE, LONGTYPE.NONE);
+            return Create(mind, "GUID", -1d, "DATA", "NONE", UNITTYPE.IDLE, LONGTYPE.NONE);
         }
 
         public bool IsUNIT() => unit_type == UNITTYPE.JUSTAUNIT;

@@ -48,13 +48,13 @@ namespace Awesome.AI.CoreSystems
             if (new_res)
                 return;
 
-            if (mind.parms[mind.current].state == STATE.QUICKDECISION && mind.mem.QDCOUNT() > 0)
+            if (mind.State == STATE.QUICKDECISION && mind.mem.QDCOUNT() > 0)
             {
                 if (mind.mem.QDCOUNT() <= 1)
                 {
                     res = curr.data == "QYES";
                     new_res = true;
-                    mind.parms[mind.current].state = STATE.JUSTRUNNING;
+                    mind.State = STATE.JUSTRUNNING;
                 }
 
                 mind.mem.QDREMOVE(curr);
@@ -70,16 +70,19 @@ namespace Awesome.AI.CoreSystems
             Dictionary<string, int[]> dict = mind.mindtype == MINDS.ROBERTA ? Constants.DECISIONS_R : Constants.DECISIONS_A;
             foreach (var kv in dict)
             {
-                if (_pro && curr.data == kv.Key)
-                    Setup(kv.Value[0], 5);
+                if (curr.data == kv.Key)
+                    Setup(_pro, kv.Value[0], 5);
 
                 if (Go)
                     Start(_pro);
             }
         }
 
-        private void Setup(int count, int period)
+        private void Setup(bool _pro, int count, int period)
         {
+            if (!mind.calc.IsRandomSample(400, 10))
+                return;
+
             Go = true;
             Period = period;
             Count = 0;
@@ -95,10 +98,9 @@ namespace Awesome.AI.CoreSystems
             mind.mem.QDRESETU();
             mind.mem.QDRESETH();
 
-            string guid = Guid.NewGuid().ToString();
             TONE tone = TONE.RANDOM;
-            mind.mem.UnitsDecide(STATE.QUICKDECISION, guid, should_decision, UNITTYPE.QDECISION, LONGTYPE.NONE, 0, tone);
-            mind.mem.HubsDecide(STATE.QUICKDECISION, guid, Constants.deci_subject[2], should_decision, UNITTYPE.QDECISION, 0, tone);
+            mind.mem.Decide(STATE.QUICKDECISION, Constants.deci_subject[2], should_decision, UNITTYPE.QDECISION, LONGTYPE.NONE, 0, tone);
+            //mind.mem.HubsDecide(STATE.QUICKDECISION, guid, Constants.deci_subject[2], should_decision, UNITTYPE.QDECISION, 0, tone);
         }
 
         private void Start(bool _pro)
@@ -106,7 +108,7 @@ namespace Awesome.AI.CoreSystems
             if (!_pro)
                 return;
 
-            mind.parms[mind.current].state = STATE.QUICKDECISION;
+            mind.State = STATE.QUICKDECISION;
         }
     }
 }
