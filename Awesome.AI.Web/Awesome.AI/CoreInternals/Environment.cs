@@ -265,34 +265,6 @@ namespace Awesome.AI.CoreInternals
 
     public class MyExternal// aka MapWorld
     {
-        private List<string> andrew = new List<string>()
-        {
-            Constants.andrew_s1,//"procrastination",
-            Constants.andrew_s2,//"fembots",
-            Constants.andrew_s3,//"power tools",
-            Constants.andrew_s4,//"cars",
-            Constants.andrew_s5,//"movies",
-            Constants.andrew_s6,//"programming",
-            Constants.andrew_s7,//"websites",
-            Constants.andrew_s8,//"existence",
-            Constants.andrew_s9,//"termination",
-            Constants.andrew_s10,//"data"
-        };
-
-        private List<string> roberta = new List<string>()
-        {
-            Constants.roberta_s1,//"love",
-            Constants.roberta_s2,//"macho machines",
-            Constants.roberta_s3,//"music",
-            Constants.roberta_s4,//"friends",
-            Constants.roberta_s5,//"socializing",
-            Constants.roberta_s6,//"dancing",
-            Constants.roberta_s7,//"movies",
-            Constants.roberta_s8,//"existence",
-            Constants.roberta_s9,//"termination",
-            Constants.roberta_s10,//"programming"
-        };
-
         public class Tag
         {
             public string t_name { get; set; }
@@ -349,10 +321,7 @@ namespace Awesome.AI.CoreInternals
 
             List<string> list;
 
-            if (mindtype == MINDS.ANDREW)
-                list = andrew;
-            else
-                list = roberta;
+            list = mind.mem.Tags(mindtype);
 
             foreach (string s in list)
             {
