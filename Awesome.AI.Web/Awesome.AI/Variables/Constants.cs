@@ -94,7 +94,7 @@ namespace Awesome.AI.Variables
 
         public const double ETA = 0.1d;                     //learningrate
         public const double ALPHA = 1.0d;                   //distance
-        public const int RANDOMNESS = 200;                       //randomness
+        public const int ACTIVATOR = 2000;                  //randomness, turn it way down
         public const double VERY_LOW = 1.0E-2;
         public const double GRAVITY = 9.81d;
         public const double GRAV_CONST = 6.674E-11d;
@@ -105,6 +105,7 @@ namespace Awesome.AI.Variables
         public const double RATIO = 50d;
         public const int FIRST_RUN = 5;
         public const int NUMBER_OF_UNITS = 10;
+        public const int MAX_UNITS = 20;
         public const int RUNTIME = 3;                       //minutes
 
         public const LOGICTYPE Logic = LOGICTYPE.BOOLEAN;

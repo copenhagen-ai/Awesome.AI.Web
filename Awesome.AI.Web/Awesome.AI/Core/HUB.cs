@@ -10,12 +10,13 @@ namespace Awesome.AI.Core
 
         public string hub_guid { get; set; }
         public string subject { get; set; }
+        public int max_num_units { get; set; }
 
         public List<UNIT> units;
         public TONE tone;
 
 
-        private HUB(string hub_guid, string subject, List<UNIT> units, TONE ton)
+        private HUB(string hub_guid, string subject, List<UNIT> units, TONE ton, int max_num_units)
         {
             //CreateNet(is_accord, neurons, learningrate, momentum);
 
@@ -23,15 +24,16 @@ namespace Awesome.AI.Core
             this.subject = subject;
             this.units = units;
             this.tone = ton;
+            this.max_num_units = max_num_units;
         }
 
         private HUB()
         {
         }
 
-        public static HUB Create(string hub_guid, string subject, List<UNIT> units, TONE ton)
+        public static HUB Create(string hub_guid, string subject, List<UNIT> units, TONE ton, int max_num_units)
         {
-            HUB h = new HUB(hub_guid, subject, units, ton);
+            HUB h = new HUB(hub_guid, subject, units, ton, max_num_units);
             return h;
         }
 

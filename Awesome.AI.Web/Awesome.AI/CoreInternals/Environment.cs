@@ -311,7 +311,7 @@ namespace Awesome.AI.CoreInternals
         }
 
         //setup input
-        private void Setup(MINDS mindtype, int u_count, bool onlyeven)
+        private void Setup(MINDS mindtype, bool onlyeven)
         {
             if (mind.current == "noise")
                 return;
@@ -325,7 +325,7 @@ namespace Awesome.AI.CoreInternals
 
             foreach (string s in list)
             {
-                for (int i = 1; i <= u_count; i++)
+                for (int i = 1; i <= CONST.NUMBER_OF_UNITS; i++)
                 {
                     if (onlyeven && i % 2 == 0)
                         continue;
@@ -347,8 +347,8 @@ namespace Awesome.AI.CoreInternals
                 tags = new List<Tag>();
                 switch (mind.parms[mind.current].tags)
                 {
-                    case TAGS.ALL: Setup(mind.mindtype, CONST.NUMBER_OF_UNITS, false); break;
-                    case TAGS.EVEN: Setup(mind.mindtype, CONST.NUMBER_OF_UNITS, true); break;
+                    case TAGS.ALL: Setup(mind.mindtype, false); break;
+                    case TAGS.EVEN: Setup(mind.mindtype, true); break;
                     default: throw new Exception("Reset");
                 }
             }

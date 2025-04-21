@@ -99,7 +99,7 @@ namespace Awesome.AI.CoreSystems
             mind.mem.QDRESETH();
 
             TONE tone = TONE.RANDOM;
-            mind.mem.Decide(STATE.QUICKDECISION, CONST.deci_subject[2], should_decision, UNITTYPE.QDECISION, LONGTYPE.NONE, 0, tone);
+            mind.mem.Decide(STATE.QUICKDECISION, CONST.MAX_UNITS, CONST.deci_subject[2], should_decision, UNITTYPE.QDECISION, LONGTYPE.NONE, 0, tone);
             //mind.mem.HubsDecide(STATE.QUICKDECISION, guid, Constants.deci_subject[2], should_decision, UNITTYPE.QDECISION, 0, tone);
         }
 

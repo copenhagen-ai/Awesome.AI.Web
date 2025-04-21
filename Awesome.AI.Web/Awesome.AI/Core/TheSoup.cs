@@ -107,7 +107,7 @@ namespace Awesome.AI.Core
             double sign = res == _b ? 1d : -1d;
             double dist = DistAbsolute(res, near);
 
-            res.Adjust(sign, dist);
+            res.Update(sign, near, dist);
         }
 
         private double Map(UNIT x)

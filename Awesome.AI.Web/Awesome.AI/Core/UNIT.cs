@@ -1,6 +1,7 @@
 ﻿using Awesome.AI.Common;
 using Awesome.AI.CoreInternals;
 using Awesome.AI.Variables;
+using Microsoft.VisualBasic;
 using static Awesome.AI.Variables.Enums;
 
 namespace Awesome.AI.Core
@@ -110,7 +111,7 @@ namespace Awesome.AI.Core
             get
             {
                 if (IsIDLE())
-                    return HUB.Create("GUID", "IDLE", new List<UNIT>(), TONE.RANDOM);
+                    return HUB.Create("GUID", "IDLE", new List<UNIT>(), TONE.RANDOM, -1);
 
                 STATE state = mind.State;
                 List<HUB> list = mind.mem.HUBS_ALL(state);
@@ -119,7 +120,7 @@ namespace Awesome.AI.Core
                     return list.Where(x => x.hub_guid == this.hub_guid).First();
                 }
                 catch {
-                    return HUB.Create("GUID", "IDLE", new List<UNIT>(), TONE.RANDOM);
+                    return HUB.Create("GUID", "IDLE", new List<UNIT>(), TONE.RANDOM, -1);
                 }
             }
         }
@@ -151,11 +152,20 @@ namespace Awesome.AI.Core
             return _w;
         }
 
-        public void Adjust(double sign, double dist)
+        public void Update(double sign, double near, double dist)
         {
-            if (!mind.calc.IsRandomSample(CONST.RANDOMNESS, 10))
+            if (!mind.calc.IsRandomSample(CONST.ACTIVATOR, 10))
                 return;
 
+            if (Add(near, dist))
+                return;
+
+            Remove(near);
+            Adjust(sign, dist);
+        }
+
+        private void Adjust(double sign, double dist)
+        {
             if (dist < CONST.ALPHA)
                 return;
 
@@ -164,6 +174,50 @@ namespace Awesome.AI.Core
             Index += rand * CONST.ETA * sign;
         }
 
+        private bool Add(double near, double dist)
+        {
+            int count = HUB.units.Count;
+            int max = HUB.max_num_units;
+            double avg = 100.0d / count;
+
+            if (count >= max)
+                return false;
+
+            if (dist < avg)
+                return false;
+
+            double low = near - 2.5d >= CONST.MIN ? CONST.MIN : near - 2.5d;
+            double high = near + 2.5d >= CONST.MAX ? CONST.MAX : near + 2.5d;
+            double idx = mind.rand.MyRandomDouble(1)[0];
+            idx = mind.calc.Normalize(idx, 0.0d, 1.0d, low, high);
+
+            List<string> list = mind.mem.Tags(mind.mindtype);
+            int rand = mind.rand.MyRandomInt(1, list.Count)[0] + 1;
+            string ticket = "" + HUB.subject + rand;
+
+            string guid = hub_guid;
+
+            UNIT _u = Create(mind, guid, idx, "DATA", ticket, UNITTYPE.JUSTAUNIT, LONGTYPE.NONE);
+            HUB.AddUnit(_u);
+
+            return true;
+        }
+
+        private bool Remove(double near)
+        {
+            double low = near - CONST.ALPHA;
+            double high = near + CONST.ALPHA;
+
+            List<UNIT> list = mind.mem.UNITS_ALL().Where(x=>x.Index > low && x.Index < high).ToList();
+            list = list.Where(x=>x.created < this.created).ToList();
+
+            bool action = list.Any();
+
+            foreach(UNIT unit in list) 
+                mind.mem.UNITS_REM(unit);
+
+            return action;
+        }
 
         public static UNIT IDLE_UNIT(TheMind mind)
         {
