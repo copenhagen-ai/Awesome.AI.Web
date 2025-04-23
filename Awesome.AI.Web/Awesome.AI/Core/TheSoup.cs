@@ -1,4 +1,5 @@
 ﻿using Awesome.AI.Interfaces;
+using Awesome.AI.Variables;
 
 namespace Awesome.AI.Core
 {
@@ -127,10 +128,14 @@ namespace Awesome.AI.Core
             if (_a is null || _b is null)
                 return;
 
-            double sign = res == _b ? 1d : -1d;
+            Params parm = mind.parms_current;
+
+            //im getting confused - noise uses high acc at zero, meaning reverse index
+            double idx_sign = parm.high_at_zero ? -1d : 1d;
+            double add_sign = res == _b ? 1d : -1d;
             double dist = DistAbsolute(res, near);
 
-            res.Update(sign, near, dist);
+            res.Update(idx_sign, add_sign, near, dist);
         }
 
 
