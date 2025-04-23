@@ -52,7 +52,7 @@ namespace Awesome.AI.Core
         {
             get
             {
-                bool high_at_zero = mind.parms[mind.current].high_at_zero;
+                bool high_at_zero = mind.parms_current.high_at_zero;
 
                 return high_at_zero ? HighAtZero : LowAtZero;
             }
@@ -92,7 +92,7 @@ namespace Awesome.AI.Core
         {
             get
             {
-                switch (mind.parms[mind.current].validation)
+                switch (mind.parms_current.validation)
                 {
                     case VALIDATION.BOTH:
                         return mind._internal.Valid(this) && mind._external.Valid(this);

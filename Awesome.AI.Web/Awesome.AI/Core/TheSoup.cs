@@ -105,7 +105,7 @@ namespace Awesome.AI.Core
             return x.Variable;
 
 
-            //if (mind.current == "current")
+            //if (mind.current == "mech")
             //    return x.Variable;
 
             //IMechanics mech = mind.mech["noise"];
@@ -136,7 +136,7 @@ namespace Awesome.AI.Core
 
         private double DistAbsolute(UNIT unit, double near)
         {
-            IMechanics mech = mind.mech[mind.current];
+            IMechanics mech = mind.mech_current;
             
             double idx = unit.Index;
             
@@ -148,7 +148,7 @@ namespace Awesome.AI.Core
         private double NearPercent()
         {
             bool is_noise = mind.current == "noise";
-            IMechanics mech = mind.mech[mind.current];
+            IMechanics mech = mind.mech_current;
 
             double _v = mech.p_curr;
             double v_h = is_noise ? mech.m_out_high_n : mech.m_out_high_c;

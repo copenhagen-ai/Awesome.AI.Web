@@ -240,12 +240,12 @@ namespace Awesome.AI.Web.Hubs
                 return (int)res_index;
             
             throw new Exception("FormatIndex");
-        }        
+        }
 
         //private double FormatForce(TheMind mind, double index, bool is_index, bool is_lower, bool is_upper)
         //{
-        //    double min = mind.mech["current"].LowestVar;
-        //    double max = mind.mech["current"].HighestVar;
+        //    double min = mind.mech["mech"].LowestVar;
+        //    double max = mind.mech["mech"].HighestVar;
         //    double temp = mind.calc.NormalizeRange(index, min, max, 0.01d, 99.99d);
 
         //    double res_index = ((int)Math.Floor(temp / 10.0)) * 10 + 10.0d;
