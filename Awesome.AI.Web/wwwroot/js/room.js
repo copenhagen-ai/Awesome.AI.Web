@@ -79,7 +79,8 @@ $(document).ready(function () {
 
         is_busy = true;
 
-        $("#overlay2").fadeIn(300);
+        //$("#overlay2").fadeIn(300);
+        popup();
 
         connection.start();
         event.preventDefault();
@@ -87,7 +88,7 @@ $(document).ready(function () {
         onConnect();
 
         setTimeout(mycrashed, 3000);
-        setTimeout(mystart, 10000);
+        setTimeout(mypopup, 10000);
     });    
 });
 
@@ -105,9 +106,11 @@ function mytimer() {
     is_running = total_curr != total_prev;
 }
 
-function mystart() {
+function mypopup() {
 
-    $("#overlay2").fadeOut(100);
+    $('#alertoverlay').hide();
+    $('#alertbox').hide();
+    //$("#overlay2").fadeOut(100);
     is_busy = false;
 }
 

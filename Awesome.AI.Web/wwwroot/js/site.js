@@ -6,6 +6,10 @@
 var isHidden = true;
 var showinfo = false;
 $(document).ready(function () {
+
+    $('.moodinfo').click(function () {
+        moodinfo();
+    });
     
     $(".hideSpan").click(function () {
         isHidden = !isHidden;
@@ -84,6 +88,60 @@ function uuidv4() {
                 v = c == 'x' ? r : (r & 0x3 | 0x8);
             return v.toString(16);
         });
+}
+
+function popup() {
+    alertbox.render({
+        alertIcon: 'info',
+        title: 'INFO',
+        message: 'Starting app..',
+        btnTitle: '',
+        themeColor: '#F97316',
+        border: true
+        //btnColor: '#7CFC00',
+        //btnColor: true
+    });
+
+    $('#alertBoxBtn').hide();
+}
+
+function moodinfo() {
+    
+    var text = '<div class="moodtext1" style="text-align:left;">This is the current mood of the system. If the color is green, delta momentum is within limits, if not then red. it should not be red. ' +
+        'Currently the mood is controlled by a MoodGenerator(changes every 10 seconds or so), this should be replaced with user input like: Pinch and Tickle. <br /> <br />' +
+        'Delta momentum is converted, like so: <br />' +
+        'GENERAL limits: 0.0 -> 1.0 <br />' +
+        'GOOD limits: 0.5 -> 1.0 <br />' +
+        'BAD limits: 0.0 -> 0.5 <br /> <br /></div>' +
+
+        '<div class="moodtext2 hidden" style="text-align:left;">This is the current mood of the system. If the color is green, delta momentum is within limits, if not then red. it should not be red. ' +
+        'Currently the mood is controlled by a MoodGenerator(changes every 10 seconds or so), this should be replaced with user input like: Pinch and Tickle. <br /> <br />';
+
+    alertbox.render({
+        alertIcon: 'info',
+        title: 'INFO',
+        message: text,
+        btnTitle: 'OK',
+        themeColor: '#60B2FD',
+        border: true,
+        btnColor: '#60B2FD',
+    });
+
+    const style = document.createElement('style');
+    style.innerHTML =
+        '@media (max-width: 768px) {' +
+            '.sa-info {' +
+                'display: none !important;' +
+            '}' +
+            '.moodtext1 {' +
+                'display: none !important;' +
+            '}' +
+            '.moodtext2 {' +
+                'display: block !important;' +
+            '}' +
+        '}';
+    document.head.appendChild(style);
+    //$('#alertBoxBtn').hide();
 }
 
 function server_check() {
