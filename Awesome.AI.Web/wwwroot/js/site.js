@@ -265,9 +265,9 @@ function chat(text) {
 
                 $('.chatRes').html(tmp);
 
-                var div4 = document.getElementById("chatTitle");
+                //var div4 = document.getElementById("chatTitle");
 
-                div4.classList.remove("i-color-red");                
+                //div4.classList.remove("i-color-red");                
             }
             else {
                 var tmp = '';

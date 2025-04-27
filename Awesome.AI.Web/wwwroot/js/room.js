@@ -348,26 +348,26 @@ function myinfo1(epochs, runtime, momentum, dmomentum, cycles, pain, position, r
     div12.textContent = `${pain_out}`;
 
     if (going_down == 'NO') {
-        div11.classList.remove("i-color-red");
+        div11.classList.remove("text-red-500");
         div11.classList.add("i-color-green");
     }
     else {
-        div11.classList.add("i-color-red");
+        div11.classList.add("text-red-500");
         div11.classList.remove("i-color-green");
     }
 
     if (parseFloat(pain) > 1.0) {
-        div12.classList.add("i-color-red");
+        div12.classList.add("text-red-500");
     }
     else {
-        div12.classList.remove("i-color-red");
+        div12.classList.remove("text-red-500");
     }
 
     if (epochs_remaining <= 2) {
-        div1.classList.add("i-color-red");
+        div1.classList.add("text-red-500");
     }
     else {
-        div1.classList.remove("i-color-red");
+        div1.classList.remove("text-red-500");
     }
 
     if (chat_state == 'thinking') {
@@ -424,10 +424,10 @@ function mymood1(mood, moodOK, mom) {
 
     if (moodOK) {
         $("#moodSpan").addClass("i-color-green");
-        $("#moodSpan").removeClass("i-color-red");
+        $("#moodSpan").removeClass("text-red-500");
     }
     else {
-        $("#moodSpan").addClass("i-color-red");
+        $("#moodSpan").addClass("text-red-500");
         $("#moodSpan").removeClass("i-color-green");
     }
 
@@ -442,10 +442,10 @@ function mymood2(mood, moodOK, mom) {
 
     if (moodOK) {
         $("#moodSpan").addClass("i-color-green");
-        $("#moodSpan").removeClass("i-color-red");
+        $("#moodSpan").removeClass("text-red-500");
     }
     else {
-        $("#moodSpan").addClass("i-color-red");
+        $("#moodSpan").addClass("text-red-500");
         $("#moodSpan").removeClass("i-color-green");
     }
 

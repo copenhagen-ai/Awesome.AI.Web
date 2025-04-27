@@ -448,7 +448,7 @@ namespace Awesome.AI.Web.Hubs
                             string message = helper.GPTConnectTheDots(dot1, dot2/*, ref inst.fast_responce*/);
 
                             message = message.Replace(dot1, $"<span class=\"i-color-green\">{dot1}</span>");
-                            message = message.Replace(dot2, $"<span class=\"i-color-orange\">{dot2}</span>");
+                            message = message.Replace(dot2, $"<span class=\"text-orange-500\">{dot2}</span>");
 
                             if (inst.type == MINDS.ROBERTA)
                                 await Clients.All.SendAsync("MIND1MessageReceive", message, dot1, dot2, subject);
