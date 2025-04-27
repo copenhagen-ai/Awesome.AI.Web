@@ -8,10 +8,13 @@ connection.start().then(function () {
     return console.error(err.toString());
 });
 
+const mylbls1 = ['label1', 'label2', 'label3', 'label4', 'label5', 'label6', 'label7', 'label8', 'label9', 'label10'];
+const mylbls2 = ['label1', 'label2', 'label3', 'label4', 'label5', 'label6', 'label7', 'label8', 'label9', 'label10'];
+
 const myChart1 = new Chart(document.getElementById('myChart1'), {
     type: "bar",
     data: {
-        labels: [],
+        labels: mylbls1,
         datasets: [{
             label: 'Real-time Data',
             backgroundColor: [],
@@ -41,7 +44,7 @@ const myChart1 = new Chart(document.getElementById('myChart1'), {
 const myChart2 = new Chart(document.getElementById('myChart2'), {
     type: "bar",
     data: {
-        labels: [],
+        labels: mylbls2,
         datasets: [{
             label: 'Real-time Data',
             backgroundColor: [],
@@ -79,7 +82,7 @@ const config1 = new Chart(document.getElementById('chartmood1'), {
             label: 'Momentum (normalized 10->90)',
             data: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50],
             fill: false,
-            borderColor: 'orange',
+            borderColor: '#15803D',
             tension: 0.1
         }]
     },
@@ -104,7 +107,7 @@ const config2 = new Chart(document.getElementById('chartmood2'), {
             label: 'Momentum (normalized 10->90)',
             data: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50],
             fill: false,
-            borderColor: 'orange',
+            borderColor: '#15803D',
             tension: 0.1
         }]
     },
@@ -184,6 +187,16 @@ $(document).ready(function () {
 
         first_load = false;
 
+        myChart1.data.labels = [];
+        myChart1.data.datasets[0].label = 'Real-time Data';
+        myChart1.data.datasets[0].data = [];
+        myChart1.data.datasets[0].backgroundColor = [];
+
+        myChart2.data.labels = [];
+        myChart2.data.datasets[0].label = 'Real-time Data';
+        myChart2.data.datasets[0].data = [];
+        myChart2.data.datasets[0].backgroundColor = [];
+
         //connection.start();
         //setTimeout(mycrashed, 3000);
     });    
@@ -238,14 +251,14 @@ function room1() {
     
     $("#overlay").fadeIn(300);
     
-    myChart1.data.labels = [];
+    myChart1.data.labels = mylbls1;
     myChart1.data.datasets[0].label = 'Real-time Data';
-    myChart1.data.datasets[0].data = [];
+    myChart1.data.datasets[0].data = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
     myChart1.data.datasets[0].backgroundColor = [];
 
-    myChart2.data.labels = [];
+    myChart2.data.labels = mylbls2;
     myChart2.data.datasets[0].label = 'Real-time Data';
-    myChart2.data.datasets[0].data = [];
+    myChart2.data.datasets[0].data = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
     myChart2.data.datasets[0].backgroundColor = [];
 
     room = 'room1';
@@ -591,7 +604,7 @@ function mygraph1(_labs, _lab, _value, _lab_reset, _value_reset, _col) {
         _labs.forEach((_l) => {
             myChart1.data.labels.push(_l);
             myChart1.data.datasets[0].data.push(0);
-            myChart1.data.datasets[0].backgroundColor.push('orange');
+            myChart1.data.datasets[0].backgroundColor.push('#15803D');
             count++;
         });
     }
@@ -629,7 +642,7 @@ function mygraph2(_labs, _lab, _value, _lab_reset, _value_reset, _col) {
         _labs.forEach((_l) => {
             myChart2.data.labels.push(_l);
             myChart2.data.datasets[0].data.push(0);
-            myChart2.data.datasets[0].backgroundColor.push('orange');
+            myChart2.data.datasets[0].backgroundColor.push('#15803D');
             count++;
         });
     }
