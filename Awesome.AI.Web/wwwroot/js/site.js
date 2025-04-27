@@ -8,7 +8,7 @@ var showinfo = false;
 $(document).ready(function () {
 
     $('.moodinfo').click(function () {
-        moodinfo();
+        popup_mood();
     });
     
     $(".hideSpan").click(function () {
@@ -56,7 +56,7 @@ $(document).ready(function () {
             $("#chartSpan").text('index');
 
             $(".chart2").hide();
-            $(".chart1").show();
+            $(".chart1").show();           
         }
     });
 
@@ -90,11 +90,15 @@ function uuidv4() {
         });
 }
 
-function popup() {
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function popup_no_btn(txt) {
     alertbox.render({
         alertIcon: 'info',
         title: 'INFO',
-        message: 'Starting app..',
+        message: txt,
         btnTitle: '',
         themeColor: '#F97316',
         border: true
@@ -105,16 +109,31 @@ function popup() {
     $('#alertBoxBtn').hide();
 }
 
-function moodinfo() {
-    
-    var text = '<div class="moodtext1" style="text-align:left;">This is the current mood of the system. If the color is green, delta momentum is within limits, if not then red. it should not be red. ' +
-        'Currently the mood is controlled by a MoodGenerator(changes every 10 seconds or so), this should be replaced with user input like: Pinch and Tickle. <br /> <br />' +
-        'Delta momentum is converted, like so: <br />' +
-        'GENERAL limits: 0.0 -> 1.0 <br />' +
-        'GOOD limits: 0.5 -> 1.0 <br />' +
-        'BAD limits: 0.0 -> 0.5 <br /> <br /></div>' +
+function popup_with_btn(txt) {
+    alertbox.render({
+        alertIcon: 'info',
+        title: 'INFO',
+        message: txt,
+        btnTitle: 'OK',
+        themeColor: '#F97316',
+        border: true,
+        btnColor: '#F97316',
+        //btnColor: true
+    });
 
-        '<div class="moodtext2 hidden" style="text-align:left;">This is the current mood of the system. If the color is green, delta momentum is within limits, if not then red. it should not be red. ' +
+    //$('#alertBoxBtn').hide();
+}
+
+function popup_mood() {
+    
+    var text = '<div class="moodtext1" style="text-align:left;">This is the current mood of the system. If the color is green, momentum is within limits, if not then red. it should not be red. ' +
+        'Currently the mood is controlled by a MoodGenerator(changes every 10 seconds or so), this should be replaced with user input like: Pinch and Tickle. <br /> <br />' +
+        'Momentum is normalized, like so: <br />' +
+        'GENERAL limits: 0 -> 100 <br />' +
+        'GOOD limits: 50 -> 100 <br />' +
+        'BAD limits: 0 -> 50 <br /> <br /></div>' +
+
+        '<div class="moodtext2 hidden" style="text-align:left;">This is the current mood of the system. If the color is green, momentum is within limits, if not then red. it should not be red. ' +
         'Currently the mood is controlled by a MoodGenerator(changes every 10 seconds or so), this should be replaced with user input like: Pinch and Tickle. <br /> <br />';
 
     alertbox.render({

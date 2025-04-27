@@ -2,6 +2,12 @@
 
 var room = 'room1';
 var connection = new signalR.HubConnectionBuilder().withUrl("/roomhub").build();
+connection.start().then(function () {
+    is_busy = false;
+}).catch(function (err) {
+    return console.error(err.toString());
+});
+
 const myChart1 = new Chart(document.getElementById('myChart1'), {
     type: "bar",
     data: {
@@ -62,6 +68,87 @@ const myChart2 = new Chart(document.getElementById('myChart2'), {
     }
 });
 
+const mylabels1 = ['l1', 'l2', 'l3', 'l4', 'l5', 'l6', 'l7', 'l8', 'l9', 'l10'];
+const mylabels2 = ['l1', 'l2', 'l3', 'l4', 'l5', 'l6', 'l7', 'l8', 'l9', 'l10'];
+
+const config1 = new Chart(document.getElementById('chartmood1'), {
+    type: 'line',
+    data: {
+        labels: mylabels1,
+        datasets: [{
+            label: 'Momentum (normalized 10->90)',
+            data: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50],
+            fill: false,
+            borderColor: 'orange',
+            tension: 0.1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                position: 'right', // <-- this moves the y-axis to the right
+                ticks: {
+                    max: 100,
+                    min: 0
+                }
+            }]
+        }
+    }
+});
+
+const config2 = new Chart(document.getElementById('chartmood2'), {
+    type: 'line',
+    data: {
+        labels: mylabels2,
+        datasets: [{
+            label: 'Momentum (normalized 10->90)',
+            data: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50],
+            fill: false,
+            borderColor: 'orange',
+            tension: 0.1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                position: 'right', // <-- this moves the y-axis to the right
+                ticks: {
+                    max: 100,
+                    min: 0
+                }
+            }]
+        }        
+    }
+});
+
+
+
+//document.getElementById("joinButtonID").addEventListener("click", function (event) {
+
+//    //alert('server_running: ' + server_running);
+
+//    if (is_busy)
+//        return;
+
+//    if (is_running)
+//        return;
+
+//    is_busy = true;
+//    first_run = true;
+
+//    popup();
+
+//    connection.invoke("Start").catch(function (err) {
+//        return console.error(err.toString());
+//    });
+
+//    setTimeout(mypopup, 10000);
+
+//    event.preventDefault();
+
+//    onConnect();
+//});
+
 $(document).ready(function () {
 
     //mytimer();
@@ -74,21 +161,31 @@ $(document).ready(function () {
         if (is_busy)
             return;
 
-        if (is_running)
+        if (is_running) {
+            popup_with_btn('Already running..');
             return;
+        }
 
         is_busy = true;
+        first_run = true;
+        
+        popup_no_btn('Starting app..');
+        setTimeout(close_popup_no_btn, 10000);
 
-        //$("#overlay2").fadeIn(300);
-        popup();
+        connection.invoke("Start").catch(function (err) {
+            popup_with_btn('Sorry, something went wrong.');
+            return console.error(err.toString());
+        });
 
-        connection.start();
         event.preventDefault();
 
-        onConnect();
+        if (first_load)
+            setTimeout(onConnect, 2000);
 
-        setTimeout(mycrashed, 3000);
-        setTimeout(mypopup, 10000);
+        first_load = false;
+
+        //connection.start();
+        //setTimeout(mycrashed, 3000);
     });    
 });
 
@@ -96,6 +193,8 @@ var server_running = false;
 
 var is_busy = false;
 var is_running = false;
+var first_run = false;
+var first_load = true;
 var total_curr = 'xxxx';
 var total_prev = 'xxxx';
 
@@ -106,33 +205,34 @@ function mytimer() {
     is_running = total_curr != total_prev;
 }
 
-function mypopup() {
+function close_popup_no_btn() {
 
     $('#alertoverlay').hide();
     $('#alertbox').hide();
-    //$("#overlay2").fadeOut(100);
-    is_busy = false;
-}
-
-function mycrashed() {
     
-    if (is_running)
-        return;
-
-    if (server_running)
-        return;
-
-    connection = new signalR.HubConnectionBuilder().withUrl("/roomhub").build();
-
-    connection.start().then(function () {
-        connection.invoke("Start").catch(function (err) {
-            return console.error(err.toString());
-        });
-    });
-    //event.preventDefault();
-
-    onConnect();    
+    is_busy = false;
+    first_run = false;
 }
+
+//function mycrashed() {
+    
+//    if (is_running)
+//        return;
+
+//    if (server_running)
+//        return;
+
+//    connection = new signalR.HubConnectionBuilder().withUrl("/roomhub").build();
+
+//    connection.start().then(function () {
+//        connection.invoke("Start").catch(function (err) {
+//            return console.error(err.toString());
+//        });
+//    });
+//    //event.preventDefault();
+
+//    onConnect();    
+//}
 
 function room1() {
     
@@ -156,6 +256,9 @@ function room1() {
     $('#messageDiv').text('inner monologue.. (press view)');
     $('#dot1Span').text('xxxx');
     $('#dot2Span').text('xxxx');
+
+    $(".mychartmood2").hide();
+    $(".mychartmood1").show();
 
     $("#overlay").fadeOut(100);
 }
@@ -182,7 +285,9 @@ function room2() {
     $('#messageDiv').text('inner monologue.. (press view)');
     $('#dot1Span').text('xxxx');
     $('#dot2Span').text('xxxx');
-    
+
+    $(".mychartmood1").hide();
+    $(".mychartmood2").show();
 
     $("#overlay").fadeOut(100);    
 }
@@ -311,12 +416,12 @@ function myinfo2(whistle, occu, location, loc_state) {
 
 }
 
-function mymood(mood, moodOK) {
+function mymood1(mood, moodOK, mom) {
 
     ///alert(mood + ' ' + moodOK);
 
-    $("#moodSpan").text(`${mood.replace("MOOD", "") }`);
-    
+    $("#moodSpan").text(`${mood.replace("MOOD", "")}`);
+
     if (moodOK) {
         $("#moodSpan").addClass("i-color-green");
         $("#moodSpan").removeClass("i-color-red");
@@ -325,6 +430,26 @@ function mymood(mood, moodOK) {
         $("#moodSpan").addClass("i-color-red");
         $("#moodSpan").removeClass("i-color-green");
     }
+
+    mymoodgraph1(mom);
+}
+
+function mymood2(mood, moodOK, mom) {
+
+    ///alert(mood + ' ' + moodOK);
+
+    $("#moodSpan").text(`${mood.replace("MOOD", "")}`);
+
+    if (moodOK) {
+        $("#moodSpan").addClass("i-color-green");
+        $("#moodSpan").removeClass("i-color-red");
+    }
+    else {
+        $("#moodSpan").addClass("i-color-red");
+        $("#moodSpan").removeClass("i-color-green");
+    }
+
+    mymoodgraph2(mom);
 }
 
 function mymessage(message, dot1, dot2, subject) {
@@ -386,16 +511,16 @@ function onConnect() {
     });
 
 
-    connection.on("MIND1MoodReceive1", function (mood, moodOK) {
+    connection.on("MIND1MoodReceive1", function (mood, moodOK, mom) {
 
         if (room == 'room1')
-            mymood(mood, moodOK);
+            mymood1(mood, moodOK, mom);
     });
 
-    connection.on("MIND2MoodReceive1", function (mood, moodOK) {
+    connection.on("MIND2MoodReceive1", function (mood, moodOK, mom) {
 
         if (room == 'room2')
-            mymood(mood, moodOK);
+            mymood2(mood, moodOK, mom);
     });
 
 
@@ -444,8 +569,7 @@ function onConnect() {
             mygraph2(_labs, _lab, _value, _lab_reset, _value_reset, _col);
 
 
-    });
-
+    });    
 }
 
 function mygraph1(_labs, _lab, _value, _lab_reset, _value_reset, _col) {
@@ -524,8 +648,59 @@ function mygraph2(_labs, _lab, _value, _lab_reset, _value_reset, _col) {
     //alert('graph');
 }
 
+var data1 = [];
+function mymoodgraph1(mom) {
 
-//Disable the send button until connection is established.
+    var labs = ['l1', 'l2', 'l3', 'l4', 'l5', 'l6', 'l7', 'l8', 'l9', 'l10'];
+
+    if (first_run)
+        config1.data.datasets[0].data = [50, 50, 50, 50, 50, 50, 50, 50, 50, 50];
+
+    data1 = [];
+    var data_tmp = config1.data.datasets[0].data;
+
+    var i = 1;
+    for (; i < 10; i++) {
+        data1.push(data_tmp[i]);
+    }
+
+    data1.push(mom);
+
+    config1.data.labels = labs;
+    config1.data.datasets[0].data = data1;
+
+    config1.update();
+    //alert('hep1');
+}
+
+var data2 = [];
+function mymoodgraph2(mom) {
+
+    var labs = ['l1', 'l2', 'l3', 'l4', 'l5', 'l6', 'l7', 'l8', 'l9', 'l10'];
+
+    if (first_run)
+        config2.data.datasets[0].data = [50, 50, 50, 50, 50, 50, 50, 50, 50, 50];
+
+    data2 = [];
+    var data_tmp = config2.data.datasets[0].data;
+
+    var i = 1;
+    for (; i < 10; i++) {
+        data2.push(data_tmp[i]);
+        //data2.push(getRandomInt(0, 100));
+    }
+
+    data2.push(mom);
+
+    config2.data.labels = labs;
+    config2.data.datasets[0].data = data2;
+
+    config2.update();
+    //alert('hep2: ' + mom);
+}
+
+
+////Disable the send button until connection is established.
 //document.getElementById("joinButton").disabled = true;
 
 //connection.start().then(function () {
@@ -536,8 +711,8 @@ function mygraph2(_labs, _lab, _value, _lab_reset, _value_reset, _col) {
 
 //document.getElementById("joinButton").addEventListener("click", function (event) {
 
-//    //connection.invoke("Start").catch(function (err) {
-//    //    return console.error(err.toString());
-//    //});
+//    connection.invoke("Start").catch(function (err) {
+//        return console.error(err.toString());
+//    });
 //    event.preventDefault();
 //});

@@ -66,7 +66,7 @@
     <div class="hidden md:block relative ">
         <div class="absolute w-full bottom-0 px-4">
         <span id="" class="text-gray-50">press 'join' to start app..</span>
-        <span id="" class="joinButton cursor-pointer xmr-4 i-color-orange float-right" title="This will start the app and let it run for about 5 minutes">join</span>
+        <span id="joinButtonID" class="joinButton cursor-pointer xmr-4 i-color-orange float-right" title="This will start the app and let it run for about 5 minutes">join</span>
         <span id="" class="cursor-pointer mr-10 i-color-orange float-right">   </span>
         <span id="" class="hideSpan cursor-pointer mr-4 i-color-green float-right">view</span>
         <span id="" class="cursor-pointer mr-10 i-color-green float-right">   </span>
@@ -286,14 +286,12 @@
                 </div>
             </div>
             <br />
-            <span class="text-gray-400">
-            This is the current mood of the system. If the color is green, delta momentum is within limits, if not then red. it should not be red. 
-            Currently the mood is controlled by a MoodGenerator (changes every 10 seconds or so), this should be replaced with user input like: Pinch and Tickle. <br /><br />
-            Delta momentum is converted, like so:<br />
-            GENERAL limits: 0.0 -> 1.0<br />
-            GOOD limits: 0.5 -> 1.0<br />
-            BAD limits: 0.0 -> 0.5<br /><br />
-            </span>
+            <div class="mychartmood1 bg-neutral-900 border border-neutral-950 md:h-box1 p-4 md:mx-4 my-4  ">
+                <canvas id="chartmood1" class="w-full max-w-[900px] "></canvas>
+            </div>
+            <div class="mychartmood2 bg-neutral-900 border border-neutral-950 md:h-box1 p-4 md:mx-4 my-4 hidden">
+                <canvas id="chartmood2" class="w-full max-w-[900px]"></canvas>
+            </div>
             <br />
         </div>
     </div>

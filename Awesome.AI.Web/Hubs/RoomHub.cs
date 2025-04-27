@@ -654,19 +654,20 @@ namespace Awesome.AI.Web.Hubs
 
                     string mood = ("" + inst.mind._out.mood);
                     bool moodOK = inst.mind._out.moodOK;
-                    
+                    double mood_mom = inst.mind._out.mood_mom;
+
                     int user_count = UserHelper.CountUsers();
 
                     if (user_count > users_count || IsDebug())
                     {
                         if (inst.type == MINDS.ROBERTA)
                         {
-                            await Clients.All.SendAsync("MIND1MoodReceive1", mood, moodOK);
+                            await Clients.All.SendAsync("MIND1MoodReceive1", mood, moodOK, mood_mom);
                         }
 
                         if (inst.type == MINDS.ANDREW)
                         {
-                            await Clients.All.SendAsync("MIND2MoodReceive1", mood, moodOK);
+                            await Clients.All.SendAsync("MIND2MoodReceive1", mood, moodOK, mood_mom);
                         }
                     }
                 }
