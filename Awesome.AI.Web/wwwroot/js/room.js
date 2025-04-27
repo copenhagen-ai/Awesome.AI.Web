@@ -349,11 +349,11 @@ function myinfo1(epochs, runtime, momentum, dmomentum, cycles, pain, position, r
 
     if (going_down == 'NO') {
         div11.classList.remove("text-red-500");
-        div11.classList.add("i-color-green");
+        div11.classList.add("text-green-500");
     }
     else {
         div11.classList.add("text-red-500");
-        div11.classList.remove("i-color-green");
+        div11.classList.remove("text-green-500");
     }
 
     if (parseFloat(pain) > 1.0) {
@@ -370,12 +370,12 @@ function myinfo1(epochs, runtime, momentum, dmomentum, cycles, pain, position, r
         div1.classList.remove("text-red-500");
     }
 
-    if (chat_state == 'thinking') {
-        div12.classList.add("i-color-red");
-    }
-    else {
-        div12.classList.remove("i-color-red");
-    }
+    //if (chat_state == 'thinking') {
+    //    div12.classList.add("i-color-red");
+    //}
+    //else {
+    //    div12.classList.remove("i-color-red");
+    //}
 }
 
 
@@ -399,19 +399,19 @@ function myinfo2(whistle, occu, location, loc_state) {
     div4.textContent = `${whistle}`;
 
     if (whistle.indexOf("?") >= 0) {
-        div4.classList.remove("i-color-green");
+        div4.classList.remove("text-green-500");
     }
     else {
-        div4.classList.add("i-color-green");
+        div4.classList.add("text-green-500");
     }
 
     if (loc_state == 'making a decision') {
-        div2a.classList.add("i-color-green");
-        div3a.classList.add("i-color-green");
+        div2a.classList.add("text-green-500");
+        div3a.classList.add("text-green-500");
     }
     else {
-        div2a.classList.remove("i-color-green");
-        div3a.classList.remove("i-color-green");
+        div2a.classList.remove("text-green-500");
+        div3a.classList.remove("text-green-500");
     }
 
 }
@@ -423,12 +423,12 @@ function mymood1(mood, moodOK, mom) {
     $("#moodSpan").text(`${mood.replace("MOOD", "")}`);
 
     if (moodOK) {
-        $("#moodSpan").addClass("i-color-green");
+        $("#moodSpan").addClass("text-green-500");
         $("#moodSpan").removeClass("text-red-500");
     }
     else {
         $("#moodSpan").addClass("text-red-500");
-        $("#moodSpan").removeClass("i-color-green");
+        $("#moodSpan").removeClass("text-green-500");
     }
 
     mymoodgraph1(mom);
@@ -441,12 +441,12 @@ function mymood2(mood, moodOK, mom) {
     $("#moodSpan").text(`${mood.replace("MOOD", "")}`);
 
     if (moodOK) {
-        $("#moodSpan").addClass("i-color-green");
+        $("#moodSpan").addClass("text-green-500");
         $("#moodSpan").removeClass("text-red-500");
     }
     else {
         $("#moodSpan").addClass("text-red-500");
-        $("#moodSpan").removeClass("i-color-green");
+        $("#moodSpan").removeClass("text-green-500");
     }
 
     mymoodgraph2(mom);

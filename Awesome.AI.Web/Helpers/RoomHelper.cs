@@ -209,6 +209,7 @@ namespace Awesome.AI.Web.Helpers
 
             json = json.Replace("sure i understand lets give it a try resulting sentence", "");
             json = json.Replace("sure i understand lets begin", "");
+            json = json.Replace("sure i understand the game lets start", "");
             
             json = json.Replace("sure heres a resulting sentence", "");
             json = json.Replace("sure heres the resulting sentence", "");
@@ -252,7 +253,8 @@ namespace Awesome.AI.Web.Helpers
             
             json = json.Replace("sure lets play this game heres", "");
             json = json.Replace("sure id love to play the game with you here is", "");
-            
+
+
 
 
 

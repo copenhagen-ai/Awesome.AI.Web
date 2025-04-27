@@ -10,6 +10,10 @@ $(document).ready(function () {
     $('.moodinfo').click(function () {
         popup_mood();
     });
+
+    $('.chatinfo').click(function () {
+        popup_chat();
+    });
     
     $(".hideSpan").click(function () {
         isHidden = !isHidden;
@@ -125,15 +129,15 @@ function popup_with_btn(txt) {
 }
 
 function popup_mood() {
-    
-    var text = '<div class="moodtext1" style="text-align:left;">This is the current mood of the system. If the color is green, momentum is within limits, if not then red. it should not be red. ' +
+
+    var text = '<div class="moodtext1 float-left">This is the current mood of the system. If the color is green, momentum is within limits, if not then red. it should not be red. ' +
         'Currently the mood is controlled by a MoodGenerator(changes every 10 seconds or so), this should be replaced with user input like: Pinch and Tickle. <br /> <br />' +
         'Momentum is normalized, like so: <br />' +
         'GENERAL limits: 0 -> 100 <br />' +
         'GOOD limits: 50 -> 100 <br />' +
         'BAD limits: 0 -> 50 <br /> <br /></div>' +
 
-        '<div class="moodtext2 hidden" style="text-align:left;">This is the current mood of the system. If the color is green, momentum is within limits, if not then red. it should not be red. ' +
+        '<div class="moodtext2 hidden float-left">This is the current mood of the system. If the color is green, momentum is within limits, if not then red. it should not be red. ' +
         'Currently the mood is controlled by a MoodGenerator(changes every 10 seconds or so), this should be replaced with user input like: Pinch and Tickle. <br /> <br />';
 
     alertbox.render({
@@ -149,18 +153,33 @@ function popup_mood() {
     const style = document.createElement('style');
     style.innerHTML =
         '@media (max-width: 768px) {' +
-            '.sa-info {' +
-                'display: none !important;' +
-            '}' +
-            '.moodtext1 {' +
-                'display: none !important;' +
-            '}' +
-            '.moodtext2 {' +
-                'display: block !important;' +
-            '}' +
+        '.sa-info {' +
+        'display: none !important;' +
+        '}' +
+        '.moodtext1 {' +
+        'display: none !important;' +
+        '}' +
+        '.moodtext2 {' +
+        'display: block !important;' +
+        '}' +
         '}';
     document.head.appendChild(style);
     //$('#alertBoxBtn').hide();
+}
+
+function popup_chat() {
+
+    var text = '<span class="">Chat is very buggy.</span>';
+
+    alertbox.render({
+        alertIcon: 'info',
+        title: 'INFO',
+        message: text,
+        btnTitle: 'OK',
+        themeColor: '#60B2FD',
+        border: true,
+        btnColor: '#60B2FD',
+    });
 }
 
 var server_count = 0;
@@ -185,8 +204,15 @@ function server_check() {
             var viewers = val.viewers;
             server_running = val.server_running;
 
-            if (server_running)
+            if (server_running) {
+                $('.servrun').addClass('text-green-500');
+                $('.servrun').removeClass('text-red-500');
                 $('.serverrunning').text(server_count + ']');
+            }
+            else {
+                $('.servrun').addClass('text-red-500');
+                $('.servrun').removeClass('text-green-500');
+            }
 
             $('.viewersDiv').text(`viewers today: ${viewers}`);
         }
