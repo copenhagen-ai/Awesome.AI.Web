@@ -163,6 +163,7 @@ function popup_mood() {
     //$('#alertBoxBtn').hide();
 }
 
+var server_count = 0;
 function server_check() {
 
     var data = { "value": "some value" };
@@ -177,8 +178,15 @@ function server_check() {
         dataType: 'json',
         success: function (val) {
 
+            server_count++;
+            if (server_count > 10)
+                server_count = 1;
+
             var viewers = val.viewers;
             server_running = val.server_running;
+
+            if (server_running)
+                $('.serverrunning').text(server_count + ']');
 
             $('.viewersDiv').text(`viewers today: ${viewers}`);
         }
