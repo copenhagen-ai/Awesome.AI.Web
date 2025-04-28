@@ -78,13 +78,21 @@ const config1 = new Chart(document.getElementById('chartmood1'), {
     type: 'line',
     data: {
         labels: mylabels1,
-        datasets: [{
-            label: 'Momentum (normalized 10->90)',
-            data: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50],
-            fill: false,
-            borderColor: '#15803D',
-            tension: 0.1
-        }]
+        datasets: [
+            {
+                label: 'Momentum (normalized 10->90)',
+                data: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50],
+                fill: false,
+                borderColor: '#15803D',
+                tension: 0.1
+            },
+            {
+                label: 'Noise (normalized 10->90)',
+                data: [40, 40, 40, 40, 40, 40, 40, 40, 40, 40],
+                fill: false,
+                borderColor: '#303030',
+                tension: 0.1
+            }]
     },
     options: {
         scales: {
@@ -103,13 +111,21 @@ const config2 = new Chart(document.getElementById('chartmood2'), {
     type: 'line',
     data: {
         labels: mylabels2,
-        datasets: [{
-            label: 'Momentum (normalized 10->90)',
-            data: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50],
-            fill: false,
-            borderColor: '#15803D',
-            tension: 0.1
-        }]
+        datasets: [
+            {
+                label: 'Momentum (normalized 10->90)',
+                data: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50],
+                fill: false,
+                borderColor: '#15803D',
+                tension: 0.1
+            },
+            {
+                label: 'Noise (normalized 10->90)',
+                data: [40, 40, 40, 40, 40, 40, 40, 40, 40, 40],
+                fill: false,
+                borderColor: '#303030',
+                tension: 0.1
+            }]
     },
     options: {
         scales: {
@@ -429,7 +445,7 @@ function myinfo2(whistle, occu, location, loc_state) {
 
 }
 
-function mymood1(mood, moodOK, mom) {
+function mymood1(mood, moodOK, mom, noise) {
 
     ///alert(mood + ' ' + moodOK);
 
@@ -444,10 +460,10 @@ function mymood1(mood, moodOK, mom) {
         $("#moodSpan").removeClass("text-green-500");
     }
 
-    mymoodgraph1(mom);
+    mymoodgraph1(mom, noise);
 }
 
-function mymood2(mood, moodOK, mom) {
+function mymood2(mood, moodOK, mom, noise) {
 
     ///alert(mood + ' ' + moodOK);
 
@@ -462,7 +478,7 @@ function mymood2(mood, moodOK, mom) {
         $("#moodSpan").removeClass("text-green-500");
     }
 
-    mymoodgraph2(mom);
+    mymoodgraph2(mom, noise);
 }
 
 function mymessage(message, dot1, dot2, subject) {
@@ -524,16 +540,16 @@ function onConnect() {
     });
 
 
-    connection.on("MIND1MoodReceive1", function (mood, moodOK, mom) {
+    connection.on("MIND1MoodReceive1", function (mood, moodOK, mom, noise) {
 
         if (room == 'room1')
-            mymood1(mood, moodOK, mom);
+            mymood1(mood, moodOK, mom, noise);
     });
 
-    connection.on("MIND2MoodReceive1", function (mood, moodOK, mom) {
+    connection.on("MIND2MoodReceive1", function (mood, moodOK, mom, noise) {
 
         if (room == 'room2')
-            mymood2(mood, moodOK, mom);
+            mymood2(mood, moodOK, mom, noise);
     });
 
 
@@ -661,52 +677,68 @@ function mygraph2(_labs, _lab, _value, _lab_reset, _value_reset, _col) {
     //alert('graph');
 }
 
-var data1 = [];
-function mymoodgraph1(mom) {
+var data11 = [];
+var data12 = [];
+function mymoodgraph1(mom, noise) {
 
     var labs = ['l1', 'l2', 'l3', 'l4', 'l5', 'l6', 'l7', 'l8', 'l9', 'l10'];
 
-    if (first_run)
+    if (first_run) {
         config1.data.datasets[0].data = [50, 50, 50, 50, 50, 50, 50, 50, 50, 50];
+        config1.data.datasets[1].data = [40, 40, 40, 40, 40, 40, 40, 40, 40, 40];
+    }
 
-    data1 = [];
-    var data_tmp = config1.data.datasets[0].data;
+    data11 = [];
+    data12 = [];
+    var data_tmp1 = config1.data.datasets[0].data;
+    var data_tmp2 = config1.data.datasets[1].data;
 
     var i = 1;
     for (; i < 10; i++) {
-        data1.push(data_tmp[i]);
+        data11.push(data_tmp1[i]);
+        data12.push(data_tmp2[i]);
     }
 
-    data1.push(mom);
+    data11.push(mom);
+    data12.push(noise);
 
     config1.data.labels = labs;
-    config1.data.datasets[0].data = data1;
+    config1.data.datasets[0].data = data11;
+    config1.data.datasets[1].data = data12;
 
     config1.update();
     //alert('hep1');
 }
 
-var data2 = [];
-function mymoodgraph2(mom) {
+var data21 = [];
+var data22 = [];
+function mymoodgraph2(mom, noise) {
 
     var labs = ['l1', 'l2', 'l3', 'l4', 'l5', 'l6', 'l7', 'l8', 'l9', 'l10'];
 
-    if (first_run)
+    if (first_run) {
         config2.data.datasets[0].data = [50, 50, 50, 50, 50, 50, 50, 50, 50, 50];
+        config2.data.datasets[1].data = [40, 40, 40, 40, 40, 40, 40, 40, 40, 40];
+    }
 
-    data2 = [];
-    var data_tmp = config2.data.datasets[0].data;
+    data21 = [];
+    data22 = [];
+    var data_tmp1 = config2.data.datasets[0].data;
+    var data_tmp2 = config2.data.datasets[1].data;
 
     var i = 1;
     for (; i < 10; i++) {
-        data2.push(data_tmp[i]);
+        data21.push(data_tmp1[i]);
+        data22.push(data_tmp2[i]);
         //data2.push(getRandomInt(0, 100));
     }
 
-    data2.push(mom);
+    data21.push(mom);
+    data22.push(noise);
 
     config2.data.labels = labs;
-    config2.data.datasets[0].data = data2;
+    config2.data.datasets[0].data = data21;
+    config2.data.datasets[1].data = data22;
 
     config2.update();
     //alert('hep2: ' + mom);
