@@ -131,7 +131,7 @@ namespace Awesome.AI.Core.Mechanics
             double beta = 0.02d;                // Friction coefficient
             double dt = 0.1d;                   // Time step (s)
             double eta = 0.5d;                  // Random noise amplitude for wind force
-            double m = 0.15d;                    // Ball mass (kg)
+            double m = 0.35d;                    // Ball mass (kg)
 
             double t = cycles * dt;
 

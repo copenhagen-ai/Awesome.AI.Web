@@ -17,7 +17,7 @@ const myChart1 = new Chart(document.getElementById('myChart1'), {
         labels: mylbls1,
         datasets: [{
             label: 'Real-time Data',
-            backgroundColor: [],
+            backgroundColor: '#15803D',
             data: []
         }]
     },
@@ -47,7 +47,7 @@ const myChart2 = new Chart(document.getElementById('myChart2'), {
         labels: mylbls2,
         datasets: [{
             label: 'Real-time Data',
-            backgroundColor: [],
+            backgroundColor: '#15803D',
             data: []
         }]
     },
@@ -173,6 +173,8 @@ $(document).ready(function () {
     //mytimer();
     setInterval(mytimer, 5000);
 
+    setupDiagrams();
+
     $(".joinButton").click(function (event) {
 
         //alert('server_running: ' + server_running);
@@ -192,7 +194,7 @@ $(document).ready(function () {
         setTimeout(close_popup_no_btn, 10000);
 
         connection.invoke("Start").catch(function (err) {
-            popup_with_btn('Sorry, something went wrong.');
+            popup_with_btn('Sorry, something went wrong.<br />Try and refresh the page.');
             return console.error(err.toString());
         });
 
@@ -203,16 +205,14 @@ $(document).ready(function () {
 
         first_load = false;
 
-        myChart1.data.labels = [];
-        myChart1.data.datasets[0].label = 'Real-time Data';
-        myChart1.data.datasets[0].data = [];
-        myChart1.data.datasets[0].backgroundColor = [];
-
-        myChart2.data.labels = [];
-        myChart2.data.datasets[0].label = 'Real-time Data';
-        myChart2.data.datasets[0].data = [];
-        myChart2.data.datasets[0].backgroundColor = [];
-
+        //myChart1.data.labels = [];
+        //myChart1.data.datasets[0].label = 'Real-time Data';
+        //myChart1.data.datasets[0].data = [];
+        
+        //myChart2.data.labels = [];
+        //myChart2.data.datasets[0].label = 'Real-time Data';
+        //myChart2.data.datasets[0].data = [];
+        
         //connection.start();
         //setTimeout(mycrashed, 3000);
     });    
@@ -244,7 +244,7 @@ function close_popup_no_btn() {
 }
 
 //function mycrashed() {
-    
+
 //    if (is_running)
 //        return;
 
@@ -260,23 +260,61 @@ function close_popup_no_btn() {
 //    });
 //    //event.preventDefault();
 
-//    onConnect();    
+//    onConnect();
 //}
 
-function room1() {
-    
-    $("#overlay").fadeIn(300);
-    
+var diagram_reset_room1 = false;
+var diagram_reset_room2 = false;
+function setupDiagrams() {
+
+    //myChart1.data.labels = [];
+    //myChart1.data.datasets[0].data = [];
+
+    //_labs.forEach((_l) => {
+    //    myChart1.data.labels.push(_l);
+    //    myChart1.data.datasets[0].data.push(10);
+    //});
+
+    //myChart2.data.labels = [];
+    //myChart2.data.datasets[0].data = [];
+
+    //_labs.forEach((_l) => {
+    //    myChart2.data.labels.push(_l);
+    //    myChart2.data.datasets[0].data.push(10);
+    //});
+
     myChart1.data.labels = mylbls1;
     myChart1.data.datasets[0].label = 'Real-time Data';
-    myChart1.data.datasets[0].data = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
-    myChart1.data.datasets[0].backgroundColor = [];
+    myChart1.data.datasets[0].data = [10, 10, 10, 10, 10, 10, 10, 10, 10, 10];
 
     myChart2.data.labels = mylbls2;
     myChart2.data.datasets[0].label = 'Real-time Data';
-    myChart2.data.datasets[0].data = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
-    myChart2.data.datasets[0].backgroundColor = [];
+    myChart2.data.datasets[0].data = [10, 10, 10, 10, 10, 10, 10, 10, 10, 10];
 
+    config1.data.labels = mylabels1;
+    config1.data.datasets[0].data = [50, 50, 50, 50, 50, 50, 50, 50, 50, 50];
+    config1.data.datasets[1].data = [40, 40, 40, 40, 40, 40, 40, 40, 40, 40];
+
+    config2.data.labels = mylabels2;
+    config2.data.datasets[0].data = [50, 50, 50, 50, 50, 50, 50, 50, 50, 50];
+    config2.data.datasets[1].data = [40, 40, 40, 40, 40, 40, 40, 40, 40, 40];
+
+    myChart1.update();
+    myChart2.update();
+
+    config1.update();
+    config2.update();
+
+    diagram_reset_room1 = true;
+    diagram_reset_room2 = true;
+}
+
+function room1() {
+    //alert('hep');
+    $("#overlay").fadeIn(300);
+    
+    setupDiagrams();
+    
     room = 'room1';
     $('.r1').text('[Roberta]');
     $('.r2').text('Andrew');
@@ -293,19 +331,11 @@ function room1() {
 }
 
 function room2() {
-    
+    //alert('hep');
     $("#overlay").fadeIn(300);
 
-    myChart1.data.labels = [];
-    myChart1.data.datasets[0].label = 'Real-time Data';
-    myChart1.data.datasets[0].data = [];
-    myChart1.data.datasets[0].backgroundColor = [];
-
-    myChart2.data.labels = [];
-    myChart2.data.datasets[0].label = 'Real-time Data';
-    myChart2.data.datasets[0].data = [];
-    myChart2.data.datasets[0].backgroundColor = [];
-
+    setupDiagrams();
+    
     room = 'room2';
     $('.r1').text('Roberta');
     $('.r2').text('[Andrew]');
@@ -611,18 +641,21 @@ function mygraph1(_labs, _lab, _value, _lab_reset, _value_reset, _col) {
     var value_reset = _value_reset;
     var color = `${_col}`;
 
-    var count = 0;
-    myChart1.data.labels.forEach((_l) => {
-        count++;
-    });
+    //var count = 0;
+    //myChart1.data.labels.forEach((_l) => {
+    //    count++;
+    //});
 
-    if (count == 0) {
+    if (diagram_reset_room1) {
+        myChart1.data.labels = [];
+        myChart1.data.datasets[0].data = [];
+
         _labs.forEach((_l) => {
             myChart1.data.labels.push(_l);
             myChart1.data.datasets[0].data.push(0);
-            myChart1.data.datasets[0].backgroundColor.push('#15803D');
-            count++;
         });
+
+        diagram_reset_room1 = false;
     }
 
     var index = 0;
@@ -649,18 +682,21 @@ function mygraph2(_labs, _lab, _value, _lab_reset, _value_reset, _col) {
     var value_reset = _value_reset;
     var color = `${_col}`;
 
-    var count = 0;
-    myChart2.data.labels.forEach((_l) => {
-        count++;
-    });
+    //var count = 0;
+    //myChart2.data.labels.forEach((_l) => {
+    //    count++;
+    //});
 
-    if (count == 0) {
+    if (diagram_reset_room2) {
+        myChart2.data.labels = [];
+        myChart2.data.datasets[0].data = [];
+
         _labs.forEach((_l) => {
             myChart2.data.labels.push(_l);
             myChart2.data.datasets[0].data.push(0);
-            myChart2.data.datasets[0].backgroundColor.push('#15803D');
-            count++;
         });
+
+        diagram_reset_room2 = false;
     }
 
     var index = 0;

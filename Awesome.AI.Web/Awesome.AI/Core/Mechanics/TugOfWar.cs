@@ -123,8 +123,8 @@ namespace Awesome.AI.Core.Mechanics
             double Fmax = 5000.0d;                                              // Max oscillating force for F2
             double omega = 2 * Math.PI * 0.5;                                   // Frequency (0.5 Hz)
             double eta = 0.5d;                                                  // Randomness factor
-            double m1 = 800.0d;                                                 // Mass of Car 1 in kg
-            double m2 = 800.0d;                                                 // Mass of Car 2 in kg
+            double m1 = 300.0d;                                                 // Mass of Car 1 in kg
+            double m2 = 300.0d;                                                 // Mass of Car 2 in kg
             double totalMass = m1 + m2;
             double dt = 0.1d;                                                   // Time step (s)
 
@@ -241,7 +241,7 @@ namespace Awesome.AI.Core.Mechanics
             switch (pattern)
             {
                 case PATTERN.MOODGENERAL: return (Math.Sin(omega * t) + 1.0d) / 2.0d;
-                case PATTERN.MOODGOOD: return 0.55d + (Math.Sin(omega * t) + 1.0d) / 2.0d * 0.45d;
+                case PATTERN.MOODGOOD: return 0.6d + (Math.Sin(omega * t) + 1.0d) / 2.0d * 0.4d;
                 case PATTERN.MOODBAD: return (Math.Sin(omega * t) + 1.0d) / 2.0d * 0.4d;
                 default: throw new Exception("TugOfWar, Sine");
             }
