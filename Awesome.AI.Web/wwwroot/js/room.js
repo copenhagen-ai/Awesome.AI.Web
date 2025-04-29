@@ -194,7 +194,7 @@ $(document).ready(function () {
         setTimeout(close_popup_no_btn, 10000);
 
         connection.invoke("Start").catch(function (err) {
-            popup_with_btn('Sorry, something went wrong.<br />Try and refresh the page.');
+            popup_with_btn('Oops, something went wrong.<br />Try and refresh the page.');
             return console.error(err.toString());
         });
 
