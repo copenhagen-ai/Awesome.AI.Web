@@ -37,7 +37,7 @@
     </div>    
 </div>
 
-<div class="overflow-hidden grid grid-cols-1 lg:grid-cols-3">
+<div class="overflow-hidden grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
     <div class="lg:col-span-2">
         <h5 class="text-gray-50 md:px-4">INTRODUCTION</h5>
         <div class="text-gray-50 md:px-4">
@@ -49,8 +49,8 @@
     
 </div>
 
-<div class="overflow-hidden grid grid-cols-1 lg:grid-cols-3">
-    <div class="hidden md:block overflow-hidden ">
+<div class="overflow-hidden grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+    <div class="hidden xl:block overflow-hidden ">
         <div class="text-gray-50 md:px-4"></div>
         <div class="viewersDiv text-gray-50 md:px-4">viewers today: 0</div>
         <div class="text-gray-50 md:px-4">logic: <span>classic</span></div>
@@ -60,12 +60,12 @@
             <a id="xr1" class="r1 text-gray-50 float-left sm:float-right mr-4 hover:underline cursor-pointer" >[Roberta]</a>
         </div>
     </div>
-    <div class="hidden lg:block px-4">
+    <div class="hidden xl:block px-4">
         @* <h1 class="roomHeader text-gray-50 text-3xl sm:text-5xl font-bold">Roberta</h1> *@
     </div>
-    <div class="hidden md:block relative ">
+    <div class="hidden xl:block relative ">
         <div class="absolute w-full bottom-0 px-4">
-        <span id="" class="text-gray-50">press 'join' to start app..</span>
+        <span id="" class="text-gray-50">press 'join' to start..</span>
         <span id="joinButtonID" class="joinButton cursor-pointer xmr-4 text-green-500 float-right" title="This will start the app and let it run for about 5 minutes">join</span>
         <span id="" class="cursor-pointer mr-10 float-right">   </span>
         <span id="" class="hideSpan cursor-pointer mr-4 text-orange-500 float-right">view</span>
@@ -74,8 +74,8 @@
         <span id="" class="cursor-pointer mr-4 float-right">   </span>
         </div>
     </div>    
-    <div class="md:hidden w-full">
-        <div class="text-gray-50">press 'join' to start app..</div><br />
+    <div class="xl:hidden w-full">
+        <div class="text-gray-50 md:px-4">press 'join' to start..</div><br />
         <div class="text-gray-50 md:px-4"></div>
         <div class="viewersDiv text-gray-50 md:px-4">viewers today: 0</div>
         <div class="text-gray-50 md:px-4">logic: <span>classic</span></div>
@@ -97,7 +97,7 @@
 
 @* <div class="viewersDiv text-gray-50 ml-4 float-right overflow-hidden lg:hidden">viewers: 0</div> *@
 
-<div class="overflow-hidden grid grid-cols-1 lg:grid-cols-3">
+<div class="overflow-hidden grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
     <div class="bg-neutral-900 border border-neutral-950 text-neutral-600 overflow-hidden md:h-box1 p-4 md:mx-4 my-4">
         <div class="">
             <div class="">
@@ -285,11 +285,11 @@
                     <span class="text-gray-400" id="moodSpan">xxxx</span>
                 </div>
             </div>
-            
-            <div class="mychartmood1 bg-neutral-900 border border-neutral-950 md:h-box1 p-4 md:mx-4 my-4  ">
+            <br />
+            <div class="mychartmood1 bg-neutral-900 border border-neutral-950 xxmd:h-box1 p-4 ">
                 <canvas id="chartmood1" class="w-full max-w-[900px] "></canvas>
             </div>
-            <div class="mychartmood2 bg-neutral-900 border border-neutral-950 md:h-box1 p-4 md:mx-4 my-4 hidden">
+            <div class="mychartmood2 bg-neutral-900 border border-neutral-950 xxmd:h-box1 p-4 hidden">
                 <canvas id="chartmood2" class="w-full max-w-[900px]"></canvas>
             </div>
             <br />
@@ -302,7 +302,7 @@
 </div> *@
 
 
-<div class="overflow-hidden grid grid-cols-1 lg:grid-cols-3">
+<div class="overflow-hidden grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
     <div class="">
         <div class="bg-neutral-900 border border-neutral-950 text-neutral-600 overflow-hidden md:h-box1 p-4 md:mx-4 my-4">
             <div class="">
@@ -383,20 +383,36 @@
     </div>
 </div>
 
-<div class="overflow-hidden grid grid-cols-1 lg:grid-cols-3">
+<div class="overflow-hidden grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
     <div class="hidden md:block">
         <span id="" class="p-2 md:mx-4 my-4 text-gray-50 float-left">sort: </span>
         <span id="chartSpan" class="cursor-pointer p-2 md:mx-4 my-4 bg-neutral-900 text-gray-50 float-left">index</span>
     </div>    
 </div>
 
-<div class="overflow-hidden grid grid-cols-1 lg:grid-cols-3">
-    <div class="lg:col-span-2">
+<div class="overflow-hidden grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+    <div class="xl:col-span-2">
         <div class="chart1 bg-neutral-900 border border-neutral-950 md:h-box1 p-4 md:mx-4 my-4">
-            <canvas id="myChart1" class="w-full max-w-[900px] "></canvas>
+            <div class="">
+                <div class="">
+                    <div class="text-gray-50">DIAGRAM</div>
+                    <div class="i-filler-20"></div>
+                    <hr class="" />
+                    <div class="i-filler-20"></div>
+                </div>
+            </div>
+            <canvas id="myChart1" class="w-full max-w-[700px] "></canvas>
         </div>
         <div class="chart2 bg-neutral-900 border border-neutral-950 md:h-box1 p-4 md:mx-4 my-4 hidden ">
-            <canvas id="myChart2" class="w-full max-w-[900px]"></canvas>
+            <div class="">
+                <div class="">
+                    <div class="text-gray-50">DIAGRAM</div>
+                    <div class="i-filler-20"></div>
+                    <hr class="" />
+                    <div class="i-filler-20"></div>
+                </div>
+            </div>
+            <canvas id="myChart2" class="w-full max-w-[700px]"></canvas>
         </div>
     </div>
 
