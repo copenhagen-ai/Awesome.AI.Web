@@ -92,10 +92,13 @@ namespace Awesome.AI.Web.Helpers
             if (common == null)
                 throw new Exception("GPTGiveMeADot");
 
-            string subject = common.HUB.subject;
+            string subject = common.HUB?.subject;
+
+            if (subject == null)
+                return null;
 
             if (CONST.deci_subject.Contains(subject))
-                return "";
+                return null;
 
             string str = "" + common.Index;
             int dot = str.IndexOf(',');

@@ -427,14 +427,19 @@ namespace Awesome.AI.Web.Hubs
                         UNIT common = inst.mind._out.common_unit;
                         dot = helper.GPTGiveMeADot(inst, common);
 
-                        if (dot.IsNullOrEmpty()) {
+                        if (dot == null) {
                             wait1 = true;
                             continue;
                         }
 
                         dot = helper.Format1(dot);
-                        subject = common.HUB.subject.ToLower();
-                        
+                        subject = common.HUB?.subject;
+
+                        if (subject == null) {
+                            wait1 = true;
+                            continue;
+                        }
+
                         dots.Add(dot);
 
                         while (dots.Count > 2)
@@ -451,9 +456,9 @@ namespace Awesome.AI.Web.Hubs
                             message = message.Replace(dot2, $"<span class=\"text-orange-500\">{dot2}</span>");
 
                             if (inst.type == MINDS.ROBERTA)
-                                await Clients.All.SendAsync("MIND1MessageReceive", message, dot1, dot2, subject);
+                                await Clients.All.SendAsync("MIND1MessageReceive", message, dot1, dot2, subject.ToLower());
                             if (inst.type == MINDS.ANDREW)
-                                await Clients.All.SendAsync("MIND2MessageReceive", message, dot1, dot2, subject);
+                                await Clients.All.SendAsync("MIND2MessageReceive", message, dot1, dot2, subject.ToLower());
                         }
 
                         //watch.Stop();

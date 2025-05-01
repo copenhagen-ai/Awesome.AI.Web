@@ -17,7 +17,7 @@ const myChart1 = new Chart(document.getElementById('myChart1'), {
         labels: mylbls1,
         datasets: [{
             label: 'Real-time Data',
-            backgroundColor: '#15803D',
+            backgroundColor: '#F96817',
             data: []
         }]
     },
@@ -47,7 +47,7 @@ const myChart2 = new Chart(document.getElementById('myChart2'), {
         labels: mylbls2,
         datasets: [{
             label: 'Real-time Data',
-            backgroundColor: '#15803D',
+            backgroundColor: '#F96817',
             data: []
         }]
     },
@@ -83,7 +83,7 @@ const config1 = new Chart(document.getElementById('chartmood1'), {
                 label: 'Momentum (normalized 10->90)',
                 data: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50],
                 fill: false,
-                borderColor: '#15803D',
+                borderColor: '#F96817',
                 tension: 0.1
             },
             {
@@ -116,7 +116,7 @@ const config2 = new Chart(document.getElementById('chartmood2'), {
                 label: 'Momentum (normalized 10->90)',
                 data: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50],
                 fill: false,
-                borderColor: '#15803D',
+                borderColor: '#F96817',
                 tension: 0.1
             },
             {
