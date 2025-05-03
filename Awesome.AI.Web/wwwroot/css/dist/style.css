@@ -534,10 +534,6 @@ video {
   --tw-backdrop-sepia:  ;
 }
 
-.static {
-  position: static;
-}
-
 .absolute {
   position: absolute;
 }
@@ -678,12 +674,12 @@ video {
   width: 100%;
 }
 
-.max-w-\[900px\] {
-  max-width: 900px;
-}
-
 .max-w-\[700px\] {
   max-width: 700px;
+}
+
+.max-w-\[900px\] {
+  max-width: 900px;
 }
 
 .grow {
@@ -788,6 +784,16 @@ video {
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+
+.bg-gray-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(107 114 128 / var(--tw-bg-opacity));
+}
+
+.bg-neutral-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(115 115 115 / var(--tw-bg-opacity));
 }
 
 .p-2 {
@@ -922,6 +928,11 @@ video {
 .text-yellow-200 {
   --tw-text-opacity: 1;
   color: rgb(254 240 138 / var(--tw-text-opacity));
+}
+
+.text-yellow-500 {
+  --tw-text-opacity: 1;
+  color: rgb(234 179 8 / var(--tw-text-opacity));
 }
 
 .opacity-50 {
@@ -1108,17 +1119,8 @@ video {
     margin-right: 50px;
   }
 
-  .md\:mx-0 {
-    margin-left: 0px;
-    margin-right: 0px;
-  }
-
   .md\:block {
     display: block;
-  }
-
-  .md\:hidden {
-    display: none;
   }
 
   .md\:h-box1 {
@@ -1129,16 +1131,21 @@ video {
     height: 240px;
   }
 
-  .md\:grid-cols-4 {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-
   .md\:grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .md\:grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
   .md\:p-0 {
     padding: 0px;
+  }
+
+  .md\:px-0 {
+    padding-left: 0px;
+    padding-right: 0px;
   }
 
   .md\:px-4 {
@@ -1149,11 +1156,6 @@ video {
   .md\:px-md {
     padding-left: 50px;
     padding-right: 50px;
-  }
-
-  .md\:px-0 {
-    padding-left: 0px;
-    padding-right: 0px;
   }
 }
 
@@ -1167,47 +1169,19 @@ video {
     margin-right: 100px;
   }
 
-  .lg\:mx-4 {
-    margin-left: 1rem;
-    margin-right: 1rem;
-  }
-
-  .lg\:block {
-    display: block;
-  }
-
   .lg\:hidden {
     display: none;
-  }
-
-  .lg\:grid-cols-3 {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .lg\:px-lg {
     padding-left: 100px;
     padding-right: 100px;
   }
-
-  .lg\:px-4 {
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
 }
 
 @media (min-width: 1280px) {
   .xl\:col-span-2 {
     grid-column: span 2 / span 2;
-  }
-
-  .xl\:mx-lg {
-    margin-left: 100px;
-    margin-right: 100px;
-  }
-
-  .xl\:mx-4 {
-    margin-left: 1rem;
-    margin-right: 1rem;
   }
 
   .xl\:mr-8 {
@@ -1228,16 +1202,6 @@ video {
 
   .xl\:grid-cols-3 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .xl\:px-lg {
-    padding-left: 100px;
-    padding-right: 100px;
-  }
-
-  .xl\:px-4 {
-    padding-left: 1rem;
-    padding-right: 1rem;
   }
 }
 

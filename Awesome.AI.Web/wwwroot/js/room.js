@@ -11,133 +11,141 @@ connection.start().then(function () {
 const mylbls1 = ['label1', 'label2', 'label3', 'label4', 'label5', 'label6', 'label7', 'label8', 'label9', 'label10'];
 const mylbls2 = ['label1', 'label2', 'label3', 'label4', 'label5', 'label6', 'label7', 'label8', 'label9', 'label10'];
 
-const myChart1 = new Chart(document.getElementById('myChart1'), {
-    type: "bar",
-    data: {
-        labels: mylbls1,
-        datasets: [{
-            label: 'Real-time Data',
-            backgroundColor: '#F96817',
-            data: []
-        }]
-    },
-    options: {
-        scales: {
-            xAxes: [{
-                ticks: {
-                    //autoSkip: false,
-                    maxRotation: 45,
-                    minRotation: 20
-
-                }
-            }],
-            yAxes: [{
-                ticks: {
-                    max: 30,
-                    min: 0
-                }
-            }]
-        }
-    }
-});
-
-const myChart2 = new Chart(document.getElementById('myChart2'), {
-    type: "bar",
-    data: {
-        labels: mylbls2,
-        datasets: [{
-            label: 'Real-time Data',
-            backgroundColor: '#F96817',
-            data: []
-        }]
-    },
-    options: {
-        scales: {
-            xAxes: [{
-                ticks: {
-                    //autoSkip: false,
-                    maxRotation: 45,
-                    minRotation: 20
-
-                }
-            }],
-            yAxes: [{
-                ticks: {
-                    max: 30,
-                    min: 0
-                }
-            }]
-        }
-    }
-});
-
 const mylabels1 = ['l1', 'l2', 'l3', 'l4', 'l5', 'l6', 'l7', 'l8', 'l9', 'l10'];
 const mylabels2 = ['l1', 'l2', 'l3', 'l4', 'l5', 'l6', 'l7', 'l8', 'l9', 'l10'];
 
-const config1 = new Chart(document.getElementById('chartmood1'), {
-    type: 'line',
-    data: {
-        labels: mylabels1,
-        datasets: [
-            {
-                label: 'Momentum (normalized 10->90)',
-                data: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50],
-                fill: false,
-                borderColor: '#F96817',
-                tension: 0.1
-            },
-            {
-                label: 'Noise (normalized 10->90)',
-                data: [40, 40, 40, 40, 40, 40, 40, 40, 40, 40],
-                fill: false,
-                borderColor: '#303030',
-                tension: 0.1
-            }]
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                position: 'right', // <-- this moves the y-axis to the right
-                ticks: {
-                    max: 100,
-                    min: 0
-                }
-            }]
-        }
-    }
-});
+var myChart1 = null;
+var myChart2 = null;
+var config1 = null;
+var config2 = null;
 
-const config2 = new Chart(document.getElementById('chartmood2'), {
-    type: 'line',
-    data: {
-        labels: mylabels2,
-        datasets: [
-            {
-                label: 'Momentum (normalized 10->90)',
-                data: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50],
-                fill: false,
-                borderColor: '#F96817',
-                tension: 0.1
-            },
-            {
-                label: 'Noise (normalized 10->90)',
-                data: [40, 40, 40, 40, 40, 40, 40, 40, 40, 40],
-                fill: false,
-                borderColor: '#303030',
-                tension: 0.1
+$(document).ready(function () {
+    myChart1 = new Chart(document.getElementById('myChart1'), {
+        type: "bar",
+        data: {
+            labels: mylbls1,
+            datasets: [{
+                label: 'Real-time Data',
+                backgroundColor: '#F0B100',
+                data: []
             }]
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                position: 'right', // <-- this moves the y-axis to the right
-                ticks: {
-                    max: 100,
-                    min: 0
-                }
+        },
+        options: {
+            scales: {
+                xAxes: [{
+                    ticks: {
+                        //autoSkip: false,
+                        maxRotation: 45,
+                        minRotation: 20
+
+                    }
+                }],
+                yAxes: [{
+                    ticks: {
+                        max: 30,
+                        min: 0
+                    }
+                }]
+            }
+        }
+    });
+
+    myChart2 = new Chart(document.getElementById('myChart2'), {
+        type: "bar",
+        data: {
+            labels: mylbls2,
+            datasets: [{
+                label: 'Real-time Data',
+                backgroundColor: '#F0B100',
+                data: []
             }]
-        }        
-    }
+        },
+        options: {
+            scales: {
+                xAxes: [{
+                    ticks: {
+                        //autoSkip: false,
+                        maxRotation: 45,
+                        minRotation: 20
+
+                    }
+                }],
+                yAxes: [{
+                    ticks: {
+                        max: 30,
+                        min: 0
+                    }
+                }]
+            }
+        }
+    });
+
+
+    config1 = new Chart(document.getElementById('chartmood1'), {
+        type: 'line',
+        data: {
+            labels: mylabels1,
+            datasets: [
+                {
+                    label: 'Momentum (normalized 10->90)',
+                    data: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50],
+                    fill: false,
+                    borderColor: '#F0B100',
+                    tension: 0.1
+                },
+                {
+                    label: 'Noise (normalized 10->90)',
+                    data: [40, 40, 40, 40, 40, 40, 40, 40, 40, 40],
+                    fill: false,
+                    borderColor: '#303030',
+                    tension: 0.1
+                }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    position: 'right', // <-- this moves the y-axis to the right
+                    ticks: {
+                        max: 100,
+                        min: 0
+                    }
+                }]
+            }
+        }
+    });
+
+    config2 = new Chart(document.getElementById('chartmood2'), {
+        type: 'line',
+        data: {
+            labels: mylabels2,
+            datasets: [
+                {
+                    label: 'Momentum (normalized 10->90)',
+                    data: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50],
+                    fill: false,
+                    borderColor: '#F0B100',
+                    tension: 0.1
+                },
+                {
+                    label: 'Noise (normalized 10->90)',
+                    data: [40, 40, 40, 40, 40, 40, 40, 40, 40, 40],
+                    fill: false,
+                    borderColor: '#303030',
+                    tension: 0.1
+                }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    position: 'right', // <-- this moves the y-axis to the right
+                    ticks: {
+                        max: 100,
+                        min: 0
+                    }
+                }]
+            }
+        }
+    });
 });
 
 

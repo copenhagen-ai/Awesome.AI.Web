@@ -5,7 +5,10 @@
 
 var isHidden = true;
 var showinfo = false;
+var isMobile = false;
 $(document).ready(function () {
+
+    isMobile = /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
     $('.moodinfo').click(function () {
         popup_mood();
@@ -182,6 +185,32 @@ function popup_chat() {
     });
 }
 
+function reload() {
+    //location.reload();
+
+    const url = new URL(window.location.href);
+    url.searchParams.set('v', Date.now());
+    window.location.replace(url.toString());
+}
+
+function popup_reload() {
+
+    var text = '<span class="">Reloading page...</span>';
+
+    alertbox.render({
+        alertIcon: 'info',
+        title: 'INFO',
+        message: text,
+        btnTitle: '',
+        themeColor: '#60B2FD',
+        border: true,        
+    });
+
+    $('#alertBoxBtn').hide();
+
+    setTimeout(reload, 2000);
+}
+
 var server_count = 0;
 function server_check() {
 
@@ -219,6 +248,7 @@ function server_check() {
     });
 }
 
+
 function viewer() {
 
     var data = { "value": "new user" };
@@ -233,7 +263,11 @@ function viewer() {
         dataType: 'json',
         success: function (val) {
 
-            var _val = val.ok;
+            var _val = val.ip_is_registered;
+
+            if (!_val) {
+                popup_reload();                
+            }
         }
     });
 }

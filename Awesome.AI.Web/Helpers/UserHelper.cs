@@ -21,13 +21,22 @@
             Users = Users.Where(x => x.Time > then).ToList();
         }
 
-        public static int CountUsers() 
+        public static int CountUsers()
         {
             Users ??= new List<User>();
 
-            int count = Users.Select(x=>x.Ip).Distinct().Count();
+            int count = Users.Select(x => x.Ip).Distinct().Count();
 
             return count;
+        }
+
+        public static bool CheckIP(string ip)
+        {
+            Users ??= new List<User>();
+
+            bool exists = Users.Any(x => x.Ip == ip);
+
+            return exists;
         }
 
         //private static bool IsRunning {  get; set; }
@@ -43,11 +52,11 @@
         //        Users ??= new List<User>();
 
         //        XmlHelper.WriteMessage("maintain users..");
-                
+
         //        int time = 1000 * 60 * 1;
-            
+
         //        await Task.Delay(800);
-                
+
         //        while (true)
         //        {
         //            DateTime now = DateTime.Now.AddHours(-24);

@@ -20,7 +20,7 @@ namespace Awesome.AI.Web.Api.Users
 
     public class PostResponce
     {
-        public string ok { get; set; }
+        public bool ip_is_registered { get; set; }
     }
 
     [Route("api/[controller]")]
@@ -64,20 +64,21 @@ namespace Awesome.AI.Web.Api.Users
                 var remoteIp = Request?.HttpContext?.Connection?.RemoteIpAddress?.ToString();
                 
                 if (remoteIp.IsNullOrEmpty())
-                    return new PostResponce();
+                    throw new Exception();
 
+                bool ip_is_registered = UserHelper.CheckIP(remoteIp);
                 UserHelper.AddUser(remoteIp);
                 UserCount = UserHelper.CountUsers();
 
                 PostResponce res = new PostResponce();
-                res.ok = "ok";
-            
+                res.ip_is_registered = ip_is_registered;
+                
                 return res;
             }
             catch (Exception _e)
             {
                 PostResponce res = new PostResponce();
-                res.ok = "not ok";
+                res.ip_is_registered = true;
 
                 return res;
             }
