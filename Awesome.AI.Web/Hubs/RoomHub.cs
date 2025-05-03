@@ -490,18 +490,15 @@ namespace Awesome.AI.Web.Hubs
                         await Task.Delay(1000);
 
                     string[] cycles = new string[] { inst.mind._out.cycles, inst.mind._out.cycles_total };
-                    
                     string momentum = ("" + inst.mind._out.momentum);
                     string deltaMom = ("" + inst.mind._out.deltaMom);
-
                     string pain = ("" + inst.mind._out.user_var).Length < 5 ? inst.mind._out.user_var : $"{inst.mind._out.user_var}"[..5];
                     string position = ("" + inst.mind._out.position).Length < 5 ? inst.mind._out.position : $"{inst.mind._out.position}"[..5];
-                    string[] ratio = new string[] { "" + inst.mind._out.ratio_yes_c, "" + inst.mind._out.ratio_no_c, "" + inst.mind._out.ratio_yes_n, "" + inst.mind._out.ratio_no_n };
+                    string[] ratio = new string[] { /*"" + inst.mind._out.ratio_yes_c, "" + inst.mind._out.ratio_no_c,*/ "" + inst.mind._out.ratio_yes_n, "" + inst.mind._out.ratio_no_n };
                     string going_down = inst.mind._out.going_down;
-                    string chat_state = inst.mind._out.chat_state;
-
                     string epochs = inst.mind._out.epochs;
                     string runtime = inst.mind._out.runtime;
+                    //string chat_state = inst.mind._out.chat_state;
                     //string occu = inst.mind._out.occu;
                     //string locationfinal = inst.mind._out.location;
                     //string loc_state = inst.mind._out.loc_state;
@@ -518,14 +515,14 @@ namespace Awesome.AI.Web.Hubs
                     {
                         if (inst.type == MINDS.ROBERTA)
                         {
-                            await Clients.All.SendAsync("MIND1InfoReceive1", epochs, runtime, momentum, deltaMom, cycles, pain, position, ratio, going_down, chat_state);
+                            await Clients.All.SendAsync("MIND1InfoReceive1", epochs, runtime, momentum, deltaMom, cycles, pain, position, ratio, going_down);
                             await Clients.All.SendAsync("MIND1GraphReceive", graph1.labels, graph1.curr_name, graph1.curr_value, graph1.reset_name, graph1.reset_value, graph1.bcol);
                             await Clients.All.SendAsync("MIND3GraphReceive", graph2.labels, graph2.curr_name, graph2.curr_value, graph2.reset_name, graph2.reset_value, graph2.bcol);
                         }
 
                         if (inst.type == MINDS.ANDREW)
                         {
-                            await Clients.All.SendAsync("MIND2InfoReceive1", epochs, runtime, momentum, deltaMom, cycles, pain, position, ratio, going_down, chat_state);
+                            await Clients.All.SendAsync("MIND2InfoReceive1", epochs, runtime, momentum, deltaMom, cycles, pain, position, ratio, going_down);
                             await Clients.All.SendAsync("MIND2GraphReceive", graph1.labels, graph1.curr_name, graph1.curr_value, graph1.reset_name, graph1.reset_value, graph1.bcol);
                             await Clients.All.SendAsync("MIND4GraphReceive", graph2.labels, graph2.curr_name, graph2.curr_value, graph2.reset_name, graph2.reset_value, graph2.bcol);
                         }

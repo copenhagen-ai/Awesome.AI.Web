@@ -374,7 +374,7 @@ function mychat1(ask) {
     $('.chatRes').html(`${tmp}`);
 }
 
-function myinfo1(epochs, runtime, momentum, dmomentum, cycles, pain, position, ratio, going_down, chat_state) {
+function myinfo1(epochs, runtime, momentum, dmomentum, cycles, pain, position, ratio, going_down) {
 
     //var div0 = document.getElementById("epochsSpan");
     var div1 = document.getElementById("epochsremainingSpan");
@@ -383,24 +383,14 @@ function myinfo1(epochs, runtime, momentum, dmomentum, cycles, pain, position, r
     var div4 = document.getElementById("cyclesSpan");
     var div5 = document.getElementById("totalSpan");
     var div6 = document.getElementById("positionSpan");
-    var div7 = document.getElementById("ratioYesSpan");
-    var div8 = document.getElementById("ratioNoSpan");
-    var div9 = document.getElementById("noiseYesSpan");
-    var div10 = document.getElementById("noiseNoSpan");
-    var div11 = document.getElementById("theDownSpan");
-    var div12 = document.getElementById("painSpan");
-    var div13 = document.getElementById("chatTitle");
-
-    // document.getElementById("messagesList").appendChild(li);
-    // We can assign user-supplied strings to an element's textContent because it
-    // is not interpreted as markup. If you're assigning in any other way, you
-    // should be aware of possible script injection concerns.
+    var div7 = document.getElementById("noiseYesSpan");
+    var div8 = document.getElementById("noiseNoSpan");
+    var div9 = document.getElementById("theDownSpan");
+    var div10 = document.getElementById("painSpan");
 
     var epochs_remaining = (runtime * 60) - epochs;
-    //var pain_out = parseFloat(pain) > 1.0 ? 'OUCH' : `${pain}`;
     var pain_out = `${pain}`;
 
-    //div0.textContent = `${epochs}`;
     div1.textContent = `${epochs_remaining}`;
     div2.textContent = `${momentum}`;
     div3.textContent = `${dmomentum}`;
@@ -409,25 +399,23 @@ function myinfo1(epochs, runtime, momentum, dmomentum, cycles, pain, position, r
     div6.textContent = `${position}`;
     div7.textContent = `${ratio[0]}`;
     div8.textContent = `${ratio[1]}`;
-    div9.textContent = `${ratio[2]}`;
-    div10.textContent = `${ratio[3]}`;
-    div11.textContent = `${going_down}`;
-    div12.textContent = `${pain_out}`;
+    div9.textContent = `${going_down}`;
+    div10.textContent = `${pain_out}`;
 
     if (going_down == 'NO') {
-        div11.classList.remove("text-red-500");
-        div11.classList.add("text-green-500");
+        div9.classList.remove("text-red-500");
+        div9.classList.add("text-green-500");
     }
     else {
-        div11.classList.add("text-red-500");
-        div11.classList.remove("text-green-500");
+        div9.classList.add("text-red-500");
+        div9.classList.remove("text-green-500");
     }
 
     if (parseFloat(pain) > 1.0) {
-        div12.classList.add("text-red-500");
+        div10.classList.add("text-red-500");
     }
     else {
-        div12.classList.remove("text-red-500");
+        div10.classList.remove("text-red-500");
     }
 
     if (epochs_remaining <= 2) {
@@ -553,16 +541,16 @@ function onConnect() {
 
 
 
-    connection.on("MIND1InfoReceive1", function (epochs, runtime, momentum, dmomentum, cycles, pain, position, ratio, going_down, chat_state) {
+    connection.on("MIND1InfoReceive1", function (epochs, runtime, momentum, dmomentum, cycles, pain, position, ratio, going_down) {
 
         if (room == 'room1')
-            myinfo1(epochs, runtime, momentum, dmomentum, cycles, pain, position, ratio, going_down, chat_state);
+            myinfo1(epochs, runtime, momentum, dmomentum, cycles, pain, position, ratio, going_down);
     });
 
-    connection.on("MIND2InfoReceive1", function (epochs, runtime, momentum, dmomentum, cycles, pain, position, ratio, going_down, chat_state) {
+    connection.on("MIND2InfoReceive1", function (epochs, runtime, momentum, dmomentum, cycles, pain, position, ratio, going_down) {
 
         if (room == 'room2')
-            myinfo1(epochs, runtime, momentum, dmomentum, cycles, pain, position, ratio, going_down, chat_state);
+            myinfo1(epochs, runtime, momentum, dmomentum, cycles, pain, position, ratio, going_down);
     });
 
     connection.on("MIND1DecisionReceive1", function (whistle, occu, location, loc_state) {
