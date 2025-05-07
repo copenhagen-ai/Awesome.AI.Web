@@ -87,24 +87,13 @@ namespace Awesome.AI.Web.Helpers
             return content;
         }
 
-        public string GPTGiveMeADot(Instance inst, UNIT common)
+        public string GPTGiveMeADot(Instance inst, string subject, double index)
         {
-            if (common == null)
-                throw new Exception("GPTGiveMeADot");
-
-            string subject = common.HUB?.subject;
-
-            if (subject == null)
-                return null;
-
-            if (CONST.deci_subject.Contains(subject))
-                return null;
-
-            string str = "" + common.Index;
+            string str = "" + index;
             int dot = str.IndexOf(',');
-            string index = str.Substring(0, dot + 2);
+            string dex = str.Substring(0, dot + 2);
 
-            string _json = Json2(inst, subject, index);
+            string _json = Json2(inst, subject, dex);
             string _base = "https://api.openai.com";
             string _path = "v1/chat/completions";
             string _params = "";

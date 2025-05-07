@@ -421,11 +421,23 @@ namespace Awesome.AI.Web.Hubs
 
                     if (user_count > users_count || IsDebug())
                     {
-                        string subject = "";
+                        UNIT unit = inst.mind._out.common_unit;
+                        HUB hub = inst.mind._out.common_hub;
+
+                        string subject = hub.subject;
                         string dot = "";
-                        
-                        UNIT common = inst.mind._out.common_unit;
-                        dot = helper.GPTGiveMeADot(inst, common);
+
+                        if (subject == null) {
+                            wait1 = true;
+                            continue;
+                        }
+
+                        if (CONST.DECI_SUBJECTS.Contains(subject)) {
+                            wait1 = true;
+                            continue;
+                        }
+
+                        dot = helper.GPTGiveMeADot(inst, subject, unit.Index);
 
                         if (dot == null) {
                             wait1 = true;
@@ -433,13 +445,6 @@ namespace Awesome.AI.Web.Hubs
                         }
 
                         dot = helper.Format1(dot);
-                        subject = common.HUB?.subject;
-
-                        if (subject == null) {
-                            wait1 = true;
-                            continue;
-                        }
-
                         dots.Add(dot);
 
                         while (dots.Count > 2)
@@ -490,8 +495,8 @@ namespace Awesome.AI.Web.Hubs
                         await Task.Delay(1000);
 
                     string[] cycles = new string[] { inst.mind._out.cycles, inst.mind._out.cycles_total };
-                    string momentum = ("" + inst.mind._out.momentum);
-                    string deltaMom = ("" + inst.mind._out.deltaMom);
+                    string momentum = ("" + inst.mind._out.p_curr);
+                    string deltaMom = ("" + inst.mind._out.d_curr);
                     string pain = ("" + inst.mind._out.user_var).Length < 5 ? inst.mind._out.user_var : $"{inst.mind._out.user_var}"[..5];
                     string position = ("" + inst.mind._out.position).Length < 5 ? inst.mind._out.position : $"{inst.mind._out.position}"[..5];
                     string[] ratio = new string[] { /*"" + inst.mind._out.ratio_yes_c, "" + inst.mind._out.ratio_no_c,*/ "" + inst.mind._out.ratio_yes_n, "" + inst.mind._out.ratio_no_n };
@@ -610,7 +615,6 @@ namespace Awesome.AI.Web.Hubs
                         await Task.Delay(1000);
 
                     string whistle = ("" + inst.mind._out.whistle);
-
                     string occu = inst.mind._out.occu;
                     string locationfinal = inst.mind._out.location;
                     string loc_state = inst.mind._out.loc_state;
@@ -655,9 +659,8 @@ namespace Awesome.AI.Web.Hubs
                         await Task.Delay(1000);
 
                     string mood = ("" + inst.mind._out.mood);
-                    bool moodOK = inst.mind._out.moodOK;
-                    double mood_mom = inst.mind._out.mood_mom;
-
+                    bool moodOK = inst.mind._out.mood_ok;
+                    double mood_mom = inst.mind._out.norm_mood;
                     double norm_noise = inst.mind._out.norm_noise;
 
                     int user_count = UserHelper.CountUsers();
