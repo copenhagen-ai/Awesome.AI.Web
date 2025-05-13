@@ -178,14 +178,11 @@ $(document).ready(function () {
 
 $(document).ready(function () {
 
-    //mytimer();
     setInterval(mytimer, 5000);
 
     setupDiagrams();
 
     $(".joinButton").click(function (event) {
-
-        //alert('server_running: ' + server_running);
 
         if (is_busy)
             return;
@@ -201,12 +198,15 @@ $(document).ready(function () {
         popup_no_btn('Starting app..');
         setTimeout(close_popup_no_btn, 10000);
 
-        connection.invoke("Start").catch(function (err) {
-            popup_with_btn('Oops, something went wrong.<br />Try and refresh the page.');
-            return console.error(err.toString());
-        });
+        if (!server_running) {
 
-        event.preventDefault();
+            connection.invoke("Start").catch(function (err) {
+                popup_with_btn('Oops, something went wrong.<br />Try and refresh the page.');
+                return console.error(err.toString());
+            });
+        }
+
+        //event.preventDefault();
 
         if (first_load)
             setTimeout(onConnect, 2000);
@@ -226,8 +226,8 @@ $(document).ready(function () {
     });    
 });
 
-var server_running = false;
 
+var server_running = true;
 var is_busy = false;
 var is_running = false;
 var first_run = false;
@@ -251,7 +251,29 @@ function close_popup_no_btn() {
     first_run = false;
 }
 
-//function mycrashed() {
+//function restart() {
+
+//    connection = new signalR.HubConnectionBuilder().withUrl("/roomhub").build();
+
+//    //alert('restart');
+
+//    connection.start().then(function () {
+        
+//        connection.invoke("Start").catch(function (err) {
+//            popup_with_btn('Whoopsy, something went wrong.<br />Try and refresh the page.');
+//            setTimeout(restart, 5000);
+//            return console.error(err.toString());
+//        });
+
+//        //setTimeout(onConnect, 2000);
+
+//    }).catch(function (err) {
+//        return console.error(err.toString());
+//    });
+
+//}
+
+//function restart() {
 
 //    if (is_running)
 //        return;

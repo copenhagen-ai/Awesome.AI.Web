@@ -17,6 +17,10 @@ $(document).ready(function () {
     $('.chatinfo').click(function () {
         popup_chat();
     });
+
+    $('.monologueinfo').click(function () {
+        popup_monologue();
+    });
     
     $(".hideSpan").click(function () {
         isHidden = !isHidden;
@@ -173,6 +177,21 @@ function popup_mood() {
 function popup_chat() {
 
     var text = '<span class="">Chat is very buggy.</span>';
+
+    alertbox.render({
+        alertIcon: 'info',
+        title: 'INFO',
+        message: text,
+        btnTitle: 'OK',
+        themeColor: '#60B2FD',
+        border: true,
+        btnColor: '#60B2FD',
+    });
+}
+
+function popup_monologue() {
+
+    var text = '<span class="">MONOLOGUE now connects to MOOD, instead of STATS.</span>';
 
     alertbox.render({
         alertIcon: 'info',

@@ -68,9 +68,9 @@
         <span id="" class="text-gray-50">press 'join' to start..</span>
         <span id="joinButtonID" class="joinButton cursor-pointer xmr-4 text-green-500 float-right" title="This will start the app and let it run for about 5 minutes">join</span>
         <span id="" class="cursor-pointer mr-10 float-right">   </span>
-        <span id="" class="hideSpan cursor-pointer mr-4 text-yellow-500 float-right">view</span>
+            <span id="" class="hideSpan cursor-pointer mr-4 text-yellow-500 float-right" title="Press to view the monologue">view</span>
         <span id="" class="cursor-pointer mr-10 float-right">   </span>
-        <span id="" class="saveSpan cursor-pointer mr-4 text-yellow-500 float-right">save</span>
+            <span id="" class="saveSpan cursor-pointer mr-4 text-yellow-500 float-right" title="Press to save the monologue">save</span>
         <span id="" class="cursor-pointer mr-4 float-right">   </span>
         </div>
     </div>    
@@ -87,9 +87,9 @@
 
             <span id="" class="joinButton cursor-pointer mr-4 text-green-500 float-right" title="This will start the app and let it run for about 5 minutes">join</span>
             @* <span id="" class="cursor-pointer mr-10 i-color-orange float-right">   </span> *@
-            <span id="" class="hideSpan cursor-pointer mr-4 text-yellow-500 float-right">view</span>
+            <span id="" class="hideSpan cursor-pointer mr-4 text-yellow-500 float-right" title="Press to view the monologue">view</span>
             @* <span id="" class="cursor-pointer mr-10 i-color-green float-right">   </span> *@
-            <span id="" class="saveSpan cursor-pointer mr-4 text-yellow-500 float-right">save</span>
+            <span id="" class="saveSpan cursor-pointer mr-4 text-yellow-500 float-right" title="Press to save the monologue">save</span>
             @* <span id="" class="cursor-pointer mr-4 i-color-green float-right">   </span> *@
         </div>
     </div>
@@ -101,7 +101,7 @@
     <div class="bg-neutral-900 border border-neutral-950 text-neutral-600 overflow-hidden md:h-box1 p-4 md:mx-4 my-4">
         <div class="">
             <div class="">
-                <div class="text-gray-50">STATS<span class="serverrunning servrun text-red-500 float-right">1]</span><span class="servrun text-red-500 float-right">[server running: </span></div>
+                <div class="text-gray-50">STATS (prim)<span class="serverrunning servrun text-red-500 float-right">1]</span><span class="servrun text-red-500 float-right">[server running: </span></div>
                 <div class="i-filler-20"></div>
                 <hr class=""/>
                 <div class="i-filler-20"></div>
@@ -221,58 +221,12 @@
         
     </div>
 
-    
-    <div class="bg-neutral-900 border border-neutral-950 text-neutral-600 overflow-hidden md:h-box1 p-4 md:mx-4 my-4">
-        <div class="">
-            <div class="xcol-6">
-                <div class="text-gray-50">MONOLOGUE</div>
-                <div class="i-filler-20"></div>
-                <hr class="" />
-                <div class="i-filler-20"></div>
-            </div>
-        </div>
-        <div class="">
-            <div class="xcol-6">
-                <div class="text-gray-400" id="messageDiv">inner monologue.. (press view)</div>
-                <div class="i-filler-20"></div>
-            </div>
-        </div>
-        <div class="">
-            <div class="xcol-6">
-                <span class="text-green-500">Point A:</span>
-                <span class="text-gray-400" id="dot1Span">xxxx</span>
-                <br />
-                <span class="text-yellow-500">Point B:</span>
-                <span class="text-gray-400" id="dot2Span">xxxx</span>
-            </div>
-        </div>
-        <div class="">
-            <div class="xcol-6">
-                <div class="i-filler-20"></div>
-                <div class="text-gray-50">Subject:</div>
-                <div class="text-gray-400" id="subjectDiv">xxxx</div>
-            </div>
-        </div>
-        <div class="">
-            <div class="xcol-6">
-                <div class="i-filler-20"></div>
-                <div class="text-gray-50">Saved Monologue:</div>
-                <div class="text-gray-400" id="saveDiv">xxxx</div>
-            </div>
-        </div>
-        <br />
-        @* <div class="position-absolute bottom-25 xrow xp-1">
-            <div class="xcol-6 xtext-start">
-                <input type="button" id="joinButton" value="Join" />
-            </div>
-        </div> *@
-    </div>
 
     <div class="">
         <div class="bg-neutral-900 border border-neutral-950 text-neutral-600 overflow-hidden md:h-box1 p-4 md:mx-4 my-4">
             <div class="">
                 <div class="">
-                    <div class="text-gray-50">MOOD<span class="moodinfo text-blue-300 hover:underline hover:cursor-pointer float-right">[info]</span></div>
+                    <div class="text-gray-50">MOOD (prim)<span class="moodinfo text-blue-300 hover:underline hover:cursor-pointer float-right">[info]</span></div>
                     <div class="i-filler-20"></div>
                     <hr class="" />
                     <div class="i-filler-20"></div>
@@ -295,19 +249,14 @@
             <br />
         </div>
     </div>
-</div>
 
-@* <div>
-    <span class="sortSpan cursor-pointer text-gray-50 ml-4">sort force</span>
-</div> *@
-
-
-<div class="overflow-hidden grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+    
+    
     <div class="">
         <div class="bg-neutral-900 border border-neutral-950 text-neutral-600 overflow-hidden md:h-box1 p-4 md:mx-4 my-4">
             <div class="">
                 <div class="">
-                    <div class="text-gray-50">DECISIONS</div>
+                    <div class="text-gray-50">DECISIONS (sec)</div>
                     <div class="i-filler-20"></div>
                     <hr class="" />
                     <div class="i-filler-20"></div>
@@ -351,11 +300,69 @@
             <br />
         </div>
     </div>
+    
+
+
+</div>
+
+@* <div>
+    <span class="sortSpan cursor-pointer text-gray-50 ml-4">sort force</span>
+</div> *@
+
+
+<div class="overflow-hidden grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+    <div class="bg-neutral-900 border border-neutral-950 text-neutral-600 overflow-hidden md:h-box1 p-4 md:mx-4 my-4">
+        <div class="">
+            <div class="xcol-6">
+                <div class="text-gray-50">MONOLOGUE (sec)<span class="monologueinfo text-blue-300 hover:underline hover:cursor-pointer float-right">[info]</span></div>
+                <div class="i-filler-20"></div>
+                <hr class="" />
+                <div class="i-filler-20"></div>
+            </div>
+        </div>
+        <div class="">
+            <div class="xcol-6">
+                <div class="text-gray-400" id="messageDiv">inner monologue.. (press view)</div>
+                <div class="i-filler-20"></div>
+            </div>
+        </div>
+        <div class="">
+            <div class="xcol-6">
+                <span class="text-green-500">Point A:</span>
+                <span class="text-gray-400" id="dot1Span">xxxx</span>
+                <br />
+                <span class="text-yellow-500">Point B:</span>
+                <span class="text-gray-400" id="dot2Span">xxxx</span>
+            </div>
+        </div>
+        <div class="">
+            <div class="xcol-6">
+                <div class="i-filler-20"></div>
+                <div class="text-gray-50">Subject:</div>
+                <div class="text-gray-400" id="subjectDiv">xxxx</div>
+            </div>
+        </div>
+        <div class="">
+            <div class="xcol-6">
+                <div class="i-filler-20"></div>
+                <div class="text-gray-50">Saved Monologue:</div>
+                <div class="text-gray-400" id="saveDiv">xxxx</div>
+            </div>
+        </div>
+        <br />
+        @* <div class="position-absolute bottom-25 xrow xp-1">
+            <div class="xcol-6 xtext-start">
+                <input type="button" id="joinButton" value="Join" />
+            </div>
+        </div> *@
+    </div>
+
+
 
     <div class="bg-neutral-900 border border-neutral-950 text-neutral-600 overflow-hidden md:h-box1 p-4 md:mx-4 my-4">
         <div class="">
             <div class="">
-                <div class="text-gray-50" id="chatTitle">CHAT<span class="chatinfo text-blue-300 hover:underline hover:cursor-pointer float-right">[info]</span></div>
+                <div class="text-gray-50" id="chatTitle">CHAT (sec)<span class="chatinfo text-blue-300 hover:underline hover:cursor-pointer float-right">[info]</span></div>
                 <div class="i-filler-20"></div>
                 <hr class="" />
                 <div class="i-filler-20"></div>
@@ -429,12 +436,17 @@
             
             note 1:<br />
             <div class="">
-                <span class="text-gray-400">The sections are not interconnected, only to the STATS window, this is easily accomplished if needed.</span>
+                <span class="text-gray-400">The sections are not interconnected, only to the STATS and MOOD windows. This is easily accomplished if needed.</span>
             </div>
             <br />
             note 2:<br />
             <div class="">
                 <span class="text-gray-400">The update intervals may seem laggy, this is because they are taken at random moments.</span>
+            </div>
+            <br />
+            note 3:<br />
+            <div class="">
+                <span class="text-gray-400">Sometimes the connection drops. Then try and refresh page and rejoin.</span>
             </div>
         </div>
     </div>

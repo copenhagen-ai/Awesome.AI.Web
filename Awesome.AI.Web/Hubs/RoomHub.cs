@@ -425,7 +425,6 @@ namespace Awesome.AI.Web.Hubs
                         HUB hub = inst.mind._out.common_hub;
 
                         string subject = hub.subject;
-                        string dot = "";
 
                         if (subject == null) {
                             wait1 = true;
@@ -437,7 +436,8 @@ namespace Awesome.AI.Web.Hubs
                             continue;
                         }
 
-                        dot = helper.GPTGiveMeADot(inst, subject, unit.Index);
+                        double index = inst.mind._out.norm_mood;
+                        string dot = helper.GPTGiveMeADot(inst, subject, index);
 
                         if (dot == null) {
                             wait1 = true;

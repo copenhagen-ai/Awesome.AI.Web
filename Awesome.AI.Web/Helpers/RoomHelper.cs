@@ -4,6 +4,7 @@ using Awesome.AI.Variables;
 using Awesome.AI.Web.Common;
 using Awesome.AI.Web.Hubs;
 using Awesome.AI.Web.Models;
+using Humanizer;
 using System.Text.Json;
 using static Awesome.AI.Variables.Enums;
 
@@ -89,9 +90,11 @@ namespace Awesome.AI.Web.Helpers
 
         public string GPTGiveMeADot(Instance inst, string subject, double index)
         {
+            Console.WriteLine("GPTGiveMeADot, norm_mood: " + index);
+
             string str = "" + index;
-            int dot = str.IndexOf(',');
-            string dex = str.Substring(0, dot + 2);
+            int len = str.Contains(",") ? str.IndexOf(',') : str.Length;
+            string dex = str.Substring(0, len);
 
             string _json = Json2(inst, subject, dex);
             string _base = "https://api.openai.com";
@@ -237,6 +240,7 @@ namespace Awesome.AI.Web.Helpers
             json = json.Replace("sure ill play along heres the resulting sentence", "");
             json = json.Replace("ill do my best heres the resulting sentence", "");
             json = json.Replace("im excited to play this game with you heres the resulting sentence", "");
+            json = json.Replace("im happy to play along lets get started resulting sentence", "");
             json = json.Replace("i understand the game heres the resulting sentence", "");
             json = json.Replace("i would love to play the game with you heres the resulting sentence", "");
             json = json.Replace("i would be happy to play the game heres the resulting sentence", "");
