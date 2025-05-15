@@ -10,6 +10,10 @@ $(document).ready(function () {
 
     isMobile = /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
+    $('.refreshButton').click(function () {
+        popup_welcome();        
+    });
+
     $('.moodinfo').click(function () {
         popup_mood();
     });
@@ -107,11 +111,11 @@ function getRandomInt(min, max) {
 
 function popup_no_btn(txt) {
     alertbox.render({
-        alertIcon: 'info',
+        alertIcon: 'success',
         title: 'INFO',
         message: txt,
         btnTitle: '',
-        themeColor: '#F97316',
+        themeColor: '#22B445',//green
         border: true
         //btnColor: '#7CFC00',
         //btnColor: true
@@ -122,11 +126,11 @@ function popup_no_btn(txt) {
 
 function popup_with_btn(txt) {
     alertbox.render({
-        alertIcon: 'info',
+        alertIcon: 'warning',
         title: 'INFO',
         message: txt,
         btnTitle: 'OK',
-        themeColor: '#F97316',
+        themeColor: '#F97316',//orange
         border: true,
         btnColor: '#F97316',
         //btnColor: true
@@ -221,13 +225,40 @@ function popup_reload() {
         title: 'INFO',
         message: text,
         btnTitle: '',
-        themeColor: '#60B2FD',
-        border: true,        
+        themeColor: '#60B2FD',//blue
+        border: true,
     });
 
     $('#alertBoxBtn').hide();
 
     setTimeout(reload, 2000);
+}
+
+function end_welcome() {
+    //location.reload();
+
+    $('#alertoverlay').hide();
+    $('#alertbox').hide();
+
+    reload();
+}
+
+function popup_welcome() {
+
+    var text = '<span class="">Refreshing...</span>';
+
+    alertbox.render({
+        alertIcon: 'info',
+        title: 'INFO',
+        message: text,
+        btnTitle: '',
+        themeColor: '#60B2FD',//blue
+        border: true,
+    });
+
+    $('#alertBoxBtn').hide();
+
+    setTimeout(end_welcome, 2000);
 }
 
 var server_count = 0;
@@ -285,7 +316,10 @@ function viewer() {
             var _val = val.ip_is_registered;
 
             if (!_val) {
-                popup_reload();                
+                popup_reload();
+            }
+            else {
+                ;
             }
         }
     });

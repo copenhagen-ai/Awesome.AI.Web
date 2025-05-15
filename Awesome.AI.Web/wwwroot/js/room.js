@@ -2,11 +2,11 @@
 
 var room = 'room1';
 var connection = new signalR.HubConnectionBuilder().withUrl("/roomhub").build();
-connection.start().then(function () {
-    is_busy = false;
-}).catch(function (err) {
-    return console.error(err.toString());
-});
+//connection.start().then(function () {
+//    is_busy = false;
+//}).catch(function (err) {
+//    return console.error(err.toString());
+//});
 
 const mylbls1 = ['label1', 'label2', 'label3', 'label4', 'label5', 'label6', 'label7', 'label8', 'label9', 'label10'];
 const mylbls2 = ['label1', 'label2', 'label3', 'label4', 'label5', 'label6', 'label7', 'label8', 'label9', 'label10'];
@@ -196,15 +196,18 @@ $(document).ready(function () {
         first_run = true;
         
         popup_no_btn('Starting app..');
-        setTimeout(close_popup_no_btn, 10000);
+        setTimeout(close_popup_no_btn, 8000);
 
-        if (!server_running) {
-
-            connection.invoke("Start").catch(function (err) {
-                popup_with_btn('Oops, something went wrong.<br />Try and refresh the page.');
-                return console.error(err.toString());
-            });
-        }
+        connection.start().then(function () {
+            if (!server_running) {
+                connection.invoke("Start").catch(function (err) {
+                    popup_with_btn('Oops, something went wrong.<br />Try and rejoin or refresh the page.');
+                    return console.error(err.toString());
+                });
+            }
+        }).catch(function (err) {
+            return console.error(err.toString());
+        });
 
         //event.preventDefault();
 
